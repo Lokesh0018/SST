@@ -1,0 +1,267 @@
+@import "tailwindcss";
+
+/* ========================================
+   SST Design System — Global Styles
+   ======================================== */
+
+@theme {
+  /* Colors */
+  --color-ivory: #F7F0E0;
+  --color-cream: #EFE4CF;
+  --color-cream-dark: #E5D8C0;
+  --color-orange: #F15A24;
+  --color-orange-bright: #FF8A24;
+  --color-orange-glow: #FF6B35;
+  --color-orange-dark: #D94E1F;
+  --color-charcoal: #171613;
+  --color-charcoal-light: #2A2722;
+  --color-brown: #5A321D;
+  --color-brown-light: #8B6914;
+  --color-warm-gray: #9B9282;
+  --color-warm-gray-light: #C4B9A8;
+
+  /* Font family */
+  --font-sans: 'Manrope', system-ui, -apple-system, sans-serif;
+
+  /* Font sizes */
+  --text-display: 4.5rem;
+  --text-h1: 3.5rem;
+  --text-h2: 2.75rem;
+  --text-h3: 2rem;
+  --text-h4: 1.5rem;
+  --text-h5: 1.25rem;
+  --text-body: 1rem;
+  --text-body-sm: 0.875rem;
+  --text-caption: 0.75rem;
+
+  /* Spacing */
+  --spacing-section: 8rem;
+  --spacing-section-sm: 5rem;
+
+  /* Border radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-card: 0 4px 24px rgba(23, 22, 19, 0.06);
+  --shadow-card-hover: 0 12px 40px rgba(23, 22, 19, 0.12);
+  --shadow-orange-glow: 0 0 30px rgba(241, 90, 36, 0.3);
+  --shadow-orange-glow-lg: 0 0 60px rgba(241, 90, 36, 0.4);
+
+  /* Transitions */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-smooth: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Z-index */
+  --z-cursor: 9999;
+  --z-modal: 1000;
+  --z-header: 100;
+  --z-overlay: 90;
+}
+
+/* ========================================
+   Base Styles
+   ======================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-ivory);
+  color: var(--color-charcoal);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--color-orange);
+  color: white;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-warm-gray);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-orange);
+}
+
+/* ========================================
+   Typography
+   ======================================== */
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+h1 { font-size: var(--text-h1); }
+h2 { font-size: var(--text-h2); }
+h3 { font-size: var(--text-h3); }
+h4 { font-size: var(--text-h4); }
+h5 { font-size: var(--text-h5); }
+
+p {
+  line-height: 1.7;
+  color: var(--color-charcoal);
+  opacity: 0.8;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s var(--ease-out-expo);
+}
+
+/* ========================================
+   Utility Classes
+   ======================================== */
+
+.text-highlight {
+  color: var(--color-orange);
+}
+
+.container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1.25rem;
+  }
+}
+
+.section-padding {
+  padding-top: var(--spacing-section);
+  padding-bottom: var(--spacing-section);
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding-top: var(--spacing-section-sm);
+    padding-bottom: var(--spacing-section-sm);
+  }
+}
+
+/* Glass effect */
+.glass {
+  background: rgba(247, 240, 224, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(239, 228, 207, 0.6);
+}
+
+.glass-dark {
+  background: rgba(23, 22, 19, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(42, 39, 34, 0.6);
+}
+
+/* ========================================
+   Animations
+   ======================================== */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(241, 90, 36, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(241, 90, 36, 0.6); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes draw-line {
+  from { stroke-dashoffset: 1000; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ========================================
+   Focus Styles
+   ======================================== */
+
+:focus-visible {
+  outline: 2px solid var(--color-orange);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ========================================
+   Responsive Typography
+   ======================================== */
+
+@media (max-width: 1024px) {
+  h1 { font-size: 2.75rem; }
+  h2 { font-size: 2.25rem; }
+  h3 { font-size: 1.5rem; }
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: 2.25rem; }
+  h2 { font-size: 1.75rem; }
+  h3 { font-size: 1.25rem; }
+  h4 { font-size: 1.125rem; }
+}
