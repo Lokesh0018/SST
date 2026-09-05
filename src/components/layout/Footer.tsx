@@ -101,7 +101,7 @@ export default function Footer() {
               <h4 className="footer-col-title">SERVICES</h4>
               <ul className="footer-nav-list services-grid">
                 {footerNavigation.services.map((item) => (
-                  <li key={item.href}>
+                  <li key={item.label}>
                     <Link to={item.href} className="footer-nav-link">
                       <span className="nav-link-text">{item.label}</span>
                       <span className="nav-link-arrow">&rarr;</span>
@@ -116,7 +116,7 @@ export default function Footer() {
               <h4 className="footer-col-title">COMPANY</h4>
               <ul className="footer-nav-list">
                 {footerNavigation.company.map((item) => (
-                  <li key={item.href}>
+                  <li key={item.label}>
                     <Link to={item.href} className="footer-nav-link">
                       <span className="nav-link-text">{item.label}</span>
                       <span className="nav-link-arrow">&rarr;</span>
@@ -131,7 +131,7 @@ export default function Footer() {
               <h4 className="footer-col-title">CONNECT</h4>
               <ul className="footer-nav-list">
                 {footerNavigation.connect.map((item) => (
-                  <li key={item.href}>
+                  <li key={item.label}>
                     <Link to={item.href} className="footer-nav-link">
                       <span className="nav-link-text">{item.label}</span>
                       <span className="nav-link-arrow">&rarr;</span>

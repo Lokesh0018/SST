@@ -40,7 +40,7 @@ export const services: Service[] = [
       'Government infrastructure projects',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+    heroImage: 'https://i.pinimg.com/1200x/6a/44/07/6a44074b55cfc8b9c068d318e05655fa.jpg',
   },
   {
     slug: 'intrusion-detection',
@@ -67,7 +67,7 @@ export const services: Service[] = [
       'Industrial manufacturing plants',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80',
+    heroImage: 'https://i.pinimg.com/736x/44/04/72/4404722c533d396d2bf1460689c8e323.jpg',
   },
   {
     slug: 'access-control',
@@ -94,7 +94,7 @@ export const services: Service[] = [
       'Healthcare facilities',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80',
+    heroImage: 'https://i.pinimg.com/736x/e4/6f/da/e46fdab929b703615536b3135cf879ae.jpg',
   },
   {
     slug: 'switches-storage',
@@ -121,7 +121,7 @@ export const services: Service[] = [
       'Healthcare record management',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',
+    heroImage: 'https://i.pinimg.com/736x/41/e4/43/41e443bea071d83e9309fb52c3323d85.jpg',
   },
   {
     slug: 'logistics',
@@ -148,7 +148,7 @@ export const services: Service[] = [
       'Technology deployment programs',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
+    heroImage: 'https://i.pinimg.com/736x/c3/06/18/c30618fa6e30af4ab1e133c23ed8521d.jpg',
   },
   {
     slug: 'electrical-electronics',
@@ -175,7 +175,7 @@ export const services: Service[] = [
       'Mission-critical data centers',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80',
+    heroImage: 'https://i.pinimg.com/1200x/04/56/68/04566800964a3e8d5d2a505beaf23f1b.jpg',
   },
   {
     slug: 'fire-fighting',
@@ -202,7 +202,7 @@ export const services: Service[] = [
       'Hotels and large public venues',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
+    heroImage: 'https://i.pinimg.com/1200x/bb/1d/ba/bb1dba4270e212a208a0edd1390b82fb.jpg',
   },
   {
     slug: 'video-surveillance',
@@ -229,7 +229,7 @@ export const services: Service[] = [
       'Retail theft prevention',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80',
+    heroImage: 'https://i.pinimg.com/736x/be/de/68/bede688490e0c979c7ec8f85f027e667.jpg',
   },
   {
     slug: 'wireless-network',
@@ -256,7 +256,7 @@ export const services: Service[] = [
       'Public event venues',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80',
+    heroImage: 'https://i.pinimg.com/736x/94/94/09/949409d84355a2e874dfd371afd5d344.jpg',
   },
   {
     slug: 'hardware-tools',
@@ -283,7 +283,7 @@ export const services: Service[] = [
       'Complex electrical routing',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=800&q=80',
+    heroImage: 'https://i.pinimg.com/736x/d2/0a/2f/d20a2fba258a1a352d4b33f6e6ae7ea1.jpg',
   }
 ];
 

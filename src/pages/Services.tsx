@@ -338,11 +338,6 @@ export default function Services() {
                         className="service-visual-bg-image" 
                       />
                       <div className="service-visual-pattern overlay-pattern"></div>
-                      <div className="service-visual-icon overlay-icon">
-                        <div className="service-visual-icon-svg">
-                          {getServiceIcon(service.slug)}
-                        </div>
-                      </div>
                     </div>
                   </div>
 
