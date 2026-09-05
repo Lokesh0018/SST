@@ -118,9 +118,6 @@ export default function HeroSection() {
               />
             </div>
           </motion.div>
-
-
-
         </div>
       </div>
 
@@ -141,8 +138,8 @@ export default function HeroSection() {
             <div className="hero-pagination-bar">
               <motion.div 
                 className="hero-pagination-progress"
-                initial={{ width: '14%' }}
-                animate={{ width: activeService ? `${((services.findIndex(s => s.id === activeService) + 1) / services.length) * 100}%` : '14%' }}
+                initial={{ width: '12.5%' }}
+                animate={{ width: activeService ? `${((services.findIndex(s => s.id === activeService) + 1) / services.length) * 100}%` : '12.5%' }}
                 transition={{ duration: 0.3 }}
               />
             </div>

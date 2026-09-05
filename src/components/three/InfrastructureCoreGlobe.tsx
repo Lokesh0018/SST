@@ -173,9 +173,10 @@ export default function InfrastructureCoreGlobe() {
   const outerRef = useRef<THREE.Mesh>(null);
   const [earthTexture, setEarthTexture] = useState<THREE.Texture | null>(null);
 
-  const globeRadius = 0.82;
+  const globeRadius = 0.98; // ~20% increase
   const isDragging = useRef(false);
   const dragRotation = useRef({ x: 0.25, y: Math.PI * 0.85 });
+  const mapMatRef = useRef<THREE.MeshBasicMaterial>(null);
 
   useEffect(() => {
     new THREE.TextureLoader().load('/earth-map.png', (tex) => {
@@ -225,6 +226,21 @@ export default function InfrastructureCoreGlobe() {
   };
 
   useFrame((state, delta) => {
+    const t = state.clock.elapsedTime;
+    
+    // Entrance Animation: Globe Scale (0.0 - 0.3s)
+    if (groupRef.current) {
+      const scaleProgress = Math.min(1, Math.max(0, t / 0.3));
+      const easeScale = 1 - (1 - scaleProgress) * (1 - scaleProgress);
+      groupRef.current.scale.setScalar(0.94 + 0.06 * easeScale);
+    }
+    
+    // Entrance Animation: Continents Reveal (0.2 - 0.7s)
+    if (mapMatRef.current) {
+      const mapProgress = Math.min(1, Math.max(0, (t - 0.2) / 0.5));
+      mapMatRef.current.opacity = 0.7 * mapProgress;
+    }
+
     if (groupRef.current) {
       const tx = (state.pointer.x * Math.PI) / 30;
       const ty = (state.pointer.y * Math.PI) / 30;
@@ -236,7 +252,8 @@ export default function InfrastructureCoreGlobe() {
       groupRef.current.rotation.x += (targetX - groupRef.current.rotation.x) * 0.08;
     }
     if (outerRef.current) {
-      outerRef.current.rotation.y -= delta * 0.015;
+      // 1 full rotation every 40s = (2*PI)/40 = 0.157 rad/sec
+      outerRef.current.rotation.y -= delta * 0.157;
     }
   });
 
@@ -269,14 +286,27 @@ export default function InfrastructureCoreGlobe() {
           <primitive object={coreMaterial} attach="material" />
         </Sphere>
 
+        {/* Subtle Longitude/Latitude Wireframe Grid */}
+        <Sphere args={[globeRadius + 0.002, 24, 24]}>
+          <meshBasicMaterial 
+            color="#D8CFBE" 
+            wireframe 
+            transparent 
+            opacity={0.05} 
+            blending={THREE.AdditiveBlending}
+            depthWrite={false}
+          />
+        </Sphere>
+
         {/* Map layer (Continent mask) */}
         {earthTexture && (
-          <Sphere args={[globeRadius + 0.005, 32, 32]}>
+          <Sphere args={[globeRadius + 0.006, 64, 64]}>
             <meshBasicMaterial 
+              ref={mapMatRef}
               map={earthTexture}
-              color="#686560" // Lighter graphite for clearly visible continents
+              color="#686560" 
               transparent
-              opacity={0.65}
+              opacity={0} // Starts at 0, animated in useFrame
               blending={THREE.AdditiveBlending}
               depthWrite={false}
             />
@@ -284,9 +314,9 @@ export default function InfrastructureCoreGlobe() {
         )}
 
         {/* Hierarchical Network Nodes */}
-        {ALL_NODES.map((node) => (
+        {ALL_NODES.map((node, i) => (
           <NetworkNode 
-            key={node.id} 
+            key={`node-${i}`} 
             lat={node.lat} 
             lng={node.lng} 
             size={node.size} 
@@ -295,29 +325,29 @@ export default function InfrastructureCoreGlobe() {
           />
         ))}
 
-        {/* Minimal Surface Network Routes */}
-        {SURFACE_ARCS.map((arc, idx) => (
-          <SurfaceArc 
-            key={`surface-arc-${idx}`} 
-            sLat={arc.sLat} 
-            sLng={arc.sLng} 
-            eLat={arc.eLat} 
-            eLng={arc.eLng} 
-            radius={globeRadius + 0.01} 
+        {/* Atmospheric Rim (Soft glow around edge) */}
+        <Sphere args={[globeRadius + 0.04, 32, 32]}>
+          <meshBasicMaterial
+            color="#FFFDF8"
+            transparent
+            opacity={0.06}
+            blending={THREE.AdditiveBlending}
+            side={THREE.BackSide}
+            depthWrite={false}
           />
-        ))}
+        </Sphere>
 
         {/* Outer Glass Layer */}
-        <Sphere ref={outerRef} args={[0.86, 32, 32]}>
+        <Sphere ref={outerRef} args={[globeRadius + 0.05, 32, 32]}>
           <primitive object={glassMaterial} attach="material" />
         </Sphere>
 
         {/* Soft internal orange glow */}
-        <Sphere args={[0.84, 32, 32]}>
+        <Sphere args={[globeRadius + 0.03, 32, 32]}>
           <meshBasicMaterial
             color="#F15A24"
             transparent
-            opacity={0.03}
+            opacity={0.05}
             blending={THREE.AdditiveBlending}
             side={THREE.BackSide}
           />

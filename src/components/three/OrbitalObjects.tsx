@@ -10,41 +10,35 @@ interface OrbitalObjectsProps {
 
 const serviceConfig = [
   // 1: Top Right (1:30)
-  { id: 'TURNKEY',    type: 'building',   pos: [0.9, 0.8, 0.5] as [number,number,number],    scale: 1.1, ringIdx: 0, anchor: [0.5, 0.5, 0.7] as [number,number,number], hitbox: [0.4, 0.6, 0.4] as [number,number,number] },
+  { id: 'TURNKEY', type: 'building', pos: [1.3, 1.15, 0.5] as [number, number, number], scale: 1.1, ringIdx: 0, anchor: [0.5, 0.5, 0.7] as [number, number, number], hitbox: [0.4, 0.6, 0.4] as [number, number, number] },
   // 2: Top (12:00)
-  { id: 'INTRUSION',  type: 'sensor',     pos: [0.0, 1.1, 0.5] as [number,number,number],    scale: 0.9, ringIdx: 1, anchor: [0.0, 0.7, 0.7] as [number,number,number], hitbox: [0.3, 0.4, 0.3] as [number,number,number] },
+  { id: 'INTRUSION', type: 'sensor', pos: [0.0, 1.6, 0.5] as [number, number, number], scale: 0.9, ringIdx: 1, anchor: [0.0, 0.7, 0.7] as [number, number, number], hitbox: [0.3, 0.4, 0.3] as [number, number, number] },
   // 3: Top Left (10:30)
-  { id: 'ACCESS',     type: 'access',     pos: [-0.9, 0.8, 0.6] as [number,number,number],   scale: 0.95, ringIdx: 1, anchor: [-0.5, 0.5, 0.7] as [number,number,number], hitbox: [0.4, 0.5, 0.2] as [number,number,number] },
+  { id: 'ACCESS', type: 'access', pos: [-1.3, 1.15, 0.6] as [number, number, number], scale: 0.95, ringIdx: 1, anchor: [-0.5, 0.5, 0.7] as [number, number, number], hitbox: [0.4, 0.5, 0.2] as [number, number, number] },
   // 4: Left (9:00)
-  { id: 'INFRASTRUCTURE', type: 'server', pos: [-1.3, -0.1, 0.4] as [number,number,number],  scale: 1.1, ringIdx: 0, anchor: [-0.8, -0.1, 0.6] as [number,number,number], hitbox: [0.6, 0.9, 0.5] as [number,number,number] },
+  { id: 'INFRASTRUCTURE', type: 'server', pos: [-1.9, -0.15, 0.4] as [number, number, number], scale: 1.1, ringIdx: 0, anchor: [-0.8, -0.1, 0.6] as [number, number, number], hitbox: [0.6, 0.9, 0.5] as [number, number, number] },
   // 5: Bottom Left (7:30)
-  { id: 'LOGISTICS',  type: 'vehicle',    pos: [-0.9, -0.9, 0.4] as [number,number,number],  scale: 0.95, ringIdx: 1, anchor: [-0.5, -0.5, 0.6] as [number,number,number], hitbox: [0.6, 0.4, 0.4] as [number,number,number] },
+  { id: 'LOGISTICS', type: 'vehicle', pos: [-1.3, -1.3, 0.4] as [number, number, number], scale: 0.95, ringIdx: 1, anchor: [-0.5, -0.5, 0.6] as [number, number, number], hitbox: [0.6, 0.4, 0.4] as [number, number, number] },
   // 6: Bottom (6:00)
-  { id: 'ELECTRICAL', type: 'electrical', pos: [0.0, -1.2, 0.3] as [number,number,number],   scale: 0.95, ringIdx: 2, anchor: [0.0, -0.7, 0.6] as [number,number,number], hitbox: [0.4, 0.5, 0.3] as [number,number,number] },
+  { id: 'ELECTRICAL', type: 'electrical', pos: [0.0, -1.75, 0.3] as [number, number, number], scale: 0.95, ringIdx: 2, anchor: [0.0, -0.7, 0.6] as [number, number, number], hitbox: [0.4, 0.5, 0.3] as [number, number, number] },
   // 7: Bottom Right (4:30)
-  { id: 'SAFETY',     type: 'fire',       pos: [0.9, -0.9, 0.3] as [number,number,number],   scale: 1.0, ringIdx: 0, anchor: [0.5, -0.5, 0.6] as [number,number,number], hitbox: [0.4, 0.6, 0.4] as [number,number,number] },
+  { id: 'SAFETY', type: 'fire', pos: [1.3, -1.3, 0.3] as [number, number, number], scale: 1.0, ringIdx: 0, anchor: [0.5, -0.5, 0.6] as [number, number, number], hitbox: [0.4, 0.6, 0.4] as [number, number, number] },
   // 8: Right (3:00)
-  { id: 'SECURITY',   type: 'cctv',       pos: [1.3, -0.1, 0.3] as [number,number,number],   scale: 1.0, ringIdx: 1, anchor: [0.8, -0.1, 0.6] as [number,number,number], hitbox: [0.4, 0.4, 0.6] as [number,number,number] },
+  { id: 'SECURITY', type: 'cctv', pos: [1.9, -0.15, 0.3] as [number, number, number], scale: 1.0, ringIdx: 1, anchor: [0.8, -0.1, 0.6] as [number, number, number], hitbox: [0.4, 0.4, 0.6] as [number, number, number] },
 ];
 
 const ORBITAL_RINGS = [
-  { rotation: [0.1, 0, 0] as [number,number,number], radius: 1.4 },       
-  { rotation: [1.2, 0.4, 0] as [number,number,number], radius: 1.5 },     
-  { rotation: [-0.4, -0.5, 0.2] as [number,number,number], radius: 1.45 }, 
+  { rotation: [0.1, 0, 0] as [number, number, number], radius: 1.4 },
+  { rotation: [1.2, 0.4, 0] as [number, number, number], radius: 1.5 },
+  { rotation: [-0.4, -0.5, 0.2] as [number, number, number], radius: 1.45 },
 ];
 
 export default function OrbitalObjects({ activeService, setActiveService }: OrbitalObjectsProps) {
   const groupRef = useRef<THREE.Group>(null);
 
   useFrame((state) => {
-    if (groupRef.current) {
-      // Parallax interaction only
-      const tx = state.pointer.x * 0.15;
-      const ty = state.pointer.y * 0.1;
-
-      groupRef.current.rotation.y += (tx - groupRef.current.rotation.y) * 0.05;
-      groupRef.current.rotation.x += (-ty - groupRef.current.rotation.x) * 0.05;
-    }
+    // We removed the generic parallax here in favor of the CameraParallax in Hero3DScene
+    // which automatically provides depth-based parallax for everything based on Z-position.
   });
 
   return (
@@ -102,16 +96,17 @@ function OrbitalItem({ cfg, isActive, isMuted, setActiveService }: {
     opacity: isMuted ? 0.12 : (isActive ? 1.0 : 0.6),
   }), [isActive, isMuted]);
 
-  const entryT = useRef(0);
-  
+  const modelEaseRef = useRef(0);
+  const lineEaseRef = useRef(0);
+
   // ── Curved connection path: elegant arc from globe surface → object ──
   const curvePts = useMemo(() => {
     const end = new THREE.Vector3(...cfg.pos);
     const anchor = new THREE.Vector3(...(cfg.anchor || cfg.pos)).normalize();
-    const start = anchor.clone().multiplyScalar(0.86); // start at globe surface
+    const start = anchor.clone().multiplyScalar(0.98); // Exact surface of globe (radius 0.98)
 
     const mid = new THREE.Vector3().lerpVectors(start, end, 0.5);
-    
+
     // Lift midpoint perpendicular to the connection for a natural arc, pointing away from the globe
     const dir = new THREE.Vector3().subVectors(end, start).normalize();
     const tangent = new THREE.Vector3().crossVectors(dir, start);
@@ -119,31 +114,37 @@ function OrbitalItem({ cfg, isActive, isMuted, setActiveService }: {
     mid.add(outwardPerp.multiplyScalar(0.25));
 
     const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-    return curve.getPoints(30);
+    return curve.getPoints(40);
   }, [cfg.pos, cfg.anchor]);
 
   useFrame((_state, delta) => {
-    // Entrance animation progress (1.0 = fully entered)
-    if (entryT.current < 1) {
-      entryT.current = Math.min(entryT.current + delta * 1.5, 1.0); // ~0.66s for local entry
-    }
-    const ease = 1 - Math.pow(1 - entryT.current, 4);
+    const t = _state.clock.elapsedTime;
+
+    // Model entry (0.4s - 1.1s)
+    const modelProgress = Math.min(1, Math.max(0, (t - 0.4) / 0.7));
+    const modelEase = 1 - Math.pow(1 - modelProgress, 4);
+    modelEaseRef.current = modelEase;
+
+    // Line entry (0.7s - 1.3s)
+    const lineProgress = Math.min(1, Math.max(0, (t - 0.7) / 0.6));
+    const lineEase = 1 - Math.pow(1 - lineProgress, 3);
+    lineEaseRef.current = lineEase;
 
     if (outerRef.current) {
       const startPos = new THREE.Vector3(...cfg.anchor).normalize().multiplyScalar(0.6);
       const endPos = new THREE.Vector3(...cfg.pos);
-      outerRef.current.position.lerpVectors(startPos, endPos, ease);
+      outerRef.current.position.lerpVectors(startPos, endPos, modelEase);
     }
 
     if (innerRef.current) {
       // Fast transition speed for hover
-      const targetOp = (isMuted ? 0.3 : 1) * ease;
+      const targetOp = (isMuted ? 0.4 : 1) * modelEase;
       graphiteMat.opacity = THREE.MathUtils.lerp(graphiteMat.opacity, targetOp, 0.15);
       brushedMat.opacity = THREE.MathUtils.lerp(brushedMat.opacity, targetOp, 0.15);
       creamMat.opacity = THREE.MathUtils.lerp(creamMat.opacity, targetOp, 0.15);
 
-      // Scale — active items grow slightly (1.1x) + entry scale
-      const s = (isActive ? cfg.scale * 1.1 : cfg.scale) * ease;
+      // Scale — active items grow slightly (1.08x) + entry scale
+      const s = (isActive ? cfg.scale * 1.08 : cfg.scale) * modelEase;
       innerRef.current.scale.lerp(new THREE.Vector3(s, s, s), 0.15);
 
       // Position animation on entry + hover depth (local Z)
@@ -153,12 +154,12 @@ function OrbitalItem({ cfg, isActive, isMuted, setActiveService }: {
 
     // Data particle — travels along curve continuously
     if (particleRef.current) {
-      particleT.current += delta * (isActive ? 1.2 : 0.6);
+      particleT.current += delta * (isActive ? 1.0 : 0.4);
       if (particleT.current > 1) particleT.current = 0;
       const idx = Math.floor(particleT.current * (curvePts.length - 1));
       const pt = curvePts[Math.min(idx, curvePts.length - 1)];
       particleRef.current.position.copy(pt);
-      particleRef.current.visible = !isMuted && entryT.current > 0.8;
+      particleRef.current.visible = !isMuted && lineEase > 0.8;
     }
 
     // Orange pulse — triggered on activation, travels from object → core
@@ -183,15 +184,29 @@ function OrbitalItem({ cfg, isActive, isMuted, setActiveService }: {
     }
   });
 
+  const drawCount = Math.max(2, Math.floor(lineEaseRef.current * curvePts.length));
+  const currentPts = curvePts.slice(0, drawCount);
+
   return (
     <group>
-      {/* Curved connection line */}
+      {/* Anchor Node on Globe Surface */}
+      <mesh position={new THREE.Vector3(...cfg.anchor).normalize().multiplyScalar(0.98)}>
+        <sphereGeometry args={[0.015, 16, 16]} />
+        <meshBasicMaterial
+          color={isActive ? "#FFB08A" : "#F4511E"}
+          transparent
+          opacity={lineEaseRef.current * (isActive ? 1.0 : 0.6)}
+          depthWrite={false}
+        />
+      </mesh>
+
+      {/* Curved connection line (Draws dynamically) */}
       <Line
-        points={curvePts}
+        points={currentPts}
         color="#F4511E"
         lineWidth={isActive ? 2.0 : 0.8}
         transparent
-        opacity={(isMuted ? 0.04 : (isActive ? 0.75 : 0.25)) * (entryT.current)}
+        opacity={(isMuted ? 0.04 : (isActive ? 0.75 : 0.25)) * modelEaseRef.current}
       />
 
       {/* Continuous data particle */}
@@ -213,10 +228,10 @@ function OrbitalItem({ cfg, isActive, isMuted, setActiveService }: {
 
       {/* Stable Outer Group for Entry Animation & Hitbox */}
       <group ref={outerRef}>
-        
+
         {/* Invisible Hitbox (Does not scale or move on hover, only follows outerRef base position) */}
-        <mesh 
-          scale={cfg.scale} 
+        <mesh
+          scale={cfg.scale}
           onPointerEnter={(e) => { e.stopPropagation(); document.body.style.cursor = 'pointer'; setActiveService(cfg.id); }}
           onPointerLeave={() => { document.body.style.cursor = 'auto'; setActiveService(null); }}
         >
@@ -227,9 +242,9 @@ function OrbitalItem({ cfg, isActive, isMuted, setActiveService }: {
 
         {/* The visual device model (Scales and translates locally on hover) */}
         <group ref={innerRef}>
-          <Float 
+          <Float
             speed={0.4 + (Math.random() * 0.3)} // Extremely slow, randomized speed
-            rotationIntensity={0.02} 
+            rotationIntensity={0.02}
             floatIntensity={0.05}
             floatingRange={[-0.05, 0.05]}
           >
@@ -296,72 +311,72 @@ function DeviceModel({ type, isActive, mats }: {
           <RoundedBox args={[0.09, 0.05, 0.09]} radius={0.005} position={[0, 0.35, 0]}>
             <primitive object={brushedMat} attach="material" />
           </RoundedBox>
-          
+
           {/* Animated Radar/Dish on Roof */}
           <group position={[0, 0.38, 0]} ref={animRef}>
             <Cylinder args={[0.01, 0.01, 0.04, 8]} position={[0, 0.02, 0]}>
               <primitive object={graphiteMat} attach="material" />
             </Cylinder>
             <mesh position={[0, 0.04, 0.02]} rotation={[0.4, 0, 0]}>
-               <sphereGeometry args={[0.03, 16, 16, 0, Math.PI * 2, 0, Math.PI / 2.5]} />
-               <primitive object={creamMat} attach="material" />
+              <sphereGeometry args={[0.03, 16, 16, 0, Math.PI * 2, 0, Math.PI / 2.5]} />
+              <primitive object={creamMat} attach="material" />
             </mesh>
             <mesh position={[0, 0.04, 0.03]}>
-               <sphereGeometry args={[0.006, 8, 8]} />
-               <primitive object={ledMat} attach="material" />
+              <sphereGeometry args={[0.006, 8, 8]} />
+              <primitive object={ledMat} attach="material" />
             </mesh>
           </group>
 
           {/* TOWER CRANE (Construction Element) attached to the side */}
           <group position={[0.16, 0.2, 0.16]}>
-             {/* Mast */}
-             <mesh position={[0, 0, 0]}>
-               <boxGeometry args={[0.02, 0.5, 0.02]} />
-               <primitive object={brushedMat} attach="material" />
-             </mesh>
-             {/* Jib (Long Arm) */}
-             <group position={[-0.1, 0.24, 0]} rotation={[0, -0.4, 0]}>
-               <mesh>
-                 <boxGeometry args={[0.3, 0.015, 0.015]} />
-                 <primitive object={brushedMat} attach="material" />
-               </mesh>
-               {/* Cable dropping down */}
-               <mesh position={[-0.13, -0.15, 0]}>
-                 <cylinderGeometry args={[0.002, 0.002, 0.3, 4]} />
-                 <primitive object={graphiteMat} attach="material" />
-               </mesh>
-               {/* Hook/Payload */}
-               <mesh position={[-0.13, -0.3, 0]}>
-                 <boxGeometry args={[0.03, 0.03, 0.03]} />
-                 <primitive object={ledMat} attach="material" />
-               </mesh>
-             </group>
-             {/* Counter-jib (Short Arm) */}
-             <group position={[0.06, 0.24, 0]} rotation={[0, -0.4, 0]}>
-               <mesh>
-                 <boxGeometry args={[0.1, 0.015, 0.015]} />
-                 <primitive object={brushedMat} attach="material" />
-               </mesh>
-               {/* Counterweight */}
-               <mesh position={[0.04, -0.015, 0]}>
-                 <boxGeometry args={[0.03, 0.02, 0.02]} />
-                 <primitive object={graphiteMat} attach="material" />
-               </mesh>
-             </group>
-             {/* Top Apex (Tower Peak) */}
-             <mesh position={[0, 0.28, 0]}>
-               <coneGeometry args={[0.01, 0.06, 4]} />
-               <primitive object={ledMat} attach="material" />
-             </mesh>
-             {/* Suspension cables */}
-             <mesh position={[-0.05, 0.27, 0]} rotation={[0, -0.4, 0.3]}>
-               <cylinderGeometry args={[0.002, 0.002, 0.12, 4]} />
-               <primitive object={graphiteMat} attach="material" />
-             </mesh>
-             <mesh position={[0.03, 0.27, 0]} rotation={[0, -0.4, -0.4]}>
-               <cylinderGeometry args={[0.002, 0.002, 0.08, 4]} />
-               <primitive object={graphiteMat} attach="material" />
-             </mesh>
+            {/* Mast */}
+            <mesh position={[0, 0, 0]}>
+              <boxGeometry args={[0.02, 0.5, 0.02]} />
+              <primitive object={brushedMat} attach="material" />
+            </mesh>
+            {/* Jib (Long Arm) */}
+            <group position={[-0.1, 0.24, 0]} rotation={[0, -0.4, 0]}>
+              <mesh>
+                <boxGeometry args={[0.3, 0.015, 0.015]} />
+                <primitive object={brushedMat} attach="material" />
+              </mesh>
+              {/* Cable dropping down */}
+              <mesh position={[-0.13, -0.15, 0]}>
+                <cylinderGeometry args={[0.002, 0.002, 0.3, 4]} />
+                <primitive object={graphiteMat} attach="material" />
+              </mesh>
+              {/* Hook/Payload */}
+              <mesh position={[-0.13, -0.3, 0]}>
+                <boxGeometry args={[0.03, 0.03, 0.03]} />
+                <primitive object={ledMat} attach="material" />
+              </mesh>
+            </group>
+            {/* Counter-jib (Short Arm) */}
+            <group position={[0.06, 0.24, 0]} rotation={[0, -0.4, 0]}>
+              <mesh>
+                <boxGeometry args={[0.1, 0.015, 0.015]} />
+                <primitive object={brushedMat} attach="material" />
+              </mesh>
+              {/* Counterweight */}
+              <mesh position={[0.04, -0.015, 0]}>
+                <boxGeometry args={[0.03, 0.02, 0.02]} />
+                <primitive object={graphiteMat} attach="material" />
+              </mesh>
+            </group>
+            {/* Top Apex (Tower Peak) */}
+            <mesh position={[0, 0.28, 0]}>
+              <coneGeometry args={[0.01, 0.06, 4]} />
+              <primitive object={ledMat} attach="material" />
+            </mesh>
+            {/* Suspension cables */}
+            <mesh position={[-0.05, 0.27, 0]} rotation={[0, -0.4, 0.3]}>
+              <cylinderGeometry args={[0.002, 0.002, 0.12, 4]} />
+              <primitive object={graphiteMat} attach="material" />
+            </mesh>
+            <mesh position={[0.03, 0.27, 0]} rotation={[0, -0.4, -0.4]}>
+              <cylinderGeometry args={[0.002, 0.002, 0.08, 4]} />
+              <primitive object={graphiteMat} attach="material" />
+            </mesh>
           </group>
         </group>
       );
@@ -431,7 +446,7 @@ function DeviceModel({ type, isActive, mats }: {
           <RoundedBox args={[0.24, 0.22, 0.44]} radius={0.03} position={[0, 0, 0]}>
             <primitive object={creamMat} attach="material" />
           </RoundedBox>
-          
+
           {/* Sun shield / visor */}
           <RoundedBox args={[0.26, 0.03, 0.52]} radius={0.01} position={[0, 0.13, 0.04]}>
             <primitive object={creamMat} attach="material" />
@@ -446,7 +461,7 @@ function DeviceModel({ type, isActive, mats }: {
             <boxGeometry args={[0.01, 0.14, 0.25]} />
             <primitive object={brushedMat} attach="material" />
           </mesh>
-          
+
           <mesh position={[-0.13, 0, 0]}>
             <sphereGeometry args={[0.04, 16, 16]} />
             <primitive object={graphiteMat} attach="material" />
@@ -600,10 +615,10 @@ function DeviceModel({ type, isActive, mats }: {
           <RoundedBox args={[0.16, 0.02, 0.02]} radius={0.005} position={[-0.07, 0.35, 0]} rotation={[0, 0, 0]}>
             <primitive object={graphiteMat} attach="material" />
           </RoundedBox>
-          <Cylinder args={[0.03, 0.03, 0.02, 16]} position={[-0.12, 0.36, 0.05]} rotation={[Math.PI/2, 0, 0]}>
+          <Cylinder args={[0.03, 0.03, 0.02, 16]} position={[-0.12, 0.36, 0.05]} rotation={[Math.PI / 2, 0, 0]}>
             <primitive object={brushedMat} attach="material" />
           </Cylinder>
-          <Cylinder args={[0.025, 0.025, 0.022, 16]} position={[-0.12, 0.36, 0.05]} rotation={[Math.PI/2, 0, 0]}>
+          <Cylinder args={[0.025, 0.025, 0.022, 16]} position={[-0.12, 0.36, 0.05]} rotation={[Math.PI / 2, 0, 0]}>
             <primitive object={glassMat} attach="material" />
           </Cylinder>
           <Cylinder args={[0.132, 0.132, 0.18, 32]} position={[-0.12, 0.05, 0]}>
@@ -615,7 +630,7 @@ function DeviceModel({ type, isActive, mats }: {
           <Cylinder args={[0.02, 0.02, 0.08, 16]} position={[-0.02, -0.15, 0.08]}>
             <primitive object={graphiteMat} attach="material" />
           </Cylinder>
-          
+
           <group position={[0.18, 0.22, 0.12]}>
             <Cylinder args={[0.05, 0.03, 0.06, 24]} position={[0, 0, 0]}>
               <primitive object={brushedMat} attach="material" />
@@ -628,8 +643,8 @@ function DeviceModel({ type, isActive, mats }: {
               <primitive object={glassMat} attach="material" />
             </Cylinder>
             <mesh position={[0, -0.02, 0]}>
-               <sphereGeometry args={[0.015, 8, 8]} />
-               <primitive object={ledMat} attach="material" />
+              <sphereGeometry args={[0.015, 8, 8]} />
+              <primitive object={ledMat} attach="material" />
             </mesh>
             {isActive && (
               <mesh position={[0, -0.2, 0]}>
@@ -711,10 +726,10 @@ function DeviceModel({ type, isActive, mats }: {
             <primitive object={graphiteMat} attach="material" />
           </RoundedBox>
           {Array.from({ length: 6 }).map((_, i) => (
-             <mesh key={`vent-${i}`} position={[0.24, 0.2 - i * 0.08, 0]}>
-               <boxGeometry args={[0.005, 0.02, 0.25]} />
-               <primitive object={brushedMat} attach="material" />
-             </mesh>
+            <mesh key={`vent-${i}`} position={[0.24, 0.2 - i * 0.08, 0]}>
+              <boxGeometry args={[0.005, 0.02, 0.25]} />
+              <primitive object={brushedMat} attach="material" />
+            </mesh>
           ))}
           <mesh position={[-0.22, 0, 0.185]}>
             <boxGeometry args={[0.02, 0.76, 0.005]} />
@@ -724,7 +739,7 @@ function DeviceModel({ type, isActive, mats }: {
             <boxGeometry args={[0.02, 0.76, 0.005]} />
             <primitive object={brushedMat} attach="material" />
           </mesh>
-          
+
           <group position={[0, 0.28, 0.17]}>
             <RoundedBox args={[0.42, 0.08, 0.06]} radius={0.005}>
               <primitive object={brushedMat} attach="material" />
@@ -777,7 +792,7 @@ function DeviceModel({ type, isActive, mats }: {
               <primitive object={ledMat} attach="material" />
             </mesh>
           </group>
-          
+
           <group position={[0, -0.25, 0.17]}>
             <RoundedBox args={[0.42, 0.18, 0.06]} radius={0.005}>
               <primitive object={graphiteMat} attach="material" />
@@ -802,8 +817,8 @@ function DeviceModel({ type, isActive, mats }: {
             <primitive object={creamMat} attach="material" />
           </RoundedBox>
           <mesh position={[-0.08, 0.18, 0]}>
-             <boxGeometry args={[0.46, 0.01, 0.24]} />
-             <primitive object={brushedMat} attach="material" />
+            <boxGeometry args={[0.46, 0.01, 0.24]} />
+            <primitive object={brushedMat} attach="material" />
           </mesh>
           {Array.from({ length: 8 }).map((_, i) => (
             <mesh key={`corr-${i}`} position={[-0.26 + i * 0.05, 0.05, 0.13]}>

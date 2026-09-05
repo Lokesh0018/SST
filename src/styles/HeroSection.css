@@ -241,10 +241,14 @@
 }
 @media (min-width: 1024px) {
   .hero-visual-col {
-    width: 55%;
+    position: absolute;
+    top: 0;
+    right: -5%; /* Let it bleed slightly off the right to give maximum room */
+    width: 75%;
     height: 100%;
     margin-top: 0;
     justify-content: flex-end;
+    z-index: 10;
   }
 }
 
