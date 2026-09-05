@@ -41,6 +41,6 @@ export const footerNavigation = {
   ],
   connect: [
     { label: 'Contact', href: '/contact' },
-    { label: 'Get a Quote', href: '/contact' },
+    { label: 'Get a Quote', href: '/contact#quote' },
   ],
 };

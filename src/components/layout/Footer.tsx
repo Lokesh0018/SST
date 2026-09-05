@@ -29,6 +29,12 @@ export default function Footer() {
     const draw = () => {
       const w = canvas.offsetWidth;
       const h = canvas.offsetHeight;
+      if (w === 0 || h === 0) {
+        if (!prefersReducedMotion) {
+          animationId = requestAnimationFrame(draw);
+        }
+        return;
+      }
       ctx.clearRect(0, 0, w, h);
 
       // Draw animated orange wave lines

@@ -55,7 +55,7 @@ export default function Header() {
         <div className="container">
           <nav className="flex items-center justify-between h-20" aria-label="Main navigation">
             {/* Logo */}
-            <Link to="/" className="relative z-10 flex items-center gap-1" aria-label="SST Home">
+            <Link to="/" className="relative z-10 flex items-center gap-1 group" aria-label="SST Home">
               <SSTLogo isDark={isDarkHeader} />
             </Link>
 
@@ -67,13 +67,12 @@ export default function Header() {
                   <Link
                     key={item.href}
                     to={item.href}
-                    className={`text-sm font-medium tracking-wide uppercase transition-colors duration-300 hover:text-orange ${
-                      isActive
-                        ? 'text-orange'
-                        : 'text-charcoal/80 hover:text-orange'
-                    }`}
+                    className="relative group text-sm font-medium tracking-wide uppercase transition-colors duration-300 py-2"
                   >
-                    {item.label}
+                    <span className={`relative z-10 transition-colors duration-300 ${isActive ? 'text-orange' : 'text-charcoal/80 group-hover:text-orange'}`}>
+                      {item.label}
+                    </span>
+                    <span className={`absolute bottom-0 left-0 h-[2px] bg-orange transition-all duration-300 ease-out-expo ${isActive ? 'w-full' : 'w-0 group-hover:w-full'}`} />
                   </Link>
                 );
               })}
@@ -83,7 +82,7 @@ export default function Header() {
             <div className="flex items-center gap-4">
               <Link
                 to="/contact"
-                className="hidden md:inline-flex items-center px-5 py-2.5 bg-orange text-white text-xs font-bold uppercase tracking-wider rounded-full hover:bg-orange-dark hover:shadow-[0_0_25px_rgba(241,90,36,0.3)] transition-all duration-300"
+                className="hidden md:inline-flex items-center px-5 py-2.5 bg-transparent border-2 border-orange text-orange hover:bg-orange hover:text-white text-xs font-bold uppercase tracking-wider rounded-full shadow-[0_0_15px_rgba(241,90,36,0.1)] hover:shadow-[0_0_25px_rgba(241,90,36,0.3)] transition-all duration-300"
               >
                 Get a Quote
               </Link>
