@@ -36,14 +36,6 @@ const HUBS = [
 
 const ALL_NODES = HUBS; // Removed the scattered satellites
 
-// Dynamic arcs connecting globe to floating orbital objects
-const SPACE_ARCS = [
-  { lat: 40.71, lng: -74.00, target: [-0.95, 1.1, 0.35] }, // NYC to SERVER
-  { lat: 51.50, lng: -0.12, target: [1.25, 0.05, 0.6] },   // LON to CCTV
-  { lat: 1.35, lng: 103.81, target: [1.1, -0.65, -0.1] },  // SIN to SWITCH
-  { lat: 25.20, lng: 55.27, target: [0.65, -1.25, -0.4] }, // DXB to LOGISTICS
-];
-
 // Strategic surface network connections (very minimal)
 const SURFACE_ARCS = [
   { sLat: 40.71, sLng: -74.00, eLat: 51.50, eLng: -0.12 }, // NYC - LON
@@ -183,7 +175,7 @@ export default function InfrastructureCoreGlobe() {
 
   const globeRadius = 0.82;
   const isDragging = useRef(false);
-  const dragRotation = useRef({ x: 0.15, y: Math.PI * 1.6 });
+  const dragRotation = useRef({ x: 0.25, y: Math.PI * 0.85 });
 
   useEffect(() => {
     new THREE.TextureLoader().load('/earth-map.png', (tex) => {
@@ -250,19 +242,6 @@ export default function InfrastructureCoreGlobe() {
 
   return (
     <>
-      {/* Dynamic Space Arcs connecting the rotating globe to static space objects */}
-      <group>
-        {SPACE_ARCS.map((arc, idx) => (
-          <DynamicSpaceArc 
-            key={`space-arc-${idx}`} 
-            lat={arc.lat} 
-            lng={arc.lng} 
-            targetPos={arc.target} 
-            radius={globeRadius + 0.01} 
-            globeRef={groupRef} 
-          />
-        ))}
-      </group>
 
       {/* The Globe itself */}
       <group ref={groupRef}>
@@ -295,9 +274,9 @@ export default function InfrastructureCoreGlobe() {
           <Sphere args={[globeRadius + 0.005, 32, 32]}>
             <meshBasicMaterial 
               map={earthTexture}
-              color="#45433F" // Lighter graphite for continents
+              color="#686560" // Lighter graphite for clearly visible continents
               transparent
-              opacity={0.4}
+              opacity={0.65}
               blending={THREE.AdditiveBlending}
               depthWrite={false}
             />

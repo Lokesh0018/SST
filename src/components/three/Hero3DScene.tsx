@@ -1,5 +1,5 @@
 import { useRef, Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 import { useInView } from 'framer-motion';
 import { Environment, ContactShadows } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
@@ -10,6 +10,23 @@ import '../../styles/Hero3DScene.css';
 interface Hero3DSceneProps {
   activeService: string | null;
   setActiveService: (service: string | null) => void;
+}
+
+function SceneContents({ activeService, setActiveService }: Hero3DSceneProps) {
+  const { viewport } = useThree();
+  const isMobile = viewport.width < 4.2;
+  const isTablet = viewport.width >= 4.2 && viewport.width < 7.5;
+  
+  // Desktop: shift globe 5-8% to the right (x=0.55). Tablet: less shift. Mobile: centered, pushed down to avoid headline.
+  const groupPos = isMobile ? [0, -1.3, 0] : (isTablet ? [0.25, -0.15, 0] : [0.55, -0.15, 0]);
+  const groupScale = isMobile ? 0.75 : (isTablet ? 0.85 : 1);
+
+  return (
+    <group position={groupPos as [number, number, number]} scale={groupScale}>
+      <InfrastructureCoreGlobe />
+      <OrbitalObjects activeService={activeService} setActiveService={setActiveService} />
+    </group>
+  );
 }
 
 export default function Hero3DScene({ activeService, setActiveService }: Hero3DSceneProps) {
@@ -39,10 +56,7 @@ export default function Hero3DScene({ activeService, setActiveService }: Hero3DS
       <pointLight position={[-2, -1, -3]} intensity={0.5} color="#F4511E" distance={8} decay={2} />
 
       <Suspense fallback={null}>
-        <group position={[0, -0.15, 0]}>
-          <InfrastructureCoreGlobe />
-          <OrbitalObjects activeService={activeService} setActiveService={setActiveService} />
-        </group>
+        <SceneContents activeService={activeService} setActiveService={setActiveService} />
         
         <Environment preset="city" />
         

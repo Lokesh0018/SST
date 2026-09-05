@@ -5,12 +5,14 @@ import Hero3DScene from '../three/Hero3DScene';
 import '../../styles/HeroSection.css';
 
 const services = [
-  { id: 'SECURITY', label: 'SECURITY' },
-  { id: 'INFRASTRUCTURE', label: 'IT INFRASTRUCTURE' },
-  { id: 'ELECTRICAL', label: 'ELECTRICAL' },
-  { id: 'SAFETY', label: 'FIRE & SAFETY' },
+  { id: 'TURNKEY', label: 'TURNKEY PROJECTS' },
+  { id: 'INTRUSION', label: 'INTRUSION DETECTION' },
+  { id: 'ACCESS', label: 'ACCESS CONTROL' },
+  { id: 'INFRASTRUCTURE', label: 'SWITCHES SERVICES & STORAGE' },
   { id: 'LOGISTICS', label: 'LOGISTICS' },
-  { id: 'TURNKEY', label: 'TURNKEY' }
+  { id: 'ELECTRICAL', label: 'ELECTRONIC & ELECTRICAL' },
+  { id: 'SAFETY', label: 'FIRE FIGHTING' },
+  { id: 'SECURITY', label: 'SECURITY CAMERA' }
 ];
 
 export default function HeroSection() {
@@ -118,6 +120,7 @@ export default function HeroSection() {
           </motion.div>
 
 
+
         </div>
       </div>
 
@@ -130,16 +133,20 @@ export default function HeroSection() {
           </div>
           
           <div className="hero-pagination">
-            <span className="hero-pagination-current">{activeService ? `0${services.findIndex(s => s.id === activeService) + 1} ${activeService}` : '01 SECURITY'}</span>
+            <span className="hero-pagination-current">
+              {activeService 
+                ? `0${services.findIndex(s => s.id === activeService) + 1} ${services.find(s => s.id === activeService)?.label}` 
+                : `01 ${services[0].label}`}
+            </span>
             <div className="hero-pagination-bar">
               <motion.div 
                 className="hero-pagination-progress"
-                initial={{ width: '16%' }}
-                animate={{ width: activeService ? `${((services.findIndex(s => s.id === activeService) + 1) / services.length) * 100}%` : '16%' }}
+                initial={{ width: '14%' }}
+                animate={{ width: activeService ? `${((services.findIndex(s => s.id === activeService) + 1) / services.length) * 100}%` : '14%' }}
                 transition={{ duration: 0.3 }}
               />
             </div>
-            <span className="hero-pagination-total">06</span>
+            <span className="hero-pagination-total">0{services.length}</span>
           </div>
         </div>
       </div>

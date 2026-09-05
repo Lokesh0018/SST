@@ -134,10 +134,10 @@ export default function Header() {
                 to="/contact"
                 className="header-cta-desktop"
               >
-                <span>Request Demo</span>
-                <svg className="header-cta-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
+                REQUEST DEMO
+                <span className="header-cta-arrow">
+                  <span className="header-cta-arrow-head" />
+                </span>
               </Link>
 
               <button
@@ -212,10 +212,10 @@ export default function Header() {
                   className="header-cta-mobile"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  <span>Request Demo</span>
-                  <svg className="header-cta-icon-mobile" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
+                  REQUEST DEMO
+                  <span className="header-cta-arrow">
+                    <span className="header-cta-arrow-head" />
+                  </span>
                 </Link>
               </motion.div>
             </nav>

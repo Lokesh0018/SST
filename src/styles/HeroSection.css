@@ -322,8 +322,9 @@
 }
 
 .hero-pagination-current {
-  width: 6rem;
+  width: 16rem;
   text-align: right;
+  white-space: nowrap;
 }
 
 .hero-pagination-bar {
