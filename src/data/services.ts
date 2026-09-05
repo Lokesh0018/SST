@@ -11,6 +11,7 @@ export interface Service {
   benefits: string[];
   applications: string[];
   gallery: string[];
+  heroImage: string;
 }
 
 export const services: Service[] = [
@@ -39,6 +40,7 @@ export const services: Service[] = [
       'Government infrastructure projects',
     ],
     gallery: [],
+    heroImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
   },
   {
     slug: 'intrusion-detection',
@@ -65,6 +67,7 @@ export const services: Service[] = [
       'Industrial manufacturing plants',
     ],
     gallery: [],
+    heroImage: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80',
   },
   {
     slug: 'access-control',
@@ -91,6 +94,7 @@ export const services: Service[] = [
       'Healthcare facilities',
     ],
     gallery: [],
+    heroImage: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=800&q=80',
   },
   {
     slug: 'switches-storage',
@@ -117,6 +121,7 @@ export const services: Service[] = [
       'Healthcare record management',
     ],
     gallery: [],
+    heroImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=800&q=80',
   },
   {
     slug: 'logistics',
@@ -143,6 +148,7 @@ export const services: Service[] = [
       'Technology deployment programs',
     ],
     gallery: [],
+    heroImage: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=800&q=80',
   },
   {
     slug: 'electrical-electronics',
@@ -169,6 +175,7 @@ export const services: Service[] = [
       'Mission-critical data centers',
     ],
     gallery: [],
+    heroImage: 'https://images.unsplash.com/photo-1621905252507-b35492cc74b4?auto=format&fit=crop&w=800&q=80',
   },
   {
     slug: 'fire-fighting',
@@ -195,6 +202,88 @@ export const services: Service[] = [
       'Hotels and large public venues',
     ],
     gallery: [],
+    heroImage: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    slug: 'video-surveillance',
+    title: 'Video Surveillance',
+    shortTitle: 'Video Surveillance',
+    category: 'Security',
+    tagline: 'Comprehensive Visual Monitoring.',
+    description: 'High-definition CCTV and IP camera systems for continuous monitoring and recording.',
+    heroDescription: 'Our video surveillance solutions provide crystal-clear monitoring across your entire facility, integrating seamlessly with advanced analytics and access control.',
+    icon: 'camera',
+    features: [
+      { title: 'HD IP Cameras', description: 'High-resolution network cameras for detailed surveillance.' },
+      { title: 'Video Analytics', description: 'Intelligent motion detection, facial recognition, and license plate reading.' },
+      { title: 'Centralized Storage', description: 'Secure, high-capacity NVRs for long-term video retention.' },
+    ],
+    benefits: [
+      'Deterrence of unauthorized activities',
+      'High-quality evidence recording',
+      'Real-time situational awareness',
+    ],
+    applications: [
+      'Commercial property monitoring',
+      'Industrial site perimeter security',
+      'Retail theft prevention',
+    ],
+    gallery: [],
+    heroImage: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    slug: 'wireless-network',
+    title: 'Wireless Network Infrastructure',
+    shortTitle: 'Wireless Networks',
+    category: 'Technology',
+    tagline: 'Seamless Connectivity Everywhere.',
+    description: 'Enterprise-grade wireless networking solutions ensuring robust, high-speed coverage.',
+    heroDescription: 'We design and deploy powerful wireless network infrastructures that guarantee unbroken connectivity for all your devices, sensors, and workforce.',
+    icon: 'wifi',
+    features: [
+      { title: 'High-Density Wi-Fi', description: 'Scalable access points designed for environments with many concurrent users.' },
+      { title: 'Site Surveys', description: 'Comprehensive RF planning to ensure zero dead zones.' },
+      { title: 'Secure Authentication', description: 'Enterprise-grade WPA3 and robust guest network separation.' },
+    ],
+    benefits: [
+      'Uninterrupted mobile connectivity',
+      'Secure internal communications',
+      'Scalable to accommodate growing operations',
+    ],
+    applications: [
+      'Corporate campuses',
+      'Large logistics warehouses',
+      'Public event venues',
+    ],
+    gallery: [],
+    heroImage: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    slug: 'hardware-tools',
+    title: 'Hardware & Tools',
+    shortTitle: 'Hardware & Tools',
+    category: 'Logistics',
+    tagline: 'Reliable Equipment for Every Task.',
+    description: 'Provision of high-quality hardware and professional tools required for extensive infrastructure deployment.',
+    heroDescription: 'From precision installation tools to heavy-duty mounting hardware, we supply everything needed to execute complex infrastructure projects efficiently and safely.',
+    icon: 'tool',
+    features: [
+      { title: 'Precision Instruments', description: 'High-quality testing and calibration tools for electronics.' },
+      { title: 'Mounting Hardware', description: 'Industrial-grade brackets, racks, and enclosures.' },
+      { title: 'Safety Equipment', description: 'Personal protective equipment tailored for infrastructure deployments.' },
+    ],
+    benefits: [
+      'Improved installation precision',
+      'Enhanced worker safety',
+      'Durable and long-lasting mounts',
+    ],
+    applications: [
+      'Data center physical setups',
+      'Outdoor camera installations',
+      'Complex electrical routing',
+    ],
+    gallery: [],
+    heroImage: 'https://images.unsplash.com/photo-1530124566582-a618bc2615dc?auto=format&fit=crop&w=800&q=80',
   }
 ];
 

@@ -9,13 +9,16 @@ import '../styles/Services.css';
 gsap.registerPlugin(ScrollTrigger);
 
 const servicePositions = [
-  { x: 52, y: 8 },    // 01 Turnkey
-  { x: 86, y: 24 },   // 02 Intrusion
-  { x: 88, y: 65 },   // 03 Access
-  { x: 65, y: 92 },   // 04 Switches
-  { x: 32, y: 85 },   // 05 Logistics
-  { x: 12, y: 62 },   // 06 Electrical
-  { x: 18, y: 26 },   // 07 Fire
+  { x: 50, y: 8 },    // 01 Turnkey
+  { x: 76, y: 16 },   // 02 Intrusion
+  { x: 90, y: 38 },   // 03 Access
+  { x: 90, y: 62 },   // 04 Switches
+  { x: 76, y: 84 },   // 05 Logistics
+  { x: 50, y: 92 },   // 06 Electrical
+  { x: 24, y: 84 },   // 07 Fire
+  { x: 10, y: 62 },   // 08 Video Surveillance
+  { x: 10, y: 38 },   // 09 Wireless Network
+  { x: 24, y: 16 },   // 10 Hardware & Tools
 ];
 
 const getServiceIcon = (slug: string) => {
@@ -71,6 +74,28 @@ const getServiceIcon = (slug: string) => {
           <path d="M7 21h10M9 21V7a3 3 0 016 0v14M12 7v7M9 10h6" />
           <path d="M12 2v2" />
           <path d="M15 4l-3-2-3 2" />
+        </svg>
+      );
+    case 'video-surveillance':
+      return (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+          <circle cx="12" cy="13" r="4" />
+        </svg>
+      );
+    case 'wireless-network':
+      return (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M5 12.55a11 11 0 0 1 14.08 0" />
+          <path d="M1.42 9a16 16 0 0 1 21.16 0" />
+          <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+          <line x1="12" y1="20" x2="12.01" y2="20" />
+        </svg>
+      );
+    case 'hardware-tools':
+      return (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
         </svg>
       );
     default:
@@ -141,7 +166,7 @@ export default function Services() {
           <div className="services-layout">
             {/* Left - Heading */}
             <div className="services-left">
-              <div className="services-indicator">07 CORE SERVICES</div>
+              <div className="services-indicator">10 CORE SERVICES</div>
               
               <h1 className="services-hero-headline">
                 COMPLETE SERVICES.<br/>
@@ -180,7 +205,7 @@ export default function Services() {
                       <div className="sst-center-pulse"></div>
                     </div>
                     <div className={`hub-center-content hub-hover-content ${hoverSST ? 'fade-in' : 'fade-out'}`}>
-                      <span className="services-hub-center-title" style={{ fontSize: '2.5rem' }}>7</span>
+                      <span className="services-hub-center-title" style={{ fontSize: '2.5rem' }}>10</span>
                       <hr className="sst-divider" />
                       <span className="services-hub-center-subtitle">MAJOR SERVICES</span>
                     </div>
@@ -243,7 +268,7 @@ export default function Services() {
                         <div className="node-icon-wrapper">
                           {getServiceIcon(service.slug)}
                         </div>
-                        <div className="node-number">0{i + 1}</div>
+                        <div className="node-number">{i + 1 < 10 ? `0${i + 1}` : i + 1}</div>
                         <div className="services-hub-node-text">
                           {service.shortTitle}
                         </div>
@@ -252,7 +277,7 @@ export default function Services() {
                       {/* Hover state content */}
                       <div className="node-hover-content">
                         <div className="node-hover-header">
-                          <span className="node-hover-number">0{i + 1}</span>
+                          <span className="node-hover-number">{i + 1 < 10 ? `0${i + 1}` : i + 1}</span>
                           <h4 className="node-hover-title">{service.shortTitle}</h4>
                         </div>
                         <ul className="node-hover-list">
@@ -307,8 +332,13 @@ export default function Services() {
                   {/* Visual Area */}
                   <div className="service-detail-visual">
                     <div className="service-visual-box">
-                      <div className="service-visual-pattern"></div>
-                      <div className="service-visual-icon">
+                      <img 
+                        src={service.heroImage} 
+                        alt={service.title} 
+                        className="service-visual-bg-image" 
+                      />
+                      <div className="service-visual-pattern overlay-pattern"></div>
+                      <div className="service-visual-icon overlay-icon">
                         <div className="service-visual-icon-svg">
                           {getServiceIcon(service.slug)}
                         </div>
