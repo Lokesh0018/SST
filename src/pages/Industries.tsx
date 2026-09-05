@@ -42,10 +42,10 @@ export default function Industries() {
           <div className="industries-hero-header">
             <div>
               <SectionHeading as="h1" highlight="INDUSTRY.">
-                SOLUTIONS FOR EVERY INDUSTRY.
+                SERVICES FOR EVERY INDUSTRY.
               </SectionHeading>
               <p className="industries-hero-text">
-                Tailored infrastructure solutions for diverse environments.
+                Tailored infrastructure services for diverse environments.
               </p>
             </div>
             <div className="industries-hero-right">
@@ -83,7 +83,7 @@ export default function Industries() {
                 {/* Content */}
                 <div className="industries-card-content">
                   <span className="industries-card-tag">
-                    Industry Solution
+                    Industry Service
                   </span>
 
                   <h3 className="industries-card-title">
@@ -108,7 +108,7 @@ export default function Industries() {
 
                   {/* Arrow Action */}
                   <div className="industries-card-explore">
-                    <span>Explore Solutions</span>
+                    <span>Explore Services</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <path d="M5 12h14M12 5l7 7-7 7" />
                     </svg>

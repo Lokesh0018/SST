@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionHeading from '../common/SectionHeading';
-import { solutions } from '../../data/solutions';
-import '../../styles/HomeSolutions.css';
+import { services } from '../../data/services';
+import '../../styles/HomeServices.css';
 
 import React from 'react';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const solutionIcons: Record<string, React.JSX.Element> = {
+const serviceIcons: Record<string, React.JSX.Element> = {
   camera: (
     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
       <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
@@ -52,14 +52,14 @@ const solutionIcons: Record<string, React.JSX.Element> = {
   ),
 };
 
-export default function HomeSolutions() {
+export default function HomeServices() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion || !sectionRef.current) return;
 
-    const cards = sectionRef.current.querySelectorAll('.solution-card');
+    const cards = sectionRef.current.querySelectorAll('.service-card');
     gsap.fromTo(
       cards,
       { opacity: 0, y: 60 },
@@ -81,59 +81,59 @@ export default function HomeSolutions() {
   return (
     <section ref={sectionRef} className="section-padding bg-ivory">
       <div className="container">
-        <div className="home-solutions-header">
+        <div className="home-services-header">
           <SectionHeading
             highlight="ONE VISION."
             subtitle="Integrated systems. Smarter infrastructure. Greater possibilities."
           >
-            COMPLETE SOLUTIONS UNDER ONE VISION.
+            COMPLETE SERVICES UNDER ONE VISION.
           </SectionHeading>
           <Link
-            to="/solutions"
-            className="home-solutions-link"
+            to="/services"
+            className="home-services-link"
           >
-            Explore All Solutions
+            Explore All Services
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </Link>
         </div>
 
-        <div className="home-solutions-grid">
-          {solutions.map((solution) => (
+        <div className="home-services-grid">
+          {services.map((service) => (
             <Link
-              key={solution.slug}
-              to={`/solutions/${solution.slug}`}
-              className="solution-card home-solutions-card"
+              key={service.slug}
+              to={`/services/${service.slug}`}
+              className="service-card home-services-card"
             >
               {/* Icon */}
-              <div className="home-solutions-card-icon">
-                {solutionIcons[solution.icon]}
+              <div className="home-services-card-icon">
+                {serviceIcons[service.icon]}
               </div>
 
               {/* Title */}
-              <h3 className="home-solutions-card-title">
-                {solution.shortTitle}
+              <h3 className="home-services-card-title">
+                {service.shortTitle}
               </h3>
 
               {/* Description */}
-              <p className="home-solutions-card-desc">
-                {solution.description}
+              <p className="home-services-card-desc">
+                {service.description}
               </p>
 
               {/* Arrow */}
-              <div className="home-solutions-card-action">
-                <span className="home-solutions-card-action-text">Learn More</span>
+              <div className="home-services-card-action">
+                <span className="home-services-card-action-text">Learn More</span>
                 <svg
                   width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                  className="home-solutions-card-action-icon"
+                  className="home-services-card-action-icon"
                 >
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
               </div>
 
               {/* Orange glow on hover */}
-              <div className="home-solutions-card-glow" />
+              <div className="home-services-card-glow" />
             </Link>
           ))}
         </div>

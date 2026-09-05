@@ -5,7 +5,7 @@ import Hero3DScene from '../three/Hero3DScene';
 import '../../styles/HeroSection.css';
 
 const services = [
-  { id: 'TURNKEY', label: 'TURNKEY PROJECTS' },
+  { id: 'TURNKEY', label: 'TURNKEY CLIENTS' },
   { id: 'INTRUSION', label: 'INTRUSION DETECTION' },
   { id: 'ACCESS', label: 'ACCESS CONTROL' },
   { id: 'INFRASTRUCTURE', label: 'SWITCHES SERVICES & STORAGE' },
@@ -74,7 +74,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
             className="hero-description"
           >
-            Security, technology, electrical, fire safety, logistics and turnkey solutions — engineered and delivered as one integrated system.
+            Security, technology, electrical, fire safety, logistics and turnkey services — engineered and delivered as one integrated system.
           </motion.p>
           
           <motion.div 
@@ -84,8 +84,8 @@ export default function HeroSection() {
             className="hero-cta-group"
           >
             {/* Primary CTA */}
-            <Link to="/solutions" className="group hero-cta-primary">
-              Explore Solutions
+            <Link to="/services" className="group hero-cta-primary">
+              Explore Services
               <span className="hero-cta-arrow">
                 <span className="hero-cta-arrow-head" />
               </span>

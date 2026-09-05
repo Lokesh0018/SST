@@ -106,7 +106,7 @@ export default function Footer() {
               <FooterLogo />
             </Link>
             <p className="footer-tagline">
-              Integrated Infrastructure<br />& Security Solutions
+              Integrated Infrastructure<br />& Security Services
             </p>
             <p className="footer-description">
               A safer. Smarter.<br />
@@ -117,9 +117,9 @@ export default function Footer() {
           {/* Navigation Columns */}
           <div className="footer-nav-grid">
             <div>
-              <h4 className="footer-col-title">Solutions</h4>
+              <h4 className="footer-col-title">Services</h4>
               <ul className="footer-nav-list">
-                {footerNavigation.solutions.map((item) => (
+                {footerNavigation.services.map((item) => (
                   <li key={item.href}>
                     <Link
                       to={item.href}

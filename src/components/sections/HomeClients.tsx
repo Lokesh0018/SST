@@ -3,20 +3,20 @@ import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionHeading from '../common/SectionHeading';
-import { getFeaturedProjects } from '../../data/projects';
-import '../../styles/HomeProjects.css';
+import { getFeaturedClients } from '../../data/clients';
+import '../../styles/HomeClients.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-export default function HomeProjects() {
+export default function HomeClients() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const featuredProjects = getFeaturedProjects();
+  const featuredClients = getFeaturedClients();
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion || !sectionRef.current) return;
 
-    const cards = sectionRef.current.querySelectorAll('.project-card');
+    const cards = sectionRef.current.querySelectorAll('.client-card');
     gsap.fromTo(
       cards,
       { opacity: 0, y: 40 },
@@ -38,63 +38,63 @@ export default function HomeProjects() {
   return (
     <section ref={sectionRef} className="section-padding bg-ivory">
       <div className="container">
-        <div className="home-projects-header">
+        <div className="home-clients-header">
           <SectionHeading
             highlight="REAL-WORLD"
-            subtitle="A selection of our projects across industries."
+            subtitle="A selection of our clients across industries."
           >
             ENGINEERED FOR REAL-WORLD ENVIRONMENTS.
           </SectionHeading>
 
           <Link
-            to="/projects"
-            className="home-projects-link"
+            to="/clients"
+            className="home-clients-link"
           >
-            View All Projects
+            View All Clients
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </Link>
         </div>
 
-        <div className="home-projects-grid">
-          {featuredProjects.map((project) => (
+        <div className="home-clients-grid">
+          {featuredClients.map((client) => (
             <Link
-              key={project.slug}
-              to={`/projects/${project.slug}`}
-              className="project-card home-projects-card"
+              key={client.slug}
+              to={`/clients/${client.slug}`}
+              className="client-card home-clients-card"
             >
               {/* Image */}
-              <div className="home-projects-card-img-wrapper">
+              <div className="home-clients-card-img-wrapper">
                 <img
-                  src={project.image}
-                  alt={project.title}
-                  className="home-projects-card-img"
+                  src={client.image}
+                  alt={client.title}
+                  className="home-clients-card-img"
                 />
               </div>
 
               {/* Content */}
-              <div className="home-projects-card-content">
-                <div className="home-projects-card-meta">
-                  <span className="home-projects-card-tag">
-                    {project.industry}
+              <div className="home-clients-card-content">
+                <div className="home-clients-card-meta">
+                  <span className="home-clients-card-tag">
+                    {client.industry}
                   </span>
                 </div>
-                <h3 className="home-projects-card-title">
-                  {project.title}
+                <h3 className="home-clients-card-title">
+                  {client.title}
                 </h3>
-                <div className="home-projects-card-location">
-                  <span className="home-projects-card-location-inner">
+                <div className="home-clients-card-location">
+                  <span className="home-clients-card-location-inner">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                       <circle cx="12" cy="10" r="3" />
                     </svg>
-                    {project.location}
+                    {client.location}
                   </span>
                 </div>
-                <div className="home-projects-card-services">
-                  {project.services.slice(0, 3).map((service) => (
-                    <span key={service} className="home-projects-card-service">
+                <div className="home-clients-card-services">
+                  {client.services.slice(0, 3).map((service) => (
+                    <span key={service} className="home-clients-card-service">
                       {service}
                     </span>
                   ))}

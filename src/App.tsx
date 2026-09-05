@@ -6,12 +6,11 @@ import PageLoader from './components/common/PageLoader';
 
 // Lazy-loaded pages for code splitting
 const Home = lazy(() => import('./pages/Home'));
-const Solutions = lazy(() => import('./pages/Solutions'));
-const SolutionDetail = lazy(() => import('./pages/SolutionDetail'));
-const TurnkeyProjects = lazy(() => import('./pages/TurnkeyProjects'));
+const Services = lazy(() => import('./pages/Services'));
+const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
+const TurnkeyClients = lazy(() => import('./pages/TurnkeyClients'));
 const Industries = lazy(() => import('./pages/Industries'));
-const Projects = lazy(() => import('./pages/Projects'));
-const ProjectDetail = lazy(() => import('./pages/ProjectDetail'));
+const ClientDetail = lazy(() => import('./pages/ClientDetail'));
 const About = lazy(() => import('./pages/About'));
 const Clients = lazy(() => import('./pages/Clients'));
 const Contact = lazy(() => import('./pages/Contact'));
@@ -26,12 +25,12 @@ function App() {
         <Suspense fallback={<PageLoader />} key={location.pathname}>
           <Routes location={location}>
             <Route path="/" element={<Home />} />
-            <Route path="/solutions" element={<Solutions />} />
-            <Route path="/solutions/:slug" element={<SolutionDetail />} />
-            <Route path="/turnkey-projects" element={<TurnkeyProjects />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/services/:slug" element={<ServiceDetail />} />
+            <Route path="/turnkey-clients" element={<TurnkeyClients />} />
             <Route path="/industries" element={<Industries />} />
-            <Route path="/projects" element={<Projects />} />
-            <Route path="/projects/:slug" element={<ProjectDetail />} />
+            <Route path="/clients" element={<Clients />} />
+            <Route path="/clients/:slug" element={<ClientDetail />} />
             <Route path="/about" element={<About />} />
             <Route path="/clients" element={<Clients />} />
             <Route path="/contact" element={<Contact />} />

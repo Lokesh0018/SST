@@ -1,4 +1,4 @@
-export interface Solution {
+export interface Service {
   slug: string;
   title: string;
   shortTitle: string;
@@ -13,7 +13,7 @@ export interface Solution {
   gallery: string[];
 }
 
-export const solutions: Solution[] = [
+export const services: Service[] = [
   {
     slug: 'video-surveillance',
     title: 'Video Surveillance',
@@ -21,13 +21,13 @@ export const solutions: Solution[] = [
     category: 'Security',
     tagline: 'Intelligent Monitoring for a Safer Tomorrow.',
     description: 'High-performance surveillance systems designed for real-time visibility, threat detection and complete peace of mind.',
-    heroDescription: 'From IP camera networks to AI-driven analytics, our surveillance solutions deliver round-the-clock monitoring, intelligent alerts, and scalable architecture for facilities of any size.',
+    heroDescription: 'From IP camera networks to AI-driven analytics, our surveillance services deliver round-the-clock monitoring, intelligent alerts, and scalable architecture for facilities of any size.',
     icon: 'camera',
     features: [
       { title: '24/7 Monitoring', description: 'Round-the-clock surveillance with real-time alerts and remote access capabilities across all connected devices.' },
       { title: 'AI-Powered Analytics', description: 'Intelligent video analytics for facial recognition, motion detection, people counting, and behavioral analysis.' },
       { title: 'Remote Access', description: 'Monitor your facilities from anywhere with secure mobile and web-based access to live and recorded footage.' },
-      { title: 'Scalable Solutions', description: 'Modular architecture that grows with your needs — from single-site to enterprise multi-location deployments.' },
+      { title: 'Scalable Services', description: 'Modular architecture that grows with your needs — from single-site to enterprise multi-location deployments.' },
     ],
     benefits: [
       'Reduced security incidents through proactive monitoring',
@@ -52,7 +52,7 @@ export const solutions: Solution[] = [
     category: 'Security',
     tagline: 'Controlling Access. Protecting Assets.',
     description: 'Advanced access control systems that safeguard your facilities with intelligent authentication and monitoring.',
-    heroDescription: 'Our access control solutions combine biometric authentication, smart card systems, and cloud-based management to provide enterprise-grade security for your physical and digital spaces.',
+    heroDescription: 'Our access control services combine biometric authentication, smart card systems, and cloud-based management to provide enterprise-grade security for your physical and digital spaces.',
     icon: 'lock',
     features: [
       { title: 'Biometric Authentication', description: 'Fingerprint, facial recognition, and iris scanning for high-security environments.' },
@@ -83,13 +83,13 @@ export const solutions: Solution[] = [
     category: 'Technology',
     tagline: 'Building the Backbone of Modern Business.',
     description: 'Enterprise-grade network infrastructure designed for performance, reliability, and security.',
-    heroDescription: 'From structured cabling to wireless solutions and data center design, we build the networking foundation that keeps your organization connected and productive.',
+    heroDescription: 'From structured cabling to wireless services and data center design, we build the networking foundation that keeps your organization connected and productive.',
     icon: 'network',
     features: [
       { title: 'Structured Cabling', description: 'Cat6/Cat6A/Fiber optic cabling with proper cable management and documentation.' },
-      { title: 'Wireless Solutions', description: 'Enterprise Wi-Fi design, deployment, and optimization for complete coverage.' },
+      { title: 'Wireless Services', description: 'Enterprise Wi-Fi design, deployment, and optimization for complete coverage.' },
       { title: 'Network Security', description: 'Firewalls, VPN, intrusion detection, and network segmentation for protected communications.' },
-      { title: 'Data Center Design', description: 'Server room design, rack configuration, cooling solutions, and power management.' },
+      { title: 'Data Center Design', description: 'Server room design, rack configuration, cooling services, and power management.' },
     ],
     benefits: [
       'Reliable high-speed connectivity across facilities',
@@ -119,8 +119,8 @@ export const solutions: Solution[] = [
     features: [
       { title: 'Power Distribution', description: 'Complete electrical distribution systems including panels, transformers, and switchgear.' },
       { title: 'UPS & Backup Power', description: 'Uninterruptible power supply systems and generator integration for critical facilities.' },
-      { title: 'Energy Management', description: 'Smart energy monitoring, load balancing, and efficiency optimization solutions.' },
-      { title: 'Lighting Systems', description: 'LED lighting design, automation, and energy-efficient illumination solutions.' },
+      { title: 'Energy Management', description: 'Smart energy monitoring, load balancing, and efficiency optimization services.' },
+      { title: 'Lighting Systems', description: 'LED lighting design, automation, and energy-efficient illumination services.' },
     ],
     benefits: [
       'Ensured power reliability for critical operations',
@@ -145,7 +145,7 @@ export const solutions: Solution[] = [
     category: 'Safety',
     tagline: 'Protecting Lives. Safeguarding Assets.',
     description: 'Integrated fire detection, suppression, and safety systems designed to protect people and property.',
-    heroDescription: 'From advanced fire detection to automated suppression and emergency evacuation systems, we deliver comprehensive fire safety solutions that meet the highest standards of protection.',
+    heroDescription: 'From advanced fire detection to automated suppression and emergency evacuation systems, we deliver comprehensive fire safety services that meet the highest standards of protection.',
     icon: 'flame',
     features: [
       { title: 'Fire Detection', description: 'Addressable and conventional fire alarm systems with smoke, heat, and gas detection.' },
@@ -175,24 +175,24 @@ export const solutions: Solution[] = [
     shortTitle: 'Logistics & Operations',
     category: 'Operations',
     tagline: 'Streamlining Operations. Delivering Efficiency.',
-    description: 'End-to-end logistics and operational support for infrastructure projects of any scale.',
-    heroDescription: 'Our logistics and operations services ensure seamless procurement, supply chain management, and project coordination to deliver infrastructure solutions on time and within budget.',
+    description: 'End-to-end logistics and operational support for infrastructure clients of any scale.',
+    heroDescription: 'Our logistics and operations services ensure seamless procurement, supply chain management, and client coordination to deliver infrastructure services on time and within budget.',
     icon: 'truck',
     features: [
       { title: 'Procurement', description: 'Strategic sourcing, vendor management, and procurement services for infrastructure equipment.' },
-      { title: 'Supply Chain', description: 'End-to-end supply chain coordination for multi-vendor, multi-site project deployments.' },
-      { title: 'Project Coordination', description: 'On-site project management, scheduling, and resource allocation services.' },
+      { title: 'Supply Chain', description: 'End-to-end supply chain coordination for multi-vendor, multi-site client deployments.' },
+      { title: 'Client Coordination', description: 'On-site client management, scheduling, and resource allocation services.' },
       { title: 'Inventory Management', description: 'Asset tracking, warehouse management, and spare parts inventory systems.' },
     ],
     benefits: [
-      'Reduced project delivery timelines',
+      'Reduced client delivery timelines',
       'Optimized procurement costs',
       'Streamlined multi-vendor coordination',
-      'Transparent project tracking and reporting',
+      'Transparent client tracking and reporting',
       'Reliable supply chain for critical components',
     ],
     applications: [
-      'Large-scale infrastructure projects',
+      'Large-scale infrastructure clients',
       'Multi-site corporate rollouts',
       'Industrial facility buildouts',
       'Government infrastructure programs',
@@ -202,6 +202,6 @@ export const solutions: Solution[] = [
   },
 ];
 
-export const getSolutionBySlug = (slug: string): Solution | undefined => {
-  return solutions.find((s) => s.slug === slug);
+export const getServiceBySlug = (slug: string): Service | undefined => {
+  return services.find((s) => s.slug === slug);
 };

@@ -1,13 +1,13 @@
 import { useRef, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import '../../styles/SolutionVisual.css';
+import '../../styles/ServiceVisual.css';
 
-interface SolutionVisualProps {
+interface ServiceVisualProps {
   category: string;
   title: string;
 }
 
-export default function SolutionVisual({ category, title }: SolutionVisualProps) {
+export default function ServiceVisual({ category, title }: ServiceVisualProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [mousePos, setMousePos] = useState({ x: 0.5, y: 0.5 });
   const [scanAngle, setScanAngle] = useState(0);
@@ -36,14 +36,14 @@ export default function SolutionVisual({ category, title }: SolutionVisualProps)
     <div
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="solution-visual-container group"
+      className="service-visual-container group"
       style={{
         background: 'radial-gradient(circle at 50% 40%, #1A1916 0%, #0F0E0C 100%)',
       }}
     >
       {/* Background blueprint grid */}
       <div
-        className="solution-visual-grid"
+        className="service-visual-grid"
         style={{
           backgroundImage: `
             linear-gradient(rgba(241,90,36,0.15) 1px, transparent 1px),
@@ -54,50 +54,50 @@ export default function SolutionVisual({ category, title }: SolutionVisualProps)
       />
 
       {/* Top Telemetry Overlay */}
-      <div className="solution-visual-telemetry">
-        <div className="solution-visual-telemetry-left">
-          <span className="solution-visual-dot" />
-          <span className="solution-visual-telemetry-text">SYSTEM ACTIVE</span>
+      <div className="service-visual-telemetry">
+        <div className="service-visual-telemetry-left">
+          <span className="service-visual-dot" />
+          <span className="service-visual-telemetry-text">SYSTEM ACTIVE</span>
         </div>
-        <div className="solution-visual-version">
+        <div className="service-visual-version">
           SST-SYS-v4.2 // {category}
         </div>
       </div>
 
       {/* Center 3D / HUD Interactive Graphic */}
-      <div className="solution-visual-hud-container">
+      <div className="service-visual-hud-container">
         <motion.div
           animate={{
             rotateX: (mousePos.y - 0.5) * -20,
             rotateY: (mousePos.x - 0.5) * 20,
           }}
           transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-          className="solution-visual-hud-inner"
+          className="service-visual-hud-inner"
         >
           {/* Outer rotating HUD ring */}
           <div
-            className="solution-visual-hud-ring"
+            className="service-visual-hud-ring"
             style={{ transform: `rotate(${scanAngle}deg)` }}
           />
 
           {/* Inner pulse ring */}
-          <div className="solution-visual-pulse-ring" />
+          <div className="service-visual-pulse-ring" />
 
           {/* Center CCTV Lens / Infrastructure Icon */}
-          <div className="solution-visual-cctv-base">
+          <div className="service-visual-cctv-base">
             {isCCTV ? (
-              <div className="solution-visual-cctv-inner">
+              <div className="service-visual-cctv-inner">
                 {/* Lens reflections */}
-                <div className="solution-visual-lens-reflection">
-                  <div className="solution-visual-lens-center">
-                    <div className="solution-visual-lens-dot" />
+                <div className="service-visual-lens-reflection">
+                  <div className="service-visual-lens-center">
+                    <div className="service-visual-lens-dot" />
                   </div>
                 </div>
                 {/* Aperture ring */}
-                <div className="solution-visual-aperture" />
+                <div className="service-visual-aperture" />
               </div>
             ) : (
-              <div className="solution-visual-icon-alt">
+              <div className="service-visual-icon-alt">
                 <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                   <rect x="2" y="2" width="20" height="20" rx="5" />
                   <path d="M12 6v12M6 12h12" />
@@ -106,40 +106,40 @@ export default function SolutionVisual({ category, title }: SolutionVisualProps)
             )}
 
             {/* Target Reticle Crosshairs */}
-            <div className="solution-visual-reticle-top" />
-            <div className="solution-visual-reticle-bottom" />
-            <div className="solution-visual-reticle-left" />
-            <div className="solution-visual-reticle-right" />
+            <div className="service-visual-reticle-top" />
+            <div className="service-visual-reticle-bottom" />
+            <div className="service-visual-reticle-left" />
+            <div className="service-visual-reticle-right" />
           </div>
 
           {/* Radar Scanner Line */}
           <div
-            className="solution-visual-radar"
+            className="service-visual-radar"
             style={{ transform: `rotate(${scanAngle * 2}deg)` }}
           />
         </motion.div>
 
         {/* Live Metrics readout */}
-        <div className="solution-visual-metrics-grid">
-          <div className="solution-visual-metric-card">
-            <span className="solution-visual-metric-label">Optics</span>
-            <span className="solution-visual-metric-value">4K HDR</span>
+        <div className="service-visual-metrics-grid">
+          <div className="service-visual-metric-card">
+            <span className="service-visual-metric-label">Optics</span>
+            <span className="service-visual-metric-value">4K HDR</span>
           </div>
-          <div className="solution-visual-metric-card">
-            <span className="solution-visual-metric-label">Latency</span>
-            <span className="solution-visual-metric-value">&lt; 12ms</span>
+          <div className="service-visual-metric-card">
+            <span className="service-visual-metric-label">Latency</span>
+            <span className="service-visual-metric-value">&lt; 12ms</span>
           </div>
-          <div className="solution-visual-metric-card">
-            <span className="solution-visual-metric-label">AI Analytics</span>
-            <span className="solution-visual-metric-value">ONLINE</span>
+          <div className="service-visual-metric-card">
+            <span className="service-visual-metric-label">AI Analytics</span>
+            <span className="service-visual-metric-value">ONLINE</span>
           </div>
         </div>
       </div>
 
       {/* Bottom HUD Tagline */}
-      <div className="solution-visual-tagline">
+      <div className="service-visual-tagline">
         <span>MODE: REAL-TIME THREAT DETECTION</span>
-        <span className="solution-visual-tagline-highlight">IP67 CERTIFIED</span>
+        <span className="service-visual-tagline-highlight">IP67 CERTIFIED</span>
       </div>
     </div>
   );

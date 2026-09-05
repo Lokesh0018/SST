@@ -1,16 +1,16 @@
-.solution-detail-hero {
+.service-detail-hero {
   position: relative;
   padding-top: 11rem;
   padding-bottom: 5rem;
   overflow: hidden;
 }
 @media (min-width: 1024px) {
-  .solution-detail-hero {
+  .service-detail-hero {
     padding-top: 12rem;
   }
 }
 
-.solution-detail-breadcrumb {
+.service-detail-breadcrumb {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -19,35 +19,35 @@
   margin-bottom: 2rem;
 }
 
-.solution-detail-breadcrumb-link {
+.service-detail-breadcrumb-link {
   transition: color 300ms ease;
 }
-.solution-detail-breadcrumb-link:hover {
+.service-detail-breadcrumb-link:hover {
   color: var(--color-orange);
 }
 
-.solution-detail-breadcrumb-cat {
+.service-detail-breadcrumb-cat {
   color: rgba(28, 28, 27, 0.4);
 }
 
-.solution-detail-breadcrumb-title {
+.service-detail-breadcrumb-title {
   color: var(--color-charcoal);
   font-weight: 600;
 }
 
-.solution-detail-grid {
+.service-detail-grid {
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 3rem;
   align-items: center;
 }
 @media (min-width: 1024px) {
-  .solution-detail-grid {
+  .service-detail-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-.solution-detail-title {
+.service-detail-title {
   font-size: 2.25rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -56,17 +56,17 @@
   color: var(--color-charcoal);
 }
 @media (min-width: 768px) {
-  .solution-detail-title {
+  .service-detail-title {
     font-size: 3rem;
   }
 }
 @media (min-width: 1024px) {
-  .solution-detail-title {
+  .service-detail-title {
     font-size: 3.75rem;
   }
 }
 
-.solution-detail-tagline {
+.service-detail-tagline {
   margin-top: 1rem;
   font-size: 0.75rem;
   font-weight: 700;
@@ -75,7 +75,7 @@
   color: var(--color-orange);
 }
 
-.solution-detail-desc {
+.service-detail-desc {
   margin-top: 1.5rem;
   font-size: 1rem;
   color: rgba(28, 28, 27, 0.7);
@@ -83,19 +83,19 @@
   max-width: 32rem;
 }
 
-.solution-detail-features {
+.service-detail-features {
   margin-top: 2.5rem;
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 1rem;
 }
 @media (min-width: 640px) {
-  .solution-detail-features {
+  .service-detail-features {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-.solution-detail-feature-card {
+.service-detail-feature-card {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
@@ -106,7 +106,7 @@
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 }
 
-.solution-detail-feature-icon {
+.service-detail-feature-icon {
   width: 2rem;
   height: 2rem;
   border-radius: 9999px;
@@ -120,7 +120,7 @@
   flex-shrink: 0;
 }
 
-.solution-detail-feature-title {
+.service-detail-feature-title {
   font-size: 0.875rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -129,7 +129,7 @@
   margin-top: 0.25rem;
 }
 
-.solution-detail-actions {
+.service-detail-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -137,17 +137,17 @@
   margin-top: 2.5rem;
 }
 
-.solution-detail-visual {
+.service-detail-visual {
   width: 100%;
 }
 
-.solution-detail-features-section {
+.service-detail-features-section {
   padding-top: 4rem;
   padding-bottom: 4rem;
   background-color: var(--color-ivory);
 }
 
-.solution-detail-section-title {
+.service-detail-section-title {
   font-size: 1.875rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -155,25 +155,25 @@
   margin-bottom: 3rem;
 }
 
-.solution-detail-features-grid {
+.service-detail-features-grid {
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 2rem;
 }
 @media (min-width: 768px) {
-  .solution-detail-features-grid {
+  .service-detail-features-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-.solution-detail-feature-box {
+.service-detail-feature-box {
   padding: 1.5rem;
   border-radius: 0.75rem;
   background-color: rgba(247, 240, 224, 0.3);
   border: 1px solid rgba(239, 228, 207, 0.2);
 }
 
-.solution-detail-feature-box-icon {
+.service-detail-feature-box-icon {
   width: 2.5rem;
   height: 2.5rem;
   border-radius: 9999px;
@@ -186,7 +186,7 @@
   margin-bottom: 1rem;
 }
 
-.solution-detail-feature-box-title {
+.service-detail-feature-box-title {
   font-size: 1.125rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -194,24 +194,24 @@
   margin-bottom: 0.5rem;
 }
 
-.solution-detail-feature-box-desc {
+.service-detail-feature-box-desc {
   font-size: 0.875rem;
   color: rgba(28, 28, 27, 0.6);
   line-height: 1.625;
 }
 
-.solution-detail-benefits-grid {
+.service-detail-benefits-grid {
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 4rem;
 }
 @media (min-width: 1024px) {
-  .solution-detail-benefits-grid {
+  .service-detail-benefits-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-.solution-detail-benefits-title {
+.service-detail-benefits-title {
   font-size: 1.875rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -219,19 +219,19 @@
   margin-bottom: 2rem;
 }
 
-.solution-detail-list {
+.service-detail-list {
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.solution-detail-list-item {
+.service-detail-list-item {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
 }
 
-.solution-detail-list-icon {
+.service-detail-list-icon {
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 9999px;
@@ -243,13 +243,13 @@
   margin-top: 0.125rem;
 }
 
-.solution-detail-list-text {
+.service-detail-list-text {
   font-size: 0.875rem;
   color: rgba(28, 28, 27, 0.7);
   line-height: 1.625;
 }
 
-.solution-detail-app-icon {
+.service-detail-app-icon {
   width: 1.5rem;
   height: 1.5rem;
   border-radius: 9999px;
@@ -261,26 +261,26 @@
   margin-top: 0.125rem;
 }
 
-.solution-detail-app-icon-text {
+.service-detail-app-icon-text {
   font-size: 0.75rem;
   font-weight: 700;
   color: rgba(28, 28, 27, 0.4);
 }
 
-.solution-detail-nav {
+.service-detail-nav {
   padding-top: 3rem;
   padding-bottom: 3rem;
   background-color: var(--color-ivory);
   border-top: 1px solid rgba(239, 228, 207, 0.2);
 }
 
-.solution-detail-nav-container {
+.service-detail-nav-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.solution-detail-nav-link {
+.service-detail-nav-link {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -289,6 +289,6 @@
   color: rgba(28, 28, 27, 0.6);
   transition: color 300ms ease;
 }
-.solution-detail-nav-link:hover {
+.service-detail-nav-link:hover {
   color: var(--color-orange);
 }

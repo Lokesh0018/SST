@@ -1,6 +1,11 @@
 .clients-hero {
-  padding-top: 10rem;
+  padding-top: 11rem;
   padding-bottom: 4rem;
+}
+@media (min-width: 1024px) {
+  .clients-hero {
+    padding-top: 12rem;
+  }
 }
 
 .clients-hero-header {
@@ -53,89 +58,156 @@
   background-color: var(--color-ivory);
 }
 
-.clients-note {
+.clients-filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 3rem;
+}
+
+.clients-filter-btn {
+  padding: 0.625rem 1.25rem;
   font-size: 0.75rem;
-  color: rgba(28, 28, 27, 0.4);
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.1em;
-  margin-bottom: 2rem;
+  letter-spacing: 0.05em;
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  transition: all 300ms ease;
+  cursor: pointer;
+}
+
+.clients-filter-active {
+  background-color: var(--color-orange);
+  color: white;
+  border-color: var(--color-orange);
+}
+
+.clients-filter-inactive {
+  background-color: transparent;
+  color: rgba(28, 28, 27, 0.6);
+  border-color: rgba(239, 228, 207, 1);
+}
+.clients-filter-inactive:hover {
+  border-color: rgba(241, 90, 36, 0.5);
+  color: var(--color-orange);
 }
 
 .clients-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.5rem;
 }
 @media (min-width: 768px) {
   .clients-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (min-width: 1024px) {
   .clients-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 .clients-card {
-  padding: 2rem;
+  display: block;
   border-radius: 0.75rem;
-  background-color: rgba(247, 240, 224, 0.4);
+  overflow: hidden;
+  background-color: rgba(247, 240, 224, 0.3);
   border: 1px solid rgba(239, 228, 207, 0.2);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  transition: all 300ms ease;
-  cursor: default;
+  transition: all 500ms ease;
 }
 .clients-card:hover {
   border-color: rgba(241, 90, 36, 0.3);
-  box-shadow: 0 4px 20px rgba(241, 90, 36, 0.08);
-  transform: scale(1.02);
+  box-shadow: 0 8px 30px rgba(23, 22, 19, 0.08);
 }
 
-.clients-card-logo {
-  width: 4rem;
-  height: 4rem;
-  border-radius: 9999px;
-  background-color: rgba(239, 228, 207, 0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0.75rem;
-  transition: background-color 300ms ease;
-}
-.clients-card:hover .clients-card-logo {
-  background-color: rgba(241, 90, 36, 0.1);
+.clients-card-img-container {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  position: relative;
 }
 
-.clients-card-logo-text {
-  font-size: 1.125rem;
-  font-weight: 800;
-  color: rgba(28, 28, 27, 0.3);
-  transition: color 300ms ease;
+.clients-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 700ms ease;
 }
-.clients-card:hover .clients-card-logo-text {
-  color: var(--color-orange);
+.clients-card:hover .clients-card-img {
+  transform: scale(1.05);
 }
 
-.clients-card-title {
-  font-size: 0.875rem;
-  font-weight: 700;
-  color: rgba(28, 28, 27, 0.6);
-  transition: color 300ms ease;
+.clients-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(28, 28, 27, 0.8), transparent, transparent);
+  opacity: 0.6;
 }
-.clients-card:hover .clients-card-title {
-  color: var(--color-charcoal);
+
+.clients-card-content {
+  padding: 1.25rem;
 }
 
 .clients-card-industry {
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  color: rgba(28, 28, 27, 0.3);
-  margin-top: 0.25rem;
+  color: var(--color-orange);
+}
+
+.clients-card-title {
+  font-size: 1.125rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  color: var(--color-charcoal);
+  margin-top: 0.5rem;
+  transition: color 300ms ease;
+}
+.clients-card:hover .clients-card-title {
+  color: var(--color-orange);
+}
+
+.clients-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: rgba(28, 28, 27, 0.5);
+  margin-top: 0.5rem;
+}
+
+.clients-card-location {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.clients-card-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-top: 0.75rem;
+}
+
+.clients-card-service {
+  font-size: 10px;
+  font-weight: 500;
+  color: rgba(28, 28, 27, 0.4);
+  background-color: var(--color-ivory);
+  padding: 0.125rem 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.clients-empty {
+  text-align: center;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+.clients-empty-text {
+  color: rgba(28, 28, 27, 0.4);
 }

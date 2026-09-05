@@ -277,7 +277,7 @@ function DeviceModel({ type, isActive, mats }: {
   });
 
   switch (type) {
-    /* ── Turnkey Projects (Building with Construction) ── */
+    /* ── Turnkey Clients (Building with Construction) ── */
     case 'building':
       return (
         <group>

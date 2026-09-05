@@ -41,9 +41,9 @@ export default function HomeIndustries() {
         <div className="home-industries-header">
           <SectionHeading
             highlight="INDUSTRY."
-            subtitle="Tailored infrastructure solutions for diverse environments."
+            subtitle="Tailored infrastructure services for diverse environments."
           >
-            SOLUTIONS FOR EVERY INDUSTRY.
+            SERVICES FOR EVERY INDUSTRY.
           </SectionHeading>
 
           <div className="home-industries-header-right">

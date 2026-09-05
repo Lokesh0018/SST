@@ -11,13 +11,13 @@ gsap.registerPlugin(ScrollTrigger);
 const stats = [
   { value: '2016', label: 'Established' },
   { value: 'Engineering', label: 'Driven' },
-  { value: 'Multi-Sector', label: 'Solutions' },
+  { value: 'Multi-Sector', label: 'Services' },
   { value: 'Long-Term', label: 'Partnerships' },
 ];
 
 const values = [
   { title: 'Reliability', description: 'Every system we deploy is built for long-term performance and dependability.' },
-  { title: 'Engineering Excellence', description: 'Precision engineering and best practices drive every project we undertake.' },
+  { title: 'Engineering Excellence', description: 'Precision engineering and best practices drive every client we undertake.' },
   { title: 'Innovation', description: 'Continuously adopting modern technologies to deliver future-ready infrastructure.' },
   { title: 'Integrity', description: 'Transparent operations and honest partnerships form the foundation of our work.' },
   { title: 'Partnership', description: 'We build lasting relationships, working alongside our clients as trusted advisors.' },
@@ -73,7 +73,7 @@ export default function About() {
                 BUILT ON ENGINEERING. DRIVEN BY RELIABILITY.
               </SectionHeading>
               <p className="about-hero-text">
-                Sri Satguru Traders (SST) is a registered partnership firm established in 2016, delivering integrated infrastructure and security solutions with a professional team of engineering and technology experts.
+                Sri Satguru Traders (SST) is a registered partnership firm established in 2016, delivering integrated infrastructure and security services with a professional team of engineering and technology experts.
               </p>
               <div className="about-hero-btn">
                 <Button variant="outline" size="lg" icon={
@@ -135,22 +135,22 @@ export default function About() {
             <div>
               <h2 className="about-story-title">Our Story</h2>
               <p className="about-story-text">
-                Founded in Visakhapatnam in 2016, SST began with a clear vision: to deliver infrastructure solutions that combine engineering precision with technological innovation.
+                Founded in Visakhapatnam in 2016, SST began with a clear vision: to deliver infrastructure services that combine engineering precision with technological innovation.
               </p>
               <p className="about-story-text">
-                Over the years, we have grown from a focused security solutions provider into a comprehensive infrastructure partner, serving clients across banking, hospitality, industrial, and corporate sectors.
+                Over the years, we have grown from a focused security services provider into a comprehensive infrastructure partner, serving clients across banking, hospitality, industrial, and corporate sectors.
               </p>
               <p className="about-story-text-last">
-                Our approach is built on understanding each client's unique requirements and delivering solutions that are engineered for reliability, scalability, and long-term performance.
+                Our approach is built on understanding each client's unique requirements and delivering services that are engineered for reliability, scalability, and long-term performance.
               </p>
             </div>
             <div>
               <h2 className="about-story-title">Our Approach</h2>
               <p className="about-story-text">
-                We believe that infrastructure should be invisible in its reliability and visible in its impact. Every project begins with deep consultation and ends with a system that operates seamlessly.
+                We believe that infrastructure should be invisible in its reliability and visible in its impact. Every client begins with deep consultation and ends with a system that operates seamlessly.
               </p>
               <p className="about-story-text-last">
-                Our multidisciplinary team combines expertise in security, networking, electrical engineering, and fire safety to deliver integrated solutions that address the full spectrum of infrastructure needs.
+                Our multidisciplinary team combines expertise in security, networking, electrical engineering, and fire safety to deliver integrated services that address the full spectrum of infrastructure needs.
               </p>
             </div>
           </div>

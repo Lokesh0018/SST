@@ -4,13 +4,13 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../components/common/PageTransition';
 import SectionHeading from '../components/common/SectionHeading';
 import Button from '../components/common/Button';
-import '../styles/TurnkeyProjects.css';
+import '../styles/TurnkeyClients.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const timelineSteps = [
   { number: '01', title: 'Consult', description: 'Understanding your requirements, challenges, and objectives through detailed assessment.', icon: '💬' },
-  { number: '02', title: 'Design', description: 'Engineering tailored solutions with detailed schematics, BOQs, and project plans.', icon: '📐' },
+  { number: '02', title: 'Design', description: 'Engineering tailored services with detailed schematics, BOQs, and client plans.', icon: '📐' },
   { number: '03', title: 'Procure', description: 'Strategic sourcing of equipment and materials from trusted manufacturers and partners.', icon: '📦' },
   { number: '04', title: 'Install', description: 'Professional installation by certified technicians following industry best practices.', icon: '🔧' },
   { number: '05', title: 'Integrate', description: 'Seamless integration of all systems into a unified, interoperable infrastructure.', icon: '🔗' },
@@ -19,7 +19,7 @@ const timelineSteps = [
   { number: '08', title: 'Support', description: 'Ongoing maintenance, monitoring, and technical support for long-term reliability.', icon: '🛡️' },
 ];
 
-export default function TurnkeyProjects() {
+export default function TurnkeyClients() {
   const timelineRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
 
@@ -78,12 +78,12 @@ export default function TurnkeyProjects() {
                 FROM IDEA TO IMPLEMENTATION.
               </SectionHeading>
               <p className="turnkey-hero-text">
-                End-to-end project execution with precision, expertise and reliability.
+                End-to-end client execution with precision, expertise and reliability.
               </p>
             </div>
             <div className="turnkey-hero-right">
               <p className="turnkey-hero-right-text">
-                Turnkey Solutions<br />
+                Turnkey Services<br />
                 <span className="turnkey-highlight">Real-World</span><br />
                 Results.
               </p>
@@ -143,13 +143,13 @@ export default function TurnkeyProjects() {
         </div>
       </section>
 
-      {/* Project showcase */}
+      {/* Client showcase */}
       <section className="turnkey-showcase">
         <div className="container">
           <div className="turnkey-showcase-card group">
             <img
               src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=1400&q=80"
-              alt="Engineering Turnkey Infrastructure Project"
+              alt="Engineering Turnkey Infrastructure Client"
               className="turnkey-showcase-img"
             />
             <div className="turnkey-showcase-overlay" />
@@ -161,7 +161,7 @@ export default function TurnkeyProjects() {
                 </h3>
               </div>
               <Button to="/contact" variant="primary" size="lg">
-                Start Your Project
+                Start Your Client
               </Button>
             </div>
           </div>

@@ -1,18 +1,18 @@
-.home-solutions-header {
+.home-services-header {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
   margin-bottom: 4rem;
 }
 @media (min-width: 768px) {
-  .home-solutions-header {
+  .home-services-header {
     flex-direction: row;
     align-items: flex-end;
     justify-content: space-between;
   }
 }
 
-.home-solutions-link {
+.home-services-link {
   font-size: 0.875rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -25,27 +25,27 @@
   transition: color 300ms ease;
   text-decoration: none;
 }
-.home-solutions-link:hover {
+.home-services-link:hover {
   color: var(--color-orange);
 }
 
-.home-solutions-grid {
+.home-services-grid {
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 1.5rem;
 }
 @media (min-width: 768px) {
-  .home-solutions-grid {
+  .home-services-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (min-width: 1024px) {
-  .home-solutions-grid {
+  .home-services-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
-.home-solutions-card {
+.home-services-card {
   position: relative;
   overflow: hidden;
   border-radius: 0.75rem;
@@ -57,13 +57,13 @@
   text-decoration: none;
   color: inherit;
 }
-.home-solutions-card:hover {
+.home-services-card:hover {
   box-shadow: 0 12px 40px rgba(23, 22, 19, 0.1);
   transform: translateY(-0.25rem);
   border-color: rgba(241, 90, 36, 0.3);
 }
 
-.home-solutions-card-icon {
+.home-services-card-icon {
   width: 3.5rem;
   height: 3.5rem;
   border-radius: 0.5rem;
@@ -75,12 +75,12 @@
   transition: all 500ms ease;
   margin-bottom: 1.5rem;
 }
-.home-solutions-card:hover .home-solutions-card-icon {
+.home-services-card:hover .home-services-card-icon {
   color: var(--color-orange);
   background-color: rgba(241, 90, 36, 0.1);
 }
 
-.home-solutions-card-title {
+.home-services-card-title {
   font-size: 1.25rem;
   font-weight: 800;
   text-transform: uppercase;
@@ -88,14 +88,14 @@
   margin-bottom: 0.75rem;
 }
 
-.home-solutions-card-desc {
+.home-services-card-desc {
   font-size: 0.875rem;
   color: rgba(28, 28, 27, 0.6);
   line-height: 1.625;
   margin-bottom: 1.5rem;
 }
 
-.home-solutions-card-action {
+.home-services-card-action {
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -104,25 +104,25 @@
   color: rgba(28, 28, 27, 0.5);
   transition: color 300ms ease;
 }
-.home-solutions-card:hover .home-solutions-card-action {
+.home-services-card:hover .home-services-card-action {
   color: var(--color-orange);
 }
 
-.home-solutions-card-action-text {
+.home-services-card-action-text {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   font-size: 0.75rem;
 }
 
-.home-solutions-card-action-icon {
+.home-services-card-action-icon {
   transform: translateX(0);
   transition: transform 300ms ease;
 }
-.home-solutions-card:hover .home-solutions-card-action-icon {
+.home-services-card:hover .home-services-card-action-icon {
   transform: translateX(0.5rem);
 }
 
-.home-solutions-card-glow {
+.home-services-card-glow {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -133,6 +133,6 @@
   transition: transform 500ms ease;
   transform-origin: left;
 }
-.home-solutions-card:hover .home-solutions-card-glow {
+.home-services-card:hover .home-services-card-glow {
   transform: scaleX(1);
 }

@@ -1,17 +1,17 @@
 import PageTransition from '../components/common/PageTransition';
 import HeroSection from '../components/sections/HeroSection';
-import HomeSolutions from '../components/sections/HomeSolutions';
+import HomeServices from '../components/sections/HomeServices';
 import HomeIndustries from '../components/sections/HomeIndustries';
-import HomeProjects from '../components/sections/HomeProjects';
+import HomeClients from '../components/sections/HomeClients';
 import HomeCTA from '../components/sections/HomeCTA';
 
 export default function Home() {
   return (
     <PageTransition>
       <HeroSection />
-      <HomeSolutions />
+      <HomeServices />
       <HomeIndustries />
-      <HomeProjects />
+      <HomeClients />
       <HomeCTA />
     </PageTransition>
   );

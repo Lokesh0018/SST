@@ -5,39 +5,40 @@ export interface NavItem {
 }
 
 export const mainNavigation: NavItem[] = [
+  { label: 'Home', href: '/' },
   {
-    label: 'Solutions',
-    href: '/solutions',
+    label: 'Services',
+    href: '/services',
     children: [
-      { label: 'Video Surveillance', href: '/solutions/video-surveillance' },
-      { label: 'Access Control', href: '/solutions/access-control' },
-      { label: 'Network Infrastructure', href: '/solutions/network-infrastructure' },
-      { label: 'Electrical & Electronic', href: '/solutions/electrical' },
-      { label: 'Fire & Safety', href: '/solutions/fire-safety' },
-      { label: 'Logistics & Operations', href: '/solutions/logistics' },
+      { label: 'Video Surveillance', href: '/services/video-surveillance' },
+      { label: 'Access Control', href: '/services/access-control' },
+      { label: 'Network Infrastructure', href: '/services/network-infrastructure' },
+      { label: 'Electrical & Electronic', href: '/services/electrical' },
+      { label: 'Fire & Safety', href: '/services/fire-safety' },
+      { label: 'Logistics & Operations', href: '/services/logistics' },
     ],
   },
   { label: 'Industries', href: '/industries' },
-  { label: 'Projects', href: '/projects' },
+  { label: 'Clients', href: '/clients' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ];
 
 export const footerNavigation = {
-  solutions: [
-    { label: 'Video Surveillance', href: '/solutions/video-surveillance' },
-    { label: 'Access Control', href: '/solutions/access-control' },
-    { label: 'Network Infrastructure', href: '/solutions/network-infrastructure' },
-    { label: 'Electrical', href: '/solutions/electrical' },
-    { label: 'Fire & Safety', href: '/solutions/fire-safety' },
-    { label: 'Logistics', href: '/solutions/logistics' },
+  services: [
+    { label: 'Video Surveillance', href: '/services/video-surveillance' },
+    { label: 'Access Control', href: '/services/access-control' },
+    { label: 'Network Infrastructure', href: '/services/network-infrastructure' },
+    { label: 'Electrical', href: '/services/electrical' },
+    { label: 'Fire & Safety', href: '/services/fire-safety' },
+    { label: 'Logistics', href: '/services/logistics' },
   ],
   company: [
     { label: 'About Us', href: '/about' },
-    { label: 'Projects', href: '/projects' },
+    { label: 'Clients', href: '/clients' },
     { label: 'Clients', href: '/clients' },
     { label: 'Industries', href: '/industries' },
-    { label: 'Turnkey Projects', href: '/turnkey-projects' },
+    { label: 'Turnkey Clients', href: '/turnkey-clients' },
   ],
   connect: [
     { label: 'Contact', href: '/contact' },

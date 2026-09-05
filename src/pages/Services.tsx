@@ -4,21 +4,21 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../components/common/PageTransition';
 import SectionHeading from '../components/common/SectionHeading';
-import { solutions } from '../data/solutions';
-import '../styles/Solutions.css';
+import { services } from '../data/services';
+import '../styles/Services.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const solutionPositions = [
+const servicePositions = [
   { x: 50, y: 15, label: 'Security &\nSurveillance' },
   { x: 85, y: 30, label: 'IT\nInfrastructure' },
   { x: 85, y: 65, label: 'Electrical\n& Electronic' },
-  { x: 50, y: 85, label: 'Turnkey\nProjects' },
+  { x: 50, y: 85, label: 'Turnkey\nClients' },
   { x: 15, y: 65, label: 'Fire &\nSafety' },
   { x: 15, y: 30, label: 'Logistics\n& Operations' },
 ];
 
-export default function Solutions() {
+export default function Services() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -27,7 +27,7 @@ export default function Solutions() {
     if (prefersReducedMotion) return;
 
     gsap.fromTo(
-      '.solution-node',
+      '.service-node',
       { opacity: 0, scale: 0 },
       {
         opacity: 1,
@@ -42,54 +42,54 @@ export default function Solutions() {
 
   return (
     <PageTransition>
-      <section className="solutions-hero" style={{ background: 'linear-gradient(180deg, #F7F0E0 0%, #EFE4CF 100%)' }}>
+      <section className="services-hero" style={{ background: 'linear-gradient(180deg, #F7F0E0 0%, #EFE4CF 100%)' }}>
         <div className="container">
-          <div className="solutions-layout">
+          <div className="services-layout">
             {/* Left - Heading */}
-            <div className="solutions-left">
+            <div className="services-left">
               <SectionHeading as="h1" highlight="ONE VISION.">
-                COMPLETE SOLUTIONS UNDER ONE VISION.
+                COMPLETE SERVICES UNDER ONE VISION.
               </SectionHeading>
-              <p className="solutions-text">
+              <p className="services-text">
                 Integrated systems. Smarter infrastructure. Greater possibilities.
               </p>
-              <div className="solutions-actions">
+              <div className="services-actions">
                 <Link
-                  to="/solutions/video-surveillance"
-                  className="solutions-btn"
+                  to="/services/video-surveillance"
+                  className="services-btn"
                 >
-                  <span>Explore All Solutions</span>
+                  <span>Explore All Services</span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
                 </Link>
               </div>
 
-              <div className="solutions-footer">
-                <p className="solutions-footer-tag">
+              <div className="services-footer">
+                <p className="services-footer-tag">
                   More Than Services
                 </p>
-                <p className="solutions-footer-title">
+                <p className="services-footer-title">
                   <span className="text-orange">A Stronger</span><br />Tomorrow.
                 </p>
               </div>
             </div>
 
             {/* Right - Hub Diagram */}
-            <div ref={sectionRef} className="solutions-right">
+            <div ref={sectionRef} className="services-right">
               {/* Desktop: circular hub layout */}
-              <div className="solutions-hub">
+              <div className="services-hub">
                 {/* Center SST node */}
-                <div className="solutions-hub-center-container">
-                  <div className="solutions-hub-center">
-                    <span className="solutions-hub-center-title">SST</span>
-                    <span className="solutions-hub-center-subtitle">CORE HUB</span>
+                <div className="services-hub-center-container">
+                  <div className="services-hub-center">
+                    <span className="services-hub-center-title">SST</span>
+                    <span className="services-hub-center-subtitle">CORE HUB</span>
                   </div>
                 </div>
 
                 {/* SVG connection lines with pulse animation */}
-                <svg className="solutions-hub-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-                  {solutionPositions.map((pos, i) => (
+                <svg className="services-hub-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+                  {servicePositions.map((pos, i) => (
                     <g key={i}>
                       <line
                         x1="50"
@@ -115,26 +115,26 @@ export default function Solutions() {
                   ))}
                 </svg>
 
-                {/* Solution nodes */}
-                {solutions.map((solution, i) => (
+                {/* Service nodes */}
+                {services.map((service, i) => (
                   <Link
-                    key={solution.slug}
-                    to={`/solutions/${solution.slug}`}
-                    className="solution-node group"
+                    key={service.slug}
+                    to={`/services/${service.slug}`}
+                    className="service-node group"
                     style={{
-                      left: `${solutionPositions[i].x}%`,
-                      top: `${solutionPositions[i].y}%`,
+                      left: `${servicePositions[i].x}%`,
+                      top: `${servicePositions[i].y}%`,
                     }}
                     onMouseEnter={() => setHoveredIndex(i)}
                     onMouseLeave={() => setHoveredIndex(null)}
                   >
-                    <div className={`solutions-hub-node-inner ${
+                    <div className={`services-hub-node-inner ${
                       hoveredIndex === i
-                        ? 'solutions-hub-node-inner-active'
-                        : 'solutions-hub-node-inner-inactive'
+                        ? 'services-hub-node-inner-active'
+                        : 'services-hub-node-inner-inactive'
                     }`}>
-                      <span className="solutions-hub-node-text">
-                        {solutionPositions[i].label}
+                      <span className="services-hub-node-text">
+                        {servicePositions[i].label}
                       </span>
                     </div>
                   </Link>
@@ -142,15 +142,15 @@ export default function Solutions() {
               </div>
 
               {/* Mobile: vertical card list */}
-              <div className="solutions-mobile">
-                {solutions.map((solution) => (
+              <div className="services-mobile">
+                {services.map((service) => (
                   <Link
-                    key={solution.slug}
-                    to={`/solutions/${solution.slug}`}
-                    className="solutions-mobile-card group"
+                    key={service.slug}
+                    to={`/services/${service.slug}`}
+                    className="services-mobile-card group"
                   >
-                    <h3 className="solutions-mobile-card-title">{solution.shortTitle}</h3>
-                    <p className="solutions-mobile-card-desc">{solution.description}</p>
+                    <h3 className="services-mobile-card-title">{service.shortTitle}</h3>
+                    <p className="services-mobile-card-desc">{service.description}</p>
                   </Link>
                 ))}
               </div>

@@ -79,7 +79,7 @@ export default function Contact() {
                 LET'S BUILD WHAT'S NEXT.
               </SectionHeading>
               <p className="contact-hero-text">
-                Have a project, infrastructure requirement or security challenge? We're ready to help.
+                Have a client, infrastructure requirement or security challenge? We're ready to help.
               </p>
             </div>
             <div className="contact-hero-right">
@@ -203,7 +203,7 @@ export default function Contact() {
                       <option value="electrical">Electrical & Electronic</option>
                       <option value="fire-safety">Fire & Safety</option>
                       <option value="logistics">Logistics & Operations</option>
-                      <option value="turnkey">Turnkey Projects</option>
+                      <option value="turnkey">Turnkey Clients</option>
                     </select>
                   </div>
                   <div>
@@ -214,7 +214,7 @@ export default function Contact() {
                       value={formData.message}
                       onChange={(e) => handleChange('message', e.target.value)}
                       rows={5}
-                      placeholder="Tell us about your project"
+                      placeholder="Tell us about your client"
                       className={`contact-form-textarea ${
                         errors.message ? 'contact-form-error-input' : ''
                       }`}
