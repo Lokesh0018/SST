@@ -26,22 +26,24 @@ export const mainNavigation: NavItem[] = [
 
 export const footerNavigation = {
   services: [
-    { label: 'Video Surveillance', href: '/services/video-surveillance' },
+    { label: 'Turnkey Projects', href: '/turnkey-projects' },
+    { label: 'Intrusion Detection', href: '/services/intrusion-detection' },
     { label: 'Access Control', href: '/services/access-control' },
-    { label: 'Network Infrastructure', href: '/services/network-infrastructure' },
-    { label: 'Electrical', href: '/services/electrical' },
-    { label: 'Fire & Safety', href: '/services/fire-safety' },
+    { label: 'Switches & Storage', href: '/services/switches-storage' },
     { label: 'Logistics', href: '/services/logistics' },
+    { label: 'Electrical & Electronics', href: '/services/electrical' },
+    { label: 'Fire Fighting', href: '/services/fire-fighting' },
   ],
   company: [
     { label: 'About Us', href: '/about' },
     { label: 'Clients', href: '/clients' },
-    { label: 'Clients', href: '/clients' },
     { label: 'Industries', href: '/industries' },
-    { label: 'Turnkey Clients', href: '/turnkey-clients' },
+    { label: 'Careers', href: '/careers' },
   ],
   connect: [
     { label: 'Contact', href: '/contact' },
     { label: 'Get a Quote', href: '/contact#quote' },
+    { label: 'LinkedIn', href: '#' },
+    { label: 'Instagram', href: '#' },
   ],
 };

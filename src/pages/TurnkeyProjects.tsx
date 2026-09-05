@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../components/common/PageTransition';
 import SectionHeading from '../components/common/SectionHeading';
 import Button from '../components/common/Button';
-import '../styles/TurnkeyClients.css';
+import '../styles/TurnkeyProjects.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -19,7 +19,7 @@ const timelineSteps = [
   { number: '08', title: 'Support', description: 'Ongoing maintenance, monitoring, and technical support for long-term reliability.', icon: '🛡️' },
 ];
 
-export default function TurnkeyClients() {
+export default function TurnkeyProjects() {
   const timelineRef = useRef<HTMLDivElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
 

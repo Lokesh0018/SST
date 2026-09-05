@@ -8,7 +8,7 @@ import PageLoader from './components/common/PageLoader';
 const Home = lazy(() => import('./pages/Home'));
 const Services = lazy(() => import('./pages/Services'));
 const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
-const TurnkeyClients = lazy(() => import('./pages/TurnkeyClients'));
+const TurnkeyProjects = lazy(() => import('./pages/TurnkeyProjects'));
 const Industries = lazy(() => import('./pages/Industries'));
 const ClientDetail = lazy(() => import('./pages/ClientDetail'));
 const About = lazy(() => import('./pages/About'));
@@ -27,7 +27,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/services" element={<Services />} />
             <Route path="/services/:slug" element={<ServiceDetail />} />
-            <Route path="/turnkey-clients" element={<TurnkeyClients />} />
+            <Route path="/turnkey-projects" element={<TurnkeyProjects />} />
             <Route path="/industries" element={<Industries />} />
             <Route path="/clients" element={<Clients />} />
             <Route path="/clients/:slug" element={<ClientDetail />} />

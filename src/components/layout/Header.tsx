@@ -134,7 +134,7 @@ export default function Header() {
                 to="/contact"
                 className="header-cta-desktop"
               >
-                REQUEST DEMO
+                START A PROJECT
                 <span className="header-cta-arrow">
                   <span className="header-cta-arrow-head" />
                 </span>
@@ -212,7 +212,7 @@ export default function Header() {
                   className="header-cta-mobile"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  REQUEST DEMO
+                  START A PROJECT
                   <span className="header-cta-arrow">
                     <span className="header-cta-arrow-head" />
                   </span>
