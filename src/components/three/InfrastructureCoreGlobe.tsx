@@ -6,8 +6,6 @@ import * as THREE from 'three';
 // Utility to convert Lat/Lng to 3D Sphere coordinates
 function latLngToVector3(lat: number, lng: number, radius: number) {
   const phi = (90 - lat) * (Math.PI / 180);
-  // The standard equirectangular map puts prime meridian at the center or edge.
-  // We offset lng by 180 to match THREE.SphereGeometry's default UV mapping
   const theta = (lng + 180) * (Math.PI / 180);
 
   const x = -(radius * Math.sin(phi) * Math.cos(theta));
@@ -17,48 +15,178 @@ function latLngToVector3(lat: number, lng: number, radius: number) {
   return new THREE.Vector3(x, y, z);
 }
 
-// Generate an arc between two points
-function createArc(startLat: number, startLng: number, endLat: number, endLng: number, radius: number, altitude: number) {
-  const start = latLngToVector3(startLat, startLng, radius);
-  const end = latLngToVector3(endLat, endLng, radius);
+// --------------------------------------------------------
+// DATA CONFIGURATION
+// --------------------------------------------------------
+const HUBS = [
+  // Primary Infrastructure Hubs (Largest)
+  { id: 'MUM', lat: 19.07, lng: 72.87, type: 'primary', size: 0.016 }, // Strongest Hub (India)
+  { id: 'DXB', lat: 25.20, lng: 55.27, type: 'primary', size: 0.014 }, // Middle East
+  { id: 'NYC', lat: 40.71, lng: -74.00, type: 'primary', size: 0.014 }, // North America
+  { id: 'LON', lat: 51.50, lng: -0.12, type: 'primary', size: 0.014 }, // Europe
+  { id: 'SIN', lat: 1.35, lng: 103.81, type: 'primary', size: 0.014 }, // Southeast Asia
+
+  // Secondary Nodes (Smaller)
+  { id: 'SF', lat: 37.77, lng: -122.41, type: 'secondary', size: 0.007 },
+  { id: 'FRA', lat: 50.11, lng: 8.68, type: 'secondary', size: 0.007 },
+  { id: 'TOK', lat: 35.67, lng: 139.65, type: 'secondary', size: 0.007 },
+  { id: 'SYD', lat: -33.86, lng: 151.20, type: 'secondary', size: 0.007 },
+  { id: 'GRU', lat: -23.55, lng: -46.63, type: 'secondary', size: 0.007 },
+];
+
+const ALL_NODES = HUBS; // Removed the scattered satellites
+
+// Dynamic arcs connecting globe to floating orbital objects
+const SPACE_ARCS = [
+  { lat: 40.71, lng: -74.00, target: [-0.95, 1.1, 0.35] }, // NYC to SERVER
+  { lat: 51.50, lng: -0.12, target: [1.25, 0.05, 0.6] },   // LON to CCTV
+  { lat: 1.35, lng: 103.81, target: [1.1, -0.65, -0.1] },  // SIN to SWITCH
+  { lat: 25.20, lng: 55.27, target: [0.65, -1.25, -0.4] }, // DXB to LOGISTICS
+];
+
+// Strategic surface network connections (very minimal)
+const SURFACE_ARCS = [
+  { sLat: 40.71, sLng: -74.00, eLat: 51.50, eLng: -0.12 }, // NYC - LON
+  { sLat: 51.50, sLng: -0.12, eLat: 25.20, eLng: 55.27 },  // LON - DXB
+  { sLat: 25.20, sLng: 55.27, eLat: 19.07, eLng: 72.87 },  // DXB - MUM
+  { sLat: 19.07, sLng: 72.87, eLat: 1.35, eLng: 103.81 },  // MUM - SIN
+];
+
+
+// --------------------------------------------------------
+// COMPONENTS
+// --------------------------------------------------------
+
+function NetworkNode({ lat, lng, size, type, radius }: any) {
+  const groupRef = useRef<THREE.Group>(null);
+  const coreMat = useRef<THREE.MeshBasicMaterial>(null);
+  const glowMat = useRef<THREE.MeshBasicMaterial>(null);
   
-  const mid = new THREE.Vector3().lerpVectors(start, end, 0.5);
-  // Push the midpoint out by the altitude to create a curve
-  mid.normalize().multiplyScalar(radius + altitude);
-  
-  const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-  return curve.getPoints(30);
+  const pos = useMemo(() => latLngToVector3(lat, lng, radius), [lat, lng, radius]);
+  const timeOffset = useMemo(() => Math.random() * Math.PI * 2, []);
+
+  useFrame((state) => {
+    if (!groupRef.current) return;
+    
+    // 1. Edge Dimming (Dot product with camera)
+    const worldPos = new THREE.Vector3();
+    groupRef.current.getWorldPosition(worldPos);
+    
+    const camDir = state.camera.position.clone().normalize();
+    const nodeDir = worldPos.clone().normalize();
+    const dot = camDir.dot(nodeDir);
+    
+    // smoothstep creates a smooth fade as the node approaches the edge of the sphere
+    const visibility = THREE.MathUtils.smoothstep(dot, 0.15, 0.5);
+    
+    // Hide completely if on the back
+    groupRef.current.visible = dot > 0.05;
+
+    // 2. Pulse effect for primary hubs
+    let pulseScale = 1;
+    if (type === 'primary') {
+      pulseScale = 1 + Math.sin(state.clock.elapsedTime * 2 + timeOffset) * 0.25;
+    }
+    
+    groupRef.current.scale.setScalar(pulseScale * visibility);
+    
+    if (coreMat.current) coreMat.current.opacity = (type === 'primary' ? 0.9 : 0.5) * visibility;
+    if (glowMat.current) glowMat.current.opacity = (type === 'primary' ? 0.35 : 0.1) * visibility;
+  });
+
+  return (
+    <group ref={groupRef} position={pos}>
+      <mesh>
+        <sphereGeometry args={[size, 12, 12]} />
+        <meshBasicMaterial ref={coreMat} color="#FF8A24" transparent depthWrite={false} />
+      </mesh>
+      {type === 'primary' && (
+        <mesh>
+          <sphereGeometry args={[size * 2.8, 16, 16]} />
+          <meshBasicMaterial ref={glowMat} color="#FF8A24" transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+        </mesh>
+      )}
+    </group>
+  );
 }
 
-const CITIES = [
-  { lat: 40.71, lng: -74.00, size: 0.015, color: '#FF8A24' }, // NYC
-  { lat: 37.77, lng: -122.41, size: 0.012, color: '#FF8A24' }, // SF
-  { lat: -23.55, lng: -46.63, size: 0.012, color: '#FF8A24' }, // SP
-  { lat: 51.50, lng: -0.12, size: 0.015, color: '#FF8A24' }, // London
-  { lat: 48.85, lng: 2.35, size: 0.012, color: '#FF8A24' }, // Paris
-  { lat: 25.20, lng: 55.27, size: 0.015, color: '#FF8A24' }, // Dubai
-  { lat: 19.07, lng: 72.87, size: 0.012, color: '#FF8A24' }, // Mumbai
-  { lat: 1.35, lng: 103.81, size: 0.012, color: '#FF8A24' }, // Singapore
-  { lat: 35.67, lng: 139.65, size: 0.015, color: '#FF8A24' }, // Tokyo
-  { lat: -33.86, lng: 151.20, size: 0.012, color: '#FF8A24' } // Sydney
-];
+function SurfaceArc({ sLat, sLng, eLat, eLng, radius }: any) {
+  const pts = useMemo(() => {
+    const start = latLngToVector3(sLat, sLng, radius);
+    const end = latLngToVector3(eLat, eLng, radius);
+    const mid = new THREE.Vector3().lerpVectors(start, end, 0.5);
+    mid.normalize().multiplyScalar(radius + 0.04); // very subtle curve above surface
+    const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
+    return curve.getPoints(30);
+  }, [sLat, sLng, eLat, eLng, radius]);
 
-const ARCS = [
-  { startLat: 40.71, startLng: -74.00, endLat: 51.50, endLng: -0.12 },
-  { startLat: 48.85, startLng: 2.35, endLat: 25.20, endLng: 55.27 },
-  { startLat: 25.20, startLng: 55.27, endLat: 19.07, endLng: 72.87 },
-  { startLat: 19.07, startLng: 72.87, endLat: 1.35, endLng: 103.81 },
-  { startLat: 1.35, startLng: 103.81, endLat: -33.86, endLng: 151.20 },
-  { startLat: 35.67, startLng: 139.65, endLat: 37.77, endLng: -122.41 },
-  { startLat: -23.55, startLng: -46.63, endLat: 38.72, endLng: -9.13 }
-];
+  return (
+    <Line
+      points={pts}
+      color="#FF8A24"
+      lineWidth={1}
+      transparent
+      opacity={0.15}
+    />
+  );
+}
 
+function DynamicSpaceArc({ lat, lng, targetPos, radius, globeRef }: any) {
+  const lineRef = useRef<THREE.Line>(null);
+  const localStart = useMemo(() => latLngToVector3(lat, lng, radius), [lat, lng, radius]);
+  const end = useMemo(() => new THREE.Vector3(...targetPos), [targetPos]);
+  const pts = useMemo(() => Array.from({ length: 40 }, () => new THREE.Vector3()), []);
+
+  useFrame(() => {
+    if (!lineRef.current || !globeRef.current) return;
+    
+    // Transform the start point based on the globe's current rotation matrix
+    const start = localStart.clone();
+    start.applyMatrix4(globeRef.current.matrix);
+
+    const mid = new THREE.Vector3().lerpVectors(start, end, 0.4);
+    mid.y += Math.abs(start.x - end.x) * 0.2; // Add a dynamic curve based on distance
+    
+    const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
+    const curvePoints = curve.getPoints(39);
+    
+    const positions = lineRef.current.geometry.attributes.position.array as Float32Array;
+    for (let i = 0; i < 40; i++) {
+      positions[i * 3] = curvePoints[i].x;
+      positions[i * 3 + 1] = curvePoints[i].y;
+      positions[i * 3 + 2] = curvePoints[i].z;
+    }
+    lineRef.current.geometry.attributes.position.needsUpdate = true;
+  });
+
+  return (
+    <line ref={lineRef}>
+      <bufferGeometry>
+        <bufferAttribute
+          attach="attributes-position"
+          count={pts.length}
+          array={new Float32Array(pts.length * 3)}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <lineBasicMaterial color="#FF8A24" transparent opacity={0.25} />
+    </line>
+  );
+}
+
+
+// --------------------------------------------------------
+// MAIN COMPONENT
+// --------------------------------------------------------
 export default function InfrastructureCoreGlobe() {
   const groupRef = useRef<THREE.Group>(null);
   const outerRef = useRef<THREE.Mesh>(null);
   const [earthTexture, setEarthTexture] = useState<THREE.Texture | null>(null);
 
-  // Load the earth texture mask
+  const globeRadius = 0.82;
+  const isDragging = useRef(false);
+  const dragRotation = useRef({ x: 0.15, y: Math.PI * 1.6 });
+
   useEffect(() => {
     new THREE.TextureLoader().load('/earth-map.png', (tex) => {
       tex.colorSpace = THREE.SRGBColorSpace;
@@ -66,14 +194,12 @@ export default function InfrastructureCoreGlobe() {
     });
   }, []);
 
-  // Dark graphite core — matte, warm, NOT shiny black
   const coreMaterial = useMemo(() => new THREE.MeshStandardMaterial({
     color: '#302e2b',
     roughness: 0.7,
     metalness: 0.45,
   }), []);
 
-  // Subtle smoked glass — visible but not dominant
   const glassMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({
     color: '#3d3a37',
     metalness: 0.2,
@@ -86,30 +212,38 @@ export default function InfrastructureCoreGlobe() {
     depthWrite: false,
   }), []);
 
-  const ledMaterial = useMemo(() => new THREE.MeshBasicMaterial({
-    color: '#FF8A24',
-    toneMapped: false,
-    transparent: true,
-    opacity: 0.8,
-  }), []);
+  const handlePointerDown = (e: any) => {
+    e.stopPropagation();
+    isDragging.current = true;
+    (e.target as HTMLElement).setPointerCapture(e.pointerId);
+  };
 
-  const globeRadius = 0.82;
+  const handlePointerUp = (e: any) => {
+    e.stopPropagation();
+    isDragging.current = false;
+    if (e.target.hasPointerCapture(e.pointerId)) {
+      (e.target as HTMLElement).releasePointerCapture(e.pointerId);
+    }
+  };
 
-  const baseRotation = useRef(Math.PI * 1.5); // Initial rotation
+  const handlePointerMove = (e: any) => {
+    if (isDragging.current) {
+      dragRotation.current.y += e.movementX * 0.008;
+      dragRotation.current.x += e.movementY * 0.008;
+      dragRotation.current.x = Math.max(-Math.PI / 4, Math.min(Math.PI / 4, dragRotation.current.x));
+    }
+  };
 
   useFrame((state, delta) => {
     if (groupRef.current) {
-      // Very slow natural infinite rotation
-      baseRotation.current += delta * 0.12;
+      const tx = (state.pointer.x * Math.PI) / 30;
+      const ty = (state.pointer.y * Math.PI) / 30;
       
-      const tx = (state.pointer.x * Math.PI) / 20;
-      const ty = (state.pointer.y * Math.PI) / 20;
-      
-      const targetY = baseRotation.current + tx;
-      const targetX = -ty;
+      const targetY = dragRotation.current.y + tx;
+      const targetX = dragRotation.current.x - ty;
 
-      groupRef.current.rotation.y += (targetY - groupRef.current.rotation.y) * 0.05;
-      groupRef.current.rotation.x += (targetX - groupRef.current.rotation.x) * 0.05;
+      groupRef.current.rotation.y += (targetY - groupRef.current.rotation.y) * 0.08;
+      groupRef.current.rotation.x += (targetX - groupRef.current.rotation.x) * 0.08;
     }
     if (outerRef.current) {
       outerRef.current.rotation.y -= delta * 0.015;
@@ -117,85 +251,101 @@ export default function InfrastructureCoreGlobe() {
   });
 
   return (
-    <group ref={groupRef} rotation={[0.2, Math.PI * 1.5, 0]}>
-      {/* Inner Graphite Core */}
-      <Sphere args={[globeRadius, 64, 64]}>
-        <primitive object={coreMaterial} attach="material" />
-      </Sphere>
+    <>
+      {/* Dynamic Space Arcs connecting the rotating globe to static space objects */}
+      <group>
+        {SPACE_ARCS.map((arc, idx) => (
+          <DynamicSpaceArc 
+            key={`space-arc-${idx}`} 
+            lat={arc.lat} 
+            lng={arc.lng} 
+            targetPos={arc.target} 
+            radius={globeRadius + 0.01} 
+            globeRef={groupRef} 
+          />
+        ))}
+      </group>
 
-      {/* Map layer (Continent mask) */}
-      {earthTexture && (
-        <Sphere args={[globeRadius + 0.005, 64, 64]}>
-          <meshBasicMaterial 
-            map={earthTexture}
-            color="#5c5853" // slightly lighter than core
+      {/* The Globe itself */}
+      <group ref={groupRef}>
+        
+        {/* Invisible interaction layer */}
+        <mesh 
+          onPointerDown={handlePointerDown} 
+          onPointerUp={handlePointerUp}
+          onPointerOver={() => { document.body.style.cursor = 'grab' }}
+          onPointerOut={(e: any) => { 
+            document.body.style.cursor = 'auto';
+            handlePointerUp(e); 
+          }} 
+          onPointerMove={(e: any) => {
+            if (isDragging.current) document.body.style.cursor = 'grabbing';
+            handlePointerMove(e);
+          }}
+        >
+          <sphereGeometry args={[0.95, 32, 32]} />
+          <meshBasicMaterial visible={false} />
+        </mesh>
+
+        {/* Inner Graphite Core */}
+        <Sphere args={[globeRadius, 32, 32]}>
+          <primitive object={coreMaterial} attach="material" />
+        </Sphere>
+
+        {/* Map layer (Continent mask) */}
+        {earthTexture && (
+          <Sphere args={[globeRadius + 0.005, 32, 32]}>
+            <meshBasicMaterial 
+              map={earthTexture}
+              color="#5c5853"
+              transparent
+              opacity={0.4}
+              blending={THREE.AdditiveBlending}
+              depthWrite={false}
+            />
+          </Sphere>
+        )}
+
+        {/* Hierarchical Network Nodes */}
+        {ALL_NODES.map((node) => (
+          <NetworkNode 
+            key={node.id} 
+            lat={node.lat} 
+            lng={node.lng} 
+            size={node.size} 
+            type={node.type} 
+            radius={globeRadius + 0.01} 
+          />
+        ))}
+
+        {/* Minimal Surface Network Routes */}
+        {SURFACE_ARCS.map((arc, idx) => (
+          <SurfaceArc 
+            key={`surface-arc-${idx}`} 
+            sLat={arc.sLat} 
+            sLng={arc.sLng} 
+            eLat={arc.eLat} 
+            eLng={arc.eLng} 
+            radius={globeRadius + 0.01} 
+          />
+        ))}
+
+        {/* Outer Glass Layer */}
+        <Sphere ref={outerRef} args={[0.86, 32, 32]}>
+          <primitive object={glassMaterial} attach="material" />
+        </Sphere>
+
+        {/* Soft internal orange glow */}
+        <Sphere args={[0.84, 32, 32]}>
+          <meshBasicMaterial
+            color="#F15A24"
             transparent
-            opacity={0.4}
+            opacity={0.03}
             blending={THREE.AdditiveBlending}
-            depthWrite={false}
+            side={THREE.BackSide}
           />
         </Sphere>
-      )}
-
-      {/* City Nodes */}
-      {CITIES.map((city, idx) => {
-        const pos = latLngToVector3(city.lat, city.lng, globeRadius + 0.01);
-        return (
-          <group key={`city-${idx}`} position={pos}>
-            <mesh>
-              <sphereGeometry args={[city.size, 16, 16]} />
-              <primitive object={ledMaterial} attach="material" />
-            </mesh>
-            {/* Subtle glow ring */}
-            <mesh>
-              <circleGeometry args={[city.size * 2.5, 16]} />
-              <meshBasicMaterial color="#F15A24" transparent opacity={0.3} side={THREE.DoubleSide} />
-            </mesh>
-          </group>
-        );
-      })}
-
-      {/* Connection Arcs */}
-      {ARCS.map((arc, idx) => {
-        const pts = createArc(arc.startLat, arc.startLng, arc.endLat, arc.endLng, globeRadius, 0.15);
-        return (
-          <Line
-            key={`arc-${idx}`}
-            points={pts}
-            color="#F15A24"
-            lineWidth={1.2}
-            transparent
-            opacity={0.35}
-          />
-        );
-      })}
-
-      {/* Outer Glass Layer */}
-      <Sphere ref={outerRef} args={[0.86, 64, 64]}>
-        <primitive object={glassMaterial} attach="material" />
-      </Sphere>
-
-      {/* Soft internal orange glow */}
-      <Sphere args={[0.84, 32, 32]}>
-        <meshBasicMaterial
-          color="#F15A24"
-          transparent
-          opacity={0.03}
-          blending={THREE.AdditiveBlending}
-          side={THREE.BackSide}
-        />
-      </Sphere>
-
-      {/* Soft atmospheric orange rim */}
-      <Sphere args={[0.92, 32, 32]}>
-        <meshBasicMaterial
-          color="#F15A24"
-          transparent
-          opacity={0.02}
-          blending={THREE.AdditiveBlending}
-          side={THREE.BackSide}
-        />
-      </Sphere>
-    </group>
+      </group>
+    </>
   );
 }

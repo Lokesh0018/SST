@@ -37,13 +37,7 @@ export default function HeroSection() {
             backgroundSize: '40px 40px',
           }}
         />
-        {/* Faint technical lines (SVG background placeholder) */}
-        <div className="absolute top-0 right-0 w-2/3 h-full opacity-[0.03]"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M100,100 L400,300 M300,50 L500,400' stroke='%23171613' stroke-width='1' fill='none'/%3E%3Ccircle cx='400' cy='300' r='10' stroke='%23171613' stroke-width='1' fill='none'/%3E%3C/svg%3E")`,
-            backgroundSize: 'cover'
-          }}
-        />
+
       </div>
 
       <div className="container relative z-10 flex-grow flex flex-col lg:flex-row items-center w-full max-w-[1600px] mx-auto pb-16">

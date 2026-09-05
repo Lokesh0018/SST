@@ -1,5 +1,6 @@
-import { Suspense } from 'react';
+import { useRef, Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
+import { useInView } from 'framer-motion';
 import { Environment, ContactShadows } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import InfrastructureCoreGlobe from './InfrastructureCoreGlobe';
@@ -11,12 +12,18 @@ interface Hero3DSceneProps {
 }
 
 export default function Hero3DScene({ activeService, setActiveService }: Hero3DSceneProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  // Returns true if any part of the 3D scene container is in the viewport
+  const isInView = useInView(containerRef, { margin: "0px 0px 200px 0px" });
+
   return (
-    <Canvas
-      camera={{ position: [0, 0.4, 5.8], fov: 40 }}
-      dpr={[1, 2]}
-      gl={{ antialias: true, alpha: true, toneMappingExposure: 1.1 }}
-    >
+    <div ref={containerRef} className="w-full h-full">
+      <Canvas
+        frameloop={isInView ? 'always' : 'never'}
+        camera={{ position: [0, 0.4, 5.8], fov: 40 }}
+        dpr={[1, 1.5]} // Limit pixel ratio to 1.5 to save huge amounts of GPU power on Retina/4K displays
+        gl={{ antialias: true, alpha: true, toneMappingExposure: 1.1, powerPreference: 'high-performance' }}
+      >
       {/* Warm ambient fill — not too bright */}
       <ambientLight intensity={0.55} color="#F7F0E0" />
       
@@ -53,5 +60,6 @@ export default function Hero3DScene({ activeService, setActiveService }: Hero3DS
         </EffectComposer>
       </Suspense>
     </Canvas>
+    </div>
   );
 }

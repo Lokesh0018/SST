@@ -61,14 +61,14 @@ export default function OrbitalObjects({ activeService }: OrbitalObjectsProps) {
 
   return (
     <group ref={groupRef}>
-      {/* 3D Orbital Rings */}
+      {/* 3D Orbital Rings (Thinner, lower opacity) */}
       {ORBITAL_RINGS.map((ring, idx) => (
         <group key={`ring-${idx}`} rotation={ring.rotation}>
-          <Ring args={[ring.radius, ring.radius + 0.005, 128]}>
-            <meshBasicMaterial color="#F15A24" transparent opacity={0.15} side={THREE.DoubleSide} />
+          <Ring args={[ring.radius, ring.radius + 0.002, 128]}>
+            <meshBasicMaterial color="#FF8A24" transparent opacity={0.08} side={THREE.DoubleSide} />
           </Ring>
-          <Ring args={[ring.radius - 0.02, ring.radius - 0.018, 128]}>
-            <meshBasicMaterial color="#F15A24" transparent opacity={0.05} side={THREE.DoubleSide} />
+          <Ring args={[ring.radius - 0.015, ring.radius - 0.014, 128]}>
+            <meshBasicMaterial color="#FF8A24" transparent opacity={0.03} side={THREE.DoubleSide} />
           </Ring>
         </group>
       ))}
