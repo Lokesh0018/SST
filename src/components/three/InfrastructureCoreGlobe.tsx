@@ -98,12 +98,12 @@ function NetworkNode({ lat, lng, size, type, radius }: any) {
     <group ref={groupRef} position={pos}>
       <mesh>
         <sphereGeometry args={[size, 12, 12]} />
-        <meshBasicMaterial ref={coreMat} color="#FF8A24" transparent depthWrite={false} />
+        <meshBasicMaterial ref={coreMat} color="#F4511E" transparent depthWrite={false} />
       </mesh>
       {type === 'primary' && (
         <mesh>
           <sphereGeometry args={[size * 2.8, 16, 16]} />
-          <meshBasicMaterial ref={glowMat} color="#FF8A24" transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+          <meshBasicMaterial ref={glowMat} color="#FFB08A" transparent depthWrite={false} blending={THREE.AdditiveBlending} />
         </mesh>
       )}
     </group>
@@ -123,7 +123,7 @@ function SurfaceArc({ sLat, sLng, eLat, eLng, radius }: any) {
   return (
     <Line
       points={pts}
-      color="#FF8A24"
+      color="#E8784E"
       lineWidth={1}
       transparent
       opacity={0.15}
@@ -160,7 +160,7 @@ function DynamicSpaceArc({ lat, lng, targetPos, radius, globeRef }: any) {
   });
 
   return (
-    <line ref={lineRef}>
+    <line ref={lineRef as any}>
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
@@ -169,7 +169,7 @@ function DynamicSpaceArc({ lat, lng, targetPos, radius, globeRef }: any) {
           itemSize={3}
         />
       </bufferGeometry>
-      <lineBasicMaterial color="#FF8A24" transparent opacity={0.25} />
+      <lineBasicMaterial color="#E8784E" transparent opacity={0.25} />
     </line>
   );
 }
@@ -195,13 +195,13 @@ export default function InfrastructureCoreGlobe() {
   }, []);
 
   const coreMaterial = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#302e2b',
-    roughness: 0.7,
-    metalness: 0.45,
+    color: '#171717', // Deep Graphite
+    roughness: 0.8,
+    metalness: 0.4,
   }), []);
 
   const glassMaterial = useMemo(() => new THREE.MeshPhysicalMaterial({
-    color: '#3d3a37',
+    color: '#292929', // Graphite Gray
     metalness: 0.2,
     roughness: 0.12,
     transmission: 0.55,
@@ -297,7 +297,7 @@ export default function InfrastructureCoreGlobe() {
           <Sphere args={[globeRadius + 0.005, 32, 32]}>
             <meshBasicMaterial 
               map={earthTexture}
-              color="#5c5853"
+              color="#45433F" // Lighter graphite for continents
               transparent
               opacity={0.4}
               blending={THREE.AdditiveBlending}

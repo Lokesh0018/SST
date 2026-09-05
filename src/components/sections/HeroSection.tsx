@@ -16,144 +16,129 @@ export default function HeroSection() {
   const [activeService, setActiveService] = useState<string | null>(null);
 
   return (
-    <section className="relative min-h-screen bg-ivory overflow-hidden flex flex-col pt-24">
+    <section className="relative w-full min-h-[100vh] lg:h-[100vh] overflow-hidden bg-[#FFFDF8] pt-24 lg:pt-0 flex flex-col justify-center">
+      
       {/* Background Layer */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        {/* Soft radial glow behind sphere */}
-        <div 
-          className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[800px] h-[800px] opacity-40"
-          style={{
-            background: 'radial-gradient(circle, rgba(241,90,36,0.06) 0%, transparent 70%)',
-          }}
-        />
-        {/* Subtle grid */}
+        {/* Extremely subtle grid */}
         <div
-          className="absolute inset-0 opacity-[0.1]"
+          className="absolute inset-0 opacity-30"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(23,22,19,0.08) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(23,22,19,0.08) 1px, transparent 1px)
+              linear-gradient(rgba(216,207,190,0.3) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(216,207,190,0.3) 1px, transparent 1px)
             `,
             backgroundSize: '40px 40px',
           }}
         />
 
+        {/* Premium atmospheric radial gradient behind the globe on the right side */}
+        <div className="hidden lg:block absolute inset-0 z-0 pointer-events-none"
+             style={{
+               background: 'radial-gradient(circle at 75% 50%, rgba(240,239,234, 0.6) 0%, transparent 55%)'
+             }}
+        />
       </div>
 
-      <div className="container relative z-10 flex-grow flex flex-col lg:flex-row items-center w-full max-w-[1600px] mx-auto pb-16">
+      <div className="container relative z-10 flex-grow lg:flex-grow-0 flex flex-col lg:flex-row items-center w-full max-w-[1600px] mx-auto px-6 lg:px-12 h-full">
         
-        {/* LEFT COLUMN: Typography (max-w 550px) */}
-        <div className="w-full lg:w-[45%] relative z-20 pointer-events-auto shrink-0 flex flex-col justify-center">
-          <p className="text-[11px] font-bold uppercase tracking-[0.25em] text-charcoal/60 mb-6 flex items-center gap-3">
-            <span className="w-1.5 h-1.5 rounded-full bg-orange animate-pulse" />
+        {/* LEFT COLUMN: Typography */}
+        <div className="w-full lg:w-[45%] relative z-20 pointer-events-auto shrink-0 flex flex-col justify-center pt-8 lg:pt-0">
+          <motion.p 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-[10px] font-bold uppercase tracking-[0.3em] text-[#5F5C55] mb-6 flex items-center gap-3"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#F4511E]" />
             INTEGRATED INFRASTRUCTURE & SECURITY
-          </p>
+          </motion.p>
 
-          <h1 className="text-[3rem] md:text-[4rem] lg:text-[4.5rem] xl:text-[5rem] font-extrabold uppercase leading-[1.05] tracking-tight text-charcoal">
+          <motion.h1 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+            className="text-[2.75rem] md:text-[4rem] lg:text-[4.5rem] xl:text-[5rem] font-extrabold uppercase leading-[1.05] tracking-tight text-[#1C1C1B]"
+          >
             ONE PARTNER.<br />
             COMPLETE<br />
-            <span className="text-orange">INFRASTRUCTURE.</span>
-          </h1>
+            <span className="text-[#F4511E]">INFRASTRUCTURE.</span>
+          </motion.h1>
           
-          <p className="mt-8 text-base md:text-lg text-charcoal/70 leading-[1.8] font-medium max-w-[550px]">
+          <motion.p 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
+            className="mt-6 lg:mt-8 text-sm md:text-base text-[#5F5C55] leading-[1.8] font-medium max-w-[480px]"
+          >
             Security, technology, electrical, fire safety, logistics and turnkey solutions — engineered and delivered as one integrated system.
-          </p>
+          </motion.p>
           
-          <div className="flex flex-wrap items-center gap-5 mt-10">
-            {/* Primary Button — premium orange pill */}
-            <Link 
-              to="/solutions" 
-              className="group inline-flex items-center justify-center px-10 py-4 bg-orange text-white text-sm font-bold uppercase tracking-wider rounded-full hover:-translate-y-[2px] hover:shadow-[0_8px_24px_rgba(241,90,36,0.3)] transition-all duration-300"
-            >
-              EXPLORE SOLUTIONS 
-              <span className="ml-3 group-hover:translate-x-1.5 transition-transform duration-300">→</span>
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
+            className="flex flex-col sm:flex-row gap-4 mt-10"
+          >
+            {/* Primary CTA */}
+            <Link to="/solutions" className="group flex items-center justify-center gap-4 bg-[#F4511E] text-[#1C1C1B] font-extrabold uppercase tracking-[0.2em] text-[10px] px-8 py-4 rounded-full transition-all duration-300 hover:bg-[#D94116] shadow-[0_4px_20px_rgba(244,81,30,0.15)] hover:shadow-[0_6px_25px_rgba(244,81,30,0.25)] hover:-translate-y-0.5">
+              Explore Solutions
+              <span className="w-3 h-[1px] bg-[#1C1C1B] transition-all duration-300 group-hover:w-5 group-hover:translate-x-1 relative">
+                <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 border-r border-t border-[#1C1C1B] rotate-45" />
+              </span>
             </Link>
             
-            {/* Secondary Button — outlined pill */}
-            <button
-              className="group inline-flex items-center justify-center px-10 py-4 bg-transparent border border-charcoal/25 text-charcoal text-sm font-bold uppercase tracking-wider rounded-full hover:-translate-y-[2px] hover:border-charcoal/40 hover:shadow-[0_8px_24px_rgba(23,22,19,0.06)] transition-all duration-300"
-            >
-              WATCH OUR STORY 
-              <span className="ml-3 opacity-60 group-hover:translate-x-1 group-hover:opacity-100 transition-all duration-300">→</span>
-            </button>
-          </div>
+            {/* Secondary CTA */}
+            <Link to="/about" className="group flex items-center justify-center gap-4 bg-transparent text-[#1C1C1B] font-extrabold uppercase tracking-[0.2em] text-[10px] px-8 py-4 rounded-full transition-all duration-300 border border-[#D8CFBE] hover:border-[#1C1C1B] hover:bg-[#1C1C1B]/5 hover:-translate-y-0.5">
+              Watch Our Story
+              <span className="w-3 h-[1px] bg-[#1C1C1B] transition-all duration-300 group-hover:w-5 group-hover:translate-x-1 relative">
+                <span className="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 border-r border-t border-[#1C1C1B] rotate-45" />
+              </span>
+            </Link>
+          </motion.div>
         </div>
 
-        {/* RIGHT COLUMN: 3D Scene + Service Selector */}
-        <div className="w-full lg:w-[55%] h-[500px] lg:h-[700px] xl:h-[800px] relative shrink-0 mt-12 lg:mt-0">
+        {/* RIGHT COLUMN: 3D Scene + Ecosystem Panel */}
+        <div className="w-full lg:w-[55%] h-[500px] lg:h-full relative shrink-0 mt-8 lg:mt-0 flex items-center justify-center lg:justify-end">
           
-          {/* 3D Canvas bounds strictly to this column */}
-          <div className="absolute inset-0 z-0">
-            <Hero3DScene 
-              activeService={activeService} 
-              setActiveService={setActiveService}
-            />
-          </div>
-
-          {/* Minimal sleek Integrated Solutions Panel */}
-          <div className="absolute top-[45%] right-0 lg:-right-8 xl:-right-12 -translate-y-1/2 z-10 pointer-events-auto">
-            <div className="flex flex-col gap-4 text-right">
-              <div className="flex items-center justify-end gap-3 mb-2 opacity-60">
-                <div className="h-[1px] w-8 bg-charcoal/40" />
-                <p className="text-[9px] font-extrabold uppercase tracking-[0.25em] text-charcoal">Ecosystem</p>
-              </div>
-              
-              {services.map((service, idx) => {
-                const isActive = activeService === service.id;
-                return (
-                  <div 
-                    key={service.id}
-                    className="flex items-center justify-end gap-4 cursor-pointer group relative"
-                    onMouseEnter={() => setActiveService(service.id)}
-                    onMouseLeave={() => setActiveService(null)}
-                  >
-                    {/* Minimal Visual Connection */}
-                    {isActive && (
-                      <motion.div 
-                        layoutId="activeConnection"
-                        className="absolute right-full mr-6 flex items-center"
-                        initial={{ opacity: 0, x: 10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.3 }}
-                      >
-                        <div className="w-16 h-[1px] bg-gradient-to-r from-transparent to-orange/60" />
-                        <div className="w-1.5 h-1.5 rounded-full bg-orange shadow-[0_0_10px_rgba(241,90,36,0.8)]" />
-                      </motion.div>
-                    )}
-
-                    <span className={`text-[10px] font-bold tracking-[0.15em] transition-colors duration-300 ${isActive ? 'text-orange' : 'text-charcoal/20 group-hover:text-charcoal/40'}`}>
-                      0{idx + 1}
-                    </span>
-                    <span className={`text-sm font-extrabold uppercase tracking-widest transition-all duration-300 ${isActive ? 'text-charcoal translate-x-0' : 'text-charcoal/50 group-hover:text-charcoal/80 translate-x-2'}`}>
-                      {service.label}
-                    </span>
-                  </div>
-                );
-              })}
+          {/* 3D Canvas */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
+            className="absolute inset-0 z-0 flex items-center justify-center"
+          >
+            <div className="w-full h-full relative">
+              <Hero3DScene 
+                activeService={activeService} 
+                setActiveService={setActiveService}
+              />
             </div>
-          </div>
+          </motion.div>
+
+
         </div>
       </div>
 
-      {/* Bottom Indicators */}
-      <div className="w-full pb-8 z-20 pointer-events-none mt-auto">
-        <div className="container max-w-[1600px] mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3 text-[10px] font-bold text-charcoal/60 uppercase tracking-widest">
-            <motion.div animate={{ y: [0, 5, 0] }} transition={{ repeat: Infinity, duration: 2 }}>↓</motion.div>
+      {/* Bottom Indicators - Absolute positioned to bottom of 100vh */}
+      <div className="absolute bottom-0 left-0 w-full pb-8 z-20 pointer-events-none">
+        <div className="container max-w-[1600px] mx-auto px-6 lg:px-12 flex items-center justify-between">
+          <div className="hidden lg:flex items-center gap-3 text-[9px] font-bold text-[#1C1C1B]/60 uppercase tracking-[0.2em]">
+            <motion.div animate={{ y: [0, 4, 0] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}>↓</motion.div>
             SCROLL TO EXPLORE
           </div>
           
-          <div className="flex items-center gap-3 text-[10px] font-bold text-charcoal uppercase tracking-widest">
-            <span className="w-20 text-right">{activeService ? `0${services.findIndex(s => s.id === activeService) + 1} ${activeService}` : '01 SECURITY'}</span>
-            <div className="w-16 md:w-32 h-[1px] bg-charcoal/20 relative">
+          <div className="hidden lg:flex items-center gap-4 text-[10px] font-bold text-[#1C1C1B] uppercase tracking-[0.2em] ml-auto">
+            <span className="w-24 text-right">{activeService ? `0${services.findIndex(s => s.id === activeService) + 1} ${activeService}` : '01 SECURITY'}</span>
+            <div className="w-32 h-[1px] bg-[#D8CFBE] relative">
               <motion.div 
-                className="absolute top-0 left-0 h-full bg-orange"
+                className="absolute top-0 left-0 h-full bg-[#F4511E]"
                 initial={{ width: '16%' }}
                 animate={{ width: activeService ? `${((services.findIndex(s => s.id === activeService) + 1) / services.length) * 100}%` : '16%' }}
                 transition={{ duration: 0.3 }}
               />
             </div>
-            <span className="text-charcoal/40">06</span>
+            <span className="text-[#5F5C55]">06</span>
           </div>
         </div>
       </div>

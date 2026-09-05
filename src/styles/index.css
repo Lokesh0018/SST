@@ -5,20 +5,20 @@
    ======================================== */
 
 @theme {
-  /* Colors */
-  --color-ivory: #F7F0E0;
-  --color-cream: #EFE4CF;
-  --color-cream-dark: #E5D8C0;
-  --color-orange: #F15A24;
-  --color-orange-bright: #FF8A24;
-  --color-orange-glow: #FF6B35;
-  --color-orange-dark: #D94E1F;
-  --color-charcoal: #171613;
-  --color-charcoal-light: #2A2722;
-  --color-brown: #5A321D;
-  --color-brown-light: #8B6914;
-  --color-warm-gray: #9B9282;
-  --color-warm-gray-light: #C4B9A8;
+  /* Premium Industrial Palette */
+  --color-ivory: #FFFDF8; /* Cream White - Main bg */
+  --color-cream: #F0EFEA; /* Light Warm Gray - Surfaces */
+  --color-cream-dark: #E6E5E0; /* Darker Warm Gray - Secondary bg */
+  --color-orange: #F4511E; /* SST Orange - Brand */
+  --color-orange-bright: #F4511E; 
+  --color-orange-glow: #FFB08A; /* Soft Orange - Glow */
+  --color-orange-dark: #D94116; /* Burnt Orange - Hover/Depth */
+  --color-charcoal: #1C1C1B; /* Graphite - Primary Text */
+  --color-charcoal-light: #292929; /* Charcoal - 3D/Tech */
+  --color-brown: #5F5C55; /* Warm Gray - Body text */
+  --color-brown-light: #5F5C55; 
+  --color-warm-gray: #D8CFBE; /* Beige Gray - Borders */
+  --color-warm-gray-light: #D8CFBE;
 
   /* Font family */
   --font-sans: 'Manrope', system-ui, -apple-system, sans-serif;
@@ -128,8 +128,7 @@ h5 { font-size: var(--text-h5); }
 
 p {
   line-height: 1.7;
-  color: var(--color-charcoal);
-  opacity: 0.8;
+  color: #5F5C55; /* Warm Gray */
 }
 
 a {

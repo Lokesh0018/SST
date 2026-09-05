@@ -5,6 +5,7 @@ import * as THREE from 'three';
 
 interface OrbitalObjectsProps {
   activeService: string | null;
+  setActiveService: (service: string | null) => void;
 }
 
 /*
@@ -45,7 +46,7 @@ const ORBITAL_RINGS = [
   { rotation: [-0.4, -0.5, 0.2] as [number,number,number], radius: 1.45 }, // Angled
 ];
 
-export default function OrbitalObjects({ activeService }: OrbitalObjectsProps) {
+export default function OrbitalObjects({ activeService, setActiveService }: OrbitalObjectsProps) {
   const groupRef = useRef<THREE.Group>(null);
 
   useFrame((state) => {
@@ -61,17 +62,7 @@ export default function OrbitalObjects({ activeService }: OrbitalObjectsProps) {
 
   return (
     <group ref={groupRef}>
-      {/* 3D Orbital Rings (Thinner, lower opacity) */}
-      {ORBITAL_RINGS.map((ring, idx) => (
-        <group key={`ring-${idx}`} rotation={ring.rotation}>
-          <Ring args={[ring.radius, ring.radius + 0.002, 128]}>
-            <meshBasicMaterial color="#FF8A24" transparent opacity={0.08} side={THREE.DoubleSide} />
-          </Ring>
-          <Ring args={[ring.radius - 0.015, ring.radius - 0.014, 128]}>
-            <meshBasicMaterial color="#FF8A24" transparent opacity={0.03} side={THREE.DoubleSide} />
-          </Ring>
-        </group>
-      ))}
+
 
       {serviceConfig.map((cfg) => {
         const isActive = activeService === cfg.id;
@@ -83,6 +74,7 @@ export default function OrbitalObjects({ activeService }: OrbitalObjectsProps) {
             cfg={cfg}
             isActive={isActive || isTurnkey}
             isMuted={anyActive && !isActive && !isTurnkey}
+            setActiveService={setActiveService}
           />
         );
       })}
@@ -92,10 +84,11 @@ export default function OrbitalObjects({ activeService }: OrbitalObjectsProps) {
 
 /* ───────── Individual Orbital Item ───────── */
 
-function OrbitalItem({ cfg, isActive, isMuted }: {
+function OrbitalItem({ cfg, isActive, isMuted, setActiveService }: {
   cfg: typeof serviceConfig[number];
   isActive: boolean;
   isMuted: boolean;
+  setActiveService: (id: string | null) => void;
 }) {
   const meshRef = useRef<THREE.Group>(null);
   const particleRef = useRef<THREE.Mesh>(null);
@@ -105,19 +98,19 @@ function OrbitalItem({ cfg, isActive, isMuted }: {
 
   // ── Shared Materials ──
   const graphiteMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#3a3835', roughness: 0.4, metalness: 0.6, transparent: true, opacity: 1,
+    color: '#171717', roughness: 0.4, metalness: 0.6, transparent: true, opacity: 1,
   }), []);
   const brushedMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#5a5855', roughness: 0.2, metalness: 0.85, transparent: true, opacity: 1,
+    color: '#292929', roughness: 0.2, metalness: 0.85, transparent: true, opacity: 1,
   }), []);
   const creamMat = useMemo(() => new THREE.MeshStandardMaterial({
-    color: '#F5EBDD', roughness: 0.15, metalness: 0.05, transparent: true, opacity: 1,
+    color: '#F7F0DF', roughness: 0.15, metalness: 0.05, transparent: true, opacity: 1,
   }), []);
   const glassMat = useMemo(() => new THREE.MeshPhysicalMaterial({
-    color: '#e8e4dd', transmission: 0.8, roughness: 0.05, ior: 1.45, transparent: true, opacity: 1,
+    color: '#E8DDC8', transmission: 0.8, roughness: 0.05, ior: 1.45, transparent: true, opacity: 1,
   }), []);
   const ledMat = useMemo(() => new THREE.MeshBasicMaterial({
-    color: isActive ? '#FF8A24' : '#F15A24',
+    color: isActive ? '#F4511E' : '#C93F18',
     toneMapped: false, transparent: true,
     opacity: isMuted ? 0.12 : (isActive ? 1.0 : 0.6),
   }), [isActive, isMuted]);
@@ -192,7 +185,7 @@ function OrbitalItem({ cfg, isActive, isMuted }: {
       {/* Curved connection line */}
       <Line
         points={curvePts}
-        color="#F15A24"
+        color="#E8784E"
         lineWidth={isActive ? 1.8 : 0.7}
         transparent
         opacity={isMuted ? 0.04 : (isActive ? 0.65 : 0.18)}
@@ -201,14 +194,14 @@ function OrbitalItem({ cfg, isActive, isMuted }: {
       {/* Continuous data particle */}
       <mesh ref={particleRef}>
         <sphereGeometry args={[0.02, 8, 8]} />
-        <meshBasicMaterial color="#FF8A24" toneMapped={false} transparent opacity={0.8} />
+        <meshBasicMaterial color="#FF9B65" toneMapped={false} transparent opacity={0.8} />
       </mesh>
 
       {/* Orange pulse (only when active) */}
       <mesh ref={pulseRef} visible={false}>
         <sphereGeometry args={[0.04, 12, 12]} />
         <meshBasicMaterial
-          color="#FF8A24"
+          color="#FF9B65"
           toneMapped={false}
           transparent
           opacity={0.9}
@@ -216,8 +209,19 @@ function OrbitalItem({ cfg, isActive, isMuted }: {
       </mesh>
 
       {/* The device model */}
-      <group ref={meshRef} position={cfg.pos} scale={cfg.scale}>
-        <Float speed={1.2} rotationIntensity={0.05} floatIntensity={0.1}>
+      <group 
+        ref={meshRef} 
+        position={cfg.pos} 
+        scale={cfg.scale}
+        onPointerOver={(e) => { e.stopPropagation(); document.body.style.cursor = 'pointer'; setActiveService(cfg.id); }}
+        onPointerOut={() => { document.body.style.cursor = 'auto'; setActiveService(null); }}
+      >
+        <Float 
+          speed={0.4 + (Math.random() * 0.3)} // Extremely slow, randomized speed
+          rotationIntensity={0.02} 
+          floatIntensity={0.05}
+          floatingRange={[-0.05, 0.05]}
+        >
           <DeviceModel
             type={cfg.type}
             isActive={isActive}
