@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useRef, useEffect } from 'react';
 import { footerNavigation } from '../../data/navigation';
+import '../../styles/Footer.css';
 
 export default function Footer() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -88,41 +89,41 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer className="relative bg-charcoal text-ivory overflow-hidden">
+    <footer className="footer">
       {/* Animated wave canvas */}
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full pointer-events-none opacity-60"
+        className="footer-canvas"
         aria-hidden="true"
       />
 
-      <div className="container relative z-10 pt-20 pb-8">
+      <div className="container footer-container">
         {/* Top Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 pb-12 border-b border-white/10">
+        <div className="footer-top-grid">
           {/* Logo & Tagline */}
-          <div className="lg:col-span-4">
+          <div className="footer-brand-col">
             <Link to="/" aria-label="SST Home">
               <FooterLogo />
             </Link>
-            <p className="mt-2 text-xs uppercase tracking-widest text-warm-gray font-medium">
+            <p className="footer-tagline">
               Integrated Infrastructure<br />& Security Solutions
             </p>
-            <p className="mt-6 text-lg font-light leading-relaxed text-ivory/70">
+            <p className="footer-description">
               A safer. Smarter.<br />
-              <span className="text-orange font-semibold">More connected tomorrow.</span>
+              <span className="footer-description-highlight">More connected tomorrow.</span>
             </p>
           </div>
 
           {/* Navigation Columns */}
-          <div className="lg:col-span-8 grid grid-cols-2 md:grid-cols-3 gap-8">
+          <div className="footer-nav-grid">
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-widest text-warm-gray mb-5">Solutions</h4>
-              <ul className="space-y-3">
+              <h4 className="footer-col-title">Solutions</h4>
+              <ul className="footer-nav-list">
                 {footerNavigation.solutions.map((item) => (
                   <li key={item.href}>
                     <Link
                       to={item.href}
-                      className="text-sm text-ivory/60 hover:text-orange transition-colors duration-300"
+                      className="footer-nav-link"
                     >
                       {item.label}
                     </Link>
@@ -131,13 +132,13 @@ export default function Footer() {
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-widest text-warm-gray mb-5">Company</h4>
-              <ul className="space-y-3">
+              <h4 className="footer-col-title">Company</h4>
+              <ul className="footer-nav-list">
                 {footerNavigation.company.map((item) => (
                   <li key={item.href}>
                     <Link
                       to={item.href}
-                      className="text-sm text-ivory/60 hover:text-orange transition-colors duration-300"
+                      className="footer-nav-link"
                     >
                       {item.label}
                     </Link>
@@ -146,13 +147,13 @@ export default function Footer() {
               </ul>
             </div>
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-widest text-warm-gray mb-5">Connect</h4>
-              <ul className="space-y-3">
+              <h4 className="footer-col-title">Connect</h4>
+              <ul className="footer-nav-list">
                 {footerNavigation.connect.map((item) => (
                   <li key={item.href}>
                     <Link
                       to={item.href}
-                      className="text-sm text-ivory/60 hover:text-orange transition-colors duration-300"
+                      className="footer-nav-link"
                     >
                       {item.label}
                     </Link>
@@ -160,12 +161,12 @@ export default function Footer() {
                 ))}
               </ul>
               {/* Social Icons */}
-              <div className="flex items-center gap-4 mt-6">
+              <div className="footer-socials">
                 {['linkedin', 'instagram', 'youtube'].map((social) => (
                   <a
                     key={social}
                     href="#"
-                    className="w-9 h-9 rounded-full border border-white/20 flex items-center justify-center text-ivory/60 hover:border-orange hover:text-orange transition-all duration-300"
+                    className="footer-social-link"
                     aria-label={social}
                   >
                     <SocialIcon name={social} />
@@ -177,13 +178,13 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-8">
-          <p className="text-xs text-ivory/40">
+        <div className="footer-bottom">
+          <p className="footer-copyright">
             © {new Date().getFullYear()} Sri Satguru Traders. All rights reserved.
           </p>
-          <div className="flex items-center gap-6">
-            <a href="#" className="text-xs text-ivory/40 hover:text-orange transition-colors">Privacy Policy</a>
-            <a href="#" className="text-xs text-ivory/40 hover:text-orange transition-colors">Terms of Service</a>
+          <div className="footer-legal-links">
+            <a href="#" className="footer-legal-link">Privacy Policy</a>
+            <a href="#" className="footer-legal-link">Terms of Service</a>
           </div>
         </div>
       </div>

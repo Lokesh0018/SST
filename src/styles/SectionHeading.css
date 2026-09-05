@@ -1,0 +1,34 @@
+.section-heading-center {
+  text-align: center;
+}
+
+.section-heading-left {
+  text-align: left;
+}
+
+.section-heading-title {
+  line-height: 1.05;
+}
+
+.section-heading-highlight {
+  color: var(--color-orange);
+}
+
+.section-heading-subtitle {
+  margin-top: 1rem;
+  font-size: 1rem;
+  max-width: 42rem;
+  opacity: 0.7;
+  line-height: 1.625;
+}
+
+.section-heading-center .section-heading-subtitle {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (min-width: 768px) {
+  .section-heading-subtitle {
+    font-size: 1.125rem;
+  }
+}

@@ -2,6 +2,7 @@ import { useRef, useMemo, useEffect, useState } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Float, Html } from '@react-three/drei';
 import * as THREE from 'three';
+import '../../styles/InfrastructureGlobe.css';
 
 const earthVertexShader = `
 varying vec2 vUv;
@@ -195,8 +196,8 @@ function FloatingIcon({ id, pos }: { id: string, pos: [number, number, number] }
 
   return (
     <group position={pos} ref={ref}>
-      <Html center className="pointer-events-none">
-        <div className="flex items-center justify-center w-12 h-12 bg-[#F7F0E0] rounded-full shadow-[0_8px_30px_rgba(23,22,19,0.2)] border border-[#F15A24]/40 text-[#171613] transition-transform duration-300">
+      <Html center className="globe-icon-wrapper">
+        <div className="globe-icon">
           {icons[id as keyof typeof icons]}
         </div>
       </Html>
@@ -404,9 +405,9 @@ export default function InfrastructureGlobe() {
 
   if (!webglAvailable) {
     return (
-      <div className="w-full h-full flex items-center justify-center">
+      <div className="globe-fallback">
         <div
-          className="w-64 h-64 rounded-full"
+          className="globe-fallback-inner"
           style={{
             background: 'radial-gradient(circle at 30% 30%, #EFE4CF, #E5D8C0 60%, #C4B9A8)',
             boxShadow: '0 0 60px rgba(241, 90, 36, 0.15)',
@@ -417,7 +418,7 @@ export default function InfrastructureGlobe() {
   }
 
   return (
-    <div className="w-full h-full relative">
+    <div className="globe-container">
       <Canvas
         camera={{ position: [0, 0, 6.5], fov: 45 }}
         dpr={[1, 2]}

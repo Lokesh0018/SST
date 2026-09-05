@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../components/common/PageTransition';
 import SectionHeading from '../components/common/SectionHeading';
 import Button from '../components/common/Button';
+import '../styles/TurnkeyProjects.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -69,21 +70,21 @@ export default function TurnkeyProjects() {
   return (
     <PageTransition>
       {/* Hero */}
-      <section className="pt-44 lg:pt-48 pb-16" style={{ background: 'linear-gradient(135deg, #F7F0E0 0%, #EFE4CF 100%)' }}>
+      <section className="turnkey-hero" style={{ background: 'linear-gradient(135deg, #F7F0E0 0%, #EFE4CF 100%)' }}>
         <div className="container">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+          <div className="turnkey-hero-layout">
             <div>
               <SectionHeading as="h1" highlight="IMPLEMENTATION.">
                 FROM IDEA TO IMPLEMENTATION.
               </SectionHeading>
-              <p className="mt-6 text-base text-charcoal/60 leading-relaxed max-w-lg">
+              <p className="turnkey-hero-text">
                 End-to-end project execution with precision, expertise and reliability.
               </p>
             </div>
-            <div className="text-right hidden lg:block">
-              <p className="text-xs font-bold uppercase tracking-[0.15em] text-charcoal/30 leading-relaxed">
+            <div className="turnkey-hero-right">
+              <p className="turnkey-hero-right-text">
                 Turnkey Solutions<br />
-                <span className="text-orange">Real-World</span><br />
+                <span className="turnkey-highlight">Real-World</span><br />
                 Results.
               </p>
             </div>
@@ -92,45 +93,45 @@ export default function TurnkeyProjects() {
       </section>
 
       {/* Timeline */}
-      <section className="section-padding bg-ivory">
+      <section className="turnkey-timeline-section">
         <div className="container">
-          <div ref={timelineRef} className="relative max-w-4xl mx-auto">
+          <div ref={timelineRef} className="turnkey-timeline">
             {/* Vertical line */}
             <div
               ref={lineRef}
-              className="absolute left-8 md:left-1/2 top-0 bottom-0 w-[2px] bg-orange origin-top"
+              className="turnkey-timeline-line"
               style={{ transform: 'scaleY(0)' }}
             />
 
             {/* Timeline items */}
-            <div className="space-y-12">
+            <div className="turnkey-timeline-items">
               {timelineSteps.map((step, i) => (
                 <div
                   key={step.number}
-                  className={`timeline-item relative flex items-start gap-8 ${
-                    i % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
+                  className={`timeline-item turnkey-timeline-item ${
+                    i % 2 === 0 ? 'turnkey-timeline-item-even' : 'turnkey-timeline-item-odd'
                   }`}
                 >
                   {/* Content */}
-                  <div className={`flex-1 ${i % 2 === 0 ? 'md:text-right md:pr-16' : 'md:pl-16'} pl-20 md:pl-0`}>
-                    <span className="text-3xl mb-2 block">{step.icon}</span>
-                    <span className="text-xs font-bold text-orange tracking-widest">{step.number}</span>
-                    <h3 className="text-xl font-extrabold uppercase tracking-tight mt-1">{step.title}</h3>
-                    <p className="text-sm text-charcoal/60 leading-relaxed mt-2">{step.description}</p>
+                  <div className="turnkey-timeline-content">
+                    <span className="turnkey-timeline-icon">{step.icon}</span>
+                    <span className="turnkey-timeline-number">{step.number}</span>
+                    <h3 className="turnkey-timeline-title">{step.title}</h3>
+                    <p className="turnkey-timeline-desc">{step.description}</p>
                   </div>
 
                   {/* Node */}
-                  <div className="absolute left-8 md:left-1/2 -translate-x-1/2 w-4 h-4 rounded-full bg-orange border-4 border-ivory shadow-[0_0_15px_rgba(241,90,36,0.3)] z-10" />
+                  <div className="turnkey-timeline-node" />
 
                   {/* Spacer for alternating layout */}
-                  <div className="hidden md:block flex-1" />
+                  <div className="turnkey-timeline-spacer" />
                 </div>
               ))}
             </div>
           </div>
 
           {/* CTA */}
-          <div className="text-center mt-20">
+          <div className="turnkey-timeline-cta">
             <Button to="/contact" variant="primary" size="lg" icon={
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <polygon points="5 3 19 12 5 21 5 3" />
@@ -143,20 +144,20 @@ export default function TurnkeyProjects() {
       </section>
 
       {/* Project showcase */}
-      <section className="py-20 bg-ivory">
+      <section className="turnkey-showcase">
         <div className="container">
-          <div className="relative h-[350px] md:h-[480px] rounded-2xl overflow-hidden shadow-[0_12px_40px_rgba(23,22,19,0.15)] border border-cream-dark/40 group">
+          <div className="turnkey-showcase-card group">
             <img
               src="https://images.unsplash.com/photo-1541888946425-d0fbb186a5b3?auto=format&fit=crop&w=1400&q=80"
               alt="Engineering Turnkey Infrastructure Project"
-              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+              className="turnkey-showcase-img"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-charcoal via-charcoal/40 to-transparent" />
-            <div className="absolute bottom-10 left-10 right-10 flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="turnkey-showcase-overlay" />
+            <div className="turnkey-showcase-content">
               <div>
-                <p className="text-xs font-bold uppercase tracking-[0.25em] text-orange mb-2">Turnkey Infrastructure</p>
-                <h3 className="text-3xl md:text-4xl font-extrabold uppercase text-ivory leading-tight">
-                  Infrastructure That Creates<br /><span className="text-orange">Opportunity.</span>
+                <p className="turnkey-showcase-tag">Turnkey Infrastructure</p>
+                <h3 className="turnkey-showcase-title">
+                  Infrastructure That Creates<br /><span className="turnkey-highlight">Opportunity.</span>
                 </h3>
               </div>
               <Button to="/contact" variant="primary" size="lg">

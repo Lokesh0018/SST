@@ -5,6 +5,7 @@ import { Environment, ContactShadows } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import InfrastructureCoreGlobe from './InfrastructureCoreGlobe';
 import OrbitalObjects from './OrbitalObjects';
+import '../../styles/Hero3DScene.css';
 
 interface Hero3DSceneProps {
   activeService: string | null;
@@ -17,7 +18,7 @@ export default function Hero3DScene({ activeService, setActiveService }: Hero3DS
   const isInView = useInView(containerRef, { margin: "0px 0px 200px 0px" });
 
   return (
-    <div ref={containerRef} className="w-full h-full">
+    <div ref={containerRef} className="hero-3d-scene">
       <Canvas
         frameloop={isInView ? 'always' : 'never'}
         camera={{ position: [0, 0.4, 6.6], fov: 40 }}

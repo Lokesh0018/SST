@@ -1,0 +1,141 @@
+.clients-hero {
+  padding-top: 10rem;
+  padding-bottom: 4rem;
+}
+
+.clients-hero-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+@media (min-width: 1024px) {
+  .clients-hero-header {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+.clients-hero-text {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  color: rgba(28, 28, 27, 0.6);
+  line-height: 1.625;
+  max-width: 32rem;
+}
+
+.clients-hero-right {
+  display: none;
+  text-align: right;
+}
+@media (min-width: 1024px) {
+  .clients-hero-right {
+    display: block;
+  }
+}
+
+.clients-hero-right-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(28, 28, 27, 0.3);
+  line-height: 1.625;
+}
+
+.clients-hero-right-highlight {
+  color: var(--color-orange);
+}
+
+.clients-section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  background-color: var(--color-ivory);
+}
+
+.clients-note {
+  font-size: 0.75rem;
+  color: rgba(28, 28, 27, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 2rem;
+}
+
+.clients-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .clients-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .clients-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.clients-card {
+  padding: 2rem;
+  border-radius: 0.75rem;
+  background-color: rgba(247, 240, 224, 0.4);
+  border: 1px solid rgba(239, 228, 207, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  transition: all 300ms ease;
+  cursor: default;
+}
+.clients-card:hover {
+  border-color: rgba(241, 90, 36, 0.3);
+  box-shadow: 0 4px 20px rgba(241, 90, 36, 0.08);
+  transform: scale(1.02);
+}
+
+.clients-card-logo {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 9999px;
+  background-color: rgba(239, 228, 207, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.75rem;
+  transition: background-color 300ms ease;
+}
+.clients-card:hover .clients-card-logo {
+  background-color: rgba(241, 90, 36, 0.1);
+}
+
+.clients-card-logo-text {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: rgba(28, 28, 27, 0.3);
+  transition: color 300ms ease;
+}
+.clients-card:hover .clients-card-logo-text {
+  color: var(--color-orange);
+}
+
+.clients-card-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: rgba(28, 28, 27, 0.6);
+  transition: color 300ms ease;
+}
+.clients-card:hover .clients-card-title {
+  color: var(--color-charcoal);
+}
+
+.clients-card-industry {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: rgba(28, 28, 27, 0.3);
+  margin-top: 0.25rem;
+}

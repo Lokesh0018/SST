@@ -164,9 +164,7 @@ function DynamicSpaceArc({ lat, lng, targetPos, radius, globeRef }: any) {
       <bufferGeometry>
         <bufferAttribute
           attach="attributes-position"
-          count={pts.length}
-          array={new Float32Array(pts.length * 3)}
-          itemSize={3}
+          args={[new Float32Array(pts.length * 3), 3]}
         />
       </bufferGeometry>
       <lineBasicMaterial color="#E8784E" transparent opacity={0.25} />

@@ -1,6 +1,7 @@
 import { useRef, useEffect, type ReactNode } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import '../../styles/SectionHeading.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -54,23 +55,25 @@ export default function SectionHeading({
     const parts = (children as string).split(new RegExp(`(${highlight})`, 'i'));
     return parts.map((part, i) =>
       part.toLowerCase() === highlight.toLowerCase() ? (
-        <span key={i} className="text-orange">{part}</span>
+        <span key={i} className="section-heading-highlight">{part}</span>
       ) : (
         part
       )
     );
   };
 
+  const alignClass = align === 'center' ? 'section-heading-center' : 'section-heading-left';
+
   return (
     <div
       ref={containerRef}
-      className={`${align === 'center' ? 'text-center' : 'text-left'} ${className}`}
+      className={`${alignClass} ${className}`.trim()}
     >
-      <Tag className="leading-[1.05]">
+      <Tag className="section-heading-title">
         {renderText()}
       </Tag>
       {subtitle && (
-        <p className="mt-4 text-base md:text-lg max-w-2xl opacity-70 leading-relaxed">
+        <p className="section-heading-subtitle">
           {subtitle}
         </p>
       )}

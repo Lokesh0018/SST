@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../components/common/PageTransition';
 import Button from '../components/common/Button';
 import { getProjectBySlug, projects } from '../data/projects';
+import '../styles/ProjectDetail.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,23 +49,23 @@ export default function ProjectDetail() {
   return (
     <PageTransition>
       {/* Hero */}
-      <section className="relative pt-40 pb-0 overflow-hidden">
+      <section className="project-detail-hero">
         <div
-          className="h-[350px] md:h-[450px]"
+          className="project-detail-hero-bg"
           style={{
             background: `linear-gradient(135deg, #C4B9A8 0%, #9B9282 40%, #5A321D 100%)`,
           }}
         >
-          <div className="container h-full flex items-end pb-10">
+          <div className="container project-detail-hero-container">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-widest text-ivory/60 bg-white/10 px-3 py-1 rounded-full backdrop-blur-sm">
+              <span className="project-detail-industry">
                 {project.industry}
               </span>
-              <h1 className="text-3xl md:text-5xl font-extrabold uppercase tracking-tight text-ivory mt-4 leading-[1.05]">
+              <h1 className="project-detail-title">
                 {project.title}
               </h1>
-              <div className="flex items-center gap-4 mt-3 text-sm text-ivory/60">
-                <span className="flex items-center gap-1">
+              <div className="project-detail-meta">
+                <span className="project-detail-location">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
                     <circle cx="12" cy="10" r="3" />
@@ -78,13 +79,13 @@ export default function ProjectDetail() {
       </section>
 
       {/* Stats */}
-      <section className="py-12 bg-ivory border-b border-cream-dark/20">
+      <section className="project-detail-stats">
         <div className="container">
-          <div ref={statsRef} className="grid grid-cols-2 md:grid-cols-4 gap-6">
+          <div ref={statsRef} className="project-detail-stats-grid">
             {project.stats.map((stat, i) => (
-              <div key={i} className="stat-item text-center p-6 rounded-xl bg-cream/40 border border-cream-dark/20">
-                <div className="text-3xl md:text-4xl font-extrabold text-orange tracking-tight">{stat.value}</div>
-                <div className="text-xs font-medium uppercase tracking-widest text-charcoal/50 mt-1">{stat.label}</div>
+              <div key={i} className="stat-item project-detail-stat">
+                <div className="project-detail-stat-val">{stat.value}</div>
+                <div className="project-detail-stat-lbl">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -92,49 +93,49 @@ export default function ProjectDetail() {
       </section>
 
       {/* Challenge & Solution */}
-      <section className="section-padding bg-ivory">
+      <section className="project-detail-content">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div className="project-detail-content-grid">
             <div>
-              <h2 className="text-2xl font-extrabold uppercase tracking-tight mb-6">The Challenge</h2>
-              <p className="text-base text-charcoal/70 leading-relaxed">{project.challenge}</p>
+              <h2 className="project-detail-content-title">The Challenge</h2>
+              <p className="project-detail-content-text">{project.challenge}</p>
             </div>
             <div>
-              <h2 className="text-2xl font-extrabold uppercase tracking-tight mb-6">Our Solution</h2>
-              <p className="text-base text-charcoal/70 leading-relaxed">{project.solution}</p>
+              <h2 className="project-detail-content-title">Our Solution</h2>
+              <p className="project-detail-content-text">{project.solution}</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* Scope & Services */}
-      <section className="py-16" style={{ background: 'linear-gradient(180deg, #F7F0E0 0%, #EFE4CF 100%)' }}>
+      <section className="project-detail-scope" style={{ background: 'linear-gradient(180deg, #F7F0E0 0%, #EFE4CF 100%)' }}>
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div className="project-detail-scope-grid">
             <div>
-              <h2 className="text-2xl font-extrabold uppercase tracking-tight mb-8">Project Scope</h2>
-              <ul className="space-y-3">
+              <h2 className="project-detail-scope-title">Project Scope</h2>
+              <ul className="project-detail-list">
                 {project.scope.map((item, i) => (
-                  <li key={i} className="flex items-center gap-3">
-                    <span className="w-6 h-6 rounded-full bg-orange/10 flex items-center justify-center flex-shrink-0">
-                      <span className="text-[10px] font-bold text-orange">{String(i + 1).padStart(2, '0')}</span>
+                  <li key={i} className="project-detail-list-item">
+                    <span className="project-detail-list-icon">
+                      <span className="project-detail-list-icon-text">{String(i + 1).padStart(2, '0')}</span>
                     </span>
-                    <span className="text-sm text-charcoal/70">{item}</span>
+                    <span className="project-detail-list-text">{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
             <div>
-              <h2 className="text-2xl font-extrabold uppercase tracking-tight mb-8">Results</h2>
-              <ul className="space-y-3">
+              <h2 className="project-detail-scope-title">Results</h2>
+              <ul className="project-detail-list">
                 {project.results.map((result, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <span className="w-6 h-6 rounded-full bg-orange/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <li key={i} className="project-detail-result-item">
+                    <span className="project-detail-result-icon">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#F15A24" strokeWidth="3">
                         <polyline points="20 6 9 17 4 12" />
                       </svg>
                     </span>
-                    <span className="text-sm text-charcoal/70">{result}</span>
+                    <span className="project-detail-list-text">{result}</span>
                   </li>
                 ))}
               </ul>
@@ -144,10 +145,10 @@ export default function ProjectDetail() {
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-ivory">
-        <div className="container text-center">
-          <h2 className="text-2xl font-extrabold uppercase tracking-tight mb-4">Interested in a Similar Project?</h2>
-          <p className="text-base text-charcoal/60 mb-8">Let's discuss how we can deliver the same quality for your organization.</p>
+      <section className="project-detail-cta">
+        <div className="container project-detail-cta-container">
+          <h2 className="project-detail-cta-title">Interested in a Similar Project?</h2>
+          <p className="project-detail-cta-text">Let's discuss how we can deliver the same quality for your organization.</p>
           <Button to="/contact" variant="primary" size="lg">
             Start a Conversation
           </Button>
@@ -155,12 +156,12 @@ export default function ProjectDetail() {
       </section>
 
       {/* Navigation */}
-      <section className="py-12 bg-ivory border-t border-cream-dark/20">
-        <div className="container flex items-center justify-between">
+      <section className="project-detail-nav">
+        <div className="container project-detail-nav-container">
           {prevProject ? (
             <Link
               to={`/projects/${prevProject.slug}`}
-              className="flex items-center gap-2 text-sm font-semibold text-charcoal/60 hover:text-orange transition-colors"
+              className="project-detail-nav-link"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M19 12H5M12 19l-7-7 7-7" />
@@ -171,7 +172,7 @@ export default function ProjectDetail() {
           {nextProject ? (
             <Link
               to={`/projects/${nextProject.slug}`}
-              className="flex items-center gap-2 text-sm font-semibold text-charcoal/60 hover:text-orange transition-colors"
+              className="project-detail-nav-link"
             >
               Next Project
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

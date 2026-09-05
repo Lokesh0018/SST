@@ -1,0 +1,148 @@
+.home-industries-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 4rem;
+}
+@media (min-width: 768px) {
+  .home-industries-header {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+.home-industries-header-right {
+  display: none;
+  text-align: right;
+}
+@media (min-width: 768px) {
+  .home-industries-header-right {
+    display: block;
+  }
+}
+
+.home-industries-header-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(28, 28, 27, 0.4);
+  line-height: 1.625;
+}
+
+.home-industries-header-highlight {
+  color: var(--color-orange);
+}
+
+.home-industries-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+@media (min-width: 768px) {
+  .home-industries-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .home-industries-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.home-industries-card {
+  position: relative;
+  height: 320px;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 4px 24px rgba(23, 22, 19, 0.06);
+}
+@media (min-width: 1024px) {
+  .home-industries-card {
+    height: 380px;
+  }
+}
+
+.home-industries-card-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 700ms ease;
+}
+.home-industries-card:hover .home-industries-card-img {
+  transform: scale(1.1);
+}
+
+.home-industries-card-overlay {
+  position: absolute;
+  inset: 0;
+  transition: opacity 300ms ease;
+}
+
+.home-industries-card-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.25rem;
+  z-index: 10;
+}
+
+.home-industries-card-title {
+  font-size: 1.125rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  color: var(--color-ivory);
+  margin-bottom: 0.25rem;
+  transition: color 300ms ease;
+}
+.home-industries-card:hover .home-industries-card-title {
+  color: var(--color-orange);
+}
+
+.home-industries-card-desc {
+  font-size: 0.75rem;
+  color: rgba(255, 253, 248, 0.8);
+  line-height: 1.625;
+  margin-bottom: 0.75rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.home-industries-card-explore {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-orange);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transform: translateY(0.5rem);
+  transition: all 300ms ease;
+}
+.home-industries-card:hover .home-industries-card-explore {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.home-industries-card-border {
+  position: absolute;
+  inset: 0;
+  border: 2px solid transparent;
+  border-radius: 0.75rem;
+  transition: border-color 500ms ease;
+  pointer-events: none;
+}
+.home-industries-card:hover .home-industries-card-border {
+  border-color: rgba(241, 90, 36, 0.6);
+}

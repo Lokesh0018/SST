@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../components/common/PageTransition';
 import SectionHeading from '../components/common/SectionHeading';
 import { industries } from '../data/industries';
+import '../styles/Industries.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -36,21 +37,21 @@ export default function Industries() {
   return (
     <PageTransition>
       {/* Hero */}
-      <section className="pt-44 lg:pt-48 pb-16" style={{ background: 'linear-gradient(135deg, #F7F0E0 0%, #EFE4CF 100%)' }}>
+      <section className="industries-hero" style={{ background: 'linear-gradient(135deg, #F7F0E0 0%, #EFE4CF 100%)' }}>
         <div className="container">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+          <div className="industries-hero-header">
             <div>
               <SectionHeading as="h1" highlight="INDUSTRY.">
                 SOLUTIONS FOR EVERY INDUSTRY.
               </SectionHeading>
-              <p className="mt-6 text-base text-charcoal/60 leading-relaxed max-w-lg">
+              <p className="industries-hero-text">
                 Tailored infrastructure solutions for diverse environments.
               </p>
             </div>
-            <div className="hidden lg:block text-right">
-              <p className="text-xs font-bold uppercase tracking-[0.15em] text-charcoal/30 leading-relaxed">
+            <div className="industries-hero-right">
+              <p className="industries-hero-right-text">
                 Different Industries.<br />
-                <span className="text-orange">A Stronger</span><br />
+                <span className="industries-hero-right-highlight">A Stronger</span><br />
                 Tomorrow.
               </p>
             </div>
@@ -59,49 +60,46 @@ export default function Industries() {
       </section>
 
       {/* Industry Cards */}
-      <section ref={sectionRef} className="section-padding bg-ivory">
+      <section ref={sectionRef} className="industries-section">
         <div className="container">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="industries-grid">
             {industries.map((industry) => (
               <div
                 key={industry.slug}
-                className="industry-detail-card group relative h-[480px] rounded-2xl overflow-hidden shadow-[0_8px_30px_rgba(23,22,19,0.12)] border border-cream-dark/40"
+                className="industry-detail-card industries-card"
               >
                 {/* Photographic Background */}
                 <img
                   src={industry.image}
                   alt={industry.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  className="industries-card-img"
                 />
 
                 {/* Dark Gradient Overlay */}
                 <div
-                  className="absolute inset-0 transition-opacity duration-300"
-                  style={{
-                    background: 'linear-gradient(180deg, rgba(23,22,19,0.1) 0%, rgba(23,22,19,0.6) 50%, rgba(23,22,19,0.95) 100%)',
-                  }}
+                  className="industries-card-overlay"
                 />
 
                 {/* Content */}
-                <div className="absolute inset-0 p-8 flex flex-col justify-end z-10">
-                  <span className="text-xs font-bold uppercase tracking-widest text-orange mb-2">
+                <div className="industries-card-content">
+                  <span className="industries-card-tag">
                     Industry Solution
                   </span>
 
-                  <h3 className="text-3xl font-extrabold uppercase tracking-tight text-ivory mb-3">
+                  <h3 className="industries-card-title">
                     {industry.title}
                   </h3>
 
-                  <p className="text-sm text-ivory/80 leading-relaxed mb-6">
+                  <p className="industries-card-desc">
                     {industry.longDescription}
                   </p>
 
                   {/* Services tags */}
-                  <div className="flex flex-wrap gap-2 mb-6">
+                  <div className="industries-card-services">
                     {industry.services.map((service) => (
                       <span
                         key={service}
-                        className="text-[10px] font-bold uppercase tracking-wider text-ivory/70 bg-black/40 backdrop-blur-sm border border-ivory/20 px-3 py-1 rounded-full"
+                        className="industries-card-service"
                       >
                         {service}
                       </span>
@@ -109,7 +107,7 @@ export default function Industries() {
                   </div>
 
                   {/* Arrow Action */}
-                  <div className="flex items-center gap-2 text-orange text-xs font-bold uppercase tracking-wider group-hover:translate-x-1 transition-all duration-300">
+                  <div className="industries-card-explore">
                     <span>Explore Solutions</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                       <path d="M5 12h14M12 5l7 7-7 7" />
@@ -118,7 +116,7 @@ export default function Industries() {
                 </div>
 
                 {/* Orange border glow on hover */}
-                <div className="absolute inset-0 border-2 border-transparent group-hover:border-orange/60 rounded-2xl transition-all duration-300 pointer-events-none" />
+                <div className="industries-card-glow" />
               </div>
             ))}
           </div>

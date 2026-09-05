@@ -4,6 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionHeading from '../common/SectionHeading';
 import { solutions } from '../../data/solutions';
+import '../../styles/HomeSolutions.css';
 
 import React from 'react';
 
@@ -80,7 +81,7 @@ export default function HomeSolutions() {
   return (
     <section ref={sectionRef} className="section-padding bg-ivory">
       <div className="container">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
+        <div className="home-solutions-header">
           <SectionHeading
             highlight="ONE VISION."
             subtitle="Integrated systems. Smarter infrastructure. Greater possibilities."
@@ -89,7 +90,7 @@ export default function HomeSolutions() {
           </SectionHeading>
           <Link
             to="/solutions"
-            className="text-sm font-semibold uppercase tracking-wider text-charcoal hover:text-orange transition-colors duration-300 flex items-center gap-2 whitespace-nowrap"
+            className="home-solutions-link"
           >
             Explore All Solutions
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -98,41 +99,41 @@ export default function HomeSolutions() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="home-solutions-grid">
           {solutions.map((solution) => (
             <Link
               key={solution.slug}
               to={`/solutions/${solution.slug}`}
-              className="solution-card group relative overflow-hidden rounded-xl bg-cream/50 border border-cream-dark/30 p-8 transition-all duration-500 hover:shadow-[0_12px_40px_rgba(23,22,19,0.1)] hover:-translate-y-1 hover:border-orange/30"
+              className="solution-card home-solutions-card"
             >
               {/* Icon */}
-              <div className="w-14 h-14 rounded-lg bg-ivory flex items-center justify-center text-charcoal/70 group-hover:text-orange group-hover:bg-orange/10 transition-all duration-500 mb-6">
+              <div className="home-solutions-card-icon">
                 {solutionIcons[solution.icon]}
               </div>
 
               {/* Title */}
-              <h3 className="text-xl font-extrabold uppercase tracking-tight mb-3">
+              <h3 className="home-solutions-card-title">
                 {solution.shortTitle}
               </h3>
 
               {/* Description */}
-              <p className="text-sm text-charcoal/60 leading-relaxed mb-6">
+              <p className="home-solutions-card-desc">
                 {solution.description}
               </p>
 
               {/* Arrow */}
-              <div className="flex items-center gap-2 text-sm font-semibold text-charcoal/50 group-hover:text-orange transition-all duration-300">
-                <span className="uppercase tracking-wider text-xs">Learn More</span>
+              <div className="home-solutions-card-action">
+                <span className="home-solutions-card-action-text">Learn More</span>
                 <svg
                   width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                  className="transform group-hover:translate-x-2 transition-transform duration-300"
+                  className="home-solutions-card-action-icon"
                 >
                   <path d="M5 12h14M12 5l7 7-7 7" />
                 </svg>
               </div>
 
               {/* Orange glow on hover */}
-              <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-orange to-orange-bright transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+              <div className="home-solutions-card-glow" />
             </Link>
           ))}
         </div>

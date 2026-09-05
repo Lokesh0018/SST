@@ -2,6 +2,7 @@ import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Button from '../common/Button';
+import '../../styles/HomeCTA.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -117,26 +118,26 @@ export default function HomeCTA() {
   return (
     <section
       ref={sectionRef}
-      className="relative py-32 md:py-40 overflow-hidden"
+      className="home-cta"
       style={{
         background: 'linear-gradient(135deg, #F7F0E0 0%, #EFE4CF 100%)',
       }}
     >
       <canvas
         ref={canvasRef}
-        className="absolute inset-0 w-full h-full pointer-events-none"
+        className="home-cta-canvas"
         aria-hidden="true"
       />
 
-      <div className="container relative z-10 text-center cta-content">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold uppercase tracking-tight text-charcoal leading-[1.05]">
+      <div className="container home-cta-container cta-content">
+        <h2 className="home-cta-title">
           Ready to Build<br />
-          <span className="text-orange">What's Next?</span>
+          <span className="home-cta-highlight">What's Next?</span>
         </h2>
-        <p className="mt-6 text-base md:text-lg text-charcoal/60 max-w-md mx-auto">
+        <p className="home-cta-text">
           Let's discuss how integrated infrastructure can transform your operations.
         </p>
-        <div className="mt-10">
+        <div className="home-cta-button-wrapper">
           <Button
             to="/contact"
             variant="primary"

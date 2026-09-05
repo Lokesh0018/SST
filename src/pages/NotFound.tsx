@@ -1,21 +1,22 @@
 import PageTransition from '../components/common/PageTransition';
 import Button from '../components/common/Button';
+import '../styles/NotFound.css';
 
 export default function NotFound() {
   return (
     <PageTransition>
-      <section className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F7F0E0 0%, #EFE4CF 100%)' }}>
-        <div className="container text-center">
-          <div className="text-[120px] md:text-[180px] font-extrabold text-cream-dark/30 leading-none select-none">
+      <section className="notfound-section" style={{ background: 'linear-gradient(135deg, #F7F0E0 0%, #EFE4CF 100%)' }}>
+        <div className="container notfound-container">
+          <div className="notfound-404">
             404
           </div>
-          <h1 className="text-3xl md:text-4xl font-extrabold uppercase tracking-tight -mt-6 mb-4">
-            Page Not <span className="text-orange">Found</span>
+          <h1 className="notfound-title">
+            Page Not <span className="notfound-highlight">Found</span>
           </h1>
-          <p className="text-charcoal/60 mb-8 max-w-md mx-auto">
+          <p className="notfound-desc">
             The page you're looking for doesn't exist or has been moved.
           </p>
-          <div className="flex items-center justify-center gap-4">
+          <div className="notfound-actions">
             <Button to="/" variant="primary" size="lg">
               Back to Home
             </Button>

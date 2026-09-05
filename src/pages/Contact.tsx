@@ -2,6 +2,7 @@ import React, { useState, type FormEvent } from 'react';
 import PageTransition from '../components/common/PageTransition';
 import SectionHeading from '../components/common/SectionHeading';
 import Button from '../components/common/Button';
+import '../styles/Contact.css';
 
 interface FormData {
   name: string;
@@ -70,20 +71,20 @@ export default function Contact() {
   return (
     <PageTransition>
       {/* Hero */}
-      <section className="pt-44 lg:pt-48 pb-16" style={{ background: 'linear-gradient(135deg, #F7F0E0 0%, #EFE4CF 100%)' }}>
+      <section className="contact-hero" style={{ background: 'linear-gradient(135deg, #F7F0E0 0%, #EFE4CF 100%)' }}>
         <div className="container">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8">
+          <div className="contact-hero-header">
             <div>
               <SectionHeading as="h1" highlight="NEXT.">
                 LET'S BUILD WHAT'S NEXT.
               </SectionHeading>
-              <p className="mt-6 text-base text-charcoal/60 leading-relaxed max-w-lg">
+              <p className="contact-hero-text">
                 Have a project, infrastructure requirement or security challenge? We're ready to help.
               </p>
             </div>
-            <div className="hidden lg:block text-right">
-              <p className="text-xs font-bold uppercase tracking-[0.15em] text-charcoal/30 leading-relaxed">
-                Connecting<br />People<br />Places<br /><span className="text-orange">Possibilities</span>
+            <div className="contact-hero-right">
+              <p className="contact-hero-right-text">
+                Connecting<br />People<br />Places<br /><span className="contact-hero-right-highlight">Possibilities</span>
               </p>
             </div>
           </div>
@@ -91,12 +92,12 @@ export default function Contact() {
       </section>
 
       {/* Contact Content */}
-      <section className="section-padding bg-ivory">
+      <section className="contact-section">
         <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div className="contact-grid">
             {/* Left - Contact Info */}
             <div>
-              <div className="space-y-8">
+              <div className="contact-info-list">
                 <ContactItem
                   icon={
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
@@ -142,18 +143,18 @@ export default function Contact() {
             {/* Right - Form */}
             <div>
               {isSubmitted ? (
-                <div className="p-12 rounded-2xl bg-cream/50 border border-cream-dark/30 text-center">
-                  <div className="w-16 h-16 rounded-full bg-orange/10 flex items-center justify-center mx-auto mb-6">
+                <div className="contact-success">
+                  <div className="contact-success-icon">
                     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F15A24" strokeWidth="2">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-extrabold uppercase tracking-tight mb-2">Thank You</h3>
-                  <p className="text-charcoal/60">Your inquiry has been received. We'll get back to you shortly.</p>
+                  <h3 className="contact-success-title">Thank You</h3>
+                  <p className="contact-success-text">Your inquiry has been received. We'll get back to you shortly.</p>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5" noValidate>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <form onSubmit={handleSubmit} className="contact-form" noValidate>
+                  <div className="contact-form-row">
                     <FormField
                       label="Name"
                       required
@@ -172,7 +173,7 @@ export default function Contact() {
                       placeholder="your@email.com"
                     />
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div className="contact-form-row">
                     <FormField
                       label="Phone"
                       type="tel"
@@ -189,11 +190,11 @@ export default function Contact() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-charcoal/60 mb-2">Service</label>
+                    <label className="contact-form-label">Service</label>
                     <select
                       value={formData.service}
                       onChange={(e) => handleChange('service', e.target.value)}
-                      className="w-full px-4 py-3 rounded-lg bg-cream/50 border border-cream-dark/30 text-charcoal text-sm focus:outline-none focus:border-orange transition-colors appearance-none"
+                      className="contact-form-select"
                     >
                       <option value="">Select a service</option>
                       <option value="video-surveillance">Video Surveillance</option>
@@ -206,36 +207,38 @@ export default function Contact() {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-xs font-bold uppercase tracking-wider text-charcoal/60 mb-2">
-                      Message <span className="text-orange">*</span>
+                    <label className="contact-form-label">
+                      Message <span className="contact-form-req">*</span>
                     </label>
                     <textarea
                       value={formData.message}
                       onChange={(e) => handleChange('message', e.target.value)}
                       rows={5}
                       placeholder="Tell us about your project"
-                      className={`w-full px-4 py-3 rounded-lg bg-cream/50 border text-charcoal text-sm focus:outline-none focus:border-orange transition-colors resize-none ${
-                        errors.message ? 'border-red-400' : 'border-cream-dark/30'
+                      className={`contact-form-textarea ${
+                        errors.message ? 'contact-form-error-input' : ''
                       }`}
                     />
-                    {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
+                    {errors.message && <p className="contact-form-error">{errors.message}</p>}
                   </div>
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    size="lg"
-                    disabled={isSubmitting}
-                    className="w-full md:w-auto"
-                    icon={
-                      !isSubmitting ? (
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M5 12h14M12 5l7 7-7 7" />
-                        </svg>
-                      ) : undefined
-                    }
-                  >
-                    {isSubmitting ? 'Sending...' : 'Send Message'}
-                  </Button>
+                  <div className="contact-form-btn">
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      size="lg"
+                      disabled={isSubmitting}
+                      className="w-full md:w-auto"
+                      icon={
+                        !isSubmitting ? (
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                          </svg>
+                        ) : undefined
+                      }
+                    >
+                      {isSubmitting ? 'Sending...' : 'Send Message'}
+                    </Button>
+                  </div>
                 </form>
               )}
             </div>
@@ -248,13 +251,13 @@ export default function Contact() {
 
 function ContactItem({ icon, title, detail }: { icon: React.JSX.Element; title: string; detail: string }) {
   return (
-    <div className="flex items-start gap-4">
-      <div className="w-12 h-12 rounded-full bg-orange/10 flex items-center justify-center text-orange flex-shrink-0">
+    <div className="contact-item">
+      <div className="contact-item-icon">
         {icon}
       </div>
       <div>
-        <h3 className="text-sm font-bold uppercase tracking-wider text-charcoal">{title}</h3>
-        <p className="text-sm text-charcoal/60 mt-0.5">{detail}</p>
+        <h3 className="contact-item-title">{title}</h3>
+        <p className="contact-item-detail">{detail}</p>
       </div>
     </div>
   );
@@ -279,21 +282,21 @@ function FormField({
 }) {
   return (
     <div>
-      <label className="block text-xs font-bold uppercase tracking-wider text-charcoal/60 mb-2">
-        {label} {required && <span className="text-orange">*</span>}
+      <label className="contact-form-label">
+        {label} {required && <span className="contact-form-req">*</span>}
       </label>
       <input
         type={type}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className={`w-full px-4 py-3 rounded-lg bg-cream/50 border text-charcoal text-sm focus:outline-none focus:border-orange transition-colors ${
-          error ? 'border-red-400' : 'border-cream-dark/30'
+        className={`contact-form-input ${
+          error ? 'contact-form-error-input' : ''
         }`}
         required={required}
         aria-invalid={!!error}
       />
-      {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+      {error && <p className="contact-form-error">{error}</p>}
     </div>
   );
 }
