@@ -1,21 +1,21 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Hero3DScene from '../three/Hero3DScene';
 import '../../styles/HeroSection.css';
 
 const services = [
-  { id: 'TURNKEY', label: 'TURNKEY PROJECTS' },
-  { id: 'CCTV', label: 'CCTV / VIDEO SURVEILLANCE' },
-  { id: 'ACCESS', label: 'ACCESS CONTROL' },
-  { id: 'INFRASTRUCTURE', label: 'SWITCHES & STORAGE' },
-  { id: 'LOGISTICS', label: 'LOGISTICS' },
-  { id: 'SAFETY', label: 'FIRE FIGHTING' },
-  { id: 'ELECTRICAL', label: 'ELECTRICAL & ELECTRONICS' },
-  { id: 'INTRUSION', label: 'INTRUSION DETECTION' },
-  { id: 'HARDWARE', label: 'HARDWARE & TOOLS' },
-  { id: 'WIRELESS', label: 'WIRELESS TECH' },
-  { id: 'NETWORK', label: 'NETWORK INFRASTRUCTURE' },
+  { id: 'TURNKEY', label: 'TURNKEY PROJECTS', desc: 'End-to-end execution of complex security and infrastructure deployments, delivered on time and at scale.' },
+  { id: 'CCTV', label: 'CCTV / VIDEO SURVEILLANCE', desc: 'Advanced AI-powered monitoring systems for comprehensive perimeter and internal security.' },
+  { id: 'ACCESS', label: 'ACCESS CONTROL', desc: 'Biometric and RFID-based access management to secure critical facilities and streamline entry.' },
+  { id: 'INFRASTRUCTURE', label: 'SWITCHES & STORAGE', desc: 'High-availability networking hardware and secure data storage solutions for enterprise environments.' },
+  { id: 'LOGISTICS', label: 'LOGISTICS', desc: 'Precision supply chain management ensuring critical hardware arrives exactly when and where needed.' },
+  { id: 'SAFETY', label: 'FIRE FIGHTING', desc: 'State-of-the-art detection and suppression systems designed for rapid response and asset protection.' },
+  { id: 'ELECTRICAL', label: 'ELECTRICAL & ELECTRONICS', desc: 'Robust power distribution and custom electronics integration for fail-safe operations.' },
+  { id: 'INTRUSION', label: 'INTRUSION DETECTION', desc: 'Multi-layered sensor networks that identify and report breaches instantly.' },
+  { id: 'HARDWARE', label: 'HARDWARE & TOOLS', desc: 'Industrial-grade equipment and specialized tools for rigorous infrastructure maintenance.' },
+  { id: 'WIRELESS', label: 'WIRELESS TECH', desc: 'High-bandwidth, low-latency wireless communication networks for remote connectivity.' },
+  { id: 'NETWORK', label: 'NETWORK INFRASTRUCTURE', desc: 'Scalable fiber and copper backbones providing the foundation for all integrated systems.' },
 ];
 
 const CYCLE_INTERVAL = 5500; // 5.5 seconds
@@ -77,6 +77,9 @@ export default function HeroSection() {
           }}
         />
 
+        {/* Noise Texture Overlay */}
+        <div className="hero-bg-noise" />
+
         {/* Premium atmospheric radial gradient behind the globe on the right side */}
         <div className="hero-bg-gradient" />
       </div>
@@ -96,24 +99,36 @@ export default function HeroSection() {
           </motion.p>
 
           <motion.h1 
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: { staggerChildren: 0.2, delayChildren: 0.1 }
+              }
+            }}
             className="hero-title"
           >
-            ONE PARTNER.<br />
-            COMPLETE<br />
-            <span className="hero-title-highlight">INFRASTRUCTURE.</span>
+            <motion.span variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }} style={{ display: 'block' }}>ONE PARTNER.</motion.span>
+            <motion.span variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }} style={{ display: 'block' }}>COMPLETE</motion.span>
+            <motion.span variants={{ hidden: { opacity: 0, y: 15 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: "easeOut" } } }} className="hero-title-highlight" style={{ display: 'block' }}>INFRASTRUCTURE.</motion.span>
           </motion.h1>
           
-          <motion.p 
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
-            className="hero-description"
-          >
-            Security, technology, electrical, fire safety, logistics and turnkey services — engineered and delivered as one integrated system.
-          </motion.p>
+          <div className="hero-description-container">
+            <AnimatePresence mode="wait">
+              <motion.p 
+                key={activeService}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+                className="hero-description"
+              >
+                {services[activeIndex >= 0 ? activeIndex : 0].desc}
+              </motion.p>
+            </AnimatePresence>
+          </div>
           
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
@@ -145,8 +160,12 @@ export default function HeroSection() {
           {/* 3D Canvas */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
+            animate={{ opacity: 1, scale: 1, y: [0, -15, 0] }}
+            transition={{ 
+              opacity: { duration: 1.5, delay: 0.2, ease: "easeOut" },
+              scale: { duration: 1.5, delay: 0.2, ease: "easeOut" },
+              y: { repeat: Infinity, duration: 6, ease: "easeInOut" }
+            }}
             className="hero-visual-wrapper"
           >
             <div className="hero-visual-inner">

@@ -26,14 +26,14 @@ export interface ServiceConfig {
 }
 
 const baseServices = [
-  { id: 'ACCESS', slug: 'access-control', label: 'ACCESS\nCONTROL', tags: ['SMARTER ACCESS'], img: 'access_reader' },
+  { id: 'ACCESS', slug: 'access-control', label: 'ACCESS\nCONTROL', tags: ['SMARTER ACCESS'], img: 'access_reader', customOffsetY: 0.25 },
   { id: 'CCTV', slug: 'video-surveillance', label: 'CCTV / VIDEO\nSURVEILLANCE', tags: ['OBSERVE', 'PREVENT', 'PROTECT'], img: 'cctv_camera' },
   { id: 'TURNKEY', slug: 'turnkey-projects', label: 'TURNKEY\nPROJECTS', tags: ['FROM VISION', 'TO REALITY'], img: 'turnkey_building' },
   { id: 'LOGISTICS', slug: 'logistics', label: 'LOGISTICS', tags: ['ACROSS BORDERS', 'BEYOND LIMITS'], img: 'logistics_truck' },
   { id: 'SAFETY', slug: 'fire-fighting', label: 'FIRE FIGHTING', tags: ['PREPARE', 'PROTECT', 'PRESERVE'], img: 'fire_safety' },
   { id: 'ELECTRICAL', slug: 'electrical-electronics', label: 'ELECTRICAL &\nELECTRONICS', tags: ['POWERING', 'A SMARTER TOMORROW'], img: 'electrical_panel' },
-  { id: 'INFRASTRUCTURE', slug: 'switches-storage', label: 'SWITCHES\n& STORAGE', tags: ['CONNECT', 'STORE', 'SCALE'], img: 'server_rack' },
-  { id: 'INTRUSION', slug: 'intrusion-detection', label: 'INTRUSION\nDETECTION', tags: ['ADVANCED', 'PROTECTION'], img: 'intrusion_sensor' },
+  { id: 'INFRASTRUCTURE', slug: 'switches-storage', label: 'SWITCHES\n& STORAGE', tags: ['CONNECT', 'STORE', 'SCALE'], img: 'server_rack', customOffsetY: -0.3 },
+  { id: 'INTRUSION', slug: 'intrusion-detection', label: 'INTRUSION\nDETECTION', tags: ['ADVANCED', 'PROTECTION'], img: 'extracted_7' },
   { id: 'HARDWARE', slug: 'hardware-tools', label: 'HARDWARE\n& TOOLS', tags: ['PRECISION', 'EQUIPMENT'], img: 'hardware_tools' },
   { id: 'WIRELESS', slug: 'wireless-network', label: 'WIRELESS\nTECH', tags: ['SEAMLESS', 'CONNECTIVITY'], img: 'wireless_network' },
   { id: 'NETWORK', slug: 'network-infrastructure', label: 'NETWORK\nINFRASTRUCTURE', tags: ['CORE', 'BACKBONE'], img: 'network_infrastructure' },
@@ -47,7 +47,7 @@ const serviceConfig: ServiceConfig[] = baseServices.map((service, i) => {
   // Calculate a dynamic label offset that pushes text outward radially
   const offsetRadius = 0.55; 
   const labelOffsetX = Math.cos(angle) * offsetRadius;
-  const labelOffsetY = -Math.sin(angle) * offsetRadius;
+  const labelOffsetY = -Math.sin(angle) * offsetRadius + (service.customOffsetY || 0);
 
   return {
     id: service.id,
@@ -56,9 +56,9 @@ const serviceConfig: ServiceConfig[] = baseServices.map((service, i) => {
     image: service.img,
     label: service.label,
     taglines: service.tags,
-    pos: [Math.cos(angle) * radius, -Math.sin(angle) * radius, 0.4], 
+    pos: [Math.cos(angle) * radius, -Math.sin(angle) * radius, 0.0], 
     scale: 0.6, // Kept small to fit 11 items easily
-    anchor: [Math.cos(angle) * 0.5, -Math.sin(angle) * 0.5, 0.6],
+    anchor: [Math.cos(angle), -Math.sin(angle), 0.05],
     hitbox: [0.5, 0.6, 0.4],
     labelOffset: [labelOffsetX, labelOffsetY],
     labelAlign: isRightSide ? 'left' : 'right',
