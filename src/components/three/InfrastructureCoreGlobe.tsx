@@ -1,6 +1,6 @@
 import { useRef, useMemo, useEffect, useState } from 'react';
 import { useFrame } from '@react-three/fiber';
-import { Sphere, Line } from '@react-three/drei';
+import { Sphere, Line, Html } from '@react-three/drei';
 import * as THREE from 'three';
 
 // Utility to convert Lat/Lng to 3D Sphere coordinates
@@ -18,30 +18,33 @@ function latLngToVector3(lat: number, lng: number, radius: number) {
 // --------------------------------------------------------
 // DATA CONFIGURATION
 // --------------------------------------------------------
-const HUBS = [
-  // Primary Infrastructure Hubs (Largest)
-  { id: 'MUM', lat: 19.07, lng: 72.87, type: 'primary', size: 0.016 }, // Strongest Hub (India)
-  { id: 'DXB', lat: 25.20, lng: 55.27, type: 'primary', size: 0.014 }, // Middle East
-  { id: 'NYC', lat: 40.71, lng: -74.00, type: 'primary', size: 0.014 }, // North America
-  { id: 'LON', lat: 51.50, lng: -0.12, type: 'primary', size: 0.014 }, // Europe
-  { id: 'SIN', lat: 1.35, lng: 103.81, type: 'primary', size: 0.014 }, // Southeast Asia
-
-  // Secondary Nodes (Smaller)
-  { id: 'SF', lat: 37.77, lng: -122.41, type: 'secondary', size: 0.007 },
-  { id: 'FRA', lat: 50.11, lng: 8.68, type: 'secondary', size: 0.007 },
-  { id: 'TOK', lat: 35.67, lng: 139.65, type: 'secondary', size: 0.007 },
-  { id: 'SYD', lat: -33.86, lng: 151.20, type: 'secondary', size: 0.007 },
-  { id: 'GRU', lat: -23.55, lng: -46.63, type: 'secondary', size: 0.007 },
+const GLOBAL_LOCATIONS = [
+  // Primary Infrastructure Hub (HQ)
+  { id: 'VIZAG', name: 'VISAKHAPATNAM\nINDIA\nPRIMARY LOCATION', lat: 17.69, lng: 83.29, type: 'hq', size: 0.02 },
+  
+  // Secondary Global Nodes
+  { id: 'SIN', name: 'GLOBAL CONNECTION\nSOUTHEAST ASIA', lat: 1.35, lng: 103.82, type: 'global', size: 0.01 },
+  { id: 'DXB', name: 'GLOBAL CONNECTION\nMIDDLE EAST', lat: 25.20, lng: 55.27, type: 'global', size: 0.01 },
+  { id: 'LON', name: 'GLOBAL CONNECTION\nEUROPE', lat: 51.51, lng: -0.13, type: 'global', size: 0.01 },
+  { id: 'FRA', name: 'GLOBAL CONNECTION\nCENTRAL EUROPE', lat: 50.11, lng: 8.68, type: 'global', size: 0.01 },
+  { id: 'NYC', name: 'GLOBAL CONNECTION\nNORTH AMERICA', lat: 40.71, lng: -74.01, type: 'global', size: 0.01 },
+  { id: 'NBO', name: 'GLOBAL CONNECTION\nAFRICA', lat: -1.29, lng: 36.82, type: 'global', size: 0.01 },
+  { id: 'TOK', name: 'GLOBAL CONNECTION\nEAST ASIA', lat: 35.68, lng: 139.65, type: 'global', size: 0.01 },
+  { id: 'SYD', name: 'GLOBAL CONNECTION\nAUSTRALIA', lat: -33.87, lng: 151.21, type: 'global', size: 0.01 },
 ];
 
-const ALL_NODES = HUBS; // Removed the scattered satellites
+const ALL_NODES = GLOBAL_LOCATIONS;
 
-// Strategic surface network connections (very minimal)
+// Strategic surface network connections (all from Vizag to global destinations)
 const SURFACE_ARCS = [
-  { sLat: 40.71, sLng: -74.00, eLat: 51.50, eLng: -0.12 }, // NYC - LON
-  { sLat: 51.50, sLng: -0.12, eLat: 25.20, eLng: 55.27 },  // LON - DXB
-  { sLat: 25.20, sLng: 55.27, eLat: 19.07, eLng: 72.87 },  // DXB - MUM
-  { sLat: 19.07, sLng: 72.87, eLat: 1.35, eLng: 103.81 },  // MUM - SIN
+  { sLat: 17.69, sLng: 83.29, eLat: 1.35, eLng: 103.82, delay: 1.0 },    // Vizag to Singapore
+  { sLat: 17.69, sLng: 83.29, eLat: 25.20, eLng: 55.27, delay: 1.1 },    // Vizag to Dubai
+  { sLat: 17.69, sLng: 83.29, eLat: 51.51, eLng: -0.13, delay: 1.2 },    // Vizag to London
+  { sLat: 17.69, sLng: 83.29, eLat: 50.11, eLng: 8.68, delay: 1.3 },     // Vizag to Frankfurt
+  { sLat: 17.69, sLng: 83.29, eLat: 40.71, eLng: -74.01, delay: 1.4 },   // Vizag to New York
+  { sLat: 17.69, sLng: 83.29, eLat: -1.29, eLng: 36.82, delay: 1.5 },    // Vizag to Nairobi
+  { sLat: 17.69, sLng: 83.29, eLat: 35.68, eLng: 139.65, delay: 1.6 },   // Vizag to Tokyo
+  { sLat: 17.69, sLng: 83.29, eLat: -33.87, eLng: 151.21, delay: 1.7 },  // Vizag to Sydney
 ];
 
 
@@ -49,10 +52,11 @@ const SURFACE_ARCS = [
 // COMPONENTS
 // --------------------------------------------------------
 
-function NetworkNode({ lat, lng, size, type, radius }: any) {
+function NetworkNode({ lat, lng, size, type, radius, name }: any) {
   const groupRef = useRef<THREE.Group>(null);
   const coreMat = useRef<THREE.MeshBasicMaterial>(null);
   const glowMat = useRef<THREE.MeshBasicMaterial>(null);
+  const [hovered, setHovered] = useState(false);
   
   const pos = useMemo(() => latLngToVector3(lat, lng, radius), [lat, lng, radius]);
   const timeOffset = useMemo(() => Math.random() * Math.PI * 2, []);
@@ -60,65 +64,121 @@ function NetworkNode({ lat, lng, size, type, radius }: any) {
   useFrame((state) => {
     if (!groupRef.current) return;
     
-    // 1. Edge Dimming (Dot product with camera)
+    // Edge Dimming
     const worldPos = new THREE.Vector3();
     groupRef.current.getWorldPosition(worldPos);
-    
     const camDir = state.camera.position.clone().normalize();
     const nodeDir = worldPos.clone().normalize();
     const dot = camDir.dot(nodeDir);
-    
-    // smoothstep creates a smooth fade as the node approaches the edge of the sphere
     const visibility = THREE.MathUtils.smoothstep(dot, 0.15, 0.5);
-    
-    // Hide completely if on the back
     groupRef.current.visible = dot > 0.05;
 
-    // 2. Pulse effect for primary hubs
+    // Intro Animation Timeline
+    const t = state.clock.elapsedTime;
+    let introScale = 1;
+    let introOpacity = 1;
+
+    if (type === 'hq') {
+      // HQ appears at 0.5s
+      introScale = Math.min(1, Math.max(0, (t - 0.5) / 0.5));
+      introOpacity = Math.min(1, Math.max(0, (t - 0.5) / 0.5));
+    } else {
+      // Projects appear at 1.5s
+      introScale = Math.min(1, Math.max(0, (t - 1.5) / 0.5));
+      introOpacity = Math.min(1, Math.max(0, (t - 1.5) / 0.5));
+    }
+
+    // Pulse effect
     let pulseScale = 1;
-    if (type === 'primary') {
-      pulseScale = 1 + Math.sin(state.clock.elapsedTime * 2 + timeOffset) * 0.25;
+    if (type === 'hq') {
+      pulseScale = 1 + Math.sin(t * 1.5 + timeOffset) * 0.15;
+    } else {
+      pulseScale = 1 + Math.sin(t * 0.8 + timeOffset) * 0.08;
     }
     
-    groupRef.current.scale.setScalar(pulseScale * visibility);
+    // Combine scales
+    const finalScale = pulseScale * introScale * visibility;
+    groupRef.current.scale.setScalar(finalScale);
     
-    if (coreMat.current) coreMat.current.opacity = (type === 'primary' ? 0.9 : 0.5) * visibility;
-    if (glowMat.current) glowMat.current.opacity = (type === 'primary' ? 0.35 : 0.1) * visibility;
+    if (coreMat.current) coreMat.current.opacity = (type === 'hq' ? 0.9 : 0.6) * visibility * introOpacity;
+    if (glowMat.current) glowMat.current.opacity = (type === 'hq' ? 0.4 : 0.15) * visibility * introOpacity;
   });
 
   return (
     <group ref={groupRef} position={pos}>
-      <mesh>
+      <mesh 
+        onPointerOver={(e) => { e.stopPropagation(); setHovered(true); document.body.style.cursor = 'pointer'; }}
+        onPointerOut={(e) => { e.stopPropagation(); setHovered(false); document.body.style.cursor = 'auto'; }}
+      >
         <sphereGeometry args={[size, 12, 12]} />
         <meshBasicMaterial ref={coreMat} color="#F4511E" transparent depthWrite={false} />
       </mesh>
-      {type === 'primary' && (
-        <mesh>
-          <sphereGeometry args={[size * 2.8, 16, 16]} />
-          <meshBasicMaterial ref={glowMat} color="#FFB08A" transparent depthWrite={false} blending={THREE.AdditiveBlending} />
-        </mesh>
-      )}
+      
+      {/* Glow layer for all nodes, slightly larger for HQ */}
+      <mesh>
+        <sphereGeometry args={[type === 'hq' ? size * 3.5 : size * 2.5, 16, 16]} />
+        <meshBasicMaterial ref={glowMat} color="#FFB08A" transparent depthWrite={false} blending={THREE.AdditiveBlending} />
+      </mesh>
+
+      <Html distanceFactor={2.5} zIndexRange={[100, 0]}>
+        <div style={{
+          position: 'absolute',
+          bottom: '10px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          background: 'rgba(28, 28, 27, 0.8)',
+          backdropFilter: 'blur(4px)',
+          color: '#FFFDF8',
+          padding: '4px 8px',
+          borderRadius: '4px',
+          fontSize: '9px',
+          fontWeight: 600,
+          whiteSpace: 'nowrap',
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+          border: '1px solid rgba(244, 81, 30, 0.3)',
+          opacity: hovered ? 1 : 0,
+          pointerEvents: 'none',
+          transition: 'opacity 0.2s ease',
+        }}>
+          {name}
+        </div>
+      </Html>
     </group>
   );
 }
 
-function SurfaceArc({ sLat, sLng, eLat, eLng, radius }: any) {
-  const pts = useMemo(() => {
+function SurfaceArc({ sLat, sLng, eLat, eLng, radius, delay = 0 }: any) {
+  const [currentPts, setCurrentPts] = useState<THREE.Vector3[]>([]);
+  const fullPts = useMemo(() => {
     const start = latLngToVector3(sLat, sLng, radius);
     const end = latLngToVector3(eLat, eLng, radius);
     const mid = new THREE.Vector3().lerpVectors(start, end, 0.5);
-    mid.normalize().multiplyScalar(radius + 0.04); // very subtle curve above surface
+    mid.normalize().multiplyScalar(radius + 0.04);
     const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
     return curve.getPoints(30);
   }, [sLat, sLng, eLat, eLng, radius]);
 
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    const progress = Math.min(1, Math.max(0, (t - delay) / 0.8));
+    if (progress > 0 && progress < 1) {
+      const numPts = Math.max(2, Math.floor(progress * fullPts.length));
+      setCurrentPts(fullPts.slice(0, numPts));
+    } else if (progress === 1 && currentPts.length !== fullPts.length) {
+      setCurrentPts(fullPts);
+    }
+  });
+
+  if (currentPts.length < 2) return null;
+
   return (
     <Line
-      points={pts}
+      points={currentPts}
       color="#E8784E"
-      lineWidth={1}
+      lineWidth={1.5}
       transparent
-      opacity={0.15}
+      opacity={0.4}
     />
   );
 }
@@ -168,14 +228,15 @@ function DynamicSpaceArc({ lat, lng, targetPos, radius, globeRef }: any) {
 // --------------------------------------------------------
 // MAIN COMPONENT
 // --------------------------------------------------------
-export default function InfrastructureCoreGlobe() {
-  const groupRef = useRef<THREE.Group>(null);
+export default function InfrastructureCoreGlobe({ globeGroupRef }: { globeGroupRef?: React.RefObject<THREE.Group> }) {
+  const internalRef = useRef<THREE.Group>(null);
+  const groupRef = globeGroupRef || internalRef;
   const outerRef = useRef<THREE.Mesh>(null);
   const [earthTexture, setEarthTexture] = useState<THREE.Texture | null>(null);
 
   const globeRadius = 0.98; // ~20% increase
   const isDragging = useRef(false);
-  const dragRotation = useRef({ x: 0.25, y: Math.PI * 0.85 });
+  const dragRotation = useRef({ x: 0.05, y: Math.PI * 1.12 }); // Perfectly matched to user reference image (India center-right)
   const mapMatRef = useRef<THREE.MeshBasicMaterial>(null);
 
   useEffect(() => {
@@ -317,6 +378,7 @@ export default function InfrastructureCoreGlobe() {
         {ALL_NODES.map((node, i) => (
           <NetworkNode 
             key={`node-${i}`} 
+            name={node.name}
             lat={node.lat} 
             lng={node.lng} 
             size={node.size} 
@@ -352,6 +414,18 @@ export default function InfrastructureCoreGlobe() {
             side={THREE.BackSide}
           />
         </Sphere>
+
+        {/* Global Connection Arcs */}
+        {SURFACE_ARCS.map((arc, i) => (
+          <SurfaceArc 
+            key={`arc-${i}`} 
+            sLat={arc.sLat} 
+            sLng={arc.sLng} 
+            eLat={arc.eLat} 
+            eLng={arc.eLng} 
+            radius={globeRadius + 0.015} 
+          />
+        ))}
       </group>
     </>
   );

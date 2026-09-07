@@ -3,6 +3,7 @@ import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { useInView } from 'framer-motion';
 import { Environment, ContactShadows, Lightformer } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
+import * as THREE from 'three';
 import InfrastructureCoreGlobe from './InfrastructureCoreGlobe';
 import OrbitalObjects from './OrbitalObjects';
 import '../../styles/Hero3DScene.css';
@@ -20,7 +21,7 @@ function CameraParallax() {
 
     state.camera.position.x += (targetX - state.camera.position.x) * 0.05;
     state.camera.position.y += (targetY - state.camera.position.y) * 0.05;
-    state.camera.lookAt(0.2, 0, 0);
+    // Removing lookAt so the camera stays parallel and doesn't cause horizontal skew on vertical movement
   });
   return null;
 }
@@ -30,14 +31,16 @@ function SceneContents({ activeService, setActiveService }: Hero3DSceneProps) {
   const isMobile = viewport.width < 4.2;
   const isTablet = viewport.width >= 4.2 && viewport.width < 7.5;
 
-  // Desktop & Tablet: globe shifted right. Mobile: centered, pushed down.
-  const groupPos = isMobile ? [0, -1.0, 0] : [1.2, 0, 0];
+  // Desktop & Tablet: globe shifted right (slightly less to give room). Mobile: centered, pushed down.
+  const groupPos = isMobile ? [0, -1.0, 0] : [0.7, 0, 0];
   const groupScale = isMobile ? 0.75 : (isTablet ? 0.85 : 1);
+
+  const globeGroupRef = useRef<THREE.Group>(null);
 
   return (
     <group position={groupPos as [number, number, number]} scale={groupScale}>
-      <InfrastructureCoreGlobe />
-      <OrbitalObjects activeService={activeService} setActiveService={setActiveService} />
+      <InfrastructureCoreGlobe globeGroupRef={globeGroupRef} />
+      <OrbitalObjects activeService={activeService} setActiveService={setActiveService} globeGroupRef={globeGroupRef} />
     </group>
   );
 }

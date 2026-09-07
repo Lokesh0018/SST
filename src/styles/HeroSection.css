@@ -308,6 +308,41 @@
   position: relative;
 }
 
+.hero-geo-indicator {
+  position: absolute;
+  bottom: 2rem;
+  right: 5%;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  pointer-events: none;
+}
+
+.hero-geo-title {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: rgba(28, 28, 27, 0.4); /* #1C1C1B at 40% */
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+}
+
+.hero-geo-location {
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  color: #1C1C1B;
+  font-weight: 600;
+}
+
+@media (min-width: 1024px) {
+  .hero-geo-indicator {
+    bottom: 4rem;
+    right: 8%;
+  }
+}
+
+/* Bottom Pagination & Scroll Indicators */
 .hero-bottom-indicators {
   position: absolute;
   bottom: 0;

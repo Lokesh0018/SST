@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 interface OrbitalObjectsProps {
   activeService: string | null;
   setActiveService: (service: string | null) => void;
+  globeGroupRef?: React.RefObject<THREE.Group>;
 }
 
 export interface ServiceConfig {
@@ -41,7 +42,7 @@ const baseServices = [
 
 const serviceConfig: ServiceConfig[] = baseServices.map((service, i) => {
   const angle = (i / baseServices.length) * Math.PI * 2 - (Math.PI / 2); // Start at top
-  const radius = 1.45; // Increased radius to push items further out
+  const radius = 1.70; // Increased radius to push items further out
   const isRightSide = Math.cos(angle) >= 0;
 
   // Calculate a dynamic label offset that pushes text outward radially
@@ -65,7 +66,7 @@ const serviceConfig: ServiceConfig[] = baseServices.map((service, i) => {
   };
 });
 
-export default function OrbitalObjects({ activeService, setActiveService }: OrbitalObjectsProps) {
+export default function OrbitalObjects({ activeService, setActiveService, globeGroupRef }: OrbitalObjectsProps) {
   const groupRef = useRef<THREE.Group>(null);
 
   return (
@@ -80,6 +81,7 @@ export default function OrbitalObjects({ activeService, setActiveService }: Orbi
             isActive={isActive}
             isMuted={anyActive && !isActive}
             setActiveService={setActiveService}
+            globeGroupRef={globeGroupRef}
           />
         );
       })}
@@ -92,12 +94,14 @@ export default function OrbitalObjects({ activeService, setActiveService }: Orbi
 function OrbitalItem({  cfg,
   isActive,
   isMuted,
-  setActiveService
+  setActiveService,
+  globeGroupRef
 }: {
   cfg: ServiceConfig;
   isActive: boolean;
   isMuted: boolean;
   setActiveService: (id: string | null) => void;
+  globeGroupRef?: React.RefObject<THREE.Group>;
 }) {
   const outerRef = useRef<THREE.Group>(null);
   const innerRef = useRef<THREE.Group>(null);
@@ -109,22 +113,22 @@ function OrbitalItem({  cfg,
 
   const modelEaseRef = useRef(0);
   const lineEaseRef = useRef(0);
+  const lineRef = useRef<any>(null);
+  const anchorMeshRef = useRef<THREE.Mesh>(null);
+  const haloMeshRef = useRef<THREE.Mesh>(null);
 
-  // ── Curved connection path ──
-  const curvePts = useMemo(() => {
-    const end = new THREE.Vector3(...cfg.pos);
-    const anchor = new THREE.Vector3(...cfg.anchor).normalize();
-    const start = anchor.clone().multiplyScalar(0.98);
-
-    const mid = new THREE.Vector3().lerpVectors(start, end, 0.5);
-    const dir = new THREE.Vector3().subVectors(end, start).normalize();
-    const tangent = new THREE.Vector3().crossVectors(dir, start);
-    const outwardPerp = new THREE.Vector3().crossVectors(tangent, dir).normalize();
-    mid.add(outwardPerp.multiplyScalar(0.25));
-
-    const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
-    return curve.getPoints(40);
-  }, [cfg.pos, cfg.anchor]);
+  const vizagLocal = useMemo(() => {
+    const lat = 17.69;
+    const lng = 83.29;
+    const radius = 0.98;
+    const phi = (90 - lat) * (Math.PI / 180);
+    const theta = (lng + 180) * (Math.PI / 180);
+    return new THREE.Vector3(
+      -(radius * Math.sin(phi) * Math.cos(theta)),
+      radius * Math.cos(phi),
+      radius * Math.sin(phi) * Math.sin(theta)
+    );
+  }, []);
 
   useFrame((_state, delta) => {
     const t = _state.clock.elapsedTime;
@@ -139,10 +143,48 @@ function OrbitalItem({  cfg,
     const lineEase = 1 - Math.pow(1 - lineProgress, 3);
     lineEaseRef.current = lineEase;
 
+    // Dynamic anchor based on Visakhapatnam
+    const dynamicAnchor = vizagLocal.clone();
+    if (globeGroupRef?.current) {
+      dynamicAnchor.applyMatrix4(globeGroupRef.current.matrix);
+    } else {
+      dynamicAnchor.applyEuler(new THREE.Euler(0.05, Math.PI * 1.12, 0, 'XYZ'));
+    }
+    dynamicAnchor.normalize();
+
+    const start = dynamicAnchor.clone().multiplyScalar(0.98);
+    const endPos = new THREE.Vector3(...cfg.pos);
+
+    // Update outerRef position
     if (outerRef.current) {
-      const startPos = new THREE.Vector3(...cfg.anchor).normalize().multiplyScalar(0.6);
-      const endPos = new THREE.Vector3(...cfg.pos);
+      const startPos = dynamicAnchor.clone().multiplyScalar(0.6);
       outerRef.current.position.lerpVectors(startPos, endPos, modelEase);
+    }
+
+    if (anchorMeshRef.current) anchorMeshRef.current.position.copy(start);
+    if (haloMeshRef.current) haloMeshRef.current.position.copy(start);
+
+    // Recompute curve points dynamically
+    const mid = new THREE.Vector3().lerpVectors(start, endPos, 0.5);
+    const dir = new THREE.Vector3().subVectors(endPos, start).normalize();
+    const tangent = new THREE.Vector3().crossVectors(dir, start);
+    const outwardPerp = new THREE.Vector3().crossVectors(tangent, dir).normalize();
+    mid.add(outwardPerp.multiplyScalar(0.25));
+
+    const curve = new THREE.QuadraticBezierCurve3(start, mid, endPos);
+    const curvePts = curve.getPoints(40);
+
+    // Update Line geometry directly for performance
+    if (lineRef.current && lineRef.current.geometry) {
+      const drawCount = Math.max(2, Math.floor(lineEase * curvePts.length));
+      const currentPts = curvePts.slice(0, drawCount);
+      const positions = new Float32Array(currentPts.length * 3);
+      for (let i = 0; i < currentPts.length; i++) {
+        positions[i * 3] = currentPts[i].x;
+        positions[i * 3 + 1] = currentPts[i].y;
+        positions[i * 3 + 2] = currentPts[i].z;
+      }
+      lineRef.current.geometry.setPositions(positions);
     }
 
     if (innerRef.current) {
@@ -193,28 +235,28 @@ function OrbitalItem({  cfg,
     }
   });
 
-  const drawCount = Math.max(2, Math.floor(lineEaseRef.current * curvePts.length));
-  const currentPts = curvePts.slice(0, drawCount);
+  // Initial dummy points to mount the Line
+  const initialPts = [new THREE.Vector3(0,0,0), new THREE.Vector3(0.001,0,0)];
 
   return (
     <group>
       {/* Anchor Node on Globe Surface — orange glowing point */}
-      <mesh position={new THREE.Vector3(...cfg.anchor).normalize().multiplyScalar(0.98)}>
-        <sphereGeometry args={[0.025, 16, 16]} />
+      <mesh ref={anchorMeshRef}>
+        <sphereGeometry args={[0.015, 16, 16]} />
         <meshBasicMaterial
           color={isActive ? "#FFB08A" : "#F4511E"}
           transparent
-          opacity={lineEaseRef.current * (isActive ? 1.0 : 0.85)}
+          opacity={0} // Disable rendering multiple anchor dots, we already have one Visakhapatnam dot!
           depthWrite={false}
         />
       </mesh>
       {/* Glow halo around anchor point */}
-      <mesh position={new THREE.Vector3(...cfg.anchor).normalize().multiplyScalar(0.98)}>
+      <mesh ref={haloMeshRef}>
         <sphereGeometry args={[0.05, 16, 16]} />
         <meshBasicMaterial
           color="#FF8A50"
           transparent
-          opacity={lineEaseRef.current * (isActive ? 0.45 : 0.18)}
+          opacity={0} // Disable rendering multiple anchor dots
           depthWrite={false}
           blending={THREE.AdditiveBlending}
         />
@@ -222,11 +264,12 @@ function OrbitalItem({  cfg,
 
       {/* Curved connection line — thin elegant line */}
       <Line
-        points={currentPts}
+        ref={lineRef}
+        points={initialPts}
         color={isActive ? "#FF6A3D" : "#C9A99A"}
-        lineWidth={isActive ? 1.8 : 1.0}
+        lineWidth={isActive ? 2.5 : 1.2}
         transparent
-        opacity={(isActive ? 0.8 : 0.25) * modelEaseRef.current}
+        opacity={(isActive ? 1.0 : 0.6) * modelEaseRef.current}
       />
       
       {/* Continuous data particle trail */}

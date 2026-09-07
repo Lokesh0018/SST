@@ -175,6 +175,18 @@ export default function HeroSection() {
               />
             </div>
           </motion.div>
+
+          {/* Geographic Indicator */}
+          <motion.div 
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.8, ease: "easeOut" }}
+            className="hero-geo-indicator"
+          >
+            <span className="hero-geo-title">BASED IN VISAKHAPATNAM</span>
+            <span className="hero-geo-location">CONNECTED GLOBALLY</span>
+          </motion.div>
+
         </div>
       </div>
 
