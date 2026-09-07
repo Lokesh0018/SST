@@ -30,8 +30,8 @@ function SceneContents({ activeService, setActiveService }: Hero3DSceneProps) {
   const isMobile = viewport.width < 4.2;
   const isTablet = viewport.width >= 4.2 && viewport.width < 7.5;
 
-  // Desktop: shift globe to the right. Tablet: moderate shift. Mobile: centered, pushed down to avoid headline.
-  const groupPos = isMobile ? [0, -1.3, 0] : (isTablet ? [1.2, -0.15, 0] : [2.2, -0.15, 0]);
+  // Desktop: shift globe slightly right-of-center. Tablet: minimal shift. Mobile: centered.
+  const groupPos = isMobile ? [0, -1.0, 0] : (isTablet ? [0.7, 0.2, 0] : [1.3, 0.5, 0]);
   const groupScale = isMobile ? 0.75 : (isTablet ? 0.85 : 1);
 
   return (

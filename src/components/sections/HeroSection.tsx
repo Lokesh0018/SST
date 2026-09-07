@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Hero3DScene from '../three/Hero3DScene';
@@ -6,17 +6,56 @@ import '../../styles/HeroSection.css';
 
 const services = [
   { id: 'TURNKEY', label: 'TURNKEY CLIENTS' },
-  { id: 'INTRUSION', label: 'INTRUSION DETECTION' },
+  { id: 'CCTV', label: 'CCTV / VIDEO SURVEILLANCE' },
   { id: 'ACCESS', label: 'ACCESS CONTROL' },
-  { id: 'INFRASTRUCTURE', label: 'SWITCHES SERVICES & STORAGE' },
+  { id: 'INFRASTRUCTURE', label: 'SWITCHES & STORAGE' },
   { id: 'LOGISTICS', label: 'LOGISTICS' },
-  { id: 'ELECTRICAL', label: 'ELECTRONIC & ELECTRICAL' },
   { id: 'SAFETY', label: 'FIRE FIGHTING' },
-  { id: 'SECURITY', label: 'SECURITY CAMERA' }
+  { id: 'ELECTRICAL', label: 'ELECTRICAL & ELECTRONICAL SOLUTIONS' },
+  { id: 'INFRA_GENERAL', label: 'INFRASTRUCTURE' },
 ];
 
+const CYCLE_INTERVAL = 5500; // 5.5 seconds
+
 export default function HeroSection() {
-  const [activeService, setActiveService] = useState<string | null>(null);
+  const [activeService, setActiveService] = useState<string>('TURNKEY');
+  const [isUserInteracting, setIsUserInteracting] = useState(false);
+  const interactionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Auto-cycling logic
+  useEffect(() => {
+    if (isUserInteracting) return;
+
+    const interval = setInterval(() => {
+      setActiveService(prev => {
+        const currentIndex = services.findIndex(s => s.id === prev);
+        const nextIndex = (currentIndex + 1) % services.length;
+        return services[nextIndex].id;
+      });
+    }, CYCLE_INTERVAL);
+
+    return () => clearInterval(interval);
+  }, [isUserInteracting]);
+
+  // When user hovers a service node, pause auto-cycling temporarily
+  const handleUserSetActive = useCallback((serviceId: string | null) => {
+    if (serviceId) {
+      setIsUserInteracting(true);
+      setActiveService(serviceId);
+
+      // Clear existing timeout
+      if (interactionTimeoutRef.current) {
+        clearTimeout(interactionTimeoutRef.current);
+      }
+
+      // Resume auto-cycling after 8 seconds of no interaction
+      interactionTimeoutRef.current = setTimeout(() => {
+        setIsUserInteracting(false);
+      }, 8000);
+    }
+  }, []);
+
+  const activeIndex = services.findIndex(s => s.id === activeService);
 
   return (
     <section className="hero-section">
@@ -36,11 +75,7 @@ export default function HeroSection() {
         />
 
         {/* Premium atmospheric radial gradient behind the globe on the right side */}
-        <div className="hero-bg-gradient"
-             style={{
-               background: 'radial-gradient(circle at 75% 50%, rgba(240,239,234, 0.6) 0%, transparent 55%)'
-             }}
-        />
+        <div className="hero-bg-gradient" />
       </div>
 
       <div className="hero-container">
@@ -114,7 +149,7 @@ export default function HeroSection() {
             <div className="hero-visual-inner">
               <Hero3DScene 
                 activeService={activeService} 
-                setActiveService={setActiveService}
+                setActiveService={handleUserSetActive}
               />
             </div>
           </motion.div>
@@ -131,16 +166,13 @@ export default function HeroSection() {
           
           <div className="hero-pagination">
             <span className="hero-pagination-current">
-              {activeService 
-                ? `0${services.findIndex(s => s.id === activeService) + 1} ${services.find(s => s.id === activeService)?.label}` 
-                : `01 ${services[0].label}`}
+              {`0${activeIndex + 1} ${services[activeIndex >= 0 ? activeIndex : 0].label}`}
             </span>
             <div className="hero-pagination-bar">
               <motion.div 
                 className="hero-pagination-progress"
-                initial={{ width: '12.5%' }}
-                animate={{ width: activeService ? `${((services.findIndex(s => s.id === activeService) + 1) / services.length) * 100}%` : '12.5%' }}
-                transition={{ duration: 0.3 }}
+                animate={{ width: `${((activeIndex + 1) / services.length) * 100}%` }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               />
             </div>
             <span className="hero-pagination-total">0{services.length}</span>
