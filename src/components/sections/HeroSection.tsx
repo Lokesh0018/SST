@@ -5,14 +5,17 @@ import Hero3DScene from '../three/Hero3DScene';
 import '../../styles/HeroSection.css';
 
 const services = [
-  { id: 'TURNKEY', label: 'TURNKEY CLIENTS' },
+  { id: 'TURNKEY', label: 'TURNKEY PROJECTS' },
   { id: 'CCTV', label: 'CCTV / VIDEO SURVEILLANCE' },
   { id: 'ACCESS', label: 'ACCESS CONTROL' },
   { id: 'INFRASTRUCTURE', label: 'SWITCHES & STORAGE' },
   { id: 'LOGISTICS', label: 'LOGISTICS' },
   { id: 'SAFETY', label: 'FIRE FIGHTING' },
-  { id: 'ELECTRICAL', label: 'ELECTRICAL & ELECTRONICAL SOLUTIONS' },
-  { id: 'INFRA_GENERAL', label: 'INFRASTRUCTURE' },
+  { id: 'ELECTRICAL', label: 'ELECTRICAL & ELECTRONICS' },
+  { id: 'INTRUSION', label: 'INTRUSION DETECTION' },
+  { id: 'HARDWARE', label: 'HARDWARE & TOOLS' },
+  { id: 'WIRELESS', label: 'WIRELESS TECH' },
+  { id: 'NETWORK', label: 'NETWORK INFRASTRUCTURE' },
 ];
 
 const CYCLE_INTERVAL = 5500; // 5.5 seconds

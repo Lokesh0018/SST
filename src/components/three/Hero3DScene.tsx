@@ -1,7 +1,7 @@
 import { useRef, Suspense } from 'react';
 import { Canvas, useThree, useFrame } from '@react-three/fiber';
 import { useInView } from 'framer-motion';
-import { Environment, ContactShadows } from '@react-three/drei';
+import { Environment, ContactShadows, Lightformer } from '@react-three/drei';
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import InfrastructureCoreGlobe from './InfrastructureCoreGlobe';
 import OrbitalObjects from './OrbitalObjects';
@@ -30,8 +30,8 @@ function SceneContents({ activeService, setActiveService }: Hero3DSceneProps) {
   const isMobile = viewport.width < 4.2;
   const isTablet = viewport.width >= 4.2 && viewport.width < 7.5;
 
-  // Desktop: shift globe slightly right-of-center. Tablet: minimal shift. Mobile: centered.
-  const groupPos = isMobile ? [0, -1.0, 0] : (isTablet ? [0.7, 0.2, 0] : [1.3, 0.5, 0]);
+  // Desktop & Tablet: globe shifted right. Mobile: centered, pushed down.
+  const groupPos = isMobile ? [0, -1.0, 0] : [1.2, 0, 0];
   const groupScale = isMobile ? 0.75 : (isTablet ? 0.85 : 1);
 
   return (
@@ -72,7 +72,13 @@ export default function Hero3DScene({ activeService, setActiveService }: Hero3DS
           <SceneContents activeService={activeService} setActiveService={setActiveService} />
           <CameraParallax />
 
-          <Environment preset="city" />
+          <Environment resolution={256}>
+            <group rotation={[-Math.PI / 2, 0, 0]}>
+              <Lightformer intensity={4} rotation-x={Math.PI / 2} position={[0, 5, -9]} scale={[10, 10, 1]} />
+              <Lightformer intensity={2} rotation-y={Math.PI / 2} position={[-5, 1, -1]} scale={[20, 2, 1]} />
+              <Lightformer intensity={2} rotation-y={-Math.PI / 2} position={[10, 1, 0]} scale={[20, 2, 1]} />
+            </group>
+          </Environment>
 
           <EffectComposer>
             <Bloom luminanceThreshold={0.7} mipmapBlur intensity={0.4} radius={0.5} />

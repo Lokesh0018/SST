@@ -23,177 +23,47 @@ export interface ServiceConfig {
   hitbox: [number, number, number];
   labelOffset: [number, number];
   labelAlign: 'left' | 'right';
-  iconType: keyof typeof iconSvgs;
 }
 
-/* ───────────────────────────────────────────────
-   SERVICE CONFIGURATION — positions refined to
-   match the reference asymmetric radial layout.
-   Each service has a product on a glowing platform.
-   ─────────────────────────────────────────────── */
-const serviceConfig: ServiceConfig[] = [
-  // 1: Top center — ACCESS CONTROL
-  {
-    id: 'ACCESS',
-    slug: 'access-control',
-    index: '01',
-    image: 'access_reader',
-    label: 'ACCESS\nCONTROL',
-    taglines: ['SMARTER ACCESS'],
-    pos: [0.35, 1.55, 0.5],
-    scale: 0.75, // Scaled down to not compete with globe
-    anchor: [0.2, 0.7, 0.6],
-    hitbox: [0.5, 0.6, 0.4],
-    labelOffset: [0.45, -0.1], // Right/below
-    labelAlign: 'left',
-    iconType: 'lock',
-  },
-  // 2: Upper left — CCTV / VIDEO SURVEILLANCE
-  {
-    id: 'CCTV',
-    slug: 'video-surveillance',
-    index: '02',
-    image: 'cctv_camera',
-    label: 'CCTV / VIDEO\nSURVEILLANCE',
-    taglines: ['OBSERVE', 'PREVENT', 'PROTECT'],
-    pos: [-1.25, 0.9, 0.5],
-    scale: 0.75,
-    anchor: [-0.4, 0.45, 0.7],
-    hitbox: [0.5, 0.6, 0.4],
-    labelOffset: [-0.45, -0.2], // Below-left
-    labelAlign: 'right',
-    iconType: 'camera',
-  },
-  // 3: Far right — TURNKEY PROJECTS
-  {
-    id: 'TURNKEY',
-    slug: 'turnkey-projects',
-    index: '03',
-    image: 'turnkey_building',
-    label: 'TURNKEY\nPROJECTS',
-    taglines: ['FROM VISION', 'TO REALITY'],
-    pos: [1.45, 0.65, 0.3],
-    scale: 0.75,
-    anchor: [0.65, 0.35, 0.5],
-    hitbox: [0.6, 0.7, 0.4],
-    labelOffset: [0.45, 0.0], // Right
-    labelAlign: 'left',
-    iconType: 'gear',
-  },
-  // 4: Right-lower side — LOGISTICS
-  {
-    id: 'LOGISTICS',
-    slug: 'logistics',
-    index: '04',
-    image: 'logistics_truck',
-    label: 'LOGISTICS',
-    taglines: ['ACROSS BORDERS', 'BEYOND LIMITS'],
-    pos: [1.45, -0.55, 0.3],
-    scale: 0.75,
-    anchor: [0.65, -0.25, 0.5],
-    hitbox: [0.5, 0.6, 0.4],
-    labelOffset: [0.45, 0.0], // Right
-    labelAlign: 'left',
-    iconType: 'truck',
-  },
-  // 5: Bottom left — FIRE FIGHTING
-  {
-    id: 'SAFETY',
-    slug: 'fire-fighting',
-    index: '05',
-    image: 'fire_safety',
-    label: 'FIRE FIGHTING',
-    taglines: ['PREPARE', 'PROTECT', 'PRESERVE'],
-    pos: [-0.65, -1.3, 0.3],
-    scale: 0.75,
-    anchor: [-0.3, -0.6, 0.6],
-    hitbox: [0.5, 0.6, 0.4],
-    labelOffset: [0.4, -0.15], // Right/Below
-    labelAlign: 'left',
-    iconType: 'flame',
-  },
-  // 6: Bottom right — ELECTRICAL & ELECTRONICAL SOLUTIONS
-  {
-    id: 'ELECTRICAL',
-    slug: 'electrical-electronics',
-    index: '06',
-    image: 'electrical_panel',
-    label: 'ELECTRICAL &\nELECTRONICAL\nSOLUTIONS',
-    taglines: ['POWERING', 'A SMARTER TOMORROW'],
-    pos: [1.1, -1.3, 0.3],
-    scale: 0.75,
-    anchor: [0.45, -0.55, 0.5],
-    hitbox: [0.5, 0.6, 0.4],
-    labelOffset: [0.45, 0.0], // Right
-    labelAlign: 'left',
-    iconType: 'zap',
-  },
-  // 7: Left-lower side — SWITCHES & STORAGE
-  {
-    id: 'INFRASTRUCTURE',
-    slug: 'switches-storage',
-    index: '07',
-    image: 'server_rack',
-    label: 'SWITCHES\n& STORAGE',
-    taglines: ['CONNECT', 'STORE', 'SCALE'],
-    pos: [-1.4, -0.3, 0.4],
-    scale: 0.75,
-    anchor: [-0.6, -0.1, 0.6],
-    hitbox: [0.5, 0.7, 0.4],
-    labelOffset: [-0.45, -0.2], // Left/Below
-    labelAlign: 'right',
-    iconType: 'signal',
-  },
+const baseServices = [
+  { id: 'ACCESS', slug: 'access-control', label: 'ACCESS\nCONTROL', tags: ['SMARTER ACCESS'], img: 'access_reader' },
+  { id: 'CCTV', slug: 'video-surveillance', label: 'CCTV / VIDEO\nSURVEILLANCE', tags: ['OBSERVE', 'PREVENT', 'PROTECT'], img: 'cctv_camera' },
+  { id: 'TURNKEY', slug: 'turnkey-projects', label: 'TURNKEY\nPROJECTS', tags: ['FROM VISION', 'TO REALITY'], img: 'turnkey_building' },
+  { id: 'LOGISTICS', slug: 'logistics', label: 'LOGISTICS', tags: ['ACROSS BORDERS', 'BEYOND LIMITS'], img: 'logistics_truck' },
+  { id: 'SAFETY', slug: 'fire-fighting', label: 'FIRE FIGHTING', tags: ['PREPARE', 'PROTECT', 'PRESERVE'], img: 'fire_safety' },
+  { id: 'ELECTRICAL', slug: 'electrical-electronics', label: 'ELECTRICAL &\nELECTRONICS', tags: ['POWERING', 'A SMARTER TOMORROW'], img: 'electrical_panel' },
+  { id: 'INFRASTRUCTURE', slug: 'switches-storage', label: 'SWITCHES\n& STORAGE', tags: ['CONNECT', 'STORE', 'SCALE'], img: 'server_rack' },
+  { id: 'INTRUSION', slug: 'intrusion-detection', label: 'INTRUSION\nDETECTION', tags: ['ADVANCED', 'PROTECTION'], img: 'intrusion_sensor' },
+  { id: 'HARDWARE', slug: 'hardware-tools', label: 'HARDWARE\n& TOOLS', tags: ['PRECISION', 'EQUIPMENT'], img: 'hardware_tools' },
+  { id: 'WIRELESS', slug: 'wireless-network', label: 'WIRELESS\nTECH', tags: ['SEAMLESS', 'CONNECTIVITY'], img: 'wireless_network' },
+  { id: 'NETWORK', slug: 'network-infrastructure', label: 'NETWORK\nINFRASTRUCTURE', tags: ['CORE', 'BACKBONE'], img: 'network_infrastructure' },
 ];
 
-/* ───────── Service Icon SVGs ───────── */
-const iconSvgs: Record<string, JSX.Element> = {
-  lock: (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-    </svg>
-  ),
-  camera: (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-      <circle cx="12" cy="13" r="4" />
-    </svg>
-  ),
-  gear: (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="3" />
-      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-    </svg>
-  ),
-  signal: (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M2 20h.01" />
-      <path d="M7 20v-4" />
-      <path d="M12 20v-8" />
-      <path d="M17 20V8" />
-      <path d="M22 20V4" />
-    </svg>
-  ),
-  truck: (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="1" y="3" width="15" height="13" />
-      <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-      <circle cx="5.5" cy="18.5" r="2.5" />
-      <circle cx="18.5" cy="18.5" r="2.5" />
-    </svg>
-  ),
-  flame: (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22c-4.97 0-9-2.69-9-6 0-4 5-11 9-14 4 3 9 10 9 14 0 3.31-4.03 6-9 6z" />
-    </svg>
-  ),
-  zap: (
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-    </svg>
-  ),
-};
+const serviceConfig: ServiceConfig[] = baseServices.map((service, i) => {
+  const angle = (i / baseServices.length) * Math.PI * 2 - (Math.PI / 2); // Start at top
+  const radius = 1.45; // Increased radius to push items further out
+  const isRightSide = Math.cos(angle) >= 0;
+
+  // Calculate a dynamic label offset that pushes text outward radially
+  const offsetRadius = 0.55; 
+  const labelOffsetX = Math.cos(angle) * offsetRadius;
+  const labelOffsetY = -Math.sin(angle) * offsetRadius;
+
+  return {
+    id: service.id,
+    slug: service.slug,
+    index: String(i + 1).padStart(2, '0'),
+    image: service.img,
+    label: service.label,
+    taglines: service.tags,
+    pos: [Math.cos(angle) * radius, -Math.sin(angle) * radius, 0.4], 
+    scale: 0.6, // Kept small to fit 11 items easily
+    anchor: [Math.cos(angle) * 0.5, -Math.sin(angle) * 0.5, 0.6],
+    hitbox: [0.5, 0.6, 0.4],
+    labelOffset: [labelOffsetX, labelOffsetY],
+    labelAlign: isRightSide ? 'left' : 'right',
+  };
+});
 
 export default function OrbitalObjects({ activeService, setActiveService }: OrbitalObjectsProps) {
   const groupRef = useRef<THREE.Group>(null);
@@ -358,7 +228,7 @@ function OrbitalItem({  cfg,
         transparent
         opacity={(isActive ? 0.8 : 0.25) * modelEaseRef.current}
       />
-
+      
       {/* Continuous data particle trail */}
       <group ref={particleGroupRef}>
         {Array.from({ length: 4 }).map((_, i) => (
@@ -452,7 +322,7 @@ function ProductOnPlatform({ cfg, isActive, opacity }: {
           userSelect: 'none',
           whiteSpace: 'nowrap',
           transition: 'opacity 0.4s ease',
-          opacity: opacity
+          opacity: isActive ? 1 : 0.6 // Slightly fade out inactive text to reduce clutter
         }}
         distanceFactor={4.5}
       >
@@ -462,8 +332,7 @@ function ProductOnPlatform({ cfg, isActive, opacity }: {
             position: 'relative',
             display: 'flex',
             flexDirection: 'column',
-            gap: '4px',
-            transform: cfg.labelAlign === 'right' ? 'translateX(-100%)' : 'none',
+            transform: cfg.labelAlign === 'right' ? 'translateX(-100%) translateY(-50%)' : 'translateY(-50%)',
             textAlign: cfg.labelAlign === 'right' ? 'right' : 'left',
             padding: '4px',
             pointerEvents: 'none',
@@ -475,7 +344,7 @@ function ProductOnPlatform({ cfg, isActive, opacity }: {
             fontWeight: 700,
             color: isActive ? '#F45124' : 'rgba(244, 81, 36, 0.5)',
             letterSpacing: '0.15em',
-            marginBottom: '2px',
+            marginBottom: '4px',
             transition: 'color 0.4s ease'
           }}>
             {cfg.index}
@@ -490,7 +359,7 @@ function ProductOnPlatform({ cfg, isActive, opacity }: {
           }}>
             {cfg.label.split('\n').map((line, i) => (
               <div key={i} style={{
-                fontSize: '12px',
+                fontSize: '11px',
                 fontWeight: 600,
                 letterSpacing: '0.15em',
                 color: isActive ? '#202020' : '#77736F',
@@ -498,6 +367,7 @@ function ProductOnPlatform({ cfg, isActive, opacity }: {
                 transition: 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
                 opacity: 1,
                 transform: `scale(${isActive ? 1.05 : 1}) translateY(${isActive ? '-2px' : '0'})`,
+                transformOrigin: cfg.labelAlign === 'right' ? 'right center' : 'left center'
               }}>
                 {line}
               </div>
@@ -522,7 +392,7 @@ function ProductOnPlatform({ cfg, isActive, opacity }: {
           }}>
             {cfg.taglines.map((tagline, i) => (
               <div key={i} style={{
-                fontSize: '9px',
+                fontSize: '8px',
                 fontWeight: 500,
                 color: isActive ? '#77736F' : '#AAA39C',
                 letterSpacing: '0.15em',
