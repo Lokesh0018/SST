@@ -15,56 +15,122 @@ export default function Footer() {
       const ctx = canvas.getContext('2d');
       if (!ctx) return null;
 
+      const dpr = window.devicePixelRatio || 1;
+      let W = 0, H = 0;
       let animationId: number;
-      let time = 0;
+      let particles: { x: number; y: number; vx: number; vy: number }[] = [];
+      const mouse = { x: -9999, y: -9999 };
+
+      const opts = {
+        count: 65,
+        particleColor: "rgba(241, 90, 36, 0.8)",
+        lineColor: "rgba(241, 90, 36, 0.3)",
+        linkDistance: 155,
+        speed: 0.6,
+        size: 2,
+        hoverConnect: true
+      };
+
+      const initParticles = () => {
+        particles = [];
+        for (let i = 0; i < opts.count; i++) {
+          particles.push({
+            x: Math.random() * W, 
+            y: Math.random() * H,
+            vx: (Math.random() - 0.5) * opts.speed,
+            vy: (Math.random() - 0.5) * opts.speed
+          });
+        }
+      };
 
       const resize = () => {
-        canvas.width = canvas.offsetWidth * window.devicePixelRatio;
-        canvas.height = canvas.offsetHeight * window.devicePixelRatio;
-        ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+        W = canvas.clientWidth || canvas.width;
+        H = canvas.clientHeight || canvas.height;
+        canvas.width = W * dpr; 
+        canvas.height = H * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        initParticles();
       };
+      
       resize();
       window.addEventListener('resize', resize);
 
-      const draw = () => {
-        const w = canvas.offsetWidth;
-        const h = canvas.offsetHeight;
-        if (w === 0 || h === 0) {
-          if (!prefersReducedMotion) animationId = requestAnimationFrame(draw);
+      const handleMouseMove = (e: MouseEvent) => {
+        const r = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - r.left; 
+        mouse.y = e.clientY - r.top;
+      };
+      
+      const handleMouseLeave = () => {
+        mouse.x = -9999; 
+        mouse.y = -9999;
+      };
+
+      canvas.addEventListener('mousemove', handleMouseMove);
+      canvas.addEventListener('mouseleave', handleMouseLeave);
+
+      const step = () => {
+        if (W === 0 || H === 0) {
+          if (!prefersReducedMotion) animationId = requestAnimationFrame(step);
           return;
         }
-        ctx.clearRect(0, 0, w, h);
 
-        // Footer background: global grid/network 5-10% opacity
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.03)';
-        ctx.lineWidth = 1;
+        ctx.clearRect(0, 0, W, H);
         
-        // Draw subtle grid
-        const gridSize = 40;
-        for (let x = 0; x < w; x += gridSize) {
-          ctx.beginPath();
-          ctx.moveTo(x, 0);
-          ctx.lineTo(x, h);
-          ctx.stroke();
-        }
-        for (let y = 0; y < h; y += gridSize) {
-          ctx.beginPath();
-          ctx.moveTo(0, y);
-          ctx.lineTo(w, y);
-          ctx.stroke();
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i]; 
+          p.x += p.vx; 
+          p.y += p.vy;
+          if (p.x < 0) { p.x = 0; p.vx = -p.vx; } else if (p.x > W) { p.x = W; p.vx = -p.vx; }
+          if (p.y < 0) { p.y = 0; p.vy = -p.vy; } else if (p.y > H) { p.y = H; p.vy = -p.vy; }
         }
 
-        time += 0.01;
+        ctx.lineWidth = 1; 
+        ctx.strokeStyle = opts.lineColor;
+        
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          for (let j = i + 1; j < particles.length; j++) {
+            const q = particles[j]; 
+            const dx = p.x - q.x; 
+            const dy = p.y - q.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < opts.linkDistance) {
+              ctx.globalAlpha = 1 - dist / opts.linkDistance;
+              ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(q.x, q.y); ctx.stroke();
+            }
+          }
+          if (opts.hoverConnect) {
+            const dx = p.x - mouse.x; 
+            const dy = p.y - mouse.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < opts.linkDistance) {
+              ctx.globalAlpha = 1 - dist / opts.linkDistance;
+              ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(mouse.x, mouse.y); ctx.stroke();
+            }
+          }
+        }
+
+        ctx.globalAlpha = 1; 
+        ctx.fillStyle = opts.particleColor;
+        
+        for (let i = 0; i < particles.length; i++) {
+          const p = particles[i];
+          ctx.beginPath(); ctx.arc(p.x, p.y, opts.size, 0, Math.PI * 2); ctx.fill();
+        }
+
         if (!prefersReducedMotion) {
-          animationId = requestAnimationFrame(draw);
+          animationId = requestAnimationFrame(step);
         }
       };
 
-      draw();
+      step();
 
       return () => {
         cancelAnimationFrame(animationId);
         window.removeEventListener('resize', resize);
+        canvas.removeEventListener('mousemove', handleMouseMove);
+        canvas.removeEventListener('mouseleave', handleMouseLeave);
       };
     };
 

@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import Hero3DScene from '../three/Hero3DScene';
+import { useServiceContext } from '../../context/ServiceContext';
 import '../../styles/HeroSection.css';
 
 const services = [
@@ -21,8 +22,7 @@ const services = [
 const CYCLE_INTERVAL = 5500; // 5.5 seconds
 
 export default function HeroSection() {
-  const [activeService, setActiveService] = useState<string>('TURNKEY');
-  const [isUserInteracting, setIsUserInteracting] = useState(false);
+  const { activeService, setActiveService, isUserInteracting, setIsUserInteracting } = useServiceContext();
   const interactionTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Auto-cycling logic

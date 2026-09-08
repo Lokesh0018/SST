@@ -284,6 +284,33 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://i.pinimg.com/736x/d2/0a/2f/d20a2fba258a1a352d4b33f6e6ae7ea1.jpg',
+  },
+  {
+    slug: 'network-infrastructure',
+    title: 'Network Infrastructure',
+    shortTitle: 'Network Infrastructure',
+    category: 'Technology',
+    tagline: 'The Foundation of Integrated Systems.',
+    description: 'Scalable fiber and copper backbones providing the foundation for all integrated systems.',
+    heroDescription: 'Our network infrastructure services design and deploy resilient, high-bandwidth communication pathways that tie all your security, data, and operational systems together.',
+    icon: 'network',
+    features: [
+      { title: 'Fiber Optic Cabling', description: 'High-speed, long-distance data transmission solutions.' },
+      { title: 'Copper Cabling', description: 'Reliable Cat6/Cat6a installations for localized endpoints.' },
+      { title: 'Structured Design', description: 'Organized and scalable cabling architectures.' },
+    ],
+    benefits: [
+      'Future-proofed bandwidth capacity',
+      'Reduced signal interference',
+      'Simplified troubleshooting and upgrades',
+    ],
+    applications: [
+      'Corporate campus networks',
+      'Data center interconnects',
+      'Industrial automation backbones',
+    ],
+    gallery: [],
+    heroImage: 'https://i.pinimg.com/736x/8e/31/5a/8e315a676b7db0a02377b21db024f224.jpg',
   }
 ];
 

@@ -2,8 +2,10 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  margin-bottom: 4rem;
+  margin-bottom: 5rem;
+  /* Reduced from 4rem to ~80px gap */
 }
+
 @media (min-width: 768px) {
   .home-services-header {
     flex-direction: row;
@@ -25,6 +27,7 @@
   transition: color 300ms ease;
   text-decoration: none;
 }
+
 .home-services-link:hover {
   color: var(--color-orange);
 }
@@ -34,105 +37,227 @@
   grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 1.5rem;
 }
+
 @media (min-width: 768px) {
   .home-services-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
 @media (min-width: 1024px) {
   .home-services-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
+.home-services-title-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-services-section-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: rgba(28, 28, 27, 0.4);
+  margin-bottom: 1rem;
+}
+
+.home-services-section {
+  background-color: #F4F1EB !important;
+  /* Warm architectural off-white */
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================
+   TECHNICAL BACKGROUND ENVIRONMENT
+   ========================================= */
+
+.home-services-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+  /* 48px Grid + Orange Glow */
+  background-image:
+    radial-gradient(circle at 75% 0%, rgba(255, 75, 25, 0.045), transparent 35%),
+    linear-gradient(rgba(20, 20, 20, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20, 20, 20, 0.08) 1px, transparent 1px);
+  background-size: 100% 100%, 48px 48px, 48px 48px;
+}
+
+.services-bg-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.node-pulse {
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+/* =========================================
+   EDITORIAL CARD STYLES
+   ========================================= */
+
 .home-services-card {
   position: relative;
   overflow: hidden;
-  border-radius: 0.75rem;
-  background-color: rgba(247, 240, 224, 0.5);
-  border: 1px solid rgba(239, 228, 207, 0.3);
-  padding: 2rem;
-  transition: all 500ms ease;
-  display: block;
+  border-radius: 0.625rem;
+  /* 10px */
+  background-color: #FCFBF8;
+  /* Lighter than section to create natural depth */
+  border: 1px solid rgba(20, 20, 20, 0.08);
+  box-shadow: 0 4px 20px rgba(20, 20, 20, 0.02);
+  padding: 1.5rem;
+  transition: all 400ms var(--ease-out-expo);
+  display: flex;
+  flex-direction: column;
   text-decoration: none;
   color: inherit;
-}
-.home-services-card:hover {
-  box-shadow: 0 12px 40px rgba(23, 22, 19, 0.1);
-  transform: translateY(-0.25rem);
-  border-color: rgba(241, 90, 36, 0.3);
+  z-index: 1;
 }
 
-.home-services-card-icon {
-  width: 3.5rem;
-  height: 3.5rem;
-  border-radius: 0.5rem;
-  background-color: var(--color-ivory);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(28, 28, 27, 0.7);
-  transition: all 500ms ease;
-  margin-bottom: 1.5rem;
+/* Featured Card Special Styling */
+.home-services-card.featured {
+  border: 1px solid rgba(241, 90, 36, 0.2);
 }
+
+@media (min-width: 1024px) {
+  .home-services-card.featured {
+    grid-column: span 2;
+  }
+}
+
+/* Hover State */
+.home-services-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(28, 28, 27, 0.12);
+  box-shadow: 0 12px 30px rgba(241, 90, 36, 0.04);
+}
+
+/* --- Top Row (Number & Arrow) --- */
+.card-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  /* Reduced */
+}
+
+.card-number {
+  font-family: monospace;
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: rgba(28, 28, 27, 0.3);
+  letter-spacing: 0.1em;
+}
+
+.card-top-arrow {
+  color: rgba(28, 28, 27, 0.2);
+  transition: all 400ms ease;
+}
+
+.home-services-card:hover .card-top-arrow {
+  color: var(--color-orange);
+  transform: translate(3px, -3px);
+}
+
+/* --- Technical Icon --- */
+.home-services-card-icon {
+  color: var(--color-charcoal);
+  margin-bottom: 1.5rem;
+  /* Reduced */
+  transition: color 400ms ease;
+}
+
 .home-services-card:hover .home-services-card-icon {
   color: var(--color-orange);
-  background-color: rgba(241, 90, 36, 0.1);
 }
 
+/* --- Content --- */
 .home-services-card-title {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.015em;
   margin-bottom: 0.75rem;
+  color: var(--color-charcoal);
+  line-height: 1.15;
 }
 
 .home-services-card-desc {
-  font-size: 0.875rem;
-  color: rgba(28, 28, 27, 0.6);
-  line-height: 1.625;
+  font-size: 0.75rem;
+  color: rgba(28, 28, 27, 0.55);
+  line-height: 1.6;
   margin-bottom: 1.5rem;
+}
+
+.home-services-card.featured .home-services-card-desc {
+  max-width: 75%;
+}
+
+/* --- Bottom System Line & CTA --- */
+.card-bottom-section {
+  margin-top: auto;
+  width: 100%;
+}
+
+.card-divider {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(28, 28, 27, 0.08);
+  margin-bottom: 1rem;
+  transition: background-color 400ms ease;
+}
+
+.home-services-card:hover .card-divider {
+  background-color: var(--color-orange);
 }
 
 .home-services-card-action {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: rgba(28, 28, 27, 0.5);
-  transition: color 300ms ease;
+  width: 100%;
 }
-.home-services-card:hover .home-services-card-action {
+
+.card-category {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: rgba(28, 28, 27, 0.4);
+}
+
+.card-explore {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--color-charcoal);
+  transition: color 400ms ease;
+}
+
+.home-services-card:hover .card-explore {
   color: var(--color-orange);
 }
 
 .home-services-card-action-text {
+  font-size: 0.75rem;
+  font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  font-size: 0.75rem;
 }
 
 .home-services-card-action-icon {
   transform: translateX(0);
-  transition: transform 300ms ease;
-}
-.home-services-card:hover .home-services-card-action-icon {
-  transform: translateX(0.5rem);
+  transition: transform 400ms ease;
 }
 
-.home-services-card-glow {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 0.25rem;
-  background: linear-gradient(to right, var(--color-orange), #FF7043);
-  transform: scaleX(0);
-  transition: transform 500ms ease;
-  transform-origin: left;
-}
-.home-services-card:hover .home-services-card-glow {
-  transform: scaleX(1);
+.home-services-card:hover .home-services-card-action-icon {
+  transform: translateX(4px);
 }
