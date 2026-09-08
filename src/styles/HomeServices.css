@@ -82,12 +82,9 @@
   z-index: -1;
   pointer-events: none;
   overflow: hidden;
-  /* 48px Grid + Orange Glow */
-  background-image:
-    radial-gradient(circle at 75% 0%, rgba(255, 75, 25, 0.045), transparent 35%),
-    linear-gradient(rgba(20, 20, 20, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(20, 20, 20, 0.08) 1px, transparent 1px);
-  background-size: 100% 100%, 48px 48px, 48px 48px;
+  /* Network Environment Background */
+  background: radial-gradient(circle at 75% 0%, rgba(255, 75, 25, 0.045), transparent 35%);
+  opacity: 1;
 }
 
 .services-bg-svg {

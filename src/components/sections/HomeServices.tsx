@@ -121,8 +121,64 @@ const formatTitle = (title: string) => {
 };
 
 const ServicesBackground = () => (
-  <div className="home-services-bg">
-    {/* CSS handles the grid and background patterns. */}
+  <div className="home-services-bg" aria-hidden="true">
+    <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      
+      {/* BACKGROUND LAYER (Slowest, Faintest, Smallest) */}
+      <g className="network-layer-bg" stroke="rgba(244, 81, 30, 0.05)" strokeWidth="0.5" fill="none">
+        <path d="M-50,50 L250,150 L450,50 L650,200 L900,100 L1050,250" />
+        <path d="M250,150 L450,250 L650,200" />
+        <g fill="rgba(244, 81, 30, 0.1)">
+          <circle cx="250" cy="150" r="2" />
+          <circle cx="450" cy="50" r="2" />
+          <circle cx="650" cy="200" r="2" />
+          <circle cx="900" cy="100" r="2" />
+          <circle cx="450" cy="250" r="2" />
+        </g>
+      </g>
+
+      {/* MIDGROUND LAYER (Medium speed, Medium opacity) */}
+      <g className="network-layer-mid" stroke="rgba(244, 81, 30, 0.1)" strokeWidth="1" fill="none">
+        <path d="M-50,250 L150,350 L350,200 L550,400 L800,250 L1050,350" />
+        <path d="M150,350 L350,400 L550,400" />
+        <g fill="rgba(244, 81, 30, 0.2)">
+          <circle cx="150" cy="350" r="3" />
+          <circle cx="350" cy="200" r="3" />
+          <circle cx="550" cy="400" r="3" />
+          <circle cx="800" cy="250" r="3" />
+          <circle cx="350" cy="400" r="3" />
+        </g>
+        <g fill="var(--color-orange)">
+          <circle r="2">
+            <animateMotion dur="15s" repeatCount="indefinite" path="M-50,250 L150,350 L350,200 L550,400 L800,250 L1050,350" />
+          </circle>
+        </g>
+      </g>
+
+      {/* FOREGROUND LAYER (Fastest, Brightest, Largest) */}
+      <g className="network-layer-fg" stroke="rgba(244, 81, 30, 0.2)" strokeWidth="1.5" fill="none">
+        <path d="M-50,450 L200,350 L400,500 L650,350 L900,450 L1050,300" />
+        <path d="M200,350 L400,300 L650,350" />
+        <path d="M400,300 L600,200" />
+        <g fill="rgba(244, 81, 30, 0.35)">
+          <circle cx="200" cy="350" r="4" />
+          <circle cx="400" cy="500" r="5" />
+          <circle cx="650" cy="350" r="4" />
+          <circle cx="900" cy="450" r="5" />
+          <circle cx="400" cy="300" r="4" />
+          <circle cx="600" cy="200" r="3" />
+        </g>
+        <g fill="var(--color-orange)">
+          <circle r="4">
+            <animateMotion dur="10s" repeatCount="indefinite" path="M1050,300 L900,450 L650,350 L400,500 L200,350 L-50,450" />
+          </circle>
+          <circle r="3">
+            <animateMotion dur="12s" repeatCount="indefinite" path="M-50,450 L200,350 L400,300 L600,200" />
+          </circle>
+        </g>
+      </g>
+      
+    </svg>
   </div>
 );
 
@@ -169,6 +225,20 @@ const HomeServices = () => {
         gsap.fromTo('.home-services-card', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out', scrollTrigger: { trigger: '.home-services-grid', start: 'top 80%' } });
         return;
       }
+
+      // --- Background Parallax Layering ---
+      gsap.to('.network-layer-bg', {
+        y: -15,
+        scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true }
+      });
+      gsap.to('.network-layer-mid', {
+        y: -45,
+        scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true }
+      });
+      gsap.to('.network-layer-fg', {
+        y: -100,
+        scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true }
+      });
 
       // --- 3D Card Sequence Animation ---
       const cards = gsap.utils.toArray('.home-services-card') as HTMLElement[];
