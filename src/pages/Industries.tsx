@@ -105,14 +105,6 @@ export default function Industries() {
                       </span>
                     ))}
                   </div>
-
-                  {/* Arrow Action */}
-                  <div className="industries-card-explore">
-                    <span>Explore Services</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <path d="M5 12h14M12 5l7 7-7 7" />
-                    </svg>
-                  </div>
                 </div>
 
                 {/* Orange border glow on hover */}

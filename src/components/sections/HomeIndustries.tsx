@@ -16,27 +16,30 @@ export default function HomeIndustries() {
     if (prefersReducedMotion || !sectionRef.current) return;
 
     const cards = sectionRef.current.querySelectorAll('.industry-card');
-    gsap.fromTo(
-      cards,
-      { opacity: 0, y: 50, scale: 0.95 },
-      {
-        opacity: 1,
-        y: 0,
-        scale: 1,
-        duration: 0.7,
-        stagger: 0.12,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 70%',
-          once: true,
-        },
-      }
-    );
+    const cardsArray = Array.from(cards);
+    cardsArray.forEach((card, index) => {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 100, scale: 0.95 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          delay: (index % 3) * 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            toggleActions: 'play reverse play reverse',
+          },
+        }
+      );
+    });
   }, []);
 
   return (
-    <section ref={sectionRef} className="section-padding" style={{ background: 'linear-gradient(180deg, #F7F0E0 0%, #EFE4CF 100%)' }}>
+    <section ref={sectionRef} className="section-padding home-industries-section">
       <div className="container">
         <div className="home-industries-header">
           <SectionHeading
@@ -51,14 +54,23 @@ export default function HomeIndustries() {
               Different Industries.<br />
               <span className="home-industries-header-highlight">A Stronger Tomorrow.</span>
             </p>
+            <Link
+              to="/industries"
+              className="home-services-link"
+              style={{ marginTop: '1rem', display: 'flex', justifyContent: 'flex-end' }}
+            >
+              Explore All Industries
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginLeft: '0.5rem' }}>
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </Link>
           </div>
         </div>
 
         <div className="home-industries-grid">
           {industries.map((industry, i) => (
-            <Link
+            <div
               key={industry.slug}
-              to="/industries"
               className="industry-card home-industries-card"
             >
               {/* Photographic Background */}
@@ -84,17 +96,11 @@ export default function HomeIndustries() {
                 <p className="home-industries-card-desc">
                   {industry.description}
                 </p>
-                <div className="home-industries-card-explore">
-                  <span>Explore</span>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
-                </div>
               </div>
 
               {/* Orange border glow on hover */}
               <div className="home-industries-card-border" />
-            </Link>
+            </div>
           ))}
         </div>
       </div>
