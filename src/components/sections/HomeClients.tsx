@@ -1,30 +1,81 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionHeading from '../common/SectionHeading';
-import { getFeaturedClients } from '../../data/clients';
 import '../../styles/HomeClients.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const clientList = [
+  { name: 'Seagate', domain: 'seagate.com' },
+  { name: 'Bajaj Finserv', domain: 'bajajfinserv.in' },
+  { name: 'Flipkart', domain: 'flipkart.com' },
+  { name: 'Southern Spice', domain: '' },
+  { name: 'Four Points by Sheraton', domain: 'marriott.com' },
+  { name: 'Andhra Paper', domain: 'andhrapaper.com' },
+  { name: 'Greentech Pharmaceutical', domain: '' },
+  { name: 'Muthoot Finance', domain: 'muthootfinance.com' },
+  { name: 'Kotak', domain: 'kotak.com' },
+  { name: 'BlackBerry', domain: 'blackberry.com' },
+  { name: 'Canara Bank', domain: 'canarabank.com' },
+  { name: 'Courtyard by Marriott', domain: 'marriott.com' },
+  { name: 'SBI', domain: 'sbi.co.in' },
+  { name: 'Lifestyle', domain: 'lifestylestores.com' },
+  { name: 'Toshiba', domain: 'toshiba.com' },
+  { name: 'Lenskart', domain: 'lenskart.com' },
+  { name: 'Federal Bank', domain: 'federalbank.co.in' },
+  { name: 'Max', domain: 'maxfashion.in' },
+  { name: 'HSBC', domain: 'hsbc.com' },
+  { name: 'Ruckus', domain: 'commscope.com' },
+  { name: 'Spencer’s', domain: 'spencersretail.com' },
+  { name: 'Edelweiss', domain: 'edelweissfin.com' },
+  { name: 'CommScope', domain: 'commscope.com' },
+  { name: 'GEF India', domain: 'gefindia.com' },
+  { name: 'Mahindra Finance', domain: 'mahindrafinance.com' },
+  { name: 'Swiggy', domain: 'swiggy.com' },
+  { name: 'Dahua Technology', domain: 'dahuasecurity.com' },
+  { name: 'Reliance Fresh', domain: 'relianceretail.com' },
+  { name: 'HDFC Bank', domain: 'hdfcbank.com' },
+  { name: 'Unv', domain: 'uniview.com' },
+];
+
+const row1Clients = clientList.slice(0, 15);
+const row2Clients = clientList.slice(15, 30);
+
+const ClientLogo = ({ client }: { client: { name: string; domain: string } }) => {
+  const [hasError, setHasError] = useState(false);
+
+  if (!client.domain || hasError) {
+    return <span className="home-clients-logo-text">{client.name}</span>;
+  }
+
+  return (
+    <img 
+      src={`https://logo.clearbit.com/${client.domain}`} 
+      alt={client.name} 
+      className="home-clients-logo-img"
+      onError={() => setHasError(true)}
+      loading="lazy"
+    />
+  );
+};
+
 export default function HomeClients() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const featuredClients = getFeaturedClients();
+  const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion || !sectionRef.current) return;
 
-    const cards = sectionRef.current.querySelectorAll('.client-card');
     gsap.fromTo(
-      cards,
-      { opacity: 0, y: 40 },
+      sectionRef.current.querySelectorAll('.home-clients-logo-card'),
+      { opacity: 0, y: 10 },
       {
         opacity: 1,
         y: 0,
         duration: 0.8,
-        stagger: 0.15,
+        stagger: 0.05,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -36,72 +87,101 @@ export default function HomeClients() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="section-padding bg-ivory">
+    <section ref={sectionRef} className="section-padding home-clients-section">
+      {/* Subtle Technical Network Layer */}
+      <div className="home-clients-network-bg" aria-hidden="true">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <pattern id="network-pattern" width="300" height="300" patternUnits="userSpaceOnUse">
+            <path d="M 0,150 L 300,150 M 150,0 L 150,300" stroke="rgba(28, 28, 27, 0.03)" strokeWidth="1" />
+            <circle cx="150" cy="150" r="2" fill="rgba(244, 81, 30, 0.3)" className="network-node pulse-slow" />
+            <circle cx="50" cy="50" r="1.5" fill="rgba(244, 81, 30, 0.15)" className="network-node" />
+            <circle cx="250" cy="250" r="1.5" fill="rgba(244, 81, 30, 0.15)" className="network-node pulse-fast" />
+            <path d="M 50,50 L 150,150 L 250,250" stroke="rgba(28, 28, 27, 0.02)" strokeWidth="0.5" className="network-line" />
+          </pattern>
+          <rect width="100%" height="100%" fill="url(#network-pattern)" />
+        </svg>
+      </div>
+
       <div className="container">
         <div className="home-clients-header">
-          <SectionHeading
-            highlight="REAL-WORLD"
-            subtitle="A selection of our clients across industries."
-          >
-            ENGINEERED FOR REAL-WORLD ENVIRONMENTS.
-          </SectionHeading>
+          <div className="home-clients-title-group">
+            <span className="home-clients-eyebrow">TRUSTED BY INDUSTRY LEADERS</span>
+            <SectionHeading
+              highlight="REAL-WORLD"
+              subtitle="Trusted by teams building what’s next."
+            >
+              ENGINEERED FOR REAL-WORLD ENVIRONMENTS.
+            </SectionHeading>
+          </div>
 
-          <Link
-            to="/clients"
-            className="home-clients-link"
-          >
-            View All Clients
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </Link>
+          <div className="home-clients-cta-group">
+            <span className="home-clients-count">30+ CLIENTS</span>
+            <Link to="/clients" className="home-clients-cta">
+              VIEW ALL CLIENTS
+              <svg
+                className="home-clients-cta-icon"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* Infinite Logo Marquee Wrapper */}
+      <div className="home-clients-marquee-wrapper">
+        
+        {/* TRACK 1: Scrolls Left */}
+        <div className="home-clients-marquee home-clients-marquee-left">
+          <div className="home-clients-marquee-track track-1">
+            <div className="home-clients-marquee-group">
+              {row1Clients.map((client, i) => (
+                <div key={`t1-g1-${i}`} className="home-clients-logo-card">
+                  <ClientLogo client={client} />
+                </div>
+              ))}
+            </div>
+            <div className="home-clients-marquee-group">
+              {row1Clients.map((client, i) => (
+                <div key={`t1-g2-${i}`} className="home-clients-logo-card">
+                  <ClientLogo client={client} />
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
 
-        <div className="home-clients-grid">
-          {featuredClients.map((client) => (
-            <Link
-              key={client.slug}
-              to={`/clients/${client.slug}`}
-              className="client-card home-clients-card"
-            >
-              {/* Image */}
-              <div className="home-clients-card-img-wrapper">
-                <img
-                  src={client.image}
-                  alt={client.title}
-                  className="home-clients-card-img"
-                />
-              </div>
+        {/* TRACK 2: Scrolls Right */}
+        <div className="home-clients-marquee home-clients-marquee-right">
+          <div className="home-clients-marquee-track track-2">
+            <div className="home-clients-marquee-group">
+              {row2Clients.map((client, i) => (
+                <div key={`t2-g1-${i}`} className="home-clients-logo-card">
+                  <ClientLogo client={client} />
+                </div>
+              ))}
+            </div>
+            <div className="home-clients-marquee-group">
+              {row2Clients.map((client, i) => (
+                <div key={`t2-g2-${i}`} className="home-clients-logo-card">
+                  <ClientLogo client={client} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
 
-              {/* Content */}
-              <div className="home-clients-card-content">
-                <div className="home-clients-card-meta">
-                  <span className="home-clients-card-tag">
-                    {client.industry}
-                  </span>
-                </div>
-                <h3 className="home-clients-card-title">
-                  {client.title}
-                </h3>
-                <div className="home-clients-card-location">
-                  <span className="home-clients-card-location-inner">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                      <circle cx="12" cy="10" r="3" />
-                    </svg>
-                    {client.location}
-                  </span>
-                </div>
-                <div className="home-clients-card-services">
-                  {client.services.slice(0, 3).map((service) => (
-                    <span key={service} className="home-clients-card-service">
-                      {service}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </Link>
-          ))}
+      </div>
+
+      {/* Technical Divider */}
+      <div className="container">
+        <div className="home-clients-technical-divider">
+          <div className="divider-line"></div>
+          <div className="divider-node"></div>
+          <div className="divider-line-short"></div>
         </div>
       </div>
     </section>
