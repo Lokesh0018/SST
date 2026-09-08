@@ -1,39 +1,7 @@
 .home-industries-section {
   position: relative;
-  background: linear-gradient(180deg, #F7F0E0 0%, #EFE4CF 100%);
+  background-color: #F7F4EE;
   overflow: hidden;
-}
-
-.home-industries-section::before {
-  content: '';
-  position: absolute;
-  inset: -100%;
-  background-image: 
-    repeating-radial-gradient(
-      circle at 0% 0%, 
-      transparent 0, 
-      rgba(28, 28, 27, 0.1) 1px, 
-      transparent 2px, 
-      transparent 45px
-    ),
-    repeating-radial-gradient(
-      circle at 100% 100%, 
-      transparent 0, 
-      rgba(28, 28, 27, 0.08) 1px, 
-      transparent 2px, 
-      transparent 65px
-    );
-  background-size: 100% 100%;
-  z-index: 0;
-  pointer-events: none;
-  animation: topoPan 120s linear infinite;
-  transform: scale(0.5);
-}
-
-@keyframes topoPan {
-  0% { transform: scale(0.5) translate(0%, 0%); }
-  50% { transform: scale(0.5) translate(-10%, -10%); }
-  100% { transform: scale(0.5) translate(0%, 0%); }
 }
 
 .home-industries-section .container {

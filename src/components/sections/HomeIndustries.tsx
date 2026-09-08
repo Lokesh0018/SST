@@ -8,6 +8,41 @@ import '../../styles/HomeIndustries.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const IndustriesBackground = () => (
+  <div className="home-industries-bg" aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
+    <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      
+      {/* BACKGROUND LAYER */}
+      <g className="ind-layer-bg" stroke="rgba(28, 28, 27, 0.05)" strokeWidth="0.5" fill="none">
+        <path d="M50,0 L50,600 M250,0 L250,600 M450,0 L450,600 M650,0 L650,600 M850,0 L850,600" />
+        <path d="M0,50 L1000,50 M0,250 L1000,250 M0,450 L1000,450" />
+      </g>
+
+      {/* MIDGROUND LAYER (Structural Nodes) */}
+      <g className="ind-layer-mid" stroke="rgba(28, 28, 27, 0.1)" strokeWidth="1" fill="none">
+        <path d="M50,50 L250,250 L450,50 L650,250 L850,50" />
+        <path d="M50,450 L250,250 L450,450 L650,250 L850,450" />
+        <g fill="rgba(28, 28, 27, 0.2)">
+          <circle cx="250" cy="250" r="3" />
+          <circle cx="650" cy="250" r="3" />
+        </g>
+        <g fill="var(--color-orange)">
+          <circle r="3">
+            <animateMotion dur="15s" repeatCount="indefinite" path="M50,50 L250,250 L450,50 L650,250 L850,50" />
+          </circle>
+        </g>
+      </g>
+
+      {/* FOREGROUND LAYER (Diagonal accents) */}
+      <g className="ind-layer-fg" stroke="rgba(28, 28, 27, 0.15)" strokeWidth="1.5" fill="none">
+        <path d="M-50,300 L300,-50" />
+        <path d="M700,650 L1050,300" />
+      </g>
+
+    </svg>
+  </div>
+);
+
 export default function HomeIndustries() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -36,10 +71,25 @@ export default function HomeIndustries() {
         }
       );
     });
+
+    // --- Background Parallax Layering ---
+    gsap.to('.ind-layer-bg', {
+      y: -15,
+      scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true }
+    });
+    gsap.to('.ind-layer-mid', {
+      y: -40,
+      scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true }
+    });
+    gsap.to('.ind-layer-fg', {
+      y: -80,
+      scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true }
+    });
   }, []);
 
   return (
     <section ref={sectionRef} className="section-padding home-industries-section">
+      <IndustriesBackground />
       <div className="container">
         <div className="home-industries-header">
           <SectionHeading
