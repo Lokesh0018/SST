@@ -122,34 +122,7 @@ const formatTitle = (title: string) => {
 
 const ServicesBackground = () => (
   <div className="home-services-bg">
-    {/* CSS handles the grid and radial glow. SVG handles arcs and nodes. */}
-    <svg className="services-bg-svg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
-      {/* Orbital Arcs */}
-      <g className="orbital-arcs">
-        <circle cx="80%" cy="20%" r="40%" fill="none" stroke="rgba(20, 20, 20, 0.03)" strokeWidth="1" strokeDasharray="4 8" />
-        <circle cx="80%" cy="20%" r="60%" fill="none" stroke="rgba(20, 20, 20, 0.025)" strokeWidth="1" />
-        <circle cx="20%" cy="90%" r="50%" fill="none" stroke="rgba(20, 20, 20, 0.035)" strokeWidth="1" />
-      </g>
-      
-      {/* Network Connectors */}
-      <g className="network-lines">
-        <path d="M 25% 30% L 35% 45% L 60% 35% L 75% 65%" fill="none" stroke="rgba(20, 20, 20, 0.03)" strokeWidth="1" />
-        <path d="M 10% 70% L 20% 85% L 45% 75%" fill="none" stroke="rgba(20, 20, 20, 0.03)" strokeWidth="1" />
-      </g>
-      
-      {/* Network Nodes (Orange) */}
-      <g className="network-nodes">
-        <circle cx="25%" cy="30%" r="2" fill="rgba(241, 90, 36, 0.6)" className="node-pulse" />
-        <circle cx="35%" cy="45%" r="1.5" fill="rgba(241, 90, 36, 0.8)" />
-        <circle cx="60%" cy="35%" r="2" fill="rgba(241, 90, 36, 0.5)" className="node-pulse" style={{ animationDelay: '1s' }}/>
-        <circle cx="75%" cy="65%" r="1.5" fill="rgba(241, 90, 36, 0.7)" />
-        <circle cx="85%" cy="40%" r="2" fill="rgba(241, 90, 36, 0.4)" />
-        
-        <circle cx="10%" cy="70%" r="2" fill="rgba(241, 90, 36, 0.5)" />
-        <circle cx="20%" cy="85%" r="1.5" fill="rgba(241, 90, 36, 0.6)" className="node-pulse" style={{ animationDelay: '2s' }} />
-        <circle cx="45%" cy="75%" r="2" fill="rgba(241, 90, 36, 0.8)" />
-      </g>
-    </svg>
+    {/* CSS handles the grid and background patterns. */}
   </div>
 );
 
@@ -186,52 +159,50 @@ const HomeServices = () => {
   };
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     const ctx = gsap.context(() => {
-      // Fade in section
-      gsap.fromTo(containerRef.current, 
+
+      if (prefersReducedMotion) {
+        // Fallback simple fade
+        gsap.fromTo(containerRef.current, { y: 60, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: 'power3.out', scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' } });
+        gsap.fromTo('.home-services-card', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out', scrollTrigger: { trigger: '.home-services-grid', start: 'top 80%' } });
+        return;
+      }
+
+      // --- 3D Card Sequence Animation ---
+      const cards = gsap.utils.toArray('.home-services-card') as HTMLElement[];
+      if (cards.length === 0) return;
+
+      // Create one master scroll-driven timeline
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: '.home-services-grid',
+          start: "top 75%",
+          end: "bottom 70%", // Spread the animation across the height of the grid
+          scrub: 1.5, // Smooth scrubbing
+        }
+      });
+
+      // Using stagger ensures they animate strictly one-by-one, regardless of their row layout
+      tl.fromTo(cards, 
         {
-          y: 60,
+          y: 150,
           opacity: 0,
+          rotationX: 15,
+          z: -60,
         },
         {
           y: 0,
           opacity: 1,
+          rotationX: 0,
+          z: 0,
           duration: 1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 75%',
-          },
+          stagger: 0.5,
+          ease: "power2.out"
         }
       );
 
-      // Stagger cards
-      gsap.fromTo('.home-services-card', 
-        {
-          y: 40,
-          opacity: 0,
-        },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: '.home-services-grid',
-            start: 'top 80%',
-          },
-        }
-      );
-      
-      // Animate background elements
-      gsap.to('.orbital-arcs', {
-        rotation: 360,
-        transformOrigin: '80% 20%',
-        duration: 200,
-        ease: 'none',
-        repeat: -1,
-      });
     }, sectionRef);
 
     return () => ctx.revert();
@@ -275,21 +246,19 @@ const HomeServices = () => {
                 onMouseEnter={() => handleMouseEnter(service.slug)}
                 onMouseLeave={handleMouseLeave}
               >
-                {/* 1. Number and Top-Right Arrow */}
+                {/* 0. Large Background Watermark */}
+                <div className="card-watermark">
+                  {serviceIcons[service.icon]}
+                </div>
+
+                {/* 1. Number and Top-Right Icon */}
                 <div className="card-top-row">
                   <span className="card-number">
                     {String(index + 1).padStart(2, '0')}
                   </span>
-                  <span className="card-top-arrow">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M7 17l9.2-9.2M17 17V7H7" />
-                    </svg>
+                  <span className="home-services-card-icon">
+                    {serviceIcons[service.icon]}
                   </span>
-                </div>
-
-                {/* 2. Large Icon */}
-                <div className="home-services-card-icon">
-                  {serviceIcons[service.icon]}
                 </div>
 
                 {/* 3. Title */}
@@ -301,6 +270,18 @@ const HomeServices = () => {
                 <p className="home-services-card-desc">
                   {service.description}
                 </p>
+
+                {/* 4.5 Key Features (Fills empty vertical space) */}
+                <ul className="home-services-card-features">
+                  {service.features.map((feature, i) => (
+                    <li key={i}>
+                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg>
+                      {feature.title}
+                    </li>
+                  ))}
+                </ul>
 
                 {/* 5. Bottom System Line & CTA */}
                 <div className="card-bottom-section">

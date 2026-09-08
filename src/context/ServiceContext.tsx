@@ -1,10 +1,10 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, type ReactNode } from 'react';
 
 interface ServiceContextType {
   activeService: string | null;
-  setActiveService: (service: string | null) => void;
+  setActiveService: React.Dispatch<React.SetStateAction<string | null>>;
   isUserInteracting: boolean;
-  setIsUserInteracting: (interacting: boolean) => void;
+  setIsUserInteracting: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ServiceContext = createContext<ServiceContextType | undefined>(undefined);

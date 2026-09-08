@@ -35,7 +35,7 @@ function SceneContents({ activeService, setActiveService }: Hero3DSceneProps) {
   const groupPos = isMobile ? [0, -1.0, 0] : [0.7, 0, 0];
   const groupScale = isMobile ? 0.75 : (isTablet ? 0.85 : 1);
 
-  const globeGroupRef = useRef<THREE.Group>(null);
+  const globeGroupRef = useRef<THREE.Group>(null!);
 
   return (
     <group position={groupPos as [number, number, number]} scale={groupScale}>

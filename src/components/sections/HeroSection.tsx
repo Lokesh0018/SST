@@ -30,7 +30,7 @@ export default function HeroSection() {
     if (isUserInteracting) return;
 
     const interval = setInterval(() => {
-      setActiveService(prev => {
+      setActiveService((prev: string | null) => {
         const currentIndex = services.findIndex(s => s.id === prev);
         const nextIndex = (currentIndex + 1) % services.length;
         return services[nextIndex].id;

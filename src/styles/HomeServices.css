@@ -36,6 +36,8 @@
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
   gap: 1.5rem;
+  perspective: 1400px;
+  transform-style: preserve-3d;
 }
 
 @media (min-width: 768px) {
@@ -110,16 +112,43 @@
   border-radius: 0.625rem;
   /* 10px */
   background-color: #FCFBF8;
-  /* Lighter than section to create natural depth */
-  border: 1px solid rgba(20, 20, 20, 0.08);
-  box-shadow: 0 4px 20px rgba(20, 20, 20, 0.02);
+  /* Architectural off-white base */
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: 
+    0 4px 20px rgba(20, 20, 20, 0.03),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9),
+    inset 0 -1px 2px rgba(20, 20, 20, 0.02);
   padding: 1.5rem;
-  transition: all 400ms var(--ease-out-expo);
+  transition: box-shadow 400ms var(--ease-out-expo), border-color 400ms ease, translate 400ms var(--ease-out-expo);
   display: flex;
   flex-direction: column;
   text-decoration: none;
   color: inherit;
   z-index: 1;
+}
+
+.card-watermark {
+  position: absolute;
+  right: -2rem;
+  bottom: -2rem;
+  width: 180px;
+  height: 180px;
+  opacity: 0.03;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 400ms ease, transform 600ms var(--ease-out-expo);
+  transform: scale(1) rotate(-5deg);
+}
+
+.card-watermark svg {
+  width: 100%;
+  height: 100%;
+  color: var(--color-charcoal);
+}
+
+.home-services-card:hover .card-watermark {
+  opacity: 0.06;
+  transform: scale(1.1) rotate(0deg);
 }
 
 /* Featured Card Special Styling */
@@ -135,7 +164,7 @@
 
 /* Hover State */
 .home-services-card:hover {
-  transform: translateY(-4px);
+  translate: 0 -4px;
   border-color: rgba(28, 28, 27, 0.12);
   box-shadow: 0 12px 30px rgba(241, 90, 36, 0.04);
 }
@@ -145,8 +174,7 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 1.5rem;
-  /* Reduced */
+  margin-bottom: 0.5rem;
 }
 
 .card-number {
@@ -167,12 +195,13 @@
   transform: translate(3px, -3px);
 }
 
-/* --- Technical Icon --- */
+/* --- Technical Icon (Now in Top Right) --- */
 .home-services-card-icon {
   color: var(--color-charcoal);
-  margin-bottom: 1.5rem;
-  /* Reduced */
   transition: color 400ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .home-services-card:hover .home-services-card-icon {
@@ -194,11 +223,41 @@
   font-size: 0.75rem;
   color: rgba(28, 28, 27, 0.55);
   line-height: 1.6;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 .home-services-card.featured .home-services-card-desc {
   max-width: 75%;
+}
+
+/* --- Features List (Filling Vertical Space) --- */
+.home-services-card-features {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.home-services-card-features li {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: rgba(28, 28, 27, 0.7);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.home-services-card-features li svg {
+  color: var(--color-orange);
+  flex-shrink: 0;
+}
+
+.home-services-card.featured.bg-variant-dark .home-services-card-features li {
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* --- Bottom System Line & CTA --- */
