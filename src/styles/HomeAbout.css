@@ -1,0 +1,350 @@
+.home-about-section {
+  position: relative;
+  /* Blueprint Grid + Depth Gradient */
+  background-color: #F7F4EE;
+  color: var(--color-charcoal);
+  overflow: hidden;
+  padding: 8rem 0;
+}
+
+/* Background Vignette / Fade */
+.home-about-section::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 30%, #F7F4EE 100%);
+  pointer-events: none;
+  z-index: 1; /* Sits above the grid and orb, below the content grid */
+}
+
+@media (min-width: 1024px) {
+  .home-about-section {
+    padding: 140px 0;
+  }
+}
+
+.home-about-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6rem;
+  position: relative;
+  z-index: 2; /* Sits above the vignette */
+}
+
+@media (min-width: 1024px) {
+  .home-about-grid {
+    grid-template-columns: 45% 40%;
+    gap: 5%;
+    justify-content: center;
+    align-items: flex-start;
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+
+/* =========================================
+   LEFT: Typography & CTA
+   ========================================= */
+.home-about-left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.home-about-eyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--color-orange);
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.home-about-eyebrow::before {
+  content: '';
+  display: block;
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-orange);
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(244, 81, 30, 0.6);
+  animation: pulse-dot 2s infinite ease-in-out;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 0.5; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.home-about-headline {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  line-height: 1.1;
+  color: var(--color-charcoal);
+  margin-bottom: 2rem;
+  font-family: var(--font-heading);
+}
+
+.highlight-orange {
+  background: linear-gradient(135deg, var(--color-orange), #ff7a00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  text-shadow: 0px 4px 12px rgba(244, 81, 30, 0.15);
+}
+
+.home-about-description {
+  font-size: 1.125rem;
+  color: rgba(28, 28, 27, 0.7);
+  line-height: 1.6;
+  margin-bottom: 3rem;
+  max-width: 90%;
+}
+
+.home-about-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  background-color: var(--color-orange);
+  padding: 1rem 2rem;
+  border-radius: 99px;
+  transition: all 400ms cubic-bezier(0.25, 1, 0.5, 1);
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(244, 81, 30, 0.2);
+}
+
+.home-about-cta:hover {
+  background-color: #ff6a20;
+  box-shadow: 0 6px 20px rgba(244, 81, 30, 0.35);
+  transform: translateY(-2px);
+}
+
+.home-about-cta-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 300ms cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.home-about-cta:hover .home-about-cta-icon {
+  transform: translateX(6px);
+}
+
+/* =========================================
+   RIGHT: Statistics Stack
+   ========================================= */
+.home-about-right {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.home-about-stats-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  position: relative;
+  z-index: 2;
+  border-left: 1px solid rgba(28, 28, 27, 0.08); /* Lighter structural spine */
+  padding-left: 2.5rem;
+  margin-left: 0; 
+}
+
+.home-about-stat-item {
+  display: flex;
+  align-items: center;
+  position: relative;
+  cursor: default;
+  /* Minimalist System Panel */
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(28, 28, 27, 0.04);
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  transition: all 300ms cubic-bezier(0.25, 1, 0.5, 1);
+  box-shadow: none; /* Removed shadow for minimalism */
+}
+
+.home-about-stat-item:hover {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+  border: 1px solid rgba(28, 28, 27, 0.06);
+}
+
+.stat-node {
+  position: absolute;
+  left: -2.5rem;
+  transform: translateX(-50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: rgba(28, 28, 27, 0.12);
+  box-shadow: 0 0 0 rgba(244, 81, 30, 0);
+  opacity: 1;
+  transition: all 300ms ease;
+}
+
+.stat-connection-line {
+  position: absolute;
+  left: -2.5rem;
+  top: 50%;
+  width: 1rem;
+  height: 1px;
+  background-color: rgba(28, 28, 27, 0.1);
+  opacity: 1;
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: all 300ms ease;
+}
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  transition: transform 250ms ease;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-charcoal);
+  line-height: 1;
+  transition: color 250ms ease;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: rgba(28, 28, 27, 0.5);
+  text-transform: uppercase;
+}
+
+.home-about-stat-item:hover .stat-node {
+  background-color: var(--color-orange);
+  box-shadow: 0 0 6px rgba(244, 81, 30, 0.4);
+}
+
+.home-about-stat-item:hover .stat-connection-line {
+  background-color: rgba(28, 28, 27, 0.4);
+}
+
+.home-about-stat-item:hover .stat-content {
+  transform: translateX(4px);
+}
+
+.home-about-stat-item:hover .stat-value {
+  color: var(--color-orange);
+}
+
+/* =========================================
+   Engineering Network Background
+   ========================================= */
+.home-about-network-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.cad-drawing {
+  transition: opacity 2s ease-in-out;
+}
+
+.card-connections .cad-link {
+  stroke: rgba(28, 28, 27, 0.08);
+  stroke-width: 0.08;
+  transition: stroke 0.3s ease, stroke-width 0.3s ease;
+}
+
+.card-connections .cad-link.active {
+  stroke: var(--color-orange);
+  stroke-width: 0.15;
+}
+
+/* =========================================
+   Advanced Technical Blueprint SVG
+   ========================================= */
+.home-about-network-visual {
+  position: absolute;
+  top: 10px;
+  left: 0;
+  width: 100vw;
+  height: 100vw;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 1;
+}
+
+@media (max-width: 1024px) {
+  .home-about-network-visual {
+    left: 0;
+    top: 10px;
+    width: 100vw;
+    height: 100vw;
+  }
+}
+
+.topo-line {
+  stroke: rgba(28, 28, 27, 0.15);
+  /* The path drawing will be handled by GSAP, initializing it so it's hidden */
+  opacity: 0;
+}
+
+/* Base node styling (Neutral + Active) */
+.topo-node {
+  fill: rgba(28, 28, 27, 0.25);
+  opacity: 0;
+}
+
+.topo-node-anchor {
+  fill: rgba(28, 28, 27, 0.35);
+  opacity: 0;
+}
+
+.topo-node-orange {
+  fill: var(--color-orange);
+  opacity: 0;
+}
+
+/* Restrained pulse for specific nodes */
+.about-node-pulse {
+  animation: pulseBlueprintNode 4s cubic-bezier(0.4, 0, 0.2, 1) infinite alternate;
+}
+
+/* Isolated data signal */
+.signal-dot {
+  opacity: 0.85;
+  filter: drop-shadow(0 0 2px rgba(244, 81, 30, 0.6));
+}
+
+@keyframes pulseBlueprintNode {
+
+  0%,
+  30% {
+    opacity: 0.45;
+    transform: scale(1);
+    transform-origin: center;
+  }
+
+  100% {
+    opacity: 0.75;
+    transform: scale(1.15);
+    transform-origin: center;
+  }
+}
