@@ -128,15 +128,14 @@ export default function ServiceDetail() {
 
               <div className="sd-hero-image-container">
                 <div className="sd-hero-image-wrapper">
-                  {service.slug === 'turnkey-projects' ? (
+                  {['turnkey-projects', 'intrusion-detection'].includes(service.slug) ? (
                     <video 
-                      src="/videos/services/turnkey.mp4" 
+                      src={`/videos/services/${service.slug === 'turnkey-projects' ? 'turnkey' : 'intrusion-detection'}.mp4`} 
                       autoPlay 
                       loop 
                       muted 
                       playsInline 
                       className="sd-hero-image" 
-                      style={{ objectFit: 'cover' }}
                     />
                   ) : (
                     <img src={service.heroImage} alt={service.title} className="sd-hero-image" />
