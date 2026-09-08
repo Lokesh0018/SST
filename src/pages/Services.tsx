@@ -3,23 +3,21 @@ import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../components/common/PageTransition';
+import NetworkBackground from '../components/common/NetworkBackground';
 import { services } from '../data/services';
 import '../styles/Services.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const servicePositions = [
-  { x: 50, y: 8 },    // 01 Turnkey
-  { x: 76, y: 16 },   // 02 Intrusion
-  { x: 90, y: 38 },   // 03 Access
-  { x: 90, y: 62 },   // 04 Switches
-  { x: 76, y: 84 },   // 05 Logistics
-  { x: 50, y: 92 },   // 06 Electrical
-  { x: 24, y: 84 },   // 07 Fire
-  { x: 10, y: 62 },   // 08 Video Surveillance
-  { x: 10, y: 38 },   // 09 Wireless Network
-  { x: 24, y: 16 },   // 10 Hardware & Tools
-];
+const servicePositions = services.map((_, i) => {
+  const angle = (i * 360) / services.length - 90;
+  const radius = 42;
+  const radian = (angle * Math.PI) / 180;
+  return {
+    x: Number((50 + radius * Math.cos(radian)).toFixed(1)),
+    y: Number((50 + radius * Math.sin(radian)).toFixed(1)),
+  };
+});
 
 const getServiceIcon = (slug: string) => {
   switch (slug) {
@@ -98,6 +96,16 @@ const getServiceIcon = (slug: string) => {
           <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
         </svg>
       );
+    case 'network-infrastructure':
+      return (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+          <rect x="16" y="16" width="6" height="6" rx="1" />
+          <rect x="2" y="16" width="6" height="6" rx="1" />
+          <rect x="9" y="2" width="6" height="6" rx="1" />
+          <path d="M5 16v-3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3" />
+          <path d="M12 8v3" />
+        </svg>
+      );
     default:
       return null;
   }
@@ -152,6 +160,7 @@ export default function Services() {
           scrollTrigger: {
             trigger: section,
             start: 'top 80%',
+            toggleActions: 'play none none reverse',
           },
         }
       );
@@ -166,7 +175,7 @@ export default function Services() {
           <div className="services-layout">
             {/* Left - Heading */}
             <div className="services-left">
-              <div className="services-indicator">10 CORE SERVICES</div>
+              <div className="services-indicator">11 CORE SERVICES</div>
               
               <h1 className="services-hero-headline">
                 COMPLETE SERVICES.<br/>
@@ -180,9 +189,9 @@ export default function Services() {
               
               <div className="services-footer">
                 <div className="services-nav-indicator">
-                  <span className="services-nav-indicator-text">Explore Our Network</span>
+                  <span className="services-nav-indicator-text">Scroll to explore</span>
                   <svg className="services-nav-indicator-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M5 12h14M12 5l7 7-7 7" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m0 0l-7-7m7 7l7-7" />
                   </svg>
                 </div>
               </div>
@@ -205,7 +214,7 @@ export default function Services() {
                       <div className="sst-center-pulse"></div>
                     </div>
                     <div className={`hub-center-content hub-hover-content ${hoverSST ? 'fade-in' : 'fade-out'}`}>
-                      <span className="services-hub-center-title" style={{ fontSize: '2.5rem' }}>10</span>
+                      <span className="services-hub-center-title" style={{ fontSize: '2.5rem' }}>11</span>
                       <hr className="sst-divider" />
                       <span className="services-hub-center-subtitle">MAJOR SERVICES</span>
                     </div>
@@ -256,7 +265,9 @@ export default function Services() {
                     onMouseEnter={() => setHoveredIndex(i)}
                     onMouseLeave={() => setHoveredIndex(null)}
                   >
-                    <div className={`services-hub-node-card ${
+                    <Link 
+                      to={`/services/${service.slug}`}
+                      className={`services-hub-node-card ${
                       hoveredIndex === i
                         ? 'services-hub-node-card-active'
                         : hoveredIndex !== null
@@ -289,7 +300,7 @@ export default function Services() {
                           ))}
                         </ul>
                       </div>
-                    </div>
+                    </Link>
                   </div>
                 ))}
               </div>
@@ -298,25 +309,29 @@ export default function Services() {
         </div>
       </section>
 
-      {/* 7 Premium Alternating Service Sections */}
+      {/* Premium Alternating Service Sections */}
       <div className="services-list-container" ref={listRef}>
         {services.map((service, index) => {
           const isEven = index % 2 === 0;
           return (
             <section key={service.slug} className={`service-detail-section ${isEven ? 'bg-cream' : 'bg-white'}`}>
+              <NetworkBackground />
               <div className="container">
-                <div className={`service-detail-layout ${isEven ? '' : 'flex-row-reverse'}`}>
+                <div className={`service-detail-layout ${isEven ? '' : 'reverse-layout'}`}>
                   
                   {/* Content Area */}
                   <div className="service-detail-content">
-                    <div className="service-detail-number">0{index + 1}</div>
+                    <div className="service-detail-giant-number parallax-number">
+                      {index + 1 < 10 ? `0${index + 1}` : index + 1}
+                    </div>
+                    
                     <h2 className="service-detail-title">{service.title}</h2>
                     <div className="service-detail-accent"></div>
                     <p className="service-detail-desc">{service.heroDescription}</p>
                     
                     <div className="service-detail-capabilities">
                       {service.features.map((feature, idx) => (
-                        <div key={idx} className="capability-item">
+                        <div key={idx} className="capability-item staggered-fade">
                           <h4 className="capability-title">{feature.title}</h4>
                           <p className="capability-desc">{feature.description}</p>
                         </div>
@@ -327,17 +342,30 @@ export default function Services() {
                       <span className="service-detail-link-text">Explore Details</span>
                       <span className="service-detail-link-arrow">→</span>
                     </Link>
+                    
+                    {/* Metrics Row */}
+                    <div className="service-metrics-row">
+                      {service.benefits.slice(0, 3).map((benefit, idx) => (
+                        <div key={idx} className="metric-item">
+                          <span className="metric-dot"></span>
+                          {benefit}
+                        </div>
+                      ))}
+                    </div>
                   </div>
 
                   {/* Visual Area */}
                   <div className="service-detail-visual">
-                    <div className="service-visual-box">
+                    <div className="premium-visual-box">
+                      <div className="premium-floating-label">
+                        {service.category.toUpperCase()}
+                      </div>
                       <img 
                         src={service.heroImage} 
                         alt={service.title} 
-                        className="service-visual-bg-image" 
+                        className="service-visual-bg-image parallax-image" 
                       />
-                      <div className="service-visual-pattern overlay-pattern"></div>
+                      <div className="premium-visual-overlay"></div>
                     </div>
                   </div>
 

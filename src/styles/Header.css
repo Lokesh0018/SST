@@ -141,15 +141,15 @@
   top: 80px;
   left: 50%;
   transform: translateX(-50%);
-  width: 320px;
+  width: 540px; /* Increased to accommodate 2 columns */
   background-color: #FFFDF8;
   border: 1px solid rgba(216, 207, 190, 0.5);
   box-shadow: 0 16px 40px rgba(28, 28, 27, 0.08);
   border-radius: 18px;
   padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
 }
 .header-dropdown::before {
   content: '';

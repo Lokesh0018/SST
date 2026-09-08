@@ -233,8 +233,8 @@ export const services: Service[] = [
   },
   {
     slug: 'wireless-network',
-    title: 'Wireless Network Infrastructure',
-    shortTitle: 'Wireless Networks',
+    title: 'Wireless Technology',
+    shortTitle: 'Wireless Technology',
     category: 'Technology',
     tagline: 'Seamless Connectivity Everywhere.',
     description: 'Enterprise-grade wireless networking solutions ensuring robust, high-speed coverage.',
@@ -310,7 +310,7 @@ export const services: Service[] = [
       'Industrial automation backbones',
     ],
     gallery: [],
-    heroImage: 'https://i.pinimg.com/736x/8e/31/5a/8e315a676b7db0a02377b21db024f224.jpg',
+    heroImage: 'https://i.pinimg.com/736x/9f/d9/6a/9fd96a6e1a3bf163e7e359de795580cd.jpg',
   }
 ];
 
