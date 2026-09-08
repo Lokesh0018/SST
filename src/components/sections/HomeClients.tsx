@@ -7,55 +7,48 @@ import '../../styles/HomeClients.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const clientList = [
-  { name: 'Seagate', domain: 'seagate.com' },
-  { name: 'Bajaj Finserv', domain: 'bajajfinserv.in' },
-  { name: 'Flipkart', domain: 'flipkart.com' },
-  { name: 'Southern Spice', domain: '' },
-  { name: 'Four Points by Sheraton', domain: 'marriott.com' },
-  { name: 'Andhra Paper', domain: 'andhrapaper.com' },
-  { name: 'Greentech Pharmaceutical', domain: '' },
-  { name: 'Muthoot Finance', domain: 'muthootfinance.com' },
-  { name: 'Kotak', domain: 'kotak.com' },
-  { name: 'BlackBerry', domain: 'blackberry.com' },
-  { name: 'Canara Bank', domain: 'canarabank.com' },
-  { name: 'Courtyard by Marriott', domain: 'marriott.com' },
-  { name: 'SBI', domain: 'sbi.co.in' },
-  { name: 'Lifestyle', domain: 'lifestylestores.com' },
-  { name: 'Toshiba', domain: 'toshiba.com' },
-  { name: 'Lenskart', domain: 'lenskart.com' },
-  { name: 'Federal Bank', domain: 'federalbank.co.in' },
-  { name: 'Max', domain: 'maxfashion.in' },
-  { name: 'HSBC', domain: 'hsbc.com' },
-  { name: 'Ruckus', domain: 'commscope.com' },
-  { name: 'Spencer’s', domain: 'spencersretail.com' },
-  { name: 'Edelweiss', domain: 'edelweissfin.com' },
-  { name: 'CommScope', domain: 'commscope.com' },
-  { name: 'GEF India', domain: 'gefindia.com' },
-  { name: 'Mahindra Finance', domain: 'mahindrafinance.com' },
-  { name: 'Swiggy', domain: 'swiggy.com' },
-  { name: 'Dahua Technology', domain: 'dahuasecurity.com' },
-  { name: 'Reliance Fresh', domain: 'relianceretail.com' },
-  { name: 'HDFC Bank', domain: 'hdfcbank.com' },
-  { name: 'Unv', domain: 'uniview.com' },
-];
+const row1Logos = [
+  'seagate.svg',
+  'flipkart.svg',
+  'sbi.svg',
+  'HDFC.svg',
+  'HSBC.svg',
+  'Kotak.svg',
+  'Federal-bank.svg',
+  'Canara-Bank.svg',
+  'Muthoot-Finance.svg',
+  'Edelweiss.svg',
+  'Mahindra_Finance.svg',
+  'bajajfinserv.svg',
+  'Swiggy.svg',
+  'Lenskart.png',
+  'lifestyle.png',
+].map(name => `/images/logo/${name}`);
 
-const row1Clients = clientList.slice(0, 15);
-const row2Clients = clientList.slice(15, 30);
+const row2Logos = [
+  'max.svg',
+  'reliance-fresh.svg',
+  'Spencer\'s Retail Logo PNG.png',
+  'Andhra Paper Limited.png',
+  'four-points-by-sheraton.svg',
+  'Courtyard.svg',
+  'southern-spice.svg',
+  'Blackberry.svg',
+  'CommScope.svg',
+  'Dahua_Technology.svg',
+  'GEF.svg',
+  'Greentech.png',
+  'Ruckus.png',
+  'Toshiba.svg',
+  'uniview.svg',
+].map(name => `/images/logo/${name}`);
 
-const ClientLogo = ({ client }: { client: { name: string; domain: string } }) => {
-  const [hasError, setHasError] = useState(false);
-
-  if (!client.domain || hasError) {
-    return <span className="home-clients-logo-text">{client.name}</span>;
-  }
-
+const ClientLogo = ({ src }: { src: string }) => {
   return (
     <img 
-      src={`https://logo.clearbit.com/${client.domain}`} 
-      alt={client.name} 
+      src={src} 
+      alt="Client Logo" 
       className="home-clients-logo-img"
-      onError={() => setHasError(true)}
       loading="lazy"
     />
   );
@@ -138,16 +131,16 @@ export default function HomeClients() {
         <div className="home-clients-marquee home-clients-marquee-left">
           <div className="home-clients-marquee-track track-1">
             <div className="home-clients-marquee-group">
-              {row1Clients.map((client, i) => (
+              {row1Logos.map((src, i) => (
                 <div key={`t1-g1-${i}`} className="home-clients-logo-card">
-                  <ClientLogo client={client} />
+                  <ClientLogo src={src} />
                 </div>
               ))}
             </div>
             <div className="home-clients-marquee-group">
-              {row1Clients.map((client, i) => (
+              {row1Logos.map((src, i) => (
                 <div key={`t1-g2-${i}`} className="home-clients-logo-card">
-                  <ClientLogo client={client} />
+                  <ClientLogo src={src} />
                 </div>
               ))}
             </div>
@@ -158,16 +151,16 @@ export default function HomeClients() {
         <div className="home-clients-marquee home-clients-marquee-right">
           <div className="home-clients-marquee-track track-2">
             <div className="home-clients-marquee-group">
-              {row2Clients.map((client, i) => (
+              {row2Logos.map((src, i) => (
                 <div key={`t2-g1-${i}`} className="home-clients-logo-card">
-                  <ClientLogo client={client} />
+                  <ClientLogo src={src} />
                 </div>
               ))}
             </div>
             <div className="home-clients-marquee-group">
-              {row2Clients.map((client, i) => (
+              {row2Logos.map((src, i) => (
                 <div key={`t2-g2-${i}`} className="home-clients-logo-card">
-                  <ClientLogo client={client} />
+                  <ClientLogo src={src} />
                 </div>
               ))}
             </div>
