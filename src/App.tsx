@@ -10,7 +10,6 @@ const Services = lazy(() => import('./pages/Services'));
 const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
 const TurnkeyProjects = lazy(() => import('./pages/TurnkeyProjects'));
 const Industries = lazy(() => import('./pages/Industries'));
-const ClientDetail = lazy(() => import('./pages/ClientDetail'));
 const About = lazy(() => import('./pages/About'));
 const Clients = lazy(() => import('./pages/Clients'));
 const Contact = lazy(() => import('./pages/Contact'));
@@ -29,8 +28,6 @@ function App() {
             <Route path="/services/:slug" element={<ServiceDetail />} />
             <Route path="/turnkey-projects" element={<TurnkeyProjects />} />
             <Route path="/industries" element={<Industries />} />
-            <Route path="/clients" element={<Clients />} />
-            <Route path="/clients/:slug" element={<ClientDetail />} />
             <Route path="/about" element={<About />} />
             <Route path="/clients" element={<Clients />} />
             <Route path="/contact" element={<Contact />} />

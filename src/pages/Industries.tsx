@@ -17,7 +17,14 @@ const TopographicalBackground = () => (
       {Array.from({ length: 15 }).map((_, i) => (
         <path 
           key={`top-${i}`} 
-          d={`M-10,${15 + i*1.5} C30,${5 + i*2.5} 60,${35 + i*1.2} 110,${15 + i*2}`} 
+          d={`M-10,${15 + i*1.5} C40,${35 - i*0.8} 70,${5 - i*1.5} 110,${25 + i*1.2}`} 
+        />
+      ))}
+      {/* Middle Topography */}
+      {Array.from({ length: 15 }).map((_, i) => (
+        <path 
+          key={`middle-${i}`} 
+          d={`M-10,${45 + i*1.5} C40,${65 - i*0.8} 70,${35 - i*1.5} 110,${55 + i*1.2}`} 
         />
       ))}
       {/* Lower Topography */}

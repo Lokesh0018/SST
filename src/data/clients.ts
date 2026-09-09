@@ -1,133 +1,38 @@
 export interface Client {
-  slug: string;
-  title: string;
-  industry: string;
-  location: string;
-  image: string;
-  services: string[];
-  description: string;
-  challenge: string;
-  service: string;
-  scope: string[];
-  results: string[];
-  stats: { value: string; label: string }[];
-  featured: boolean;
+  id: string;
+  name: string;
+  logo: string;
 }
 
 export const clients: Client[] = [
-  {
-    slug: 'central-bank-headquarters',
-    title: 'Central Bank Headquarters',
-    industry: 'Banking',
-    location: 'Visakhapatnam, India',
-    image: 'https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?auto=format&fit=crop&w=1000&q=80',
-    services: ['Video Surveillance', 'Access Control', 'Network Infrastructure'],
-    description: 'Complete security and network infrastructure deployment for a major banking headquarters spanning multiple floors and secure zones.',
-    challenge: 'The client required a comprehensive security overhaul with zero downtime during banking hours, covering high-security vaults, customer areas, and executive floors with integrated surveillance and access control.',
-    service: 'We deployed an integrated security ecosystem with 120+ IP cameras, biometric access control across 45 access points, and a redundant network backbone — all implemented during off-hours to ensure zero business disruption.',
-    scope: ['Security System Design', 'IP Camera Installation', 'Access Control Deployment', 'Network Cabling', 'Server Room Setup', 'Training & Handover'],
-    results: ['Zero security incidents post-deployment', 'Complete facility coverage with no blind spots', 'Reduced unauthorized access attempts', 'Full regulatory compliance achieved'],
-    stats: [
-      { value: '120+', label: 'Cameras' },
-      { value: '24/7', label: 'Monitoring' },
-      { value: '45', label: 'Access Points' },
-      { value: '8', label: 'Months' },
-    ],
-    featured: true,
-  },
-  {
-    slug: 'luxury-hotel-resort',
-    title: 'Luxury Hotel & Resort',
-    industry: 'Hospitality',
-    location: 'Visakhapatnam, India',
-    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=80',
-    services: ['Surveillance', 'Access Control', 'Fire Safety', 'Electrical'],
-    description: 'Integrated safety and infrastructure systems for a premium hospitality property with guest comfort and security as the primary objectives.',
-    challenge: 'A luxury resort required discreet yet comprehensive security infrastructure that would not compromise the aesthetic experience for guests while ensuring fire safety compliance and efficient power management.',
-    service: 'Designed and deployed an aesthetically integrated security system with concealed cameras, smart room access, automated fire detection, and energy-efficient electrical systems throughout the property.',
-    scope: ['Discreet Surveillance', 'Smart Room Access', 'Fire Detection System', 'Electrical Distribution', 'Emergency Systems'],
-    results: ['Enhanced guest safety without visual intrusion', 'Fire safety compliance across all zones', 'Reduced energy consumption', 'Streamlined operations management'],
-    stats: [
-      { value: '80+', label: 'Cameras' },
-      { value: '200+', label: 'Room Access' },
-      { value: '6', label: 'Integrated Systems' },
-      { value: '14', label: 'Months' },
-    ],
-    featured: true,
-  },
-  {
-    slug: 'industrial-manufacturing-facility',
-    title: 'Industrial Manufacturing Facility',
-    industry: 'Industrial',
-    location: 'Andhra Pradesh, India',
-    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1000&q=80',
-    services: ['Network Infrastructure', 'Electrical', 'Fire Safety', 'Surveillance'],
-    description: 'End-to-end infrastructure setup for a large-scale manufacturing facility including network backbone, electrical distribution, and fire safety systems.',
-    challenge: 'The manufacturing facility required ruggedized infrastructure that could withstand harsh industrial conditions while maintaining high reliability and ensuring worker safety across production zones.',
-    service: 'We engineered industrial-grade infrastructure with reinforced cabling, explosion-proof fixtures, comprehensive fire suppression, and environmental monitoring systems designed for continuous operation.',
-    scope: ['Industrial Network Cabling', 'Power Distribution', 'Fire Suppression', 'Perimeter Security', 'Environmental Monitoring'],
-    results: ['Zero unplanned downtime from infrastructure failures', 'Full compliance with industrial safety standards', 'Improved operational visibility', 'Reduced energy waste'],
-    stats: [
-      { value: '50K+', label: 'Sq. Ft. Covered' },
-      { value: '99.9%', label: 'Uptime' },
-      { value: '4', label: 'Safety Zones' },
-      { value: '10', label: 'Months' },
-    ],
-    featured: true,
-  },
-  {
-    slug: 'corporate-office-campus',
-    title: 'Corporate Office Campus',
-    industry: 'Corporate',
-    location: 'Hyderabad, India',
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=80',
-    services: ['IT Infrastructure', 'Security', 'Electrical'],
-    description: 'Modern IT and security infrastructure for a multi-building corporate campus supporting a dynamic workforce.',
-    challenge: 'A growing technology company needed a future-ready campus infrastructure that could support rapid team expansion, hybrid work models, and stringent data security requirements.',
-    service: 'Deployed a unified campus network with high-density Wi-Fi, integrated physical security, smart building controls, and a scalable data center environment — all managed from a central operations dashboard.',
-    scope: ['Campus Network Design', 'Wi-Fi Deployment', 'Security Systems', 'Smart Building Integration', 'Data Center Setup'],
-    results: ['Seamless connectivity across campus', 'Centralized security management', 'Smart energy management', 'Future-ready scalable infrastructure'],
-    stats: [
-      { value: '3', label: 'Buildings' },
-      { value: '500+', label: 'Endpoints' },
-      { value: '12', label: 'Floors' },
-      { value: '6', label: 'Months' },
-    ],
-    featured: false,
-  },
-  {
-    slug: 'financial-data-center',
-    title: 'Financial Data Center',
-    industry: 'Infrastructure',
-    location: 'Bangalore, India',
-    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1000&q=80',
-    services: ['Network Infrastructure', 'Electrical', 'Fire Safety', 'Access Control'],
-    description: 'High-availability data center infrastructure for a financial services provider with stringent uptime and security requirements.',
-    challenge: 'The financial institution required a Tier-III equivalent data center with redundant power, cooling, fire suppression, and physical security — all within a compressed timeline.',
-    service: 'Engineered and delivered a comprehensive data center service with dual power feeds, precision cooling, gas-based fire suppression, multi-layer access control, and complete environmental monitoring.',
-    scope: ['Data Center Design', 'Redundant Power Systems', 'Precision Cooling', 'Fire Suppression', 'Physical Security', 'Environmental Monitoring'],
-    results: ['Achieved Tier-III availability targets', 'Zero data loss incidents', 'Full regulatory compliance', 'Optimized cooling efficiency'],
-    stats: [
-      { value: '99.99%', label: 'Uptime' },
-      { value: '100+', label: 'Racks' },
-      { value: '5', label: 'Redundancy Layers' },
-      { value: '12', label: 'Months' },
-    ],
-    featured: false,
-  },
+  { id: '1', name: 'Andhra Paper Limited', logo: '/images/logo/Andhra Paper Limited.png' },
+  { id: '2', name: 'Blackberry', logo: '/images/logo/Blackberry.svg' },
+  { id: '3', name: 'Canara Bank', logo: '/images/logo/Canara-Bank.svg' },
+  { id: '4', name: 'CommScope', logo: '/images/logo/CommScope.svg' },
+  { id: '5', name: 'Courtyard', logo: '/images/logo/Courtyard.svg' },
+  { id: '6', name: 'Dahua Technology', logo: '/images/logo/Dahua_Technology.svg' },
+  { id: '7', name: 'Edelweiss', logo: '/images/logo/Edelweiss.svg' },
+  { id: '8', name: 'Federal Bank', logo: '/images/logo/Federal-bank.svg' },
+  { id: '9', name: 'GEF', logo: '/images/logo/GEF.svg' },
+  { id: '10', name: 'Greentech', logo: '/images/logo/Greentech.png' },
+  { id: '11', name: 'HDFC', logo: '/images/logo/HDFC.svg' },
+  { id: '12', name: 'HSBC', logo: '/images/logo/HSBC.svg' },
+  { id: '13', name: 'Kotak', logo: '/images/logo/Kotak.svg' },
+  { id: '14', name: 'Lenskart', logo: '/images/logo/Lenskart.png' },
+  { id: '15', name: 'Mahindra Finance', logo: '/images/logo/Mahindra_Finance.svg' },
+  { id: '16', name: 'Muthoot Finance', logo: '/images/logo/Muthoot-Finance.svg' },
+  { id: '17', name: 'Ruckus', logo: '/images/logo/Ruckus.png' },
+  { id: '18', name: "Spencer's Retail", logo: "/images/logo/Spencer's Retail Logo PNG.png" },
+  { id: '19', name: 'Swiggy', logo: '/images/logo/Swiggy.svg' },
+  { id: '20', name: 'Toshiba', logo: '/images/logo/Toshiba.svg' },
+  { id: '21', name: 'Bajaj Finserv', logo: '/images/logo/bajajfinserv.svg' },
+  { id: '22', name: 'Flipkart', logo: '/images/logo/flipkart.svg' },
+  { id: '23', name: 'Four Points by Sheraton', logo: '/images/logo/four-points-by-sheraton.svg' },
+  { id: '24', name: 'Lifestyle', logo: '/images/logo/lifestyle.png' },
+  { id: '25', name: 'Max', logo: '/images/logo/max.svg' },
+  { id: '26', name: 'Reliance Fresh', logo: '/images/logo/reliance-fresh.svg' },
+  { id: '27', name: 'SBI', logo: '/images/logo/sbi.svg' },
+  { id: '28', name: 'Seagate', logo: '/images/logo/seagate.svg' },
+  { id: '29', name: 'Southern Spice', logo: '/images/logo/southern-spice.svg' },
+  { id: '30', name: 'Uniview', logo: '/images/logo/uniview.svg' },
 ];
-
-export const getClientBySlug = (slug: string): Client | undefined => {
-  return clients.find((p) => p.slug === slug);
-};
-
-export const getFeaturedClients = (): Client[] => {
-  return clients.filter((p) => p.featured);
-};
-
-export const getClientsByIndustry = (industry: string): Client[] => {
-  if (industry === 'All') return clients;
-  return clients.filter((p) => p.industry === industry);
-};
-
-export const clientCategories = ['All', 'Banking', 'Hospitality', 'Industrial', 'Corporate', 'Infrastructure'];

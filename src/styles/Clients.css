@@ -1,6 +1,7 @@
 .clients-hero {
   padding-top: 11rem;
   padding-bottom: 4rem;
+  position: relative;
 }
 @media (min-width: 1024px) {
   .clients-hero {
@@ -12,6 +13,8 @@
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  position: relative;
+  z-index: 10;
 }
 @media (min-width: 1024px) {
   .clients-hero-header {
@@ -32,6 +35,7 @@
 .clients-hero-right {
   display: none;
   text-align: right;
+  position: relative;
 }
 @media (min-width: 1024px) {
   .clients-hero-right {
@@ -53,161 +57,144 @@
 }
 
 .clients-section {
-  padding-top: 4rem;
-  padding-bottom: 4rem;
-  background-color: var(--color-ivory);
+  position: relative;
+  padding-top: 5rem;
+  padding-bottom: 8rem;
+  background-color: #F9F7F1;
+  overflow: hidden;
 }
 
-.clients-filters {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 3rem;
+.clients-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    800px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(244, 81, 30, 0.08) 0%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
+  transition: background 0.15s ease-out;
 }
 
-.clients-filter-btn {
-  padding: 0.625rem 1.25rem;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: 9999px;
-  border: 2px solid transparent;
-  transition: all 300ms ease;
-  cursor: pointer;
+.clients-topo-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
 }
 
-.clients-filter-active {
-  background-color: var(--color-orange);
-  color: white;
-  border-color: var(--color-orange);
+.clients-topo-svg {
+  width: 100%;
+  height: 100%;
 }
 
-.clients-filter-inactive {
-  background-color: transparent;
-  color: rgba(28, 28, 27, 0.6);
-  border-color: rgba(239, 228, 207, 1);
-}
-.clients-filter-inactive:hover {
-  border-color: rgba(241, 90, 36, 0.5);
-  color: var(--color-orange);
+.clients-topo-svg path {
+  fill: none;
+  stroke: rgba(23, 23, 23, 0.15);
+  stroke-width: 1.5;
+  vector-effect: non-scaling-stroke;
 }
 
-.clients-grid {
+.client-logos-grid {
+  position: relative;
+  z-index: 10;
   display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 1.5rem;
 }
+@media (min-width: 640px) {
+  .client-logos-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 2rem;
+  }
+}
 @media (min-width: 768px) {
-  .clients-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  .client-logos-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 2.5rem;
   }
 }
 @media (min-width: 1024px) {
-  .clients-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .client-logos-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 2.5rem;
   }
 }
 
-.clients-card {
-  display: block;
-  border-radius: 0.75rem;
-  overflow: hidden;
-  background-color: rgba(247, 240, 224, 0.3);
-  border: 1px solid rgba(239, 228, 207, 0.2);
-  transition: all 500ms ease;
-}
-.clients-card:hover {
-  border-color: rgba(241, 90, 36, 0.3);
-  box-shadow: 0 8px 30px rgba(23, 22, 19, 0.08);
-}
-
-.clients-card-img-container {
-  aspect-ratio: 16 / 10;
-  overflow: hidden;
+.client-logo-card {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 10;
+  background-color: white;
+  border: 1px solid rgba(239, 228, 207, 0.8);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 4px 15px rgba(28, 28, 27, 0.02);
+  transition: all 400ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.clients-card-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 700ms ease;
+.client-logo-card:hover {
+  border-color: rgba(241, 90, 36, 0.3);
+  box-shadow: 0 12px 30px rgba(28, 28, 27, 0.08);
+  transform: translateY(-5px);
 }
-.clients-card:hover .clients-card-img {
+
+.client-logo-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: grayscale(100%) opacity(0.7);
+  transition: all 400ms ease;
+}
+
+.client-logo-card:hover .client-logo-img {
+  filter: grayscale(0%) opacity(1);
   transform: scale(1.05);
 }
 
-.clients-card-overlay {
+.client-logo-tooltip {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(28, 28, 27, 0.8), transparent, transparent);
-  opacity: 0.6;
-}
-
-.clients-card-content {
-  padding: 1.25rem;
-}
-
-.clients-card-industry {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--color-orange);
-}
-
-.clients-card-title {
-  font-size: 1.125rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: -0.025em;
-  color: var(--color-charcoal);
-  margin-top: 0.5rem;
-  transition: color 300ms ease;
-}
-.clients-card:hover .clients-card-title {
-  color: var(--color-orange);
-}
-
-.clients-card-meta {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background-color: var(--color-charcoal, #1C1C1B);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
   font-size: 0.75rem;
-  color: rgba(28, 28, 27, 0.5);
-  margin-top: 0.5rem;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 15px rgba(28, 28, 27, 0.15);
+  z-index: 20;
+  pointer-events: none;
 }
 
-.clients-card-location {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
+.client-logo-tooltip::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: var(--color-charcoal, #1C1C1B) transparent transparent transparent;
 }
 
-.clients-card-services {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.375rem;
-  margin-top: 0.75rem;
-}
-
-.clients-card-service {
-  font-size: 10px;
-  font-weight: 500;
-  color: rgba(28, 28, 27, 0.4);
-  background-color: var(--color-ivory);
-  padding: 0.125rem 0.5rem;
-  border-radius: 0.25rem;
-}
-
-.clients-empty {
-  text-align: center;
-  padding-top: 5rem;
-  padding-bottom: 5rem;
-}
-
-.clients-empty-text {
-  color: rgba(28, 28, 27, 0.4);
+.client-logo-card:hover .client-logo-tooltip {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
 }
