@@ -91,12 +91,12 @@
   z-index: 0;
 }
 
-.clients-topo-svg {
+.clients-topo-container svg {
   width: 100%;
   height: 100%;
 }
 
-.clients-topo-svg path {
+.clients-topo-container svg path {
   fill: none;
   stroke: rgba(23, 23, 23, 0.15);
   stroke-width: 1.5;

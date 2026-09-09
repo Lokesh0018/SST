@@ -4,38 +4,11 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../components/common/PageTransition';
 import SectionHeading from '../components/common/SectionHeading';
 import ClientNetworkBackground from '../components/ClientNetworkBackground';
+import TopographicalBackground from '../components/common/TopographicalBackground';
 import { clients } from '../data/clients';
 import '../styles/Clients.css';
 
 gsap.registerPlugin(ScrollTrigger);
-
-const TopographicalBackground = () => (
-  <div className="clients-topo-container">
-    <svg className="clients-topo-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
-      {/* Upper Topography */}
-      {Array.from({ length: 15 }).map((_, i) => (
-        <path 
-          key={`top-${i}`} 
-          d={`M-10,${15 + i*1.5} C40,${35 - i*0.8} 70,${5 - i*1.5} 110,${25 + i*1.2}`} 
-        />
-      ))}
-      {/* Middle Topography */}
-      {Array.from({ length: 15 }).map((_, i) => (
-        <path 
-          key={`middle-${i}`} 
-          d={`M-10,${45 + i*1.5} C40,${65 - i*0.8} 70,${35 - i*1.5} 110,${55 + i*1.2}`} 
-        />
-      ))}
-      {/* Lower Topography */}
-      {Array.from({ length: 15 }).map((_, i) => (
-        <path 
-          key={`bottom-${i}`} 
-          d={`M-10,${75 + i*1.5} C40,${95 - i*0.8} 70,${65 - i*1.5} 110,${85 + i*1.2}`} 
-        />
-      ))}
-    </svg>
-  </div>
-);
 
 export default function Clients() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -110,7 +83,7 @@ export default function Clients() {
           sectionRef.current.style.setProperty('--mouse-y', `${y}px`);
         }}
       >
-        <TopographicalBackground />
+        <TopographicalBackground className="clients-topo-container" />
         <div className="container">
           <div ref={gridRef} className="client-logos-grid">
             {clients.map((client) => (
