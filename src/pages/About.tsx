@@ -6,6 +6,7 @@ import SectionHeading from '../components/common/SectionHeading';
 import Button from '../components/common/Button';
 import InfrastructureBackground from '../components/InfrastructureBackground';
 import EcosystemNetwork from '../components/EcosystemNetwork';
+import PieBurst from '../components/PieBurst';
 import '../styles/About.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -19,31 +20,21 @@ const capabilities = [
   'SUPPLY & FIELD SUPPORT'
 ];
 
-const strengths = [
-  {
-    title: 'Comprehensive Security Integration',
-    desc: 'Seamlessly integrate intrusion detection, wireless technology, and video surveillance.'
-  },
-  {
-    title: 'Advanced Intrusion Detection',
-    desc: 'State-of-the-art sensors, alarms, and notification mechanisms to deter unauthorized access.'
-  },
-  {
-    title: 'Wireless Flexibility',
-    desc: 'Deploy robust wireless infrastructure for adaptable and scalable security networks.'
-  },
-  {
-    title: 'Remote Monitoring & Management',
-    desc: 'Monitor your premises in real-time from anywhere with enhanced situational awareness.'
-  },
-  {
-    title: 'High-Definition Video Quality',
-    desc: 'Clear, detailed footage ensuring accurate identification and analysis of events.'
-  },
-  {
-    title: 'Intelligent Analytics',
-    desc: 'Detect anomalies, track movements, and gain valuable insights for security operations.'
-  }
+const timelineData = [
+  { year: '2016', title: 'Founded', desc: 'Sri Sadguru Traders (SST) was incorporated, laying the foundation for our infrastructure journey.' },
+  { year: '2018', title: 'Turnkey Projects', desc: 'Expanded our operational capacity to handle end-to-end Turnkey Projects across multiple verticals.' },
+  { year: '2020', title: 'Advanced Security Integration', desc: 'Scaled our expertise in CCTV, Access Control, and FAS, becoming a trusted technology partner.' },
+  { year: '2024', title: 'Complete Infrastructure Execution', desc: 'Delivering comprehensive solutions spanning ATM infrastructure, networking, and critical deployments.' }
+];
+
+const marqueeItems = [
+  'TURNKEY PROJECTS', 'CCTV & SURVEILLANCE', 'FIRE ALARM SYSTEMS', 'ACCESS CONTROL', 'ATM INFRASTRUCTURE', 'PA SYSTEMS'
+];
+
+const leadershipData = [
+  { name: 'Leadership Name', role: 'Founder & Managing Director', img: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80' },
+  { name: 'Leadership Name', role: 'Chief Technology Officer', img: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80' },
+  { name: 'Leadership Name', role: 'Head of Operations', img: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80' }
 ];
 
 export default function About() {
@@ -53,6 +44,8 @@ export default function About() {
   const strengthsRef = useRef<HTMLDivElement>(null);
   const peopleRef = useRef<HTMLDivElement>(null);
   const avmRef = useRef<HTMLDivElement>(null);
+  const timelineRef = useRef<HTMLDivElement>(null);
+  const ceoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -62,11 +55,11 @@ export default function About() {
     if (storyImgRef.current && storyTextRef.current) {
       gsap.fromTo(storyImgRef.current,
         { scale: 1.05, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: storyImgRef.current, start: 'top 80%' } }
+        { scale: 1, opacity: 1, duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: storyImgRef.current, start: 'top 80%', toggleActions: 'play none none reverse' } }
       );
       gsap.fromTo(storyTextRef.current.children,
         { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out', scrollTrigger: { trigger: storyTextRef.current, start: 'top 80%' } }
+        { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out', scrollTrigger: { trigger: storyTextRef.current, start: 'top 80%', toggleActions: 'play none none reverse' } }
       );
     }
 
@@ -77,6 +70,7 @@ export default function About() {
       ScrollTrigger.batch(cards, {
         start: 'top 85%',
         onEnter: (batch) => gsap.to(batch, { opacity: 1, y: 0, stagger: 0.05, duration: 0.5, ease: 'power2.out' }),
+        onLeaveBack: (batch) => gsap.set(batch, { opacity: 0, y: 20 }),
       });
     }
 
@@ -87,6 +81,7 @@ export default function About() {
       ScrollTrigger.batch(items, {
         start: 'top 85%',
         onEnter: (batch) => gsap.to(batch, { opacity: 1, y: 0, stagger: 0.1, duration: 0.6, ease: 'power2.out' }),
+        onLeaveBack: (batch) => gsap.set(batch, { opacity: 0, y: 20 }),
       });
     }
 
@@ -96,17 +91,64 @@ export default function About() {
       blocks.forEach((block) => {
         gsap.fromTo(block,
           { opacity: 0, x: -30 },
-          { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: block, start: 'top 85%' } }
+          { opacity: 1, x: 0, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: block, start: 'top 85%', toggleActions: 'play none none reverse' } }
         );
       });
     }
 
-    // AVM Columns Animation
-    if (avmRef.current) {
-      const cols = avmRef.current.querySelectorAll('.avm-col');
-      gsap.fromTo(cols,
-        { opacity: 0, y: 40 },
-        { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: 'power3.out', scrollTrigger: { trigger: avmRef.current, start: 'top 80%' } }
+    // Timeline Animation
+    if (timelineRef.current) {
+      const lineProgress = timelineRef.current.querySelector('.timeline-line-progress');
+      const items = timelineRef.current.querySelectorAll('.timeline-item');
+      
+      gsap.to(lineProgress, {
+        height: '100%',
+        ease: 'none',
+        scrollTrigger: {
+          trigger: timelineRef.current,
+          start: 'top center',
+          end: 'bottom center',
+          scrub: true
+        }
+      });
+
+      items.forEach((item) => {
+        const node = item.querySelector('.timeline-node-container');
+        const content = item.querySelector('.timeline-content');
+        const conn = item.querySelector('.timeline-conn-line');
+
+        // Setup initial states
+        gsap.set(content, { opacity: 0, x: item.classList.contains('left') ? -40 : 40 });
+        if (node) gsap.set(node, { scale: 0.5, opacity: 0 });
+        if (conn) gsap.set(conn, { scaleX: 0, opacity: 0 });
+
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: item,
+            start: 'top center+=10%',
+            toggleActions: 'play none none reverse'
+          }
+        });
+
+        if (node) {
+          tl.to(node, { scale: 1.3, opacity: 1, duration: 0.4, ease: 'back.out(2)' })
+            .to(node, { scale: 1, duration: 0.2 });
+        }
+        if (conn) {
+          tl.to(conn, { scaleX: 1, opacity: 1, duration: 0.4, ease: 'power2.out' }, "-=0.3");
+        }
+        if (content) {
+          tl.to(content, { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out' }, "-=0.3");
+        }
+      });
+    }
+
+    // CEO Message Animation
+    if (ceoRef.current) {
+      const elements = ceoRef.current.children;
+      gsap.fromTo(elements,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: 'power2.out', scrollTrigger: { trigger: ceoRef.current, start: 'top 80%', toggleActions: 'play none none reverse' } }
       );
     }
 
@@ -136,7 +178,7 @@ export default function About() {
                 </p>
               </div>
               <div className="about-hero-right">
-                {/* Abstract background density naturally visible here */}
+                <PieBurst />
               </div>
             </div>
           </div>
@@ -153,7 +195,7 @@ export default function About() {
             <div className="story-split-grid mt-12">
               <div className="story-image-col">
                 <div className="story-img-wrapper" ref={storyImgRef as any}>
-                  <img src="/images/about bg.png" alt="SST Engineering" className="story-img" />
+                  <img src="https://i.pinimg.com/1200x/93/0d/c1/930dc1ac4570507ca25303a967e0cc2d.jpg" alt="SST Engineering Infrastructure" className="story-img" />
                   <div className="story-img-brackets"></div>
                 </div>
               </div>
@@ -206,6 +248,11 @@ export default function About() {
                 <p className="why-desc">
                   To meet customer expectations for quality, performance and reliability, we continuously strive for excellence while delivering solutions within defined parameters.
                 </p>
+                <div className="why-tags">
+                  {['QUALITY', 'RELIABILITY', 'SAFETY', 'ENGINEERING', 'SUPPORT', 'DELIVERY'].map((tag, idx) => (
+                    <span key={idx} className="why-tag">{tag}</span>
+                  ))}
+                </div>
               </div>
               <div className="why-visual-col">
                 <EcosystemNetwork />
@@ -214,29 +261,65 @@ export default function About() {
           </div>
         </section>
 
-        {/* 5. STRENGTHS / FEATURES */}
-        <section className="about-strengths-section">
+        {/* 5. TIMELINE / OUR JOURNEY */}
+        <section className="about-timeline-section relative overflow-hidden">
+          {/* Background Aurora */}
+          <div className="timeline-aurora-bg">
+             <div className="aurora-blob a-left"></div>
+             <div className="aurora-blob a-right"></div>
+          </div>
+          {/* Technical Dot Grid overlay */}
+          <div className="timeline-bg-grid"></div>
+          
           <div className="container relative z-10">
-            <div className="strengths-grid" ref={strengthsRef}>
-              {strengths.map((s, idx) => (
-                <div key={idx} className="strength-item">
-                  <div className="strength-header">
-                    <span className="strength-num">{(idx + 1).toString().padStart(2, '0')}</span>
-                    <svg className="strength-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                      <line x1="3" y1="9" x2="21" y2="9"></line>
-                      <line x1="9" y1="21" x2="9" y2="9"></line>
-                    </svg>
+            <div className="text-center">
+              <span className="about-eyebrow">OUR JOURNEY</span>
+              <h2 className="why-headline">MILESTONES OF<br/><span className="text-orange">GROWTH.</span></h2>
+            </div>
+            <div className="timeline-container" ref={timelineRef}>
+              <div className="timeline-line-bg"></div>
+              <div className="timeline-line-progress"></div>
+              
+              {timelineData.map((item, idx) => (
+                <div key={idx} className={`timeline-item ${idx % 2 === 0 ? 'left' : 'right'}`}>
+                  {/* Central Node */}
+                  <div className="timeline-node-container">
+                    <div className="timeline-node-glow"></div>
+                    <div className="timeline-node"></div>
                   </div>
-                  <h3>{s.title}</h3>
-                  <p>{s.desc}</p>
+                  
+                  {/* Connection Line */}
+                  <div className="timeline-conn-wrapper">
+                    <div className="timeline-conn-line"></div>
+                  </div>
+                  
+                  {/* Content Card */}
+                  <div className="timeline-content relative z-10">
+                    <div className="timeline-watermark">{item.year}</div>
+                    <div className="timeline-year">{item.year}</div>
+                    <h3 className="timeline-title">{item.title}</h3>
+                    <p className="timeline-desc">{item.desc}</p>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* 6. OUR PEOPLE / DELIVERY */}
+        {/* 6. PARTNER MARQUEE (SERVICES TICKER) */}
+        <section className="about-marquee-section">
+          <div className="marquee-track">
+            {/* Double the array for seamless infinite scroll */}
+            {[...marqueeItems, ...marqueeItems, ...marqueeItems].map((item, idx) => (
+              <div key={idx} className="marquee-item">
+                {item}
+                <div className="marquee-dot"></div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 7. OUR PEOPLE / DELIVERY */}
         <section className="about-people-section">
           <div className="container relative z-10">
             <SectionHeading as="h2" highlight="PEOPLE.">
@@ -245,85 +328,102 @@ export default function About() {
             <h2 className="about-section-headline" style={{marginTop: '-1rem'}}>DELIVERED WITH PRECISION.</h2>
 
             <div className="people-blocks mt-12" ref={peopleRef}>
+              
               <div className="people-block">
-                <div className="people-visual">
-                  <img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80" alt="Timely Delivery" />
-                  <div className="people-brackets"></div>
-                </div>
+                <img src="/images/timely-deliver.png" alt="Timely Delivery" className="people-bg-img" />
+                <div className="people-overlay"></div>
                 <div className="people-content">
-                  <h3>TIMELY DELIVERY</h3>
-                  <p>Structured execution that keeps projects moving.</p>
+                  <div className="people-content-inner">
+                    <h3>TIMELY DELIVERY</h3>
+                    <p>Structured execution that keeps projects moving.</p>
+                  </div>
                 </div>
               </div>
+
               <div className="people-block">
-                <div className="people-visual">
-                  <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" alt="Professional Staff" />
-                  <div className="people-brackets"></div>
-                </div>
+                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" alt="Professional Staff" className="people-bg-img" />
+                <div className="people-overlay"></div>
                 <div className="people-content">
-                  <h3>PROFESSIONAL STAFF</h3>
-                  <p>Experienced engineers and technology professionals.</p>
+                  <div className="people-content-inner">
+                    <h3>PROFESSIONAL STAFF</h3>
+                    <p>Experienced engineers and technology professionals.</p>
+                  </div>
                 </div>
               </div>
+
               <div className="people-block">
-                <div className="people-visual">
-                  <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80" alt="Tech Support" />
-                  <div className="people-brackets"></div>
-                </div>
+                <img src="/images/tech-support.jpg" alt="Tech Support" className="people-bg-img" />
+                <div className="people-overlay"></div>
                 <div className="people-content">
-                  <h3>24/7 TECH SUPPORT</h3>
-                  <p>Continued support beyond project completion.</p>
+                  <div className="people-content-inner">
+                    <h3>24/7 TECH SUPPORT</h3>
+                    <p>Continued support beyond project completion.</p>
+                  </div>
                 </div>
               </div>
+
             </div>
           </div>
         </section>
 
-        {/* 7. AIM / VISION / MISSION */}
-        <section className="about-avm-section">
+        {/* 8. CEO MESSAGE */}
+        <section className="about-ceo-section">
           <div className="container relative z-10">
-            <div className="avm-columns" ref={avmRef}>
-              <div className="avm-col">
-                <div className="avm-bg-pattern"></div>
-                <span className="avm-num">01</span>
-                <div className="avm-line"></div>
-                <h3>AIM</h3>
-                <p>World-class security for your needs</p>
+            <div className="ceo-grid" ref={ceoRef}>
+              <div className="ceo-text-col">
+                <span className="about-eyebrow">MESSAGE FROM OUR CEO</span>
+                <h2 className="why-headline">
+                  “We build robust infrastructure that secures and empowers your business.”
+                </h2>
+                <p className="ceo-desc">
+                  At SST, we believe that reliability is the foundation of every successful enterprise. Our goal is to provide end-to-end turnkey solutions that seamlessly integrate technology, security, and infrastructure, allowing our clients to focus on what they do best.
+                </p>
+                <div className="ceo-signature">
+                  <span className="ceo-name">Charvik</span>
+                  <span className="ceo-title">CEO</span>
+                </div>
               </div>
-              <div className="avm-col">
-                <div className="avm-bg-pattern"></div>
-                <span className="avm-num">02</span>
-                <div className="avm-line"></div>
-                <h3>VISION</h3>
-                <p>To be the company you can trust</p>
-              </div>
-              <div className="avm-col">
-                <div className="avm-bg-pattern"></div>
-                <span className="avm-num">03</span>
-                <div className="avm-line"></div>
-                <h3>MISSION</h3>
-                <p>To be the one-stop solution</p>
+              <div className="ceo-image-col">
+                <div className="ceo-img-wrapper">
+                  <img src="/images/ceo.png" alt="Charvik, CEO" className="ceo-img" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80'; }} />
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 8. FINAL CTA */}
+
+        {/* 9. FINAL CTA */}
         <section className="about-cta-section">
-          <div className="container relative z-10 text-center">
-            <h2 className="cta-headline">
-              LET'S BUILD<br/>
-              <span className="text-orange">WHAT'S NEXT.</span>
-            </h2>
-            <p className="cta-desc">
-              From security systems to complete infrastructure execution, SST is ready to help deliver your next project.
-            </p>
-            <div className="cta-actions">
-              <Button variant="primary" size="lg">START A PROJECT &rarr;</Button>
-            </div>
-            <div className="cta-contact">
-              <p>+91 9494 139 156</p>
-              <p>info@sstco.in</p>
+          <div className="container relative z-10">
+            <div className="cta-orange-card">
+              {/* Subtle Background Elements */}
+              <div className="cta-card-bg-elements">
+                <div className="cta-card-dots"></div>
+                <div className="cta-watermark">SST</div>
+                <div className="cta-geo-line"></div>
+              </div>
+
+              <div className="cta-card-content">
+                <div className="cta-card-header">
+                  <h2 className="cta-headline">
+                    LET'S BUILD<br/>
+                    WHAT'S NEXT.
+                  </h2>
+                  <div className="cta-actions">
+                    <Button variant="primary" to="/contact" className="cta-btn-minimal">START A PROJECT &rarr;</Button>
+                  </div>
+                </div>
+                
+                <div className="cta-card-body">
+                  <p className="cta-desc">
+                    From security systems to complete infrastructure execution, SST is ready to help deliver your next project.
+                  </p>
+                  <div className="cta-contact-minimal">
+                    +91 9494 139 156 &nbsp;&middot;&nbsp; info@sstco.in
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
