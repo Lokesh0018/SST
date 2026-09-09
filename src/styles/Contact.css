@@ -214,3 +214,90 @@
   color: rgba(28, 28, 27, 0.6);
   margin-top: 0.125rem;
 }
+
+/* Enhancements */
+
+.contact-hero-bg {
+  background: linear-gradient(135deg, rgba(247, 240, 224, 0.9) 0%, rgba(239, 228, 207, 0.95) 100%), url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80') center/cover;
+  position: relative;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.contact-item:hover {
+  background-color: #fff;
+  border-color: rgba(239, 228, 207, 1);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  transform: translateY(-2px);
+}
+
+.contact-socials {
+  margin-top: 2rem;
+  padding-top: 0;
+}
+
+.contact-socials-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-charcoal);
+  margin-bottom: 1rem;
+}
+
+.contact-socials-list {
+  display: flex;
+  gap: 1rem;
+}
+
+.contact-social-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-orange);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(239, 228, 207, 1);
+}
+
+.contact-social-icon:hover {
+  background-color: var(--color-orange);
+  color: #fff;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(241, 90, 36, 0.2);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.contact-map-container {
+  overflow: hidden;
+  border-radius: 1rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(239, 228, 207, 0.5);
+}
