@@ -2,7 +2,6 @@ import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../components/common/PageTransition';
-import SectionHeading from '../components/common/SectionHeading';
 import Button from '../components/common/Button';
 import InfrastructureBackground from '../components/InfrastructureBackground';
 import EcosystemNetwork from '../components/EcosystemNetwork';
@@ -187,15 +186,13 @@ export default function About() {
         {/* 2. COMPANY STORY */}
         <section className="about-story-section">
           <div className="container relative z-10">
-            <SectionHeading as="h2" highlight="CONNECT">
-              BUILT TO 
-            </SectionHeading>
-            <h2 className="about-section-headline" style={{marginTop: '-1rem'}}>EVERY LAYER.</h2>
+            <span className="about-eyebrow">COMPANY STORY</span>
+            <h2 className="why-headline">BUILT TO <br/><span className="text-orange">EVERY LAYER.</span></h2>
             
             <div className="story-split-grid mt-12">
               <div className="story-image-col">
                 <div className="story-img-wrapper" ref={storyImgRef as any}>
-                  <img src="https://i.pinimg.com/1200x/93/0d/c1/930dc1ac4570507ca25303a967e0cc2d.jpg" alt="SST Engineering Infrastructure" className="story-img" />
+                  <img src="https://i.pinimg.com/736x/26/9d/fa/269dfacea2dffa78b299da7ee976593a.jpg" alt="SST Engineering Infrastructure" className="story-img" />
                   <div className="story-img-brackets"></div>
                 </div>
               </div>
@@ -215,13 +212,15 @@ export default function About() {
         <section className="about-caps-section">
           <div className="container relative z-10">
             <div className="caps-header">
-              <h2>ONE TEAM.<br/>MULTIPLE SYSTEMS.</h2>
+              <span className="about-eyebrow">OUR CAPABILITIES</span>
+              <h2 className="why-headline">ONE TEAM.<br/><span className="text-orange">MULTIPLE SYSTEMS.</span></h2>
               <p>We help customers navigate changing technology standards, complex deployments and evolving infrastructure requirements.</p>
             </div>
             
             <div className="caps-grid" ref={capsRef}>
               {capabilities.map((cap, idx) => (
                 <div key={idx} className="cap-card">
+                  <div className="cap-watermark">{(idx + 1).toString().padStart(2, '0')}</div>
                   <div className="cap-hover-line"></div>
                   <div className="cap-content">
                     <span className="cap-num">{(idx + 1).toString().padStart(2, '0')}</span>
@@ -322,10 +321,8 @@ export default function About() {
         {/* 7. OUR PEOPLE / DELIVERY */}
         <section className="about-people-section">
           <div className="container relative z-10">
-            <SectionHeading as="h2" highlight="PEOPLE.">
-              BUILT BY
-            </SectionHeading>
-            <h2 className="about-section-headline" style={{marginTop: '-1rem'}}>DELIVERED WITH PRECISION.</h2>
+            <span className="about-eyebrow">OUR PEOPLE</span>
+            <h2 className="why-headline">BUILT BY PEOPLE.<br/><span className="text-orange">DELIVERED WITH PRECISION.</span></h2>
 
             <div className="people-blocks mt-12" ref={peopleRef}>
               
