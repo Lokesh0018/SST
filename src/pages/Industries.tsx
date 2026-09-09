@@ -10,6 +10,27 @@ gsap.registerPlugin(ScrollTrigger);
 
 import ArchitecturalSkyline from '../components/ArchitecturalSkyline';
 
+const TopographicalBackground = () => (
+  <div className="industries-topo-container">
+    <svg className="industries-topo-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+      {/* Upper Topography */}
+      {Array.from({ length: 15 }).map((_, i) => (
+        <path 
+          key={`top-${i}`} 
+          d={`M-10,${15 + i*1.5} C30,${5 + i*2.5} 60,${35 + i*1.2} 110,${15 + i*2}`} 
+        />
+      ))}
+      {/* Lower Topography */}
+      {Array.from({ length: 15 }).map((_, i) => (
+        <path 
+          key={`bottom-${i}`} 
+          d={`M-10,${75 + i*1.5} C40,${95 - i*0.8} 70,${65 - i*1.5} 110,${85 + i*1.2}`} 
+        />
+      ))}
+    </svg>
+  </div>
+);
+
 export default function Industries() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -18,22 +39,28 @@ export default function Industries() {
     if (prefersReducedMotion || !sectionRef.current) return;
 
     const cards = sectionRef.current.querySelectorAll('.industry-detail-card');
-    gsap.fromTo(
-      cards,
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.7,
-        stagger: 0.12,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 70%',
-          once: true,
+    cards.forEach((card) => {
+      gsap.fromTo(
+        card,
+        { 
+          opacity: 0, 
+          y: 60,
+          scale: 0.95 
         },
-      }
-    );
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.8,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse',
+          }
+        }
+      );
+    });
   }, []);
 
   return (
@@ -63,7 +90,20 @@ export default function Industries() {
       </section>
 
       {/* Industry Cards */}
-      <section ref={sectionRef} className="industries-section">
+      <section 
+        ref={sectionRef} 
+        className="industries-section"
+        onMouseMove={(e) => {
+          if (!sectionRef.current) return;
+          const rect = sectionRef.current.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          sectionRef.current.style.setProperty('--mouse-x', `${x}px`);
+          sectionRef.current.style.setProperty('--mouse-y', `${y}px`);
+        }}
+      >
+        <TopographicalBackground />
+        
         <div className="container">
           <div className="industries-grid">
             {industries.map((industry) => (
@@ -79,34 +119,43 @@ export default function Industries() {
                 />
 
                 {/* Dark Gradient Overlay */}
-                <div
-                  className="industries-card-overlay"
-                />
+                <div className="industries-card-overlay" />
+                
+                {/* Scanner Line */}
+                <div className="industries-card-scanner" />
+                
+                {/* Corner Crosshairs */}
+                <div className="industries-card-crosshair crosshair-tl" />
+                <div className="industries-card-crosshair crosshair-tr" />
+                <div className="industries-card-crosshair crosshair-bl" />
+                <div className="industries-card-crosshair crosshair-br" />
 
                 {/* Content */}
                 <div className="industries-card-content">
-                  <span className="industries-card-tag">
-                    Industry Service
-                  </span>
+                  <div className="industries-card-glass">
+                    <span className="industries-card-tag">
+                      Industry Service
+                    </span>
 
-                  <h3 className="industries-card-title">
-                    {industry.title}
-                  </h3>
+                    <h3 className="industries-card-title">
+                      {industry.title}
+                    </h3>
 
-                  <p className="industries-card-desc">
-                    {industry.longDescription}
-                  </p>
+                    <p className="industries-card-desc">
+                      {industry.longDescription}
+                    </p>
 
-                  {/* Services tags */}
-                  <div className="industries-card-services">
-                    {industry.services.map((service) => (
-                      <span
-                        key={service}
-                        className="industries-card-service"
-                      >
-                        {service}
-                      </span>
-                    ))}
+                    {/* Services tags */}
+                    <div className="industries-card-services">
+                      {industry.services.map((service) => (
+                        <span
+                          key={service}
+                          className="industries-card-service"
+                        >
+                          {service}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
