@@ -8,6 +8,8 @@ import '../styles/Industries.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+import ArchitecturalSkyline from '../components/ArchitecturalSkyline';
+
 export default function Industries() {
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -37,7 +39,8 @@ export default function Industries() {
   return (
     <PageTransition>
       {/* Hero */}
-      <section className="industries-hero" style={{ background: 'linear-gradient(135deg, #F7F0E0 0%, #EFE4CF 100%)' }}>
+      <section className="industries-hero">
+        <ArchitecturalSkyline />
         <div className="container">
           <div className="industries-hero-header">
             <div>

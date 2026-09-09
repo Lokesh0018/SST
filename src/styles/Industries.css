@@ -183,3 +183,67 @@
 .industries-card:hover .industries-card-glow {
   border-color: rgba(241, 90, 36, 0.6);
 }
+
+/* Architectural Skyline Hero */
+.industries-hero {
+  position: relative;
+  overflow: hidden;
+  background-color: var(--color-cream, #F7F4EC);
+  z-index: 1;
+}
+
+.architectural-skyline-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+  /* Fade out behind text (left), full opacity (middle), fade out for drawing illusion (right) */
+  mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.15) 25%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%);
+  -webkit-mask-image: linear-gradient(to right, rgba(0,0,0,0) 0%, rgba(0,0,0,0.15) 25%, rgba(0,0,0,1) 50%, rgba(0,0,0,1) 90%, rgba(0,0,0,0) 100%);
+}
+
+.architectural-skyline-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Single Layer Blueprint */
+.skyline-blueprint-base {
+  stroke: rgba(23, 23, 23, 0.2);
+  stroke-width: 1;
+  fill: none;
+  stroke-linejoin: miter;
+  stroke-linecap: square;
+}
+
+/* Active Data Pulse */
+.skyline-blueprint-pulse {
+  stroke: var(--color-orange, #F4511E);
+  stroke-width: 2.5;
+  stroke-linejoin: miter;
+  stroke-linecap: round;
+  fill: none;
+  /* Glow effect */
+  filter: drop-shadow(0 0 3px rgba(244, 81, 30, 0.4));
+  transition: stroke-dashoffset 0.1s linear, stroke-dasharray 0.1s linear;
+}
+
+/* Intersection Nodes */
+.skyline-node {
+  fill: rgba(23, 23, 23, 0.1);
+  transition: fill 0.2s ease, r 0.2s ease;
+}
+
+.skyline-node.active {
+  fill: var(--color-orange, #F4511E);
+  /* The size change is handled by JS setting r="4", but we add a glow here */
+  filter: drop-shadow(0 0 4px rgba(244, 81, 30, 0.6));
+}
+
+.industries-hero-header {
+  position: relative;
+  z-index: 2;
+}
