@@ -28,7 +28,7 @@ const getBlockGeometry = (block: Block, timeSec: number, currentX: number) => {
   const w = block.baseWidth + Math.sin(timeSec * block.morphSpeedW + block.morphPhaseW) * 10;
   
   let d = '';
-  const nodes = [];
+  const nodes: {x: number, y: number}[] = [];
   let cx = currentX;
   let perimeter = 0;
 

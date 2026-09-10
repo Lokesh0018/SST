@@ -5,7 +5,6 @@ import PageTransition from '../components/common/PageTransition';
 import Button from '../components/common/Button';
 import InfrastructureBackground from '../components/InfrastructureBackground';
 import EcosystemNetwork from '../components/EcosystemNetwork';
-import PieBurst from '../components/PieBurst';
 import '../styles/About.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -45,6 +44,7 @@ export default function About() {
   const avmRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const ceoRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -60,6 +60,21 @@ export default function About() {
         { opacity: 0, y: 30 },
         { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out', scrollTrigger: { trigger: storyTextRef.current, start: 'top 80%', toggleActions: 'play none none reverse' } }
       );
+    }
+
+    // Logo Animation (replacing PieBurst)
+    if (logoRef.current) {
+      gsap.fromTo(logoRef.current,
+        { opacity: 0, scale: 0.8 },
+        { opacity: 1, scale: 1, duration: 1.5, ease: 'power3.out' }
+      );
+      gsap.to(logoRef.current, {
+        y: -15,
+        duration: 2,
+        yoyo: true,
+        repeat: -1,
+        ease: 'power1.inOut'
+      });
     }
 
     // Capabilities Animation
@@ -176,8 +191,8 @@ export default function About() {
                   SRI SADGURU TRADERS is a registered partnership firm incorporated in October 2016. We specialize in turnkey projects, CCTV, FAS, PA systems, access control, time and attendance systems, banking repair & maintenance, interiors and ATM infrastructure.
                 </p>
               </div>
-              <div className="about-hero-right">
-                <PieBurst />
+              <div className="about-hero-right" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img ref={logoRef} src="/images/logo/SST Logo.png" alt="SST Logo" style={{ width: '100%', maxWidth: '400px', objectFit: 'contain' }} />
               </div>
             </div>
           </div>

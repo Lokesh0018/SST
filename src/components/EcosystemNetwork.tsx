@@ -88,7 +88,7 @@ export default function EcosystemNetwork() {
     });
 
     // 2. Scroll-Driven Velocity
-    let resetTimeout;
+    let resetTimeout: ReturnType<typeof setTimeout>;
     ScrollTrigger.create({
       trigger: containerRef.current,
       start: "top bottom",

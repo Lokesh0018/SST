@@ -228,35 +228,6 @@ export default function Header() {
 
 function SSTLogo() {
   return (
-    <svg width="85" height="36" viewBox="0 0 72 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M2 24C2 24 4 26 9 26C14 26 16 23 16 20.5C16 18 14.5 16.5 10 15C5.5 13.5 4 12.5 4 10.5C4 8.5 6 6 10 6C14 6 16 8 16 8"
-        stroke="#171717"
-        strokeWidth="3.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M20 24C20 24 22 26 27 26C32 26 34 23 34 20.5C34 18 32.5 16.5 28 15C23.5 13.5 22 12.5 22 10.5C22 8.5 24 6 28 6C32 6 34 8 34 8"
-        stroke="#171717"
-        strokeWidth="3.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M44 6L44 26"
-        stroke="#F4511E"
-        strokeWidth="3.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-      <path
-        d="M38 6L50 6"
-        stroke="#F4511E"
-        strokeWidth="3.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
+    <img src="/images/logo/SST Logo.png" alt="SST Logo" style={{ height: '75px', width: 'auto', maxHeight: '88px', objectFit: 'contain' }} />
   );
 }

@@ -12,7 +12,7 @@ interface Node {
 export default function NetworkBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-  const requestRef = useRef<number>();
+  const requestRef = useRef<number>(0);
   const nodesRef = useRef<Node[]>([]);
   const isVisible = useRef(false);
 
