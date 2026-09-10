@@ -130,7 +130,7 @@ export default function ServiceDetail() {
                 <div className="sd-hero-image-wrapper">
                   {['turnkey-projects', 'intrusion-detection', 'access-control', 'switches-storage', 'logistics', 'electrical-electronics', 'fire-fighting', 'video-surveillance', 'wireless-network', 'hardware-tools', 'network-infrastructure'].includes(service.slug) ? (
                     <video 
-                      src={`/videos/services/${service.slug === 'turnkey-projects' ? 'turnkey' : service.slug === 'switches-storage' ? 'switches&storages' : service.slug === 'electrical-electronics' ? 'electrical&electronics' : service.slug === 'wireless-network' ? 'wireless technology' : service.slug === 'hardware-tools' ? 'hardware&tools' : service.slug === 'network-infrastructure' ? 'network&Infrastructure' : service.slug}.mp4`} 
+                      src={`/videos/services/${service.slug === 'turnkey-projects' ? 'turnkey' : service.slug === 'switches-storage' ? 'switches&storages' : service.slug === 'electrical-electronics' ? 'electrical&electronics' : service.slug === 'wireless-network' ? 'wireless technology' : service.slug === 'hardware-tools' ? 'hardware&tools' : service.slug === 'network-infrastructure' ? 'network&infrastructure' : service.slug}.mp4`} 
                       autoPlay 
                       loop 
                       muted 

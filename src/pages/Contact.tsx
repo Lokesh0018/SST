@@ -31,7 +31,6 @@ export default function Contact() {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const validate = (): boolean => {
     const newErrors: FormErrors = {};
@@ -58,9 +57,16 @@ export default function Contact() {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setIsSubmitting(false);
-    setIsSubmitted(true);
 
-    const whatsappUrl = `https://wa.me/919494139156?text=${encodeURIComponent(formData.message)}`;
+    let fullMessage = `*New Contact Inquiry*\n`;
+    fullMessage += `Name: ${formData.name}\n`;
+    fullMessage += `Email: ${formData.email}\n`;
+    if (formData.phone) fullMessage += `Phone: ${formData.phone}\n`;
+    if (formData.company) fullMessage += `Company: ${formData.company}\n`;
+    if (formData.service) fullMessage += `Service: ${formData.service}\n`;
+    fullMessage += `\n*Message:*\n${formData.message}`;
+
+    const whatsappUrl = `https://wa.me/919494139156?text=${encodeURIComponent(fullMessage)}`;
     window.open(whatsappUrl, '_blank');
   };
 
@@ -175,18 +181,7 @@ export default function Contact() {
 
             {/* Right - Form */}
             <div>
-              {isSubmitted ? (
-                <div className="contact-success">
-                  <div className="contact-success-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#F15A24" strokeWidth="2">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  </div>
-                  <h3 className="contact-success-title">Thank You</h3>
-                  <p className="contact-success-text">Your inquiry has been received. We'll get back to you shortly.</p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="contact-form animate-fade-in-up" style={{ animationDelay: '0.4s' }} noValidate>
+              <form onSubmit={handleSubmit} className="contact-form animate-fade-in-up" style={{ animationDelay: '0.4s' }} noValidate>
                   <div className="contact-form-row">
                     <FormField
                       label="Name"
@@ -277,7 +272,6 @@ export default function Contact() {
                     </Button>
                   </div>
                 </form>
-              )}
             </div>
           </div>
           {/* Map Section */}
