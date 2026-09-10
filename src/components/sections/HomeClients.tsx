@@ -63,16 +63,18 @@ export default function HomeClients() {
 
     gsap.fromTo(
       sectionRef.current.querySelectorAll('.home-clients-logo-card'),
-      { opacity: 0, y: 10 },
+      { opacity: 0, y: 15 },
       {
         opacity: 1,
         y: 0,
-        duration: 0.8,
-        stagger: 0.05,
+        duration: 0.6,
+        stagger: {
+          amount: 0.6
+        },
         ease: 'power3.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 70%',
+          start: 'top 85%',
           once: true,
         },
       }
