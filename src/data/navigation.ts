@@ -31,7 +31,7 @@ export const mainNavigation: NavItem[] = [
 
 export const footerNavigation = {
   services: [
-    { label: 'Turnkey Projects', href: '/turnkey-projects' },
+    { label: 'Turnkey Projects', href: '/services/turnkey-projects' },
     { label: 'Intrusion Detection', href: '/services/intrusion-detection' },
     { label: 'Access Control', href: '/services/access-control' },
     { label: 'Switches & Storage', href: '/services/switches-storage' },

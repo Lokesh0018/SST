@@ -1,32 +1,80 @@
-# React + TypeScript + Vite
+# SST - Corporate Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A premium corporate website for SST built with modern web technologies, featuring rich 3D graphics and high-performance scroll animations.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The SST website showcases the company's services, industries, turnkey projects, and clients with a dynamic, immersive user experience. It leverages React, Vite, and TypeScript as the core foundation, enriched by WebGL 3D elements and GSAP-powered scrolling effects.
 
-## React Compiler
+## Technology Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework**: React 19 / DOM
+- **Build Tool**: Vite
+- **Language**: TypeScript
+- **Routing**: `react-router-dom` v7
+- **Animations**: GSAP (GreenSock) for high-performance scroll triggers and timeline animations
+- **3D Graphics & Canvas**: 
+  - `three` (Three.js core)
+  - `@react-three/fiber` (React renderer for Three.js)
+  - `@react-three/drei` (Useful helpers and abstractions for R3F)
+  - `@react-three/postprocessing` (For glow, bloom, and post-processing effects)
+- **Styling**: Vanilla CSS (Modular stylesheets scoped by naming conventions, heavily utilizing CSS Variables and CSS Grid/Flexbox)
 
-## Expanding the Oxlint configuration
+## Getting Started
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+### Prerequisites
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+- Node.js (v18 or higher recommended)
+- npm
+
+### Installation
+
+1. Clone the repository and navigate into the project directory.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+4. Build for production:
+   ```bash
+   npm run build
+   ```
+
+## Project Structure
+
+```text
+src/
+├── components/          # Reusable UI components
+│   ├── common/          # Buttons, Headings, Background canvases, Loaders
+│   ├── layout/          # Global layout wrappers (Header, Footer)
+│   ├── sections/        # Distinct sections of the Home page (Hero, About, Clients, etc.)
+│   ├── three/           # React Three Fiber 3D components (Globes, OrbitalObjects)
+│   └── ui/              # Micro UI elements (Orbs)
+├── context/             # React Context providers (ServiceContext)
+├── data/                # Static data definitions (Clients, Services, Navigation, Industries)
+├── layouts/             # Page layout wrappers (MainLayout)
+├── pages/               # Top-level route components (Home, About, Services, etc.)
+├── store/               # Global state management
+├── styles/              # Component and page-specific CSS files
+├── App.tsx              # Root component & Route definitions
+└── main.tsx             # Application entry point
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Data Management
+
+Data is predominantly handled via **Static Data Files** in the `src/data/` directory.
+
+- `services.ts`: Defines all service offerings, their slugs, icons, features, and detailed copy.
+- `clients.ts` & `industries.ts`: Define logos, names, and industry specifics.
+- `navigation.ts`: Defines header/footer links.
+
+Dynamic pages (like `/services/:slug`) query these static files to render their content.
+
+## Styling & Animations
+
+- **Styling Strategy**: No external utility frameworks are used. `global.css` and `index.css` define the root CSS variables ensuring a unified design system. Each component has an accompanying `.css` file using semantic class names.
+- **GSAP Animations**: Scroll-driven animations (`ScrollTrigger`) and UI reveals (`fromTo` timelines) bring the DOM elements to life smoothly and efficiently.
+- **React Three Fiber**: 3D elements like the `InfrastructureGlobe` and `OrbitalObjects` act as visual centerpieces. They are fully interactive and feature post-processing bloom effects.
