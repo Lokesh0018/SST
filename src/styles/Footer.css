@@ -61,19 +61,70 @@
 }
 
 /* Brand Column */
-.footer-brand-col svg {
-  margin-bottom: 0.75rem;
-  height: 28px; /* Compact logo */
-  width: auto;
+.footer-brand-col {
+  position: relative;
+  z-index: 2;
 }
 
-.footer-brand-subtitle {
-  font-size: 0.7rem;
+.footer-brand-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.125rem;
+}
+
+.footer-logo-wrap {
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  background: #F4F0E8;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.footer-logo {
+  width: 68px;
+  height: 68px;
+  object-fit: contain;
+}
+
+@media (max-width: 768px) {
+  .footer-logo-wrap {
+    width: 60px;
+    height: 60px;
+  }
+  .footer-logo {
+    width: 58px;
+    height: 58px;
+  }
+}
+
+.footer-brand-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.footer-brand-name {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #fff;
+  margin: 0;
+}
+
+.footer-brand-tagline {
+  margin-top: 5px;
+  font-size: 11px;
   font-weight: 600;
-  line-height: 1.4;
-  letter-spacing: 0.1em;
-  color: #F4F0E8;
-  margin-bottom: 0.5rem;
+  letter-spacing: 0.12em;
+  color: #FF4B1F;
+  text-transform: uppercase;
+  margin-bottom: 0;
 }
 
 .footer-brand-desc {

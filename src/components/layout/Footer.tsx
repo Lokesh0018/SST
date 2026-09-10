@@ -151,12 +151,15 @@ export default function Footer() {
           <div className="footer-top-grid">
             {/* Logo & Brand Statement */}
             <div className="footer-brand-col">
-              <Link to="/" aria-label="SST Home">
-                <FooterLogo />
-              </Link>
-              <h3 className="footer-brand-subtitle">
-                INTEGRATED INFRASTRUCTURE<br />&amp; SECURITY
-              </h3>
+              <div className="footer-brand-header">
+                <Link to="/" aria-label="SST Home" className="footer-logo-wrap">
+                  <FooterLogo />
+                </Link>
+                <div className="footer-brand-text">
+                  <h2 className="footer-brand-name">SRI SADGURU TRADERS</h2>
+                  <h3 className="footer-brand-tagline">INTEGRATED INFRASTRUCTURE &amp; SECURITY</h3>
+                </div>
+              </div>
               <p className="footer-brand-desc">
                 One partner for technology, security, electrical, fire protection, logistics and turnkey infrastructure.
               </p>
@@ -237,7 +240,7 @@ export default function Footer() {
 
 function FooterLogo() {
   return (
-    <img src="/images/logo/SST Logo.png" alt="SST Logo" style={{ height: '36px', width: 'auto' }} />
+    <img src="/images/logo/SST Logo.png" alt="SST Logo" className="footer-logo" />
   );
 }
 
