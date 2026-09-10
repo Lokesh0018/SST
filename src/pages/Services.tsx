@@ -208,20 +208,31 @@ export default function Services() {
 
     // Content sections reveal
     const sections = gsap.utils.toArray('.service-detail-section');
-    sections.forEach((section: any) => {
-      gsap.fromTo(
-        section,
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          scrollTrigger: {
-            trigger: section,
-            start: 'top 80%',
-            toggleActions: 'play none none reverse',
-          },
+    sections.forEach((section: any, index: number) => {
+      const isEven = index % 2 === 0;
+      const content = section.querySelector('.service-detail-content');
+      const visual = section.querySelector('.service-detail-visual');
+      
+      const contentStartX = isEven ? -100 : 100;
+      const visualStartX = isEven ? 100 : -100;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: 'top 80%',
+          toggleActions: 'play reverse play reverse',
         }
+      });
+
+      tl.fromTo(
+        content,
+        { opacity: 0, x: contentStartX },
+        { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' }
+      ).fromTo(
+        visual,
+        { opacity: 0, x: visualStartX },
+        { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' },
+        "-=0.6"
       );
     });
   }, []);

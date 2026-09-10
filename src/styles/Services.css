@@ -800,6 +800,24 @@
   .service-detail-layout.reverse-layout {
     grid-template-columns: 1fr 1fr;
   }
+
+  .service-detail-layout.reverse-layout .service-detail-content {
+    order: 2;
+    padding-left: 2rem;
+  }
+  
+  .service-detail-layout.reverse-layout .service-detail-visual {
+    order: 1;
+    justify-content: flex-start;
+  }
+  
+  .service-detail-layout:not(.reverse-layout) .service-detail-content {
+    padding-right: 2rem;
+  }
+
+  .service-detail-layout:not(.reverse-layout) .service-detail-visual {
+    justify-content: flex-end;
+  }
 }
 
 .service-detail-content {
