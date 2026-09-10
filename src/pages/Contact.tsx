@@ -59,6 +59,9 @@ export default function Contact() {
     await new Promise((resolve) => setTimeout(resolve, 1500));
     setIsSubmitting(false);
     setIsSubmitted(true);
+
+    const whatsappUrl = `https://wa.me/919494139156?text=${encodeURIComponent(formData.message)}`;
+    window.open(whatsappUrl, '_blank');
   };
 
   const handleChange = (field: keyof FormData, value: string) => {
