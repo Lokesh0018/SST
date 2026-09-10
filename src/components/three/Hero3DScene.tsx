@@ -27,12 +27,13 @@ function CameraParallax() {
 }
 
 function SceneContents({ activeService, setActiveService }: Hero3DSceneProps) {
-  const { viewport } = useThree();
-  const isMobile = viewport.width < 4.2;
-  const isTablet = viewport.width >= 4.2 && viewport.width < 7.5;
+  // Use window.innerWidth for responsive breakpoints instead of ThreeJS world units
+  const width = typeof window !== 'undefined' ? window.innerWidth : 1200;
+  const isMobile = width < 768;
+  const isTablet = width >= 768 && width < 1024;
 
-  // Desktop & Tablet: globe shifted right (slightly less to give room). Mobile: centered, pushed down.
-  const groupPos = isMobile ? [0, -1.0, 0] : [0.7, 0, 0];
+  // Desktop: shift globe slightly to the right (x=0.9). Tablet: moderate shift. Mobile: centered, pushed down to avoid headline.
+  const groupPos = isMobile ? [0, -1.3, 0] : (isTablet ? [0.4, -0.15, 0] : [0.9, -0.15, 0]);
   const groupScale = isMobile ? 0.75 : (isTablet ? 0.85 : 1);
 
   const globeGroupRef = useRef<THREE.Group>(null!);

@@ -36,7 +36,6 @@ const leadershipData = [
 ];
 
 export default function About() {
-  const storyImgRef = useRef<HTMLImageElement>(null);
   const storyTextRef = useRef<HTMLDivElement>(null);
   const capsRef = useRef<HTMLDivElement>(null);
   const strengthsRef = useRef<HTMLDivElement>(null);
@@ -44,18 +43,17 @@ export default function About() {
   const avmRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const ceoRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLImageElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const logoContainerRef = useRef<HTMLDivElement>(null);
+  const storyImageColRef = useRef<HTMLDivElement>(null);
+  const capsCenterRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
     // Story Animation
-    if (storyImgRef.current && storyTextRef.current) {
-      gsap.fromTo(storyImgRef.current,
-        { scale: 1.05, opacity: 0 },
-        { scale: 1, opacity: 1, duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: storyImgRef.current, start: 'top 80%', toggleActions: 'play none none reverse' } }
-      );
+    if (storyTextRef.current) {
       gsap.fromTo(storyTextRef.current.children,
         { opacity: 0, y: 30 },
         { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out', scrollTrigger: { trigger: storyTextRef.current, start: 'top 80%', toggleActions: 'play none none reverse' } }
@@ -66,15 +64,140 @@ export default function About() {
     if (logoRef.current) {
       gsap.fromTo(logoRef.current,
         { opacity: 0, scale: 0.8 },
-        { opacity: 1, scale: 1, duration: 1.5, ease: 'power3.out' }
+        { opacity: 1, scale: 1.3, duration: 1.5, ease: 'power3.out' }
       );
-      gsap.to(logoRef.current, {
-        y: -15,
-        duration: 2,
-        yoyo: true,
-        repeat: -1,
-        ease: 'power1.inOut'
-      });
+      
+      if (logoContainerRef.current && storyImageColRef.current) {
+        gsap.fromTo(logoRef.current,
+          { scale: 1.3, x: 0, y: 0 },
+          {
+            scrollTrigger: {
+              trigger: ".about-story-section",
+              start: "top bottom", 
+              end: "center center",
+              scrub: 1,
+              invalidateOnRefresh: true
+            },
+            x: () => {
+              if (!storyImageColRef.current || !logoContainerRef.current) return 0;
+              const target = storyImageColRef.current.getBoundingClientRect();
+              const source = logoContainerRef.current.getBoundingClientRect();
+              return (target.left + target.width / 2) - (source.left + source.width / 2);
+            },
+            y: () => {
+              if (!storyImageColRef.current || !logoContainerRef.current) return 0;
+              const target = storyImageColRef.current.getBoundingClientRect();
+              const source = logoContainerRef.current.getBoundingClientRect();
+              return (target.top + target.height / 2) - (source.top + source.height / 2);
+            },
+            scale: 1,
+            ease: "power1.inOut",
+            immediateRender: false
+          }
+        );
+
+        // 2nd ScrollTrigger: Story to Caps Center
+        gsap.to(logoRef.current, {
+          scrollTrigger: {
+            trigger: ".about-story-section",
+            start: "center center", 
+            endTrigger: ".about-caps-section",
+            end: "center center",
+            scrub: 1,
+            invalidateOnRefresh: true
+          },
+          x: () => {
+            if (!capsCenterRef.current || !logoContainerRef.current) return 0;
+            const target = capsCenterRef.current.getBoundingClientRect();
+            const source = logoContainerRef.current.getBoundingClientRect();
+            return (target.left + target.width / 2) - (source.left + source.width / 2);
+          },
+          y: () => {
+            if (!capsCenterRef.current || !logoContainerRef.current) return 0;
+            const target = capsCenterRef.current.getBoundingClientRect();
+            const source = logoContainerRef.current.getBoundingClientRect();
+            return (target.top + target.height / 2) - (source.top + source.height / 2);
+          },
+          scale: 1.5,
+          ease: "power1.inOut",
+          immediateRender: false
+        });
+
+        // Fade out the logo images
+        gsap.to(logoRef.current.querySelectorAll('img'), {
+          scrollTrigger: {
+            trigger: ".about-story-section",
+            start: "center center", 
+            endTrigger: ".about-caps-section",
+            end: "center center",
+            scrub: 1,
+            invalidateOnRefresh: true
+          },
+          opacity: 0.15,
+          ease: "power1.inOut",
+          immediateRender: false
+        });
+
+        // Fade in the blur mask to block background floating objects
+        const mask = logoRef.current.querySelector('.logo-bg-mask');
+        if (mask) {
+          gsap.to(mask, {
+            scrollTrigger: {
+              trigger: ".about-story-section",
+              start: "center center", 
+              endTrigger: ".about-caps-section",
+              end: "center center",
+              scrub: 1,
+              invalidateOnRefresh: true
+            },
+            opacity: 1,
+            ease: "power1.inOut",
+            immediateRender: false
+          });
+        }
+
+        // 3rd ScrollTrigger: Keep it fixed in the center of the screen indefinitely
+        ScrollTrigger.create({
+          trigger: ".about-caps-section",
+          start: "center center",
+          end: "+=50000", // Keep it pinned forever so it never unpins at the bottom
+          pin: logoRef.current,
+          pinSpacing: false,
+          pinType: "fixed"
+        });
+
+        // 4th ScrollTrigger: Fade out completely before the CTA section so it doesn't reach the footer
+        gsap.to(logoRef.current, {
+          scrollTrigger: {
+            trigger: ".about-cta-section",
+            start: "top bottom",
+            end: "center center",
+            scrub: 1,
+            invalidateOnRefresh: true
+          },
+          opacity: 0,
+          ease: "power1.inOut",
+          immediateRender: false
+        });
+
+        const services = logoRef.current.querySelector('.logo-services');
+        if (services) {
+          gsap.fromTo(services, 
+            { rotation: 0 },
+            {
+              scrollTrigger: {
+                trigger: ".about-story-section",
+                start: "top bottom", 
+                end: "center center", 
+                scrub: 1
+              },
+              rotation: 360,
+              ease: "none",
+              immediateRender: false
+            }
+          );
+        }
+      }
     }
 
     // Capabilities Animation
@@ -170,14 +293,19 @@ export default function About() {
 
   return (
     <PageTransition>
+      <style>{`
+        .combined-logo-container {
+          z-index: 0 !important;
+        }
+      `}</style>
       {/* Unified Background System */}
       <InfrastructureBackground />
 
-      <div className="about-page-wrapper">
+      <div className="about-page-wrapper" style={{ overflow: 'hidden' }}>
         
         {/* 1. ABOUT HERO */}
         <section className="about-hero-section">
-          <div className="container relative z-10">
+          <div className="container relative z-0">
             <div className="about-hero-grid">
               <div className="about-hero-left">
                 <span className="about-eyebrow">ABOUT SST</span>
@@ -191,8 +319,12 @@ export default function About() {
                   SRI SADGURU TRADERS is a registered partnership firm incorporated in October 2016. We specialize in turnkey projects, CCTV, FAS, PA systems, access control, time and attendance systems, banking repair & maintenance, interiors and ATM infrastructure.
                 </p>
               </div>
-              <div className="about-hero-right" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <img ref={logoRef} src="/images/logo/SST Logo.png" alt="SST Logo" style={{ width: '100%', maxWidth: '400px', objectFit: 'contain' }} />
+              <div className="about-hero-right" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} ref={logoContainerRef}>
+                <div ref={logoRef} className="combined-logo-container" style={{ position: 'relative', width: '100%', maxWidth: '550px', aspectRatio: '1/1', zIndex: 0 }}>
+                  <div className="logo-bg-mask" style={{ position: 'absolute', top: '10%', left: '10%', width: '80%', height: '80%', borderRadius: '50%', background: 'radial-gradient(circle, rgba(250,250,250,0.95) 20%, rgba(250,250,250,0) 70%)', opacity: 0, zIndex: 0, pointerEvents: 'none' }}></div>
+                  <img className="logo-services" src="/images/logo/services.png" alt="SST Services" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 1 }} />
+                  <img className="logo-globe" src="/images/logo/globe.png" alt="SST Globe" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 2 }} />
+                </div>
               </div>
             </div>
           </div>
@@ -205,11 +337,8 @@ export default function About() {
             <h2 className="why-headline">BUILT TO <br/><span className="text-orange">EVERY LAYER.</span></h2>
             
             <div className="story-split-grid mt-12">
-              <div className="story-image-col">
-                <div className="story-img-wrapper" ref={storyImgRef as any}>
-                  <img src="https://i.pinimg.com/736x/26/9d/fa/269dfacea2dffa78b299da7ee976593a.jpg" alt="SST Engineering Infrastructure" className="story-img" />
-                  <div className="story-img-brackets"></div>
-                </div>
+              <div className="story-image-col" ref={storyImageColRef} style={{ minHeight: '400px' }}>
+                {/* Image removed, logo will animate here */}
               </div>
               <div className="story-text-col" ref={storyTextRef}>
                 <div className="story-marker-line"></div>
@@ -224,7 +353,8 @@ export default function About() {
         </section>
 
         {/* 3. WHAT WE DO / OUR CAPABILITIES */}
-        <section className="about-caps-section">
+        <section className="about-caps-section" style={{ position: 'relative' }}>
+          <div ref={capsCenterRef} style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '10px', height: '10px', pointerEvents: 'none' }}></div>
           <div className="container relative z-10">
             <div className="caps-header">
               <span className="about-eyebrow">OUR CAPABILITIES</span>
@@ -321,7 +451,7 @@ export default function About() {
         </section>
 
         {/* 6. PARTNER MARQUEE (SERVICES TICKER) */}
-        <section className="about-marquee-section">
+        <section className="about-marquee-section" style={{ position: 'relative', zIndex: 20 }}>
           <div className="marquee-track">
             {/* Double the array for seamless infinite scroll */}
             {[...marqueeItems, ...marqueeItems, ...marqueeItems].map((item, idx) => (
@@ -380,10 +510,16 @@ export default function About() {
 
         {/* 8. CEO MESSAGE */}
         <section className="about-ceo-section">
+          {/* Decorative Background Items */}
+          <div className="ceo-bg-elements">
+            <div className="ceo-bg-dots"></div>
+            <div className="ceo-bg-circle"></div>
+            <div className="ceo-watermark">SST</div>
+          </div>
           <div className="container relative z-10">
             <div className="ceo-grid" ref={ceoRef}>
               <div className="ceo-text-col">
-                <span className="about-eyebrow">MESSAGE FROM OUR CEO</span>
+                <span className="about-eyebrow">MESSAGE FROM OUR MANAGING DIRECTOR</span>
                 <h2 className="why-headline">
                   “We build robust infrastructure that secures and empowers your business.”
                 </h2>
@@ -391,13 +527,13 @@ export default function About() {
                   At SST, we believe that reliability is the foundation of every successful enterprise. Our goal is to provide end-to-end turnkey solutions that seamlessly integrate technology, security, and infrastructure, allowing our clients to focus on what they do best.
                 </p>
                 <div className="ceo-signature">
-                  <span className="ceo-name">Charvik</span>
-                  <span className="ceo-title">CEO</span>
+                  <span className="ceo-name">Mahesh Varma Gottumukkala</span>
+                  <span className="ceo-title">Managing Director at Sri Sadguru Traders</span>
                 </div>
               </div>
               <div className="ceo-image-col">
                 <div className="ceo-img-wrapper">
-                  <img src="/images/ceo.png" alt="Charvik, CEO" className="ceo-img" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80'; }} />
+                  <img src="https://i.pinimg.com/736x/0c/04/39/0c043902008fc7d73f7a75dbbbf02158.jpg" alt="Charvik, CEO" className="ceo-img" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80'; }} />
                 </div>
               </div>
             </div>
