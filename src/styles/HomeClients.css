@@ -170,8 +170,8 @@
 .home-clients-marquee-group {
   display: flex;
   align-items: center;
-  gap: 6rem;
-  padding-right: 6rem;
+  gap: 1rem;
+  padding-right: 2.5rem;
 }
 
 /* Center Focus & Logo Hover Depth */
