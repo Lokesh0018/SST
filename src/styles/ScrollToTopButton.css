@@ -1,0 +1,78 @@
+.scroll-to-top {
+  position: fixed;
+  bottom: 2rem; /* Moved slightly down */
+  right: 2rem;
+  z-index: 9998; /* Just below WhatsApp widget (9999) */
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.scroll-to-top.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.8);
+  pointer-events: none;
+}
+
+.scroll-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.scroll-to-top-whatsapp-tooltip {
+  background-color: #25d366;
+  border: none;
+  border-radius: 50%;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4);
+  position: absolute;
+  top: -2.75rem;
+  right: 0.75rem;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.scroll-to-top-whatsapp-tooltip:hover {
+  transform: scale(1.15) translateY(-2px);
+  box-shadow: 0 6px 14px rgba(37, 211, 102, 0.6);
+}
+
+.scroll-to-top-btn {
+  background-color: #F4511E; /* Changed default to orange */
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(244, 81, 30, 0.4);
+  transition: all 0.3s ease;
+}
+
+.scroll-to-top-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(244, 81, 30, 0.6);
+  background-color: #D94116; /* slightly darker orange on hover */
+  border-color: #D94116;
+}
+
+@media (max-width: 768px) {
+  .scroll-to-top {
+    right: 1.5rem;
+    bottom: 4.8rem; /* Adjusted for mobile */
+  }
+  .scroll-to-top-btn {
+    width: 3rem;
+    height: 3rem;
+  }
+}

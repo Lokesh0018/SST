@@ -9,17 +9,49 @@ export default function WhatsAppWidget() {
   const phoneNumber = '919494139156';
 
   const togglePopup = () => {
-    setIsOpen(!isOpen);
+    if (isOpen) {
+      setIsOpen(false);
+      setForceShow(false);
+      window.dispatchEvent(new Event('hideWhatsapp'));
+    } else {
+      setIsOpen(true);
+    }
   };
+
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [forceShow, setForceShow] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 300) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+        setForceShow(false);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+
+    const handleForceShow = () => setForceShow(true);
+    const handleHide = () => setForceShow(false);
+    window.addEventListener('showWhatsapp', handleForceShow);
+    window.addEventListener('hideWhatsapp', handleHide);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('showWhatsapp', handleForceShow);
+      window.removeEventListener('hideWhatsapp', handleHide);
+    };
+  }, []);
 
   const handleSend = () => {
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-    
-    // Optional: close the popup and clear message after sending
-    // setIsOpen(false);
-    // setMessage('');
+    setIsOpen(false);
+    setForceShow(false);
+    window.dispatchEvent(new Event('hideWhatsapp'));
   };
 
   // Close popup if clicked outside
@@ -27,6 +59,8 @@ export default function WhatsAppWidget() {
     const handleClickOutside = (event: MouseEvent) => {
       if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+        setForceShow(false);
+        window.dispatchEvent(new Event('hideWhatsapp'));
       }
     };
 
@@ -58,7 +92,11 @@ export default function WhatsAppWidget() {
               <span className="whatsapp-popup-status-dot"></span> Online | Typically replies instantly
             </div>
           </div>
-          <button className="whatsapp-popup-close" onClick={() => setIsOpen(false)} aria-label="Close">
+          <button className="whatsapp-popup-close" onClick={() => {
+            setIsOpen(false);
+            setForceShow(false);
+            window.dispatchEvent(new Event('hideWhatsapp'));
+          }} aria-label="Close">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M18 6L6 18M6 6l12 12" />
             </svg>
@@ -100,7 +138,7 @@ export default function WhatsAppWidget() {
 
       {/* Floating Toggle Button */}
       <button 
-        className="whatsapp-widget-float"
+        className={`whatsapp-widget-float ${(!isScrolled || forceShow || isOpen) ? 'visible' : 'hidden'}`}
         onClick={togglePopup}
         aria-label="Toggle WhatsApp Chat"
       >

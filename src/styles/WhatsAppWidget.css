@@ -7,6 +7,7 @@
   flex-direction: column;
   align-items: flex-end;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  pointer-events: none;
 }
 
 /* Float Button */
@@ -26,6 +27,14 @@
   outline: none;
   transition: all 0.3s ease;
   overflow: hidden;
+  pointer-events: auto;
+}
+
+.whatsapp-widget-float.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.8);
+  pointer-events: none;
 }
 
 .whatsapp-widget-float span {

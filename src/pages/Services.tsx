@@ -192,18 +192,18 @@ export default function Services() {
     heroNetworkTl.fromTo(
       '.services-hub-center-container',
       { opacity: 0, scale: 0.5 },
-      { opacity: 1, scale: 1, duration: 0.5, ease: 'power3.out' }
+      { opacity: 1, scale: 1, duration: 0.4, ease: 'power3.out' }
     ).fromTo(
       '.service-node',
       { opacity: 0, scale: 0 },
       {
         opacity: 1,
         scale: 1,
-        duration: 0.4,
-        stagger: 0.05,
+        duration: 0.3,
+        stagger: 0.02,
         ease: 'back.out(1.5)',
       },
-      "-=0.3"
+      "-=0.2"
     );
 
 

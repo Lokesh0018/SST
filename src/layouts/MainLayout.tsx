@@ -2,6 +2,8 @@ import type { ReactNode } from 'react';
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import ScrollToTop from '../components/common/ScrollToTop';
+import ScrollToTopButton from '../components/ui/ScrollToTopButton';
+import WhatsAppWidget from '../components/ui/WhatsAppWidget';
 interface MainLayoutProps {
   children: ReactNode;
 }
@@ -13,6 +15,8 @@ export default function MainLayout({ children }: MainLayoutProps) {
       <Header />
       <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>{children}</main>
       <Footer />
+      <ScrollToTopButton />
+      <WhatsAppWidget />
     </>
   );
 }

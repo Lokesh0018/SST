@@ -7,7 +7,6 @@ import Button from '../components/common/Button';
 import { lazy, Suspense } from 'react';
 const InfrastructureBackground = lazy(() => import('../components/InfrastructureBackground'));
 const EcosystemNetwork = lazy(() => import('../components/EcosystemNetwork'));
-import WhatsAppWidget from '../components/ui/WhatsAppWidget';
 import '../styles/About.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -581,9 +580,6 @@ export default function About() {
         </section>
       </div>
     </PageTransition>
-
-    {/* WhatsApp Floating Button */}
-    <WhatsAppWidget />
   </>
   );
 }
