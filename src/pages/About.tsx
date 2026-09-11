@@ -21,10 +21,11 @@ const capabilities = [
 ];
 
 const timelineData = [
-  { year: '2016', title: 'Founded', desc: 'Sri Sadguru Traders (SST) was incorporated, laying the foundation for our infrastructure journey.' },
-  { year: '2018', title: 'Turnkey Projects', desc: 'Expanded our operational capacity to handle end-to-end Turnkey Projects across multiple verticals.' },
-  { year: '2020', title: 'Advanced Security Integration', desc: 'Scaled our expertise in CCTV, Access Control, and FAS, becoming a trusted technology partner.' },
-  { year: '2024', title: 'Complete Infrastructure Execution', desc: 'Delivering comprehensive solutions spanning ATM infrastructure, networking, and critical deployments.' }
+  { year: '2011', title: 'FOUNDATION', desc: 'Founded with a focus on ferro alloy engineering', x: 10, y: 70 },
+  { year: '2014', title: 'MAJOR CONTRACTS', desc: 'Secured major industrial contracts', x: 30, y: 67.2 },
+  { year: '2019', title: 'EPC EXPANSION', desc: 'Expanded into turnkey EPC projects', x: 50, y: 60 },
+  { year: '2022', title: 'GLOBAL FOOTPRINT', desc: 'Established a global project footprint', x: 70, y: 47.2 },
+  { year: '2026', title: 'INDUSTRY LEADERSHIP', desc: 'Delivering ferro alloy engineering solutions across global markets.', x: 90, y: 30 }
 ];
 
 const marqueeItems = [
@@ -237,49 +238,43 @@ export default function About() {
 
     // Timeline Animation
     if (timelineRef.current) {
-      const lineProgress = timelineRef.current.querySelector('.timeline-line-progress');
-      const items = timelineRef.current.querySelectorAll('.timeline-item');
+      const nodes = timelineRef.current.querySelectorAll('.curved-timeline-node');
       
-      gsap.to(lineProgress, {
-        height: '100%',
-        ease: 'none',
-        scrollTrigger: {
-          trigger: timelineRef.current,
-          start: 'top center',
-          end: 'bottom center',
-          scrub: true
-        }
-      });
-
-      items.forEach((item) => {
-        const node = item.querySelector('.timeline-node-container');
-        const content = item.querySelector('.timeline-content');
-        const conn = item.querySelector('.timeline-conn-line');
-
-        // Setup initial states
-        gsap.set(content, { opacity: 0, x: item.classList.contains('left') ? -40 : 40 });
-        if (node) gsap.set(node, { scale: 0.5, opacity: 0 });
-        if (conn) gsap.set(conn, { scaleX: 0, opacity: 0 });
-
-        const tl = gsap.timeline({
+      nodes.forEach((node) => {
+        gsap.to(node, {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: 'power3.out',
           scrollTrigger: {
-            trigger: item,
-            start: 'top center+=10%',
+            trigger: node,
+            start: 'top 85%',
             toggleActions: 'play none none reverse'
           }
         });
-
-        if (node) {
-          tl.to(node, { scale: 1.3, opacity: 1, duration: 0.2, ease: 'back.out(2)' })
-            .to(node, { scale: 1, duration: 0.1 });
-        }
-        if (conn) {
-          tl.to(conn, { scaleX: 1, opacity: 1, duration: 0.2, ease: 'power2.out' }, "-=0.1");
-        }
-        if (content) {
-          tl.to(content, { opacity: 1, x: 0, duration: 0.3, ease: 'power3.out' }, "-=0.1");
-        }
       });
+
+      // Stats Counter Animation
+      const stats = timelineRef.current.parentElement?.querySelectorAll('.stat-num-value');
+      if (stats) {
+        stats.forEach((stat) => {
+          const target = parseFloat(stat.getAttribute('data-target') || '0');
+          gsap.fromTo(stat, 
+            { innerText: 0 },
+            {
+              innerText: target,
+              duration: 2,
+              ease: "power2.out",
+              snap: { innerText: 1 },
+              scrollTrigger: {
+                trigger: stat,
+                start: "top 90%",
+                toggleActions: "restart none none reset"
+              }
+            }
+          );
+        });
+      }
     }
 
     // CEO Message Animation
@@ -420,35 +415,77 @@ export default function About() {
           
           <div className="container relative z-10">
             <div className="text-center">
-              <span className="about-eyebrow">OUR JOURNEY</span>
-              <h2 className="why-headline">MILESTONES OF<br/><span className="text-orange">GROWTH.</span></h2>
+              <h2 className="timeline-hero-headline">15 YEARS OF ENGINEERING EXCELLENCE</h2>
+              <p className="timeline-subtitle">Engineering expertise. Global impact. Built to last.</p>
             </div>
-            <div className="timeline-container" ref={timelineRef}>
-              <div className="timeline-line-bg"></div>
-              <div className="timeline-line-progress"></div>
+            <div className="curved-timeline-wrapper" ref={timelineRef}>
+              <svg className="curved-timeline-svg" viewBox="0 0 1000 500" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="timelineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="rgba(255,255,255,0.1)" />
+                    <stop offset="70%" stopColor="#ff4b1f" />
+                    <stop offset="100%" stopColor="#ff4b1f" />
+                  </linearGradient>
+                </defs>
+                <path className="curved-timeline-path" d="M 100,350 Q 500,350 900,150" stroke="url(#timelineGradient)" />
+              </svg>
               
-              {timelineData.map((item, idx) => (
-                <div key={idx} className={`timeline-item ${idx % 2 === 0 ? 'left' : 'right'}`}>
-                  {/* Central Node */}
-                  <div className="timeline-node-container">
-                    <div className="timeline-node-glow"></div>
-                    <div className="timeline-node"></div>
+              {timelineData.map((item, idx) => {
+                const is2022 = item.year === '2022';
+                const is2026 = item.year === '2026';
+                const positionClass = idx % 2 === 0 ? 'text-above' : 'text-below';
+                
+                return (
+                <div key={idx} className={`curved-timeline-node ${positionClass} ${is2026 ? 'highlight-node' : ''}`} style={{ left: `${item.x}%`, top: `${item.y}%`, opacity: 0 }}>
+                  
+                  <div className="curved-node-dot">
                   </div>
                   
-                  {/* Connection Line */}
-                  <div className="timeline-conn-wrapper">
-                    <div className="timeline-conn-line"></div>
+                  <div className="curved-node-content-wrapper">
+                    <div className="curved-timeline-year">{item.year}</div>
+                    <h3 className="curved-timeline-title">{item.title}</h3>
+                    {item.desc && <p className="curved-timeline-desc">{item.desc}</p>}
                   </div>
                   
-                  {/* Content Card */}
-                  <div className="timeline-content relative z-10">
-                    <div className="timeline-watermark">{item.year}</div>
-                    <div className="timeline-year">{item.year}</div>
-                    <h3 className="timeline-title">{item.title}</h3>
-                    <p className="timeline-desc">{item.desc}</p>
-                  </div>
                 </div>
-              ))}
+              )})}
+              
+              <svg className="curved-timeline-svg" viewBox="0 0 1000 500" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 20 }}>
+                <defs>
+                  <filter id="orbGlow">
+                    <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                <g>
+                  <circle cx="0" cy="0" r="35" fill="white" stroke="#ff4b1f" strokeWidth="4" filter="url(#orbGlow)" />
+                  <image href="/images/logo/SST.png" x="-25" y="-25" width="50" height="50" />
+                  <animateMotion dur="8s" repeatCount="indefinite" path="M 100,350 Q 500,350 900,150" />
+                </g>
+              </svg>
+            </div>
+
+            {/* Statistics Section */}
+            <div className="timeline-stats-grid">
+              <div className="timeline-stat">
+                <div className="stat-num"><span className="stat-num-value" data-target="15">0</span>+</div>
+                <div className="stat-label">YEARS<br/>OF EXPERIENCE</div>
+              </div>
+              <div className="timeline-stat">
+                <div className="stat-num"><span className="stat-num-value" data-target="50">0</span>+</div>
+                <div className="stat-label">PROJECTS<br/>DELIVERED</div>
+              </div>
+              <div className="timeline-stat">
+                <div className="stat-num"><span className="stat-num-value" data-target="10">0</span>+</div>
+                <div className="stat-label">COUNTRIES<br/>SERVED</div>
+              </div>
+              <div className="timeline-stat">
+                <div className="stat-num"><span className="stat-num-value" data-target="100">0</span>%</div>
+                <div className="stat-label">ENGINEERING<br/>COMMITMENT</div>
+              </div>
             </div>
           </div>
         </section>
