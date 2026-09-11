@@ -34,7 +34,7 @@
 
   /* Spacing */
   --spacing-section: 8rem;
-  --spacing-section-sm: 5rem;
+  --spacing-section-sm: 3rem;
 
   /* Border radius */
   --radius-sm: 0.375rem;
@@ -114,8 +114,8 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
 h1 { font-size: var(--text-h1); }
@@ -170,17 +170,19 @@ a {
 
 /* Glass effect */
 .glass {
-  background: rgba(247, 240, 224, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(239, 228, 207, 0.6);
+  background: rgba(247, 240, 224, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(239, 228, 207, 0.8);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
 }
 
 .glass-dark {
-  background: rgba(23, 22, 19, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(42, 39, 34, 0.6);
+  background: rgba(23, 22, 19, 0.7);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(42, 39, 34, 0.8);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 
 /* ========================================

@@ -11,7 +11,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
     <>
       <ScrollToTop />
       <Header />
-      <main>{children}</main>
+      <main style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>{children}</main>
       <Footer />
     </>
   );
