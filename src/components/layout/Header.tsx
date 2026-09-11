@@ -1,6 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { gsap } from 'gsap';
 import { mainNavigation } from '../../data/navigation';
 import '../../styles/Header.css';
 
@@ -252,7 +253,25 @@ export default function Header() {
 }
 
 function SSTLogo() {
+  const servicesRef = useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    if (servicesRef.current) {
+      gsap.to(servicesRef.current, {
+        rotation: 360,
+        duration: 20,
+        repeat: -1,
+        ease: "none"
+      });
+    }
+  }, []);
+
   return (
-    <img src="/images/logo/SST Logo.png" alt="SST Logo" style={{ height: '75px', width: 'auto', maxHeight: '88px', objectFit: 'contain' }} />
+    <div 
+      style={{ position: 'relative', height: '100px', width: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+    >
+      <img src="/images/logo/globe.png" alt="SST Globe" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 2 }} />
+      <img ref={servicesRef} src="/images/logo/services.png" alt="SST Services" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 1 }} />
+    </div>
   );
 }

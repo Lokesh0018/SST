@@ -284,7 +284,7 @@
   .hero-visual-col {
     position: absolute;
     top: 0;
-    right: -5%; /* Let it bleed slightly off the right to give maximum room */
+    right: -1%; /* Moved slightly left from -5% */
     width: 75%;
     height: 100%;
     margin-top: 0;
