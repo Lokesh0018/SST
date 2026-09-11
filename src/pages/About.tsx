@@ -1,10 +1,12 @@
-import { useRef, useEffect } from 'react';
+import { useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import PageTransition from '../components/common/PageTransition';
 import Button from '../components/common/Button';
-import InfrastructureBackground from '../components/InfrastructureBackground';
-import EcosystemNetwork from '../components/EcosystemNetwork';
+import { lazy, Suspense } from 'react';
+const InfrastructureBackground = lazy(() => import('../components/InfrastructureBackground'));
+const EcosystemNetwork = lazy(() => import('../components/EcosystemNetwork'));
 import WhatsAppWidget from '../components/ui/WhatsAppWidget';
 import '../styles/About.css';
 
@@ -49,7 +51,7 @@ export default function About() {
   const storyImageColRef = useRef<HTMLDivElement>(null);
   const capsCenterRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useGSAP(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
@@ -290,7 +292,7 @@ export default function About() {
       );
     }
 
-  }, []);
+  });
 
   return (
     <>
@@ -301,7 +303,7 @@ export default function About() {
         }
       `}</style>
       {/* Unified Background System */}
-      <InfrastructureBackground />
+      <Suspense fallback={null}><InfrastructureBackground /></Suspense>
 
       <div className="about-page-wrapper" style={{ overflow: 'hidden' }}>
         
@@ -324,8 +326,8 @@ export default function About() {
               <div className="about-hero-right" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} ref={logoContainerRef}>
                 <div ref={logoRef} className="combined-logo-container" style={{ position: 'relative', width: '100%', maxWidth: '550px', aspectRatio: '1/1', zIndex: 0 }}>
                   <div className="logo-bg-mask" style={{ position: 'absolute', top: '10%', left: '10%', width: '80%', height: '80%', borderRadius: '50%', background: 'radial-gradient(circle, rgba(250,250,250,0.95) 20%, rgba(250,250,250,0) 70%)', opacity: 0, zIndex: 0, pointerEvents: 'none' }}></div>
-                  <img className="logo-services" src="/images/logo/services.png" alt="SST Services" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 1 }} />
-                  <img className="logo-globe" src="/images/logo/globe.png" alt="SST Globe" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 2 }} />
+                  <img className="logo-services" src="/images/logo/services.png" alt="SST Services" loading="lazy" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 1 }} />
+                  <img className="logo-globe" src="/images/logo/globe.png" alt="SST Globe" loading="lazy" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 2 }} />
                 </div>
               </div>
             </div>
@@ -401,7 +403,7 @@ export default function About() {
                 </div>
               </div>
               <div className="why-visual-col">
-                <EcosystemNetwork />
+                <Suspense fallback={null}><EcosystemNetwork /></Suspense>
               </div>
             </div>
           </div>
@@ -474,7 +476,7 @@ export default function About() {
             <div className="people-blocks mt-12" ref={peopleRef}>
               
               <div className="people-block">
-                <img src="/images/timely-deliver.png" alt="Timely Delivery" className="people-bg-img" />
+                <img src="/images/timely-deliver.png" alt="Timely Delivery" loading="lazy" className="people-bg-img" />
                 <div className="people-overlay"></div>
                 <div className="people-content">
                   <div className="people-content-inner">
@@ -485,7 +487,7 @@ export default function About() {
               </div>
 
               <div className="people-block">
-                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" alt="Professional Staff" className="people-bg-img" />
+                <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" alt="Professional Staff" loading="lazy" className="people-bg-img" />
                 <div className="people-overlay"></div>
                 <div className="people-content">
                   <div className="people-content-inner">
@@ -496,7 +498,7 @@ export default function About() {
               </div>
 
               <div className="people-block">
-                <img src="/images/tech-support.jpg" alt="Tech Support" className="people-bg-img" />
+                <img src="/images/tech-support.jpg" alt="Tech Support" loading="lazy" className="people-bg-img" />
                 <div className="people-overlay"></div>
                 <div className="people-content">
                   <div className="people-content-inner">
@@ -535,7 +537,7 @@ export default function About() {
               </div>
               <div className="ceo-image-col">
                 <div className="ceo-img-wrapper">
-                  <img src="https://i.pinimg.com/736x/0c/04/39/0c043902008fc7d73f7a75dbbbf02158.jpg" alt="Charvik, CEO" className="ceo-img" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80'; }} />
+                  <img src="https://i.pinimg.com/736x/0c/04/39/0c043902008fc7d73f7a75dbbbf02158.jpg" alt="Charvik, CEO" loading="lazy" className="ceo-img" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80'; }} />
                 </div>
               </div>
             </div>

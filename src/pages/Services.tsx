@@ -1,7 +1,8 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import PageTransition from '../components/common/PageTransition';
 import NetworkBackground from '../components/common/NetworkBackground';
 import { services } from '../data/services';
@@ -174,7 +175,7 @@ export default function Services() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useGSAP(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
@@ -235,7 +236,7 @@ export default function Services() {
         "-=0.6"
       );
     });
-  }, []);
+  });
 
   return (
     <PageTransition>
@@ -428,6 +429,7 @@ export default function Services() {
                       <img
                         src={service.heroImage}
                         alt={service.title}
+                        loading="lazy"
                         className="service-visual-bg-image parallax-image"
                       />
                       <div className="premium-visual-overlay"></div>
