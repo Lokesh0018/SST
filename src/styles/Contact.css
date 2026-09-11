@@ -229,7 +229,7 @@
 /* Enhancements */
 
 .contact-hero-bg {
-  background: linear-gradient(135deg, rgba(247, 240, 224, 0.9) 0%, rgba(239, 228, 207, 0.95) 100%), url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80') center/cover;
+  background: linear-gradient(135deg, rgba(247, 240, 224, 0.6) 0%, rgba(239, 228, 207, 0.7) 100%), url('https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80') center/cover;
   position: relative;
 }
 

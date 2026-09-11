@@ -29,8 +29,8 @@ export default function Clients() {
         gsap.to(batch, { 
           opacity: 1, 
           x: 0, 
-          stagger: 0.08, 
-          duration: 0.8, 
+          stagger: 0.03, 
+          duration: 0.4, 
           ease: 'power3.out',
           overwrite: true
         }),
@@ -38,7 +38,7 @@ export default function Clients() {
         gsap.to(batch, { 
           opacity: 0, 
           x: -50, 
-          duration: 0.4,
+          duration: 0.2,
           overwrite: true
         })
     });

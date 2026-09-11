@@ -270,14 +270,14 @@ export default function About() {
         });
 
         if (node) {
-          tl.to(node, { scale: 1.3, opacity: 1, duration: 0.4, ease: 'back.out(2)' })
-            .to(node, { scale: 1, duration: 0.2 });
+          tl.to(node, { scale: 1.3, opacity: 1, duration: 0.2, ease: 'back.out(2)' })
+            .to(node, { scale: 1, duration: 0.1 });
         }
         if (conn) {
-          tl.to(conn, { scaleX: 1, opacity: 1, duration: 0.4, ease: 'power2.out' }, "-=0.3");
+          tl.to(conn, { scaleX: 1, opacity: 1, duration: 0.2, ease: 'power2.out' }, "-=0.1");
         }
         if (content) {
-          tl.to(content, { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out' }, "-=0.3");
+          tl.to(content, { opacity: 1, x: 0, duration: 0.3, ease: 'power3.out' }, "-=0.1");
         }
       });
     }
