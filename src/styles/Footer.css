@@ -54,9 +54,29 @@
 }
 
 @media (max-width: 768px) {
+  .footer-main {
+    padding: 2.5rem 0 1rem;
+  }
   .footer-top-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "brand brand"
+      "services services"
+      "company connect";
+    gap: 1.5rem;
+  }
+  .footer-brand-col {
+    grid-area: brand;
+    margin-bottom: 0.5rem;
+  }
+  .footer-nav-col:nth-child(2) {
+    grid-area: services;
+  }
+  .footer-nav-col:nth-child(3) {
+    grid-area: company;
+  }
+  .footer-nav-col:nth-child(4) {
+    grid-area: connect;
   }
 }
 

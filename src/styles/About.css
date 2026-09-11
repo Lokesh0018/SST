@@ -160,11 +160,28 @@
   border-top: 1px solid rgba(23, 23, 23, 0.05);
 }
 
+.caps-header {
+  position: relative;
+  z-index: 10;
+}
+
 .caps-header p {
   font-size: 1.125rem;
   color: rgba(28, 28, 27, 0.6);
   max-width: 36rem;
   margin-top: 1rem;
+}
+
+@media (max-width: 1023px) {
+  .caps-header {
+    background: rgba(255, 253, 248, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03);
+  }
 }
 
 .caps-grid {
@@ -314,6 +331,23 @@
   font-size: 1.125rem;
   color: rgba(28, 28, 27, 0.75);
   line-height: 1.7;
+}
+
+.why-text-col {
+  position: relative;
+  z-index: 10;
+}
+
+@media (max-width: 1023px) {
+  .why-text-col {
+    background: rgba(255, 253, 248, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03);
+  }
 }
 
 .why-visual-col {
@@ -1013,8 +1047,14 @@
   .timeline-line-bg, .timeline-line-progress {
     left: 20px;
   }
-  .timeline-node {
+  .timeline-node-container {
     left: 20px;
+  }
+  .timeline-node {
+    left: auto; /* Reset any left positioning on the inner node */
+  }
+  .timeline-conn-wrapper {
+    display: none;
   }
   .timeline-content {
     width: calc(100% - 60px);

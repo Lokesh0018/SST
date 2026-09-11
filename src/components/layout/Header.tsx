@@ -8,6 +8,7 @@ export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [expandedMobileDropdown, setExpandedMobileDropdown] = useState<string | null>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -174,30 +175,54 @@ export default function Header() {
                   transition={{ delay: i * 0.05, duration: 0.4 }}
                   className="header-mobile-item"
                 >
-                  <Link
-                    to={item.href}
-                    className={`header-mobile-link ${
-                      location.pathname === item.href ? 'header-mobile-link-active' : 'header-mobile-link-inactive'
-                    }`}
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {item.label}
-                  </Link>
+                  <div className="header-mobile-link-wrapper">
+                    <Link
+                      to={item.href}
+                      className={`header-mobile-link ${
+                        location.pathname === item.href ? 'header-mobile-link-active' : 'header-mobile-link-inactive'
+                      }`}
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                    {item.children && (
+                      <button 
+                        className="header-mobile-expand-btn"
+                        onClick={() => setExpandedMobileDropdown(expandedMobileDropdown === item.label ? null : item.label)}
+                        aria-label="Toggle dropdown"
+                      >
+                        <svg className={`header-mobile-chevron ${expandedMobileDropdown === item.label ? 'header-mobile-chevron-active' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+                    )}
+                  </div>
                   
-                  {item.children && (
-                    <div className="header-mobile-dropdown">
-                      {item.children.map(child => (
-                        <Link
-                          key={child.href}
-                          to={child.href}
-                          onClick={() => setIsMobileMenuOpen(false)}
-                          className="header-mobile-dropdown-link"
-                        >
-                          {child.label}
-                        </Link>
-                      ))}
-                    </div>
-                  )}
+                  <AnimatePresence>
+                    {item.children && expandedMobileDropdown === item.label && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        style={{ overflow: 'hidden' }}
+                        className="header-mobile-dropdown"
+                      >
+                        <div style={{ paddingTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                          {item.children.map(child => (
+                            <Link
+                              key={child.href}
+                              to={child.href}
+                              onClick={() => setIsMobileMenuOpen(false)}
+                              className="header-mobile-dropdown-link"
+                            >
+                              {child.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </motion.div>
               ))}
               <motion.div
