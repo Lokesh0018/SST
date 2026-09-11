@@ -1,0 +1,102 @@
+.custom-select-container {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select-trigger {
+  width: 100%;
+  padding: 0.75rem 0;
+  border: none;
+  border-bottom: 2px solid rgba(239, 228, 207, 0.8);
+  background-color: transparent;
+  border-radius: 0;
+  color: var(--color-charcoal, #171717);
+  font-size: 1rem;
+  transition: all 300ms ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+}
+
+.custom-select-trigger:focus,
+.custom-select-trigger.open {
+  outline: none;
+  border-bottom-color: var(--color-orange, #F4511E);
+  background-color: rgba(247, 240, 224, 0.2);
+}
+
+.custom-select-trigger.placeholder {
+  color: rgba(28, 28, 27, 0.6);
+}
+
+.custom-select-arrow {
+  transition: transform 0.3s ease;
+  color: rgba(28, 28, 27, 0.6);
+}
+
+.custom-select-arrow.open {
+  transform: rotate(180deg);
+  color: var(--color-orange, #F4511E);
+}
+
+.custom-select-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  background-color: var(--color-white, #FFFFFF);
+  border-radius: 0.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  z-index: 50;
+  border: 1px solid rgba(239, 228, 207, 0.8);
+  overflow: hidden;
+  animation-duration: 0.2s; /* Faster animation for dropdown */
+}
+
+.custom-select-options {
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 0;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+/* Custom Scrollbar for Dropdown */
+.custom-select-options::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-select-options::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-select-options::-webkit-scrollbar-thumb {
+  background: rgba(239, 228, 207, 0.8);
+  border-radius: 4px;
+}
+.custom-select-options::-webkit-scrollbar-thumb:hover {
+  background: var(--color-orange, #F4511E);
+}
+
+.custom-select-option {
+  padding: 0.75rem 1.25rem;
+  font-size: 0.95rem;
+  color: var(--color-charcoal, #171717);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.custom-select-option:hover {
+  background-color: rgba(247, 240, 224, 0.6);
+  color: var(--color-orange, #F4511E);
+  padding-left: 1.5rem; /* Slight indent on hover */
+}
+
+.custom-select-option.selected {
+  background-color: rgba(244, 81, 30, 0.05);
+  color: var(--color-orange, #F4511E);
+  font-weight: 600;
+  border-left: 3px solid var(--color-orange, #F4511E);
+  padding-left: calc(1.25rem - 3px);
+}

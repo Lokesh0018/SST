@@ -2,6 +2,7 @@ import React, { useState, type FormEvent } from 'react';
 import PageTransition from '../components/common/PageTransition';
 import SectionHeading from '../components/common/SectionHeading';
 import Button from '../components/common/Button';
+import CustomSelect from '../components/ui/CustomSelect';
 import '../styles/Contact.css';
 
 interface FormData {
@@ -219,24 +220,24 @@ export default function Contact() {
                   </div>
                   <div>
                     <label className="contact-form-label">Service</label>
-                    <select
+                    <CustomSelect
                       value={formData.service}
-                      onChange={(e) => handleChange('service', e.target.value)}
-                      className="contact-form-select"
-                    >
-                      <option value="">Select a service</option>
-                      <option value="turnkey-projects">Turnkey Projects</option>
-                      <option value="intrusion-detection">Intrusion Detection</option>
-                      <option value="access-control">Access Control</option>
-                      <option value="switches-storage">Switches & Storage</option>
-                      <option value="logistics">Logistics</option>
-                      <option value="electrical-electronics">Electrical & Electronics</option>
-                      <option value="fire-fighting">Fire Fighting</option>
-                      <option value="video-surveillance">Video Surveillance</option>
-                      <option value="wireless-network">Wireless Technology</option>
-                      <option value="hardware-tools">Hardware & Tools</option>
-                      <option value="network-infrastructure">Network Infrastructure</option>
-                    </select>
+                      onChange={(val) => handleChange('service', val)}
+                      placeholder="Select a service"
+                      options={[
+                        { value: 'turnkey-projects', label: 'Turnkey Projects' },
+                        { value: 'intrusion-detection', label: 'Intrusion Detection' },
+                        { value: 'access-control', label: 'Access Control' },
+                        { value: 'switches-storage', label: 'Switches & Storage' },
+                        { value: 'logistics', label: 'Logistics' },
+                        { value: 'electrical-electronics', label: 'Electrical & Electronics' },
+                        { value: 'fire-fighting', label: 'Fire Fighting' },
+                        { value: 'video-surveillance', label: 'Video Surveillance' },
+                        { value: 'wireless-network', label: 'Wireless Technology' },
+                        { value: 'hardware-tools', label: 'Hardware & Tools' },
+                        { value: 'network-infrastructure', label: 'Network Infrastructure' },
+                      ]}
+                    />
                   </div>
                   <div>
                     <label className="contact-form-label">
