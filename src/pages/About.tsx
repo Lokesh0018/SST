@@ -21,11 +21,11 @@ const capabilities = [
 ];
 
 const timelineData = [
-  { year: '2011', title: 'FOUNDATION', desc: 'Founded with a focus on ferro alloy engineering', x: 10, y: 70 },
-  { year: '2014', title: 'MAJOR CONTRACTS', desc: 'Secured major industrial contracts', x: 30, y: 67.2 },
-  { year: '2019', title: 'EPC EXPANSION', desc: 'Expanded into turnkey EPC projects', x: 50, y: 60 },
-  { year: '2022', title: 'GLOBAL FOOTPRINT', desc: 'Established a global project footprint', x: 70, y: 47.2 },
-  { year: '2026', title: 'INDUSTRY LEADERSHIP', desc: 'Delivering ferro alloy engineering solutions across global markets.', x: 90, y: 30 }
+  { year: '2011', title: 'FOUNDATION', desc: 'Founded with a focus on ferro alloy engineering', x: 10, y: 88 },
+  { year: '2014', title: 'FIRST MAJOR CONTRACT', desc: 'Secured major industrial contracts', x: 30, y: 76.3 },
+  { year: '2018/2019', title: 'EPC EXPANSION', desc: 'Expanded into turnkey EPC projects', x: 50, y: 50 },
+  { year: '2022', title: 'GLOBAL FOOTPRINT', desc: 'Established a global project footprint', x: 70, y: 23.7 },
+  { year: '2026', title: 'INDUSTRY LEADERSHIP', desc: 'Delivering ferro alloy engineering solutions across global markets', x: 90, y: 12 }
 ];
 
 const marqueeItems = [
@@ -427,7 +427,7 @@ export default function About() {
                     <stop offset="100%" stopColor="#ff4b1f" />
                   </linearGradient>
                 </defs>
-                <path className="curved-timeline-path" d="M 100,350 Q 500,350 900,150" stroke="url(#timelineGradient)" />
+                <path className="curved-timeline-path" d="M 100,440 C 450,400 550,100 900,60" stroke="url(#timelineGradient)" />
               </svg>
               
               {timelineData.map((item, idx) => {
@@ -441,7 +441,7 @@ export default function About() {
                   <div className="curved-node-dot">
                   </div>
                   
-                  <div className="curved-node-content-wrapper">
+                  <div className="curved-node-content-wrapper" style={item.year === '2018/2019' ? { paddingBottom: '3.5rem', marginLeft: '-30px' } : {}}>
                     <div className="curved-timeline-year">{item.year}</div>
                     <h3 className="curved-timeline-title">{item.title}</h3>
                     {item.desc && <p className="curved-timeline-desc">{item.desc}</p>}
@@ -463,7 +463,7 @@ export default function About() {
                 <g>
                   <circle cx="0" cy="0" r="35" fill="white" stroke="#ff4b1f" strokeWidth="4" filter="url(#orbGlow)" />
                   <image href="/images/logo/SST.png" x="-25" y="-25" width="50" height="50" />
-                  <animateMotion dur="8s" repeatCount="indefinite" path="M 100,350 Q 500,350 900,150" />
+                  <animateMotion dur="8s" repeatCount="indefinite" path="M 100,440 C 450,400 550,100 900,60" />
                 </g>
               </svg>
             </div>
