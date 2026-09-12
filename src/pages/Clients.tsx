@@ -12,35 +12,47 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Clients() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
+  
+  // Group clients by category
+  const categorizedClients = clients.reduce((acc, client) => {
+    if (!acc[client.category]) {
+      acc[client.category] = [];
+    }
+    acc[client.category].push(client);
+    return acc;
+  }, {} as Record<string, typeof clients>);
 
+  const gridRefs = useRef<(HTMLDivElement | null)[]>([]);
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion || !gridRef.current) return;
+    if (prefersReducedMotion || gridRefs.current.length === 0) return;
 
-    const cards = gridRef.current.querySelectorAll('.client-logo-card');
-    
-    // Set initial state
-    gsap.set(cards, { opacity: 0, x: -50 });
+    gridRefs.current.forEach(grid => {
+      if (!grid) return;
+      const cards = grid.querySelectorAll('.client-logo-card');
+      
+      // Set initial state
+      gsap.set(cards, { opacity: 0, x: -50 });
 
-    ScrollTrigger.batch(cards, {
-      start: 'top 85%',
-      onEnter: (batch) => 
-        gsap.to(batch, { 
-          opacity: 1, 
-          x: 0, 
-          stagger: 0.03, 
-          duration: 0.4, 
-          ease: 'power3.out',
-          overwrite: true
-        }),
-      onLeaveBack: (batch) => 
-        gsap.to(batch, { 
-          opacity: 0, 
-          x: -50, 
-          duration: 0.2,
-          overwrite: true
-        })
+      ScrollTrigger.batch(cards, {
+        start: 'top 85%',
+        onEnter: (batch) => 
+          gsap.to(batch, { 
+            opacity: 1, 
+            x: 0, 
+            stagger: 0.03, 
+            duration: 0.4, 
+            ease: 'power3.out',
+            overwrite: true
+          }),
+        onLeaveBack: (batch) => 
+          gsap.to(batch, { 
+            opacity: 0, 
+            x: -50, 
+            duration: 0.2,
+            overwrite: true
+          })
+      });
     });
   }, []);
 
@@ -85,18 +97,34 @@ export default function Clients() {
       >
         <TopographicalBackground className="clients-topo-container" />
         <div className="container">
-          <div ref={gridRef} className="client-logos-grid">
-            {clients.map((client) => (
-              <div key={client.id} className="client-logo-card">
-                <img
-                  src={client.logo}
-                  alt={client.name}
-                  className="client-logo-img"
-                />
-                <div className="client-logo-tooltip">{client.name}</div>
+          {Object.entries(categorizedClients).map(([category, categoryClients], catIndex) => (
+            <div key={category} className="clients-category-section" style={{ marginBottom: '4rem' }}>
+              <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '2rem', color: '#1a1a1a' }}>
+                {category}
+              </h2>
+              <div 
+                ref={(el) => { gridRefs.current[catIndex] = el; }} 
+                className="client-logos-grid"
+              >
+                {categoryClients.map((client) => (
+                  <div key={client.id} className="client-logo-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    {client.logo ? (
+                      <img
+                        src={client.logo}
+                        alt={client.name}
+                        className="client-logo-img"
+                      />
+                    ) : (
+                      <div className="client-logo-fallback" style={{ fontSize: '1rem', fontWeight: 600, color: '#333', textAlign: 'center', padding: '1rem' }}>
+                        {client.name}
+                      </div>
+                    )}
+                    <div className="client-logo-tooltip">{client.name}</div>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </section>
     </PageTransition>

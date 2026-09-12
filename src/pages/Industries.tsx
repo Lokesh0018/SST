@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../components/common/PageTransition';
 import SectionHeading from '../components/common/SectionHeading';
 import { industries } from '../data/industries';
+import { partners } from '../data/partners';
 import TopographicalBackground from '../components/common/TopographicalBackground';
 import '../styles/Industries.css';
 
@@ -144,6 +145,46 @@ export default function Industries() {
                 <div className="industries-card-glow" />
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Partners Section */}
+      <section className="partners-section" style={{ padding: '6rem 0', backgroundColor: '#f9f9f9', position: 'relative' }}>
+        <div className="container relative z-10">
+          <div className="text-center" style={{ marginBottom: '4rem' }}>
+            <span className="about-eyebrow" style={{ color: '#F4511E', fontWeight: 700, letterSpacing: '0.1em', fontSize: '0.875rem' }}>OUR PARTNERS</span>
+            <h2 className="why-headline" style={{ fontSize: '2.5rem', fontWeight: 800, color: '#1a1a1a', marginTop: '0.5rem' }}>TECHNOLOGY <span className="text-orange" style={{ color: '#F4511E' }}>PARTNERS.</span></h2>
+          </div>
+
+          <div className="partners-category" style={{ marginBottom: '4rem' }}>
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#333', marginBottom: '2rem', textAlign: 'center' }}>Technology Alliance Partners</h3>
+            <div className="partners-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '2rem', justifyItems: 'center' }}>
+              {partners.filter(p => p.type === 'Alliance').map(partner => (
+                <div key={partner.id} className="partner-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', padding: '1.5rem', borderRadius: '0.5rem', boxShadow: '0 4px 15px rgba(0,0,0,0.05)', width: '100%', height: '100px' }}>
+                  {partner.logo ? (
+                    <img src={partner.logo} alt={partner.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+                  ) : (
+                    <span style={{ fontWeight: 600, color: '#555', textAlign: 'center' }}>{partner.name}</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="partners-category">
+            <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#333', marginBottom: '2rem', textAlign: 'center' }}>Technology Solutions Partners</h3>
+            <div className="partners-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '2rem', justifyItems: 'center' }}>
+              {partners.filter(p => p.type === 'Solutions').map(partner => (
+                <div key={partner.id} className="partner-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', padding: '1.5rem', borderRadius: '0.5rem', boxShadow: '0 4px 15px rgba(0,0,0,0.05)', width: '100%', height: '100px' }}>
+                  {partner.logo ? (
+                    <img src={partner.logo} alt={partner.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
+                  ) : (
+                    <span style={{ fontWeight: 600, color: '#555', textAlign: 'center' }}>{partner.name}</span>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

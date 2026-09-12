@@ -962,7 +962,102 @@
 
 
 
-/* Statistics Section */
+/* 10. TESTIMONIALS MARQUEE */
+.about-testimonials-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.testimonial-marquee-container {
+  display: flex;
+  overflow: hidden;
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  padding: 2rem 0;
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.testimonial-marquee-track {
+  display: flex;
+  gap: 2rem;
+  padding-left: 2rem;
+  animation: scrollTestimonials 30s linear infinite;
+  width: max-content;
+}
+
+.testimonial-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollTestimonials {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - 1rem)); } /* -50% because we duplicate the items */
+}
+
+.testimonial-card-glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.testimonial-card-glass:hover {
+  transform: translateY(-5px);
+  border-color: rgba(244, 81, 30, 0.4);
+}
+
+.testimonial-rating {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.testimonial-star {
+  color: #F4511E;
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.testimonial-text {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 2rem;
+  flex-grow: 1;
+}
+
+.testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 1rem;
+}
+
+.testimonial-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.testimonial-name {
+  font-weight: 700;
+  color: white;
+  font-size: 1.1rem;
+}/* Statistics Section */
 .timeline-stats-grid {
   display: grid;
   grid-template-columns: 1fr;

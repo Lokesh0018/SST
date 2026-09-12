@@ -5,6 +5,7 @@ import { useGSAP } from '@gsap/react';
 import PageTransition from '../components/common/PageTransition';
 import Button from '../components/common/Button';
 import { lazy, Suspense } from 'react';
+import { testimonials } from '../data/testimonials';
 const InfrastructureBackground = lazy(() => import('../components/InfrastructureBackground'));
 const EcosystemNetwork = lazy(() => import('../components/EcosystemNetwork'));
 import '../styles/About.css';
@@ -388,12 +389,27 @@ export default function About() {
                 <span className="about-eyebrow">WHY SST</span>
                 <h2 className="why-headline">RELIABILITY IS<br/><span className="text-orange">THE FOUNDATION.</span></h2>
                 <p className="why-desc">
-                  To meet customer expectations for quality, performance and reliability, we continuously strive for excellence while delivering solutions within defined parameters.
+                  To meet customer's expectations on quality performance and reliability, we are committed to strive for excellence in all our ability to deliver solutions within the defined parameters as we help to maximize performance of our customers, while understanding their needs and achieving them. We are result-driven and focused towards ensuring safe working environment, constant improvement in all processes and complying with all legal requirements.
                 </p>
-                <div className="why-tags">
+                <div className="why-tags" style={{ marginBottom: '2rem' }}>
                   {['QUALITY', 'RELIABILITY', 'SAFETY', 'ENGINEERING', 'SUPPORT', 'DELIVERY'].map((tag, idx) => (
                     <span key={idx} className="why-tag">{tag}</span>
                   ))}
+                </div>
+                
+                <div className="avm-container" ref={avmRef} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', marginTop: '2rem' }}>
+                  <div className="avm-item">
+                    <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#F4511E' }}>OUR AIM</h3>
+                    <p style={{ fontSize: '1rem', fontWeight: 500 }}>WORLD CLASS SECURITY FOR YOUR NEEDS</p>
+                  </div>
+                  <div className="avm-item">
+                    <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#F4511E' }}>OUR VISION</h3>
+                    <p style={{ fontSize: '1rem', fontWeight: 500 }}>TO BE THE COMPANY YOU CAN TRUST</p>
+                  </div>
+                  <div className="avm-item">
+                    <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#F4511E' }}>OUR MISSION</h3>
+                    <p style={{ fontSize: '1rem', fontWeight: 500 }}>TO BE THE ONE-STOP SOLUTION</p>
+                  </div>
                 </div>
               </div>
               <div className="why-visual-col">
@@ -580,6 +596,50 @@ export default function About() {
           </div>
         </section>
 
+
+        {/* 8.5 TESTIMONIALS */}
+        <section className="about-testimonials-section" style={{ padding: '8rem 0', backgroundColor: '#0b1219' }}>
+          {/* Subtle Background pattern for dark theme */}
+          <div className="timeline-bg-grid" style={{ opacity: 0.5 }}></div>
+          
+          <div className="container relative z-10">
+            <div className="text-center" style={{ marginBottom: '3rem' }}>
+              <span className="about-eyebrow">OUR TESTIMONIALS</span>
+              <h2 className="why-headline" style={{ color: 'white' }}>WHAT OUR CLIENTS <span className="text-orange">SAY.</span></h2>
+            </div>
+          </div>
+
+          <div className="testimonial-marquee-container relative z-10">
+            <div className="testimonial-marquee-track">
+              {/* Duplicate the array to create a seamless infinite loop */}
+              {[...testimonials, ...testimonials].map((testimonial, idx) => (
+                <div key={`${testimonial.id}-${idx}`} className="testimonial-card-glass">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="#F4511E" opacity="0.2" style={{ position: 'absolute', top: '1.5rem', right: '1.5rem' }}>
+                    <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+                  </svg>
+                  
+                  <div className="testimonial-rating">
+                    {[...Array(testimonial.rating || 5)].map((_, i) => (
+                      <svg key={i} className="testimonial-star" viewBox="0 0 24 24">
+                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                      </svg>
+                    ))}
+                  </div>
+                  
+                  <p className="testimonial-text">{testimonial.text}</p>
+                  
+                  <div className="testimonial-author">
+                    <img src={testimonial.avatar} alt={testimonial.name} className="testimonial-avatar" />
+                    <div>
+                      <div className="testimonial-name">{testimonial.name}</div>
+                      <div style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)' }}>Verified Client</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
 
         {/* 9. FINAL CTA */}
         <section className="about-cta-section">
