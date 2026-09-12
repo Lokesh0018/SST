@@ -198,7 +198,7 @@ function OrbitalItem({  cfg,
 
     // Data particle trail
     if (particleGroupRef.current) {
-      particleT.current += delta * (isActive ? 0.8 : 0.3);
+      particleT.current += delta * 0.8;
       if (particleT.current > 1) particleT.current = 0;
 
       particleGroupRef.current.children.forEach((child, i) => {
@@ -210,7 +210,7 @@ function OrbitalItem({  cfg,
         const scale = 1 - (i * 0.2);
         child.scale.setScalar(scale);
       });
-      particleGroupRef.current.visible = !isMuted && lineEase > 0.8;
+      particleGroupRef.current.visible = lineEase > 0.8;
     }
 
     // Orange pulse along connection line
@@ -266,10 +266,10 @@ function OrbitalItem({  cfg,
       <Line
         ref={lineRef}
         points={initialPts}
-        color={isActive ? "#FF6A3D" : "#C9A99A"}
-        lineWidth={isActive ? 2.5 : 1.2}
+        color={isActive ? "#D84315" : (isMuted ? "#9C3C1B" : "#FF6A3D")}
+        lineWidth={isActive ? 3.5 : (isMuted ? 1.5 : 2.5)}
         transparent
-        opacity={(isActive ? 1.0 : 0.6) * modelEaseRef.current}
+        opacity={(isActive ? 1.0 : (isMuted ? 0.6 : 1.0)) * modelEaseRef.current}
       />
       
       {/* Continuous data particle trail */}
