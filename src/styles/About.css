@@ -783,10 +783,14 @@
 
 /* 9. TIMELINE ("OUR LEGACY") */
 .about-timeline-section {
-  padding: 8rem 0;
+  padding: 2rem 0;
   background-color: #0b1219; /* Dark theme to match image */
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .timeline-bg-grid {
@@ -854,10 +858,12 @@
 /* Curved Timeline Container */
 .curved-timeline-wrapper {
   position: relative;
-  width: 100%;
-  max-width: 1200px;
-  margin: 4rem auto 0;
-  height: 500px;
+  width: 100vw;
+  max-width: 100vw;
+  margin: 3rem 0 3rem 50%;
+  transform: translateX(-50%);
+  height: 60vh;
+  min-height: 400px;
   display: block;
   z-index: 10;
 }
@@ -1057,47 +1063,6 @@
   font-weight: 700;
   color: white;
   font-size: 1.1rem;
-}/* Statistics Section */
-.timeline-stats-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-  max-width: 1000px;
-  margin: 2rem auto 0;
-  padding: 3rem 1rem 0;
-  border-top: 1px solid rgba(255,255,255,0.1);
-  position: relative;
-  z-index: 10;
-}
-@media (min-width: 768px) {
-  .timeline-stats-grid {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-    padding: 3rem 0 0;
-  }
-}
-
-.timeline-stat {
-  text-align: center;
-}
-
-.stat-num {
-  font-size: 3.5rem;
-  font-weight: 900;
-  color: var(--color-orange);
-  line-height: 1;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 4px 10px rgba(255, 75, 31, 0.2);
-}
-
-.stat-label {
-  font-size: 0.9rem;
-  font-weight: 800;
-  color: #ffffff;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  line-height: 1.4;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
 
 /* Mobile Fallback */

@@ -477,32 +477,18 @@ export default function About() {
                   </filter>
                 </defs>
                 <g>
-                  <circle cx="0" cy="0" r="35" fill="white" stroke="#ff4b1f" strokeWidth="4" filter="url(#orbGlow)" />
-                  <image href="/images/logo/SST.png" x="-25" y="-25" width="50" height="50" />
+                  {/* The pulsing aura */}
+                  <circle cx="0" cy="0" r="25" fill="#ff4b1f" opacity="0.4" filter="url(#orbGlow)">
+                    <animate attributeName="r" values="15; 30; 15" dur="2s" repeatCount="indefinite" />
+                    <animate attributeName="opacity" values="0.4; 0.8; 0.4" dur="2s" repeatCount="indefinite" />
+                  </circle>
+                  {/* The solid core */}
+                  <circle cx="0" cy="0" r="8" fill="white" filter="url(#orbGlow)" />
                   <animateMotion dur="8s" repeatCount="indefinite" path="M 100,440 C 450,400 550,100 900,60" />
                 </g>
               </svg>
             </div>
 
-            {/* Statistics Section */}
-            <div className="timeline-stats-grid">
-              <div className="timeline-stat">
-                <div className="stat-num"><span className="stat-num-value" data-target="15">0</span>+</div>
-                <div className="stat-label">YEARS<br/>OF EXPERIENCE</div>
-              </div>
-              <div className="timeline-stat">
-                <div className="stat-num"><span className="stat-num-value" data-target="50">0</span>+</div>
-                <div className="stat-label">PROJECTS<br/>DELIVERED</div>
-              </div>
-              <div className="timeline-stat">
-                <div className="stat-num"><span className="stat-num-value" data-target="10">0</span>+</div>
-                <div className="stat-label">COUNTRIES<br/>SERVED</div>
-              </div>
-              <div className="timeline-stat">
-                <div className="stat-num"><span className="stat-num-value" data-target="100">0</span>%</div>
-                <div className="stat-label">ENGINEERING<br/>COMMITMENT</div>
-              </div>
-            </div>
           </div>
         </section>
 
