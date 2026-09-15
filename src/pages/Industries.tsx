@@ -53,7 +53,15 @@ const clientImagesMap: Record<string, string> = {
   'rs assosiates': 'https://static.wixstatic.com/media/d90647_b72dc2aee99b4cef81c0d12722111d16~mv2.jpg/v1/fit/w_2500,h_1330,al_c/d90647_b72dc2aee99b4cef81c0d12722111d16~mv2.jpg',
   'gmfc labs': 'https://images.jdmagicbox.com/v2/comp/visakhapatnam/w7/0891px891.x891.181205003544.r1w7/catalogue/gmfc-labs-pvt-ltd-atchutapuram-visakhapatnam-pharmaceutical-manufacturers-fw349i89en.jpg',
   'sneha pharma': 'https://snehaaorganics.com/wp-content/uploads/2024/08/ed.jpeg',
-  'pilkington automotive india private limited': 'https://5.imimg.com/data5/SELLER/Default/2022/3/HQ/ED/BB/9379613/thermal-insulation-glass-250x250.PNG'
+  'pilkington automotive india private limited': 'https://5.imimg.com/data5/SELLER/Default/2022/3/HQ/ED/BB/9379613/thermal-insulation-glass-250x250.PNG',
+
+  // Financial Institutions
+  'edelwise housing finance': 'https://media.assettype.com/outlookbusiness/import/uploadimage/library/16_9/16_9_5/edelweiss_1642032251.jpg?w=1200&h=675&auto=format%2Ccompress&fit=max&enlarge=true',
+  'bajaj finance': 'https://content3.jdmagicbox.com/comp/kozhikode/v4/0495px495.x495.220601225250.t9v4/catalogue/bajaj-finance-limited-nadakkavu-kozhikode-finance-companies-14zd44zxi3.jpg',
+  'shriram finance': 'https://content.jdmagicbox.com/comp/guntur/k9/9999px863.x863.110713205227.h2k9/catalogue/shriram-transport-finance-company-ltd-guntur--brodipet-guntur-finance-against-vehicles-hdsz1.jpg',
+  'mahindra finance': 'https://images.jdmagicbox.com/v2/comp/gurgaon/v2/011pxx11.xx11.120406123848.c9v2/catalogue/mahindra-finance-gurgaon-sector-5-gurgaon-home-loans-8qhrlf.jpg',
+  'muthoot fin corp': 'https://static.ambitionbox.com/api/v2/photo/S3lRa25CVGZmR0dyZWExWFY1c25sdz09',
+  'iifl finance': 'https://images.moneycontrol.com/static-mcnews/2023/08/IIFL-Finance.jpg'
 };
 import { partners } from '../data/partners';
 import TopographicalBackground from '../components/common/TopographicalBackground';
