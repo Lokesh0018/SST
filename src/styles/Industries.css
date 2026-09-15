@@ -165,6 +165,14 @@
   border-color: rgba(244, 81, 30, 0.3);
 }
 
+.industries-card-front {
+  z-index: 1;
+}
+
+.industries-card:hover .industries-card-front {
+  pointer-events: none;
+}
+
 .industries-card-back {
   transform: rotateY(180deg);
   background-color: var(--color-cream, #F9F7F1);
@@ -177,6 +185,7 @@
   overflow-y: auto;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
+  z-index: 2;
 }
 
 .industries-card-back::-webkit-scrollbar {
@@ -449,8 +458,72 @@
 
 .skyline-node.active {
   fill: var(--color-orange, #F4511E);
-  /* The size change is handled by JS setting r="4", but we add a glow here */
-  filter: drop-shadow(0 0 4px rgba(244, 81, 30, 0.6));
+  r: 3.5;
+  filter: drop-shadow(0 0 4px rgba(244, 81, 30, 0.5));
+}
+
+/* Modal Styling */
+.client-image-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 2rem;
+  animation: modal-fade-in 0.3s ease forwards;
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.client-image-modal-content {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+  max-width: 900px;
+  width: 100%;
+  animation: modal-slide-up 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes modal-slide-up {
+  from { opacity: 0; transform: translateY(40px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.client-image-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s;
+}
+
+.client-image-modal-close:hover {
+  background: rgba(244, 81, 30, 1);
+}
+
+.client-image-modal-img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .industries-hero-header {
