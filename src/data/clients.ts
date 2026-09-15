@@ -77,4 +77,22 @@ export const clients: Client[] = [
   { id: '58', name: 'Anr Shopping Mall', logo: '', category: 'Retail' },
   { id: '59', name: 'Blackberry', logo: '/images/logo/Blackberry.svg', category: 'Retail' },
   { id: '60', name: 'Reliance Fresh', logo: '/images/logo/reliance-fresh.svg', category: 'Retail' },
+
+  // Technology Partners
+  { id: '61', name: 'Cisco', logo: '/images/logo/Cisco.svg', category: 'Technology Partners' },
+  { id: '62', name: 'CommScope', logo: '/images/logo/CommScope.svg', category: 'Technology Partners' },
+  { id: '63', name: 'CP Plus', logo: '/images/logo/Cp Plus.svg', category: 'Technology Partners' },
+  { id: '64', name: 'Dahua', logo: '/images/logo/Dahua_Technology.svg', category: 'Technology Partners' },
+  { id: '65', name: 'Dell', logo: '/images/logo/Dell.svg', category: 'Technology Partners' },
+  { id: '66', name: 'HP', logo: '/images/logo/HP_logo_2025.svg', category: 'Technology Partners' },
+  { id: '67', name: 'Hikvision', logo: '/images/logo/Hikvision_logo.svg', category: 'Technology Partners' },
+  { id: '68', name: 'Honeywell', logo: '/images/logo/Honeywell_logo.svg', category: 'Technology Partners' },
+  { id: '69', name: 'Ruckus', logo: '/images/logo/Ruckus.png', category: 'Technology Partners' },
+  { id: '70', name: 'Samsung', logo: '/images/logo/Samsung_Galaxy_logo.svg', category: 'Technology Partners' },
+  { id: '71', name: 'Sony', logo: '/images/logo/Sony.svg', category: 'Technology Partners' },
+  { id: '72', name: 'Ahuja', logo: '/images/logo/ahuja.svg', category: 'Technology Partners' },
+  { id: '73', name: 'CamAttendance', logo: '/images/logo/camattendance-logo.svg', category: 'Technology Partners' },
+  { id: '74', name: 'Seagate', logo: '/images/logo/seagate.svg', category: 'Technology Partners' },
+  { id: '75', name: 'Uniview', logo: '/images/logo/uniview.svg', category: 'Technology Partners' },
+  { id: '76', name: 'Toshiba', logo: '/images/logo/Toshiba.svg', category: 'Technology Partners' },
 ];

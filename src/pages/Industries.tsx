@@ -4,6 +4,20 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PageTransition from '../components/common/PageTransition';
 import SectionHeading from '../components/common/SectionHeading';
 import { industries } from '../data/industries';
+import { clients } from '../data/clients';
+
+const getClientsForIndustry = (slug: string) => {
+  const categoryMap: Record<string, string> = {
+    'hotels': 'Hospitality Sector',
+    'industries': 'Industries',
+    'financial-institutions': 'Financial Institutions',
+    'ecommerce-software': 'E-Commerce & Software Companies',
+    'banks': 'Banks',
+    'retail': 'Retail',
+  };
+  const category = categoryMap[slug];
+  return clients.filter(c => c.category === category && c.name.trim() !== '');
+};
 import { partners } from '../data/partners';
 import TopographicalBackground from '../components/common/TopographicalBackground';
 import '../styles/Industries.css';
@@ -93,101 +107,89 @@ export default function Industries() {
                 key={industry.slug}
                 className="industry-detail-card industries-card"
               >
-                {/* Photographic Background */}
-                <img
-                  src={industry.image}
-                  alt={industry.title}
-                  className="industries-card-img"
-                />
+                <div className="industries-card-inner">
+                  {/* FRONT OF CARD */}
+                  <div className="industries-card-front">
+                    {/* Photographic Background */}
+                    <img
+                      src={industry.image}
+                      alt={industry.title}
+                      className="industries-card-img"
+                    />
 
-                {/* Dark Gradient Overlay */}
-                <div className="industries-card-overlay" />
-                
-                {/* Scanner Line */}
-                <div className="industries-card-scanner" />
-                
-                {/* Corner Crosshairs */}
-                <div className="industries-card-crosshair crosshair-tl" />
-                <div className="industries-card-crosshair crosshair-tr" />
-                <div className="industries-card-crosshair crosshair-bl" />
-                <div className="industries-card-crosshair crosshair-br" />
+                    {/* Dark Gradient Overlay */}
+                    <div className="industries-card-overlay" />
+                    
+                    {/* Scanner Line */}
+                    <div className="industries-card-scanner" />
+                    
+                    {/* Corner Crosshairs */}
+                    <div className="industries-card-crosshair crosshair-tl" />
+                    <div className="industries-card-crosshair crosshair-tr" />
+                    <div className="industries-card-crosshair crosshair-bl" />
+                    <div className="industries-card-crosshair crosshair-br" />
 
-                {/* Content */}
-                <div className="industries-card-content">
-                  <div className="industries-card-glass">
-                    <span className="industries-card-tag">
-                      Industry Service
-                    </span>
-
-                    <h3 className="industries-card-title">
-                      {industry.title}
-                    </h3>
-
-                    <p className="industries-card-desc">
-                      {industry.longDescription}
-                    </p>
-
-                    {/* Services tags */}
-                    <div className="industries-card-services">
-                      {industry.services.map((service) => (
-                        <span
-                          key={service}
-                          className="industries-card-service"
-                        >
-                          {service}
+                    {/* Content */}
+                    <div className="industries-card-content">
+                      <div className="industries-card-glass">
+                        <span className="industries-card-tag">
+                          Industry Service
                         </span>
-                      ))}
+
+                        <h3 className="industries-card-title">
+                          {industry.title}
+                        </h3>
+
+                        <p className="industries-card-desc">
+                          {industry.longDescription}
+                        </p>
+
+                        {/* Services tags */}
+                        <div className="industries-card-services">
+                          {industry.services.map((service) => (
+                            <span
+                              key={service}
+                              className="industries-card-service"
+                            >
+                              {service}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
                     </div>
+
+                    {/* Orange border glow on hover */}
+                    <div className="industries-card-glow" />
+                  </div>
+
+                  {/* BACK OF CARD */}
+                  <div className="industries-card-back">
+                    {/* Watermark Logo */}
+                    <img 
+                      src="/images/logo/SST L.png" 
+                      alt="" 
+                      className="industries-card-back-watermark" 
+                    />
+                    
+                    <h3 className="industries-card-back-title">Our Partners</h3>
+                    <ul className="industries-card-back-list">
+                      {getClientsForIndustry(industry.slug).map((client, index) => (
+                        <li 
+                          key={client.id}
+                          style={{ animationDelay: `${index * 0.05}s` }}
+                        >
+                          {client.name}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
-
-                {/* Orange border glow on hover */}
-                <div className="industries-card-glow" />
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Partners Section */}
-      <section className="partners-section" style={{ padding: '6rem 0', backgroundColor: '#f9f9f9', position: 'relative' }}>
-        <div className="container relative z-10">
-          <div className="text-center" style={{ marginBottom: '4rem' }}>
-            <span className="about-eyebrow" style={{ color: '#F4511E', fontWeight: 700, letterSpacing: '0.1em', fontSize: '0.875rem' }}>OUR PARTNERS</span>
-            <h2 className="why-headline" style={{ fontSize: '2.5rem', fontWeight: 800, color: '#1a1a1a', marginTop: '0.5rem' }}>TECHNOLOGY <span className="text-orange" style={{ color: '#F4511E' }}>PARTNERS.</span></h2>
-          </div>
-
-          <div className="partners-category" style={{ marginBottom: '4rem' }}>
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#333', marginBottom: '2rem', textAlign: 'center' }}>Technology Alliance Partners</h3>
-            <div className="partners-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '2rem', justifyItems: 'center' }}>
-              {partners.filter(p => p.type === 'Alliance').map(partner => (
-                <div key={partner.id} className="partner-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', padding: '1.5rem', borderRadius: '0.5rem', boxShadow: '0 4px 15px rgba(0,0,0,0.05)', width: '100%', height: '100px' }}>
-                  {partner.logo ? (
-                    <img src={partner.logo} alt={partner.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-                  ) : (
-                    <span style={{ fontWeight: 600, color: '#555', textAlign: 'center' }}>{partner.name}</span>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="partners-category">
-            <h3 style={{ fontSize: '1.5rem', fontWeight: 700, color: '#333', marginBottom: '2rem', textAlign: 'center' }}>Technology Solutions Partners</h3>
-            <div className="partners-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '2rem', justifyItems: 'center' }}>
-              {partners.filter(p => p.type === 'Solutions').map(partner => (
-                <div key={partner.id} className="partner-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', padding: '1.5rem', borderRadius: '0.5rem', boxShadow: '0 4px 15px rgba(0,0,0,0.05)', width: '100%', height: '100px' }}>
-                  {partner.logo ? (
-                    <img src={partner.logo} alt={partner.name} style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }} />
-                  ) : (
-                    <span style={{ fontWeight: 600, color: '#555', textAlign: 'center' }}>{partner.name}</span>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
     </PageTransition>
   );
 }

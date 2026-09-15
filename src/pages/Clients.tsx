@@ -13,14 +13,6 @@ gsap.registerPlugin(ScrollTrigger);
 export default function Clients() {
   const sectionRef = useRef<HTMLDivElement>(null);
   
-  // Group clients by category
-  const categorizedClients = clients.reduce((acc, client) => {
-    if (!acc[client.category]) {
-      acc[client.category] = [];
-    }
-    acc[client.category].push(client);
-    return acc;
-  }, {} as Record<string, typeof clients>);
 
   const gridRefs = useRef<(HTMLDivElement | null)[]>([]);
   useEffect(() => {
@@ -97,34 +89,28 @@ export default function Clients() {
       >
         <TopographicalBackground className="clients-topo-container" />
         <div className="container">
-          {Object.entries(categorizedClients).map(([category, categoryClients], catIndex) => (
-            <div key={category} className="clients-category-section" style={{ marginBottom: '4rem' }}>
-              <h2 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '2rem', color: '#1a1a1a' }}>
-                {category}
-              </h2>
-              <div 
-                ref={(el) => { gridRefs.current[catIndex] = el; }} 
-                className="client-logos-grid"
-              >
-                {categoryClients.map((client) => (
-                  <div key={client.id} className="client-logo-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    {client.logo ? (
-                      <img
-                        src={client.logo}
-                        alt={client.name}
-                        className="client-logo-img"
-                      />
-                    ) : (
-                      <div className="client-logo-fallback" style={{ fontSize: '1rem', fontWeight: 600, color: '#333', textAlign: 'center', padding: '1rem' }}>
-                        {client.name}
-                      </div>
-                    )}
-                    <div className="client-logo-tooltip">{client.name}</div>
-                  </div>
-                ))}
+          <div 
+            ref={(el) => { gridRefs.current[0] = el; }} 
+            className="client-logos-grid"
+            style={{ marginBottom: '4rem' }}
+          >
+            {clients.filter(client => client.logo && client.logo.trim() !== '').map((client) => (
+              <div key={client.id} className="client-logo-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <img
+                  src={client.logo}
+                  alt={client.name}
+                  className="client-logo-img"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    if (target.parentElement) {
+                      target.parentElement.style.display = 'none';
+                    }
+                  }}
+                />
+                <div className="client-logo-tooltip">{client.name}</div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </section>
     </PageTransition>
