@@ -297,18 +297,17 @@ export default function About() {
     if (timelineRef.current) {
       const nodes = timelineRef.current.querySelectorAll('.curved-timeline-node');
 
-      nodes.forEach((node) => {
-        gsap.to(node, {
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: node,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse'
-          }
-        });
+      gsap.to(nodes, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.15,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: timelineRef.current,
+          start: 'top 75%',
+          toggleActions: 'play none none reverse'
+        }
       });
 
       // Stats Counter Animation
@@ -883,11 +882,11 @@ export default function About() {
               <h2 className="why-headline">BUILT TO <br /><span className="text-orange">EVERY LAYER.</span></h2>
 
               <div className="story-split-grid mt-12">
-                <div className="story-image-col" ref={storyImageColRef} style={{ minHeight: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                  <div className="relative w-full h-full flex items-center justify-center pointer-events-none" ref={logoContainerRef}>
-                    <div ref={logoRef} className="absolute z-20 flex items-center justify-center" style={{ width: '150px', height: '150px' }}>
+                <div className="story-image-col" ref={storyImageColRef} style={{ minHeight: '400px', display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-start', paddingTop: '40px', paddingLeft: '40px' }}>
+                  <div className="relative pointer-events-none" ref={logoContainerRef}>
+                    <div ref={logoRef} className="relative z-20 flex items-center justify-center" style={{ width: '250px', height: '250px' }}>
                       <div className="logo-bg-mask absolute inset-0 rounded-full"></div>
-                      <img src="/images/logo/LOGO.png" alt="SST Logo" className="relative z-10" style={{ width: '150px', height: '150px', maxWidth: '150px', maxHeight: '150px', objectFit: 'contain', filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.15))' }} />
+                      <img src="/images/logo/LOGO.png" alt="SST Logo" className="relative z-10" style={{ width: '250px', height: '250px', maxWidth: '250px', maxHeight: '250px', objectFit: 'contain', filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.15))' }} />
                     </div>
                   </div>
                 </div>
