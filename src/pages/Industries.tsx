@@ -61,7 +61,18 @@ const clientImagesMap: Record<string, string> = {
   'shriram finance': 'https://content.jdmagicbox.com/comp/guntur/k9/9999px863.x863.110713205227.h2k9/catalogue/shriram-transport-finance-company-ltd-guntur--brodipet-guntur-finance-against-vehicles-hdsz1.jpg',
   'mahindra finance': 'https://images.jdmagicbox.com/v2/comp/gurgaon/v2/011pxx11.xx11.120406123848.c9v2/catalogue/mahindra-finance-gurgaon-sector-5-gurgaon-home-loans-8qhrlf.jpg',
   'muthoot fin corp': 'https://static.ambitionbox.com/api/v2/photo/S3lRa25CVGZmR0dyZWExWFY1c25sdz09',
-  'iifl finance': 'https://images.moneycontrol.com/static-mcnews/2023/08/IIFL-Finance.jpg'
+  'iifl finance': 'https://images.moneycontrol.com/static-mcnews/2023/08/IIFL-Finance.jpg',
+
+  // E-Commerce & Software Companies
+  'mahathi software': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFTn2arQ1Sq_TlyB1nSiJwBFehxI6KySRy2jyH5AOydQ&s=10',
+  'securius global': 'https://www.securuscctv.com/web/image/30137-fe7f1fb8/DSC_0588.webp',
+  'se techie': 'https://content3.jdmagicbox.com/comp/pune/h6/020pxx20.xx20.160115110050.a7h6/catalogue/techie-diaries-technology-pvt-ltd-viman-nagar-pune-colleges-xkj499wjva.jpg',
+  'ss infotech': 'https://images.jdmagicbox.com/v2/comp/nagpur/y8/0712px712.x712.241010131958.y8y8/catalogue/ss-infotech-ramdaspeth-nagpur-mobile-application-developers-7bfi8zj3vd.jpg',
+  'flipkart': 'https://www.retail-insight-network.com/wp-content/uploads/sites/18/2022/08/Flipkart-1.jpg',
+  'lenskart': 'https://my-lkstore.lenskart.com/store_locator_image/LKST544/1.jpeg',
+  'swiggy': 'https://static.ambitionbox.com/api/v2/photo/d2lSWUk1Y2UxZVhMODNkVjNFdWZUZz09',
+  'v4u computer inc': 'https://content.jdmagicbox.com/v2/comp/kovilpatti/a3/9999p4632.4632.200513222020.b6a3/catalogue/v-4-u-tech-park-e-road-kovilpatti-computer-repair-and-services-h6b02b1fci.jpg',
+  'delivery': 'https://images.jdmagicbox.com/v2/comp/kolkata/m7/033pxx33.xx33.220208090604.c3m7/catalogue/delhivery-courier-services-kolkata-7xj1dvdp7d.jpg'
 };
 import { partners } from '../data/partners';
 import TopographicalBackground from '../components/common/TopographicalBackground';
