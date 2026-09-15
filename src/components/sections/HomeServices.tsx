@@ -279,7 +279,7 @@ const HomeServices = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="section-padding home-services-section">
+    <section id="home-services" ref={sectionRef} className="section-padding home-services-section">
       <ServicesBackground />
       <div className="container" ref={containerRef}>
         <div className="home-services-header">
