@@ -19,7 +19,8 @@ const getClientsForIndustry = (slug: string) => {
   return clients.filter(c => c.category === category && c.name.trim() !== '');
 };
 
-const hospitalityImages: Record<string, string> = {
+const clientImagesMap: Record<string, string> = {
+  // Hospitality Sector
   'amalapuram heights': 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/553775967.jpg?k=34bb2b7c806189f1cfd190f1abdc221f68c37051a86ddf12349d714a59ab31ff&o=',
   'taj hotel': 'https://cdn.sanity.io/images/ocl5w36p/ihcl_prod/02d5266ba2e7a05097c8aa5c6f5533095f8b50fc-3840x1860.jpg',
   'taj hotels': 'https://cdn.sanity.io/images/ocl5w36p/ihcl_prod/02d5266ba2e7a05097c8aa5c6f5533095f8b50fc-3840x1860.jpg',
@@ -32,7 +33,27 @@ const hospitalityImages: Record<string, string> = {
   'court yard by marriott': 'https://upload.wikimedia.org/wikipedia/commons/0/01/A_Courtyard_by_Marriott_hotel_in_downtown_Athens%2C_Georgia_03.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original',
   'courtyard by marriott': 'https://upload.wikimedia.org/wikipedia/commons/0/01/A_Courtyard_by_Marriott_hotel_in_downtown_Athens%2C_Georgia_03.jpg?utm_source=en.wikipedia.org&utm_campaign=index&utm_content=original',
   'four points by sheraton': 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/628159859.jpg?k=776a6fc777587dc8d4d854b31c4d14956cd32e2cb27ec1e07e5d9d4c22d8d869&o=',
-  'novotel': 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/97/13/5a/novotel-visakhapatnam.jpg?w=900&h=500&s=1'
+  'novotel': 'https://dynamic-media-cdn.tripadvisor.com/media/photo-o/28/97/13/5a/novotel-visakhapatnam.jpg?w=900&h=500&s=1',
+
+  // Industries Sector
+  'andhra paper mill': 'https://images.jdmagicbox.com/v2/comp/rajahmundry/dc/9999px883.x883.1238062352u6r2s2.dc/catalogue/andhra-paper-ltd-sriram-nagar-rajahmundry-paper-manufacturers-8juHcH8Vdq.jpg',
+  'gemini edible oils': 'https://www.gefindia.com/assets/img/gallery/Plant_3.jpg',
+  'vizag foods pvt ltd': 'https://images.jdmagicbox.com/v2/comp/visakhapatnam/j5/0891px891.x891.180611081813.f5j5/catalogue/vizag-foods-pvt-ltd-madhurawada-visakhapatnam-animal-feed-supplement-manufacturers-8te9gt7itu.jpg',
+  'hobell bellow.co': 'https://hobelbellows.com/assets/HBC-ReWMfdnD.jpg',
+  'sail': 'https://www.sail.co.in/sites/default/files/2024-06/Chhattisgarh.jpg',
+  'net matrix seeds': 'https://www.matrixpack.com/sites/default/files/styles/wide/public/2025-11/article-img.jpg?itok=1SjdWr-7',
+  'vasanth chemicals': 'https://images.jdmagicbox.com/v2/comp/hyderabad/e5/040pxx40.xx40.000384194845.k1e5/catalogue/vasant-chemicals-pvt-ltd-begumpet-hyderabad-water-treatment-chemical-manufacturers-j5uvecjioe.jpg',
+  'green tech pharma': 'https://www.pharmaceutical-technology.com/wp-content/uploads/sites/24/2018/08/pharma-manufacturing.jpg',
+  'mandeo motors': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTa1NPYgJTNC15hmlU1TTuXv7snIz-Kex_YOzPUGhCkOB2v_dUz7I8m-V7&s=10',
+  'laxmi samanvi fuels': 'https://images.jdmagicbox.com/comp/visakhapatnam/x1/0891px891.x891.001130367946.d8x1/catalogue/east-india-petroleum-ltd-visakhapatnam-airport-visakhapatnam-petroleum-product-dealers-1cz7trnxar-250.jpg',
+  'adani wilmar': 'https://resize.indiatvnews.com/en/resize/newbucket/1200_-/2022/05/adaniwilmar-1651568400-1651587035.jpg',
+  'victory ferro alloys': 'https://th-i.thgim.com/public/migration_catalog/article14049107.ece/alternates/LANDSCAPE_1200/24HYMRR10-ALLOYHY25FERROALLOYS_.jp.jpg',
+  'aurora': 'https://pharmaoffer.com/media/cache/ctm/upload/picture/6724a02e66e06464668710.webp',
+  'sri venkateswara ferro alloys': 'https://supershakti.in/storage/app/public/images/Ferro%20Alloys%20copy.png',
+  'rs assosiates': 'https://static.wixstatic.com/media/d90647_b72dc2aee99b4cef81c0d12722111d16~mv2.jpg/v1/fit/w_2500,h_1330,al_c/d90647_b72dc2aee99b4cef81c0d12722111d16~mv2.jpg',
+  'gmfc labs': 'https://images.jdmagicbox.com/v2/comp/visakhapatnam/w7/0891px891.x891.181205003544.r1w7/catalogue/gmfc-labs-pvt-ltd-atchutapuram-visakhapatnam-pharmaceutical-manufacturers-fw349i89en.jpg',
+  'sneha pharma': 'https://snehaaorganics.com/wp-content/uploads/2024/08/ed.jpeg',
+  'pilkington automotive india private limited': 'https://5.imimg.com/data5/SELLER/Default/2022/3/HQ/ED/BB/9379613/thermal-insulation-glass-250x250.PNG'
 };
 import { partners } from '../data/partners';
 import TopographicalBackground from '../components/common/TopographicalBackground';
@@ -192,7 +213,7 @@ export default function Industries() {
                     <ul className="industries-card-back-list">
                       {getClientsForIndustry(industry.slug).map((client, index) => {
                         const imageKey = client.name.toLowerCase().trim();
-                        const clientImage = hospitalityImages[imageKey];
+                        const clientImage = clientImagesMap[imageKey];
                         
                         return (
                           <li 
