@@ -84,7 +84,17 @@ const clientImagesMap: Record<string, string> = {
   'hdfc ergo': 'https://content.jdmagicbox.com/comp/visakhapatnam/73/0891p891std2000473/catalogue/mahatma-gandhi-cancer-hospital-and-research-institute-mvp-colony-visakhapatnam-hospitals-zmify-250.jpg',
   'canara bank': 'https://images.jdmagicbox.com/v2/comp/visakhapatnam/c8/0891px891.x891.240129123224.e4c8/catalogue/canara-bank-dwaraka-nagar-visakhapatnam-visakhapatnam-banks-9kxtyw6rxx.jpg',
   'indusind bank': 'https://images.jdmagicbox.com/v2/comp/bangalore/k8/080pxx80.xx80.110607125505.w2k8/catalogue/indusind-bank-ltd-m-g-road-bangalore-banks-wrx5mdawpq.jpg',
-  'federal bank': 'https://content.jdmagicbox.com/v2/comp/warangal/p4/9999px870.x870.241121190519.i4p4/catalogue/federal-bank-jpn-road-warangal-f5cc2xvx70.jpg'
+  'federal bank': 'https://content.jdmagicbox.com/v2/comp/warangal/p4/9999px870.x870.241121190519.i4p4/catalogue/federal-bank-jpn-road-warangal-f5cc2xvx70.jpg',
+
+  // Retail
+  'varun motors pvt ltd': 'https://images.jdmagicbox.com/comp/vijayawada/p6/0866px866.x866.170426113136.d4p6/catalogue/varun-maruthi-ramavarappadu-vijayawada-car-dealers-maruti-suzuki-25smu7hv7a.jpg',
+  'lifestyle': 'https://content3.jdmagicbox.com/v2/comp/visakhapatnam/m5/0891px891.x891.230309084328.n3m5/catalogue/lifestyle-stores-gajuwaka-visakhapatnam-readymade-garment-retailers-WoXQYyDcta.jpg',
+  'max': 'https://content3.jdmagicbox.com/v2/comp/visakhapatnam/h1/0891px891.x891.200305210820.q5h1/catalogue/max-fashion-cbm-compound-visakhapatnam-readymade-garment-retailers-yd324vmkik.jpg',
+  'splash': 'https://content.jdmagicbox.com/comp/visakhapatnam/i8/0891px891.x891.220710134842.z4i8/catalogue/-run15xcbp0.jpg',
+  'spencer': 'https://lh3.googleusercontent.com/aF3DpFJuc2s-jtYp2sL2wGfaoV2vyGu0S4lPFZlHIbo3ZDaL6jsS--EjJNVDKeg1ItzKWJn4AT_kNRkTKPybccZyuzXUttOQWZ6ErHez=s750',
+  'anr shopping mall': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS4ZtB2oTHZB0ljOKQfolY1bB7nwFhOL41NbgOPx-sCig&s=10',
+  'blackberry': 'https://content.jdmagicbox.com/comp/karimnagar/l2/9999px878.x878.230904154536.f8l2/catalogue/blackberrys-cvrn-road-karimnagar-men-readymade-garment-wholesalers-tnh9i1w9rm.jpg',
+  'reliance fresh': 'https://content.jdmagicbox.com/v2/comp/delhi/n4/011pxx11.xx11.150701160558.c1n4/catalogue/reliance-fresh-paschim-vihar-delhi-grocery-stores-uismq5.jpg'
 };
 import { partners } from '../data/partners';
 import TopographicalBackground from '../components/common/TopographicalBackground';
