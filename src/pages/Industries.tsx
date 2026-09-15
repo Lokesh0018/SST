@@ -72,7 +72,19 @@ const clientImagesMap: Record<string, string> = {
   'lenskart': 'https://my-lkstore.lenskart.com/store_locator_image/LKST544/1.jpeg',
   'swiggy': 'https://static.ambitionbox.com/api/v2/photo/d2lSWUk1Y2UxZVhMODNkVjNFdWZUZz09',
   'v4u computer inc': 'https://content.jdmagicbox.com/v2/comp/kovilpatti/a3/9999p4632.4632.200513222020.b6a3/catalogue/v-4-u-tech-park-e-road-kovilpatti-computer-repair-and-services-h6b02b1fci.jpg',
-  'delivery': 'https://images.jdmagicbox.com/v2/comp/kolkata/m7/033pxx33.xx33.220208090604.c3m7/catalogue/delhivery-courier-services-kolkata-7xj1dvdp7d.jpg'
+  'delivery': 'https://images.jdmagicbox.com/v2/comp/kolkata/m7/033pxx33.xx33.220208090604.c3m7/catalogue/delhivery-courier-services-kolkata-7xj1dvdp7d.jpg',
+
+  // Banks
+  'hsbc': 'https://www.privatebankerinternational.com/wp-content/uploads/sites/5/2025/05/HSBCnew-shutterstock_1073418605.jpg',
+  'hdfc': 'https://content3.jdmagicbox.com/comp/visakhapatnam/w6/0891px891.x891.240125165633.j7w6/catalogue/hdfc-bank-prahladapuram-visakhapatnam-r7omer2xds.jpg',
+  'sbi': 'https://content.jdmagicbox.com/comp/visakhapatnam/95/0891p891std3001795/catalogue/state-bank-of-india-mvp-colony-visakhapatnam-banks-1d0nosi.jpg',
+  'kotak mahindra bank': 'https://content3.jdmagicbox.com/v2/comp/hyderabad/g8/040pxx40.xx40.110221133736.r2g8/catalogue/kotak-mahindra-bank-as-rao-nagar-hyderabad-banks-vn6zn8xpql.jpg',
+  'vijaya bank': 'https://content3.jdmagicbox.com/v2/comp/hyderabad/y7/040pxx40.xx40.001021184516.y3y7/catalogue/vijaya-bank-narayanguda-hyderabad-personal-loans-32jl2ga.jpg',
+  'south indian bank': 'https://images.cnbctv18.com/uploads/2024/07/south-indian-bank1jpeg-2024-07-7b0f6b24f84ec1a4d7ec6d6be065d287.jpg',
+  'hdfc ergo': 'https://content.jdmagicbox.com/comp/visakhapatnam/73/0891p891std2000473/catalogue/mahatma-gandhi-cancer-hospital-and-research-institute-mvp-colony-visakhapatnam-hospitals-zmify-250.jpg',
+  'canara bank': 'https://images.jdmagicbox.com/v2/comp/visakhapatnam/c8/0891px891.x891.240129123224.e4c8/catalogue/canara-bank-dwaraka-nagar-visakhapatnam-visakhapatnam-banks-9kxtyw6rxx.jpg',
+  'indusind bank': 'https://images.jdmagicbox.com/v2/comp/bangalore/k8/080pxx80.xx80.110607125505.w2k8/catalogue/indusind-bank-ltd-m-g-road-bangalore-banks-wrx5mdawpq.jpg',
+  'federal bank': 'https://content.jdmagicbox.com/v2/comp/warangal/p4/9999px870.x870.241121190519.i4p4/catalogue/federal-bank-jpn-road-warangal-f5cc2xvx70.jpg'
 };
 import { partners } from '../data/partners';
 import TopographicalBackground from '../components/common/TopographicalBackground';
