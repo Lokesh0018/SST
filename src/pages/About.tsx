@@ -21,11 +21,11 @@ const capabilities = [
 ];
 
 const timelineData = [
-  { year: '2011', title: 'FOUNDATION', desc: 'Founded with a focus on ferro alloy engineering', x: 10, y: 88 },
-  { year: '2014', title: 'FIRST MAJOR CONTRACT', desc: 'Secured major industrial contracts', x: 30, y: 76.3 },
-  { year: '2018/2019', title: 'EPC EXPANSION', desc: 'Expanded into turnkey EPC projects', x: 50, y: 50 },
-  { year: '2022', title: 'GLOBAL FOOTPRINT', desc: 'Established a global project footprint', x: 70, y: 23.7 },
-  { year: '2026', title: 'INDUSTRY LEADERSHIP', desc: 'Delivering ferro alloy engineering solutions across global markets', x: 90, y: 12 }
+  { year: '2011', title: 'FOUNDATION', desc: 'Founded with a focus on ferro alloy engineering', cx: 50, cy: 420, mcy: 100 },
+  { year: '2014', title: 'FIRST MAJOR CONTRACT', desc: 'Secured major industrial contracts', cx: 275, cy: 367, mcy: 250 },
+  { year: '2018 / 2019', title: 'EPC EXPANSION', desc: 'Expanded into turnkey EPC projects', cx: 500, cy: 250, mcy: 400 },
+  { year: '2022', title: 'GLOBAL FOOTPRINT', desc: 'Established a global project footprint', cx: 725, cy: 133, mcy: 550 },
+  { year: '2026', title: 'INDUSTRY LEADERSHIP', desc: 'Delivering ferro alloy engineering solutions across global markets', cx: 950, cy: 80, mcy: 700 }
 ];
 
 const marqueeItems = [
@@ -78,6 +78,7 @@ export default function About() {
   const peopleRef = useRef<HTMLDivElement>(null);
   const avmRef = useRef<HTMLDivElement>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
+  const mobileTimelineRef = useRef<HTMLDivElement>(null);
   const ceoRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLDivElement>(null);
   const logoContainerRef = useRef<HTMLDivElement>(null);
@@ -293,16 +294,52 @@ export default function About() {
       });
     }
 
-    // Timeline Animation
+    // Timeline Animation (Desktop)
     if (timelineRef.current) {
-      const nodes = timelineRef.current.querySelectorAll('.curved-timeline-node');
+      const nodes = timelineRef.current.querySelectorAll('.curved-timeline-text-node');
+      const path = timelineRef.current.querySelector('.curved-timeline-path');
+      const svgDots = timelineRef.current.querySelectorAll('.curved-svg-dot');
+
+      if (path) {
+        const length = (path as SVGPathElement).getTotalLength();
+        gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
+
+        gsap.to(path, {
+          strokeDashoffset: 0,
+          duration: 2,
+          ease: 'power2.inOut',
+          scrollTrigger: {
+            trigger: timelineRef.current,
+            start: 'top 75%',
+            toggleActions: 'play none none reverse'
+          }
+        });
+      }
+
+      gsap.fromTo(svgDots,
+        { scale: 0, opacity: 0, transformOrigin: 'center' },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.3,
+          ease: 'back.out(1.5)',
+          delay: 0.2,
+          scrollTrigger: {
+            trigger: timelineRef.current,
+            start: 'top 75%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
 
       gsap.to(nodes, {
         opacity: 1,
         y: 0,
-        duration: 0.8,
-        stagger: 0.15,
+        duration: 0.6,
+        stagger: 0.3,
         ease: 'power3.out',
+        delay: 0.4,
         scrollTrigger: {
           trigger: timelineRef.current,
           start: 'top 75%',
@@ -310,7 +347,93 @@ export default function About() {
         }
       });
 
-      // Stats Counter Animation
+      const logoGlow = timelineRef.current.querySelector('.travelling-logo-glow');
+      if (logoGlow) {
+        gsap.to(logoGlow, {
+          opacity: 1,
+          duration: 1,
+          delay: 1.5, // Appears after timeline finishes drawing
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: timelineRef.current,
+            start: 'top 75%',
+            toggleActions: 'play none none reverse'
+          }
+        });
+      }
+    }
+
+    // Timeline Animation (Mobile)
+    if (mobileTimelineRef.current) {
+      const mNodes = mobileTimelineRef.current.querySelectorAll('.curved-timeline-text-node');
+      const mPath = mobileTimelineRef.current.querySelector('.curved-timeline-path');
+      const mSvgDots = mobileTimelineRef.current.querySelectorAll('.curved-svg-dot');
+
+      if (mPath) {
+        const length = (mPath as SVGPathElement).getTotalLength();
+        gsap.set(mPath, { strokeDasharray: length, strokeDashoffset: length });
+
+        gsap.to(mPath, {
+          strokeDashoffset: 0,
+          duration: 2,
+          ease: 'power2.inOut',
+          scrollTrigger: {
+            trigger: mobileTimelineRef.current,
+            start: 'top 75%',
+            toggleActions: 'play none none reverse'
+          }
+        });
+      }
+
+      gsap.fromTo(mSvgDots,
+        { scale: 0, opacity: 0, transformOrigin: 'center' },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.3,
+          ease: 'back.out(1.5)',
+          delay: 0.2,
+          scrollTrigger: {
+            trigger: mobileTimelineRef.current,
+            start: 'top 75%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+
+      gsap.to(mNodes, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.3,
+        ease: 'power3.out',
+        delay: 0.4,
+        scrollTrigger: {
+          trigger: mobileTimelineRef.current,
+          start: 'top 75%',
+          toggleActions: 'play none none reverse'
+        }
+      });
+
+      const mLogoGlow = mobileTimelineRef.current.querySelector('.travelling-logo-glow');
+      if (mLogoGlow) {
+        gsap.to(mLogoGlow, {
+          opacity: 1,
+          duration: 1,
+          delay: 1.5, // Appears after timeline finishes drawing
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: mobileTimelineRef.current,
+            start: 'top 75%',
+            toggleActions: 'play none none reverse'
+          }
+        });
+      }
+    }
+
+    // Stats Counter Animation
+    if (timelineRef.current) {
       const stats = timelineRef.current.parentElement?.querySelectorAll('.stat-num-value');
       if (stats) {
         stats.forEach((stat) => {
@@ -972,82 +1095,102 @@ export default function About() {
 
           {/* 5. TIMELINE / OUR JOURNEY */}
           <section className="about-timeline-section relative overflow-hidden">
-            {/* Background Aurora */}
-            <div className="timeline-aurora-bg">
-              <div className="aurora-blob a-left"></div>
-              <div className="aurora-blob a-right"></div>
-            </div>
-            {/* Technical Dot Grid overlay */}
-            <div className="timeline-bg-grid"></div>
-
-            <div className="container relative z-10">
-              <div className="text-center">
-                <h2 className="timeline-hero-headline">15 YEARS OF ENGINEERING EXCELLENCE</h2>
+            <div className="container relative z-10 timeline-container">
+              <div className="text-center timeline-header">
+                <h2 className="timeline-hero-headline">15 YEARS OF <span className="text-orange">ENGINEERING EXCELLENCE</span></h2>
                 <p className="timeline-subtitle">Engineering expertise. Global impact. Built to last.</p>
               </div>
+
+              {/* DESKTOP TIMELINE */}
               <div className="curved-timeline-wrapper" ref={timelineRef}>
                 <svg className="curved-timeline-svg" viewBox="0 0 1000 500" preserveAspectRatio="none">
                   <defs>
                     <linearGradient id="timelineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="rgba(255,255,255,0.1)" />
-                      <stop offset="70%" stopColor="#ff4b1f" />
+                      <stop offset="0%" stopColor="rgba(255, 255, 255, 0.1)" />
+                      <stop offset="50%" stopColor="rgba(255, 75, 31, 0.5)" />
                       <stop offset="100%" stopColor="#ff4b1f" />
                     </linearGradient>
-                  </defs>
-                  <path className="curved-timeline-path" d="M 100,440 C 450,400 550,100 900,60" stroke="url(#timelineGradient)" />
-                </svg>
-
-                {timelineData.map((item, idx) => {
-                  const is2022 = item.year === '2022';
-                  const is2026 = item.year === '2026';
-                  const positionClass = idx % 2 === 0 ? 'text-above' : 'text-below';
-
-                  return (
-                    <div key={idx} className={`curved-timeline-node ${positionClass} ${is2026 ? 'highlight-node' : ''}`} style={{ left: `${item.x}%`, top: `${item.y}%`, opacity: 0 }}>
-
-                      <div className="curved-node-dot">
-                      </div>
-
-                      <div className="curved-node-content-wrapper" style={item.year === '2018/2019' ? { paddingBottom: '3.5rem', marginLeft: '-30px' } : {}}>
-                        <div className="curved-timeline-year">{item.year}</div>
-                        <h3 className="curved-timeline-title">{item.title}</h3>
-                        {item.desc && <p className="curved-timeline-desc">{item.desc}</p>}
-                      </div>
-
-                    </div>
-                  )
-                })}
-
-                <svg className="curved-timeline-svg" viewBox="0 0 1000 500" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 20 }}>
-                  <defs>
-                    <filter id="orbGlow">
-                      <feGaussianBlur stdDeviation="6" result="coloredBlur" />
+                    <filter id="lineGlow">
+                      <feGaussianBlur stdDeviation="3" result="coloredBlur" />
                       <feMerge>
                         <feMergeNode in="coloredBlur" />
                         <feMergeNode in="SourceGraphic" />
                       </feMerge>
                     </filter>
                   </defs>
-                  <g>
-                    {/* Pulsing aura behind the logo */}
-                    <circle cx="0" cy="0" r="35" fill="#ff4b1f" opacity="0.3" filter="url(#orbGlow)">
-                      <animate attributeName="r" values="25; 45; 25" dur="3s" repeatCount="indefinite" />
-                      <animate attributeName="opacity" values="0.2; 0.6; 0.2" dur="3s" repeatCount="indefinite" />
-                    </circle>
-                    
-                    {/* Styled Logo Badge */}
-                    <g style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.5))' }}>
-                      {/* Clean white background to enclose the rectangular image */}
-                      <circle cx="0" cy="0" r="22" fill="#fff" />
-                      {/* Centered logo, slightly smaller than the circle to give breathing room */}
-                      <image href="/SST L.png" x="-16" y="-16" width="32" height="32" preserveAspectRatio="xMidYMid meet" />
-                      {/* Elegant accent border to frame the badge */}
-                      <circle cx="0" cy="0" r="22" fill="none" stroke="var(--accent, #ff4b1f)" strokeWidth="1.5" />
-                    </g>
+                  
+                  {/* The continuous path */}
+                  <path id="desktop-path" className="curved-timeline-path" d="M 50 420 C 350 420, 650 80, 950 80" stroke="url(#timelineGradient)" filter="url(#lineGlow)" fill="none" strokeWidth="2" />
+                  
+                  {/* The SVG Dots */}
+                  {timelineData.map((item, idx) => (
+                    <circle key={`dot-${idx}`} cx={item.cx} cy={item.cy} r={item.year === '2026' ? 8 : 6} fill="#080d12" stroke={item.year === '2026' ? "#ffffff" : "#ff4b1f"} strokeWidth={item.year === '2026' ? 4 : 2} className="curved-svg-dot" />
+                  ))}
 
-                    <animateMotion dur="8s" repeatCount="indefinite" path="M 100,440 C 450,400 550,100 900,60" />
+                  {/* The Travelling Logo */}
+                  <g className="travelling-logo-glow" style={{ opacity: 0 }}>
+                    <image href="/images/logo/LOGO.png" x="-18" y="-18" width="36" height="36" preserveAspectRatio="xMidYMid meet" />
+                    <animateMotion dur="15s" repeatCount="indefinite">
+                      <mpath href="#desktop-path" />
+                    </animateMotion>
                   </g>
                 </svg>
+
+                {/* HTML Text Overlay */}
+                {timelineData.map((item, idx) => {
+                  const is2026 = item.year === '2026';
+                  const positionClass = idx % 2 === 0 ? 'text-above' : 'text-below';
+                  
+                  const leftPercent = (item.cx / 1000) * 100;
+                  const topPercent = (item.cy / 500) * 100;
+
+                  return (
+                    <div key={idx} className={`curved-timeline-text-node ${positionClass} ${is2026 ? 'highlight-text-node' : ''}`} style={{ left: `${leftPercent}%`, top: `${topPercent}%` }}>
+                      <div className="curved-timeline-year">{item.year}</div>
+                      <h3 className="curved-timeline-title">{item.title}</h3>
+                      {item.desc && <p className="curved-timeline-desc">{item.desc}</p>}
+                    </div>
+                  )
+                })}
+              </div>
+
+              {/* MOBILE TIMELINE */}
+              <div className="mobile-timeline-wrapper" ref={mobileTimelineRef}>
+                <svg className="curved-timeline-svg" viewBox="0 0 100 800" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="mobileTimelineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="rgba(255, 255, 255, 0.1)" />
+                      <stop offset="50%" stopColor="rgba(255, 75, 31, 0.5)" />
+                      <stop offset="100%" stopColor="#ff4b1f" />
+                    </linearGradient>
+                  </defs>
+                  
+                  <path id="mobile-path" className="curved-timeline-path" d="M 50 100 L 50 700" stroke="url(#mobileTimelineGradient)" filter="url(#lineGlow)" fill="none" strokeWidth="2" />
+                  
+                  {timelineData.map((item, idx) => (
+                    <circle key={`mdot-${idx}`} cx="50" cy={item.mcy} r={item.year === '2026' ? 8 : 6} fill="#080d12" stroke={item.year === '2026' ? "#ffffff" : "#ff4b1f"} strokeWidth={item.year === '2026' ? 4 : 2} className="curved-svg-dot" />
+                  ))}
+
+                  <g className="travelling-logo-glow" style={{ opacity: 0 }}>
+                    <image href="/images/logo/LOGO.png" x="-18" y="-18" width="36" height="36" preserveAspectRatio="xMidYMid meet" />
+                    <animateMotion dur="15s" repeatCount="indefinite">
+                      <mpath href="#mobile-path" />
+                    </animateMotion>
+                  </g>
+                </svg>
+
+                {timelineData.map((item, idx) => {
+                  const is2026 = item.year === '2026';
+                  const topPercent = (item.mcy / 800) * 100;
+
+                  return (
+                    <div key={`mtext-${idx}`} className={`curved-timeline-text-node ${is2026 ? 'highlight-text-node' : ''}`} style={{ left: '50%', top: `${topPercent}%` }}>
+                      <div className="curved-timeline-year">{item.year}</div>
+                      <h3 className="curved-timeline-title">{item.title}</h3>
+                      {item.desc && <p className="curved-timeline-desc">{item.desc}</p>}
+                    </div>
+                  )
+                })}
               </div>
 
             </div>
