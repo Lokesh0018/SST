@@ -34,7 +34,7 @@ const baseServices = [
   { id: 'SAFETY', slug: 'fire-fighting', label: 'FIRE FIGHTING', tags: ['PREPARE', 'PROTECT', 'PRESERVE'], img: 'fire_safety' },
   { id: 'ELECTRICAL', slug: 'electrical-electronics', label: 'ELECTRICAL &\nELECTRONICS', tags: ['POWERING', 'A SMARTER TOMORROW'], img: 'electrical_panel' },
   { id: 'INFRASTRUCTURE', slug: 'switches-storage', label: 'SWITCHES\n& STORAGE', tags: ['CONNECT', 'STORE', 'SCALE'], img: 'server_rack', customOffsetY: -0.3 },
-  { id: 'INTRUSION', slug: 'intrusion-detection', label: 'INTRUSION\nDETECTION', tags: ['ADVANCED', 'PROTECTION'], img: 'extracted_7' },
+  { id: 'INTRUSION', slug: 'intrusion-detection', label: 'INTRUSION\nDETECTION', tags: ['ADVANCED', 'PROTECTION'], img: 'intrusion_detection' },
   { id: 'HARDWARE', slug: 'hardware-tools', label: 'HARDWARE\n& TOOLS', tags: ['PRECISION', 'EQUIPMENT'], img: 'hardware_tools' },
   { id: 'WIRELESS', slug: 'wireless-network', label: 'WIRELESS\nTECH', tags: ['SEAMLESS', 'CONNECTIVITY'], img: 'wireless_network' },
   { id: 'NETWORK', slug: 'network-infrastructure', label: 'NETWORK\nINFRASTRUCTURE', tags: ['CORE', 'BACKBONE'], img: 'network_infrastructure' },
