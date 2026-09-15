@@ -24,8 +24,8 @@ export default function PageLoader() {
     >
       <div style={{ position: 'relative', width: 80, height: 80, marginBottom: '2rem' }}>
         <img 
-          src="/images/logo/globe.png" 
-          alt="SST Globe" 
+          src="/images/logo/LOGO.png" 
+          alt="SST Logo" 
           style={{ width: '100%', height: '100%', objectFit: 'contain', animation: 'pulse 2s infinite ease-in-out' }} 
         />
       </div>

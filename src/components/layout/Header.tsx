@@ -253,25 +253,11 @@ export default function Header() {
 }
 
 function SSTLogo() {
-  const servicesRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    if (servicesRef.current) {
-      gsap.to(servicesRef.current, {
-        rotation: 360,
-        duration: 20,
-        repeat: -1,
-        ease: "none"
-      });
-    }
-  }, []);
-
   return (
     <div 
-      style={{ position: 'relative', height: '100px', width: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      style={{ position: 'relative', height: '100px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
     >
-      <img src="/images/logo/globe.png" alt="SST Globe" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 2 }} />
-      <img ref={servicesRef} src="/images/logo/services.png" alt="SST Services" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'contain', zIndex: 1 }} />
+      <img src="/images/logo/LOGO.png" alt="SST Logo" style={{ height: '80%', objectFit: 'contain' }} />
     </div>
   );
 }

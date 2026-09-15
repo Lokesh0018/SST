@@ -156,36 +156,7 @@ export default function About() {
         { opacity: 1, scale: 1.3, duration: 1.5, ease: 'power3.out' }
       );
 
-      if (logoContainerRef.current && storyImageColRef.current) {
-        gsap.fromTo(logoRef.current,
-          { scale: 1.3, x: 0, y: 0 },
-          {
-            scrollTrigger: {
-              trigger: ".about-story-section",
-              start: "top bottom",
-              end: "center center",
-              scrub: 1,
-              invalidateOnRefresh: true
-            },
-            x: () => {
-              if (!storyImageColRef.current || !logoContainerRef.current) return 0;
-              const target = storyImageColRef.current.getBoundingClientRect();
-              const source = logoContainerRef.current.getBoundingClientRect();
-              return (target.left + target.width / 2) - (source.left + source.width / 2);
-            },
-            y: () => {
-              if (!storyImageColRef.current || !logoContainerRef.current) return 0;
-              const target = storyImageColRef.current.getBoundingClientRect();
-              const source = logoContainerRef.current.getBoundingClientRect();
-              return (target.top + target.height / 2) - (source.top + source.height / 2);
-            },
-            scale: 1,
-            ease: "power1.inOut",
-            immediateRender: false
-          }
-        );
-
-        // 2nd ScrollTrigger: Story to Caps Center
+      if (logoContainerRef.current && capsCenterRef.current) {        // 2nd ScrollTrigger: Story to Caps Center
         gsap.to(logoRef.current, {
           scrollTrigger: {
             trigger: ".about-story-section",
@@ -912,8 +883,13 @@ export default function About() {
               <h2 className="why-headline">BUILT TO <br /><span className="text-orange">EVERY LAYER.</span></h2>
 
               <div className="story-split-grid mt-12">
-                <div className="story-image-col" ref={storyImageColRef} style={{ minHeight: '400px' }}>
-                  {/* Image removed, logo will animate here */}
+                <div className="story-image-col" ref={storyImageColRef} style={{ minHeight: '400px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  <div className="relative w-full h-full flex items-center justify-center pointer-events-none" ref={logoContainerRef}>
+                    <div ref={logoRef} className="absolute z-20 flex items-center justify-center" style={{ width: '150px', height: '150px' }}>
+                      <div className="logo-bg-mask absolute inset-0 rounded-full"></div>
+                      <img src="/images/logo/LOGO.png" alt="SST Logo" className="relative z-10" style={{ width: '150px', height: '150px', maxWidth: '150px', maxHeight: '150px', objectFit: 'contain', filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.15))' }} />
+                    </div>
+                  </div>
                 </div>
                 <div className="story-text-col" ref={storyTextRef}>
                   <div className="story-marker-line"></div>
@@ -1054,13 +1030,22 @@ export default function About() {
                     </filter>
                   </defs>
                   <g>
-                    {/* The pulsing aura */}
-                    <circle cx="0" cy="0" r="25" fill="#ff4b1f" opacity="0.4" filter="url(#orbGlow)">
-                      <animate attributeName="r" values="15; 30; 15" dur="2s" repeatCount="indefinite" />
-                      <animate attributeName="opacity" values="0.4; 0.8; 0.4" dur="2s" repeatCount="indefinite" />
+                    {/* Pulsing aura behind the logo */}
+                    <circle cx="0" cy="0" r="35" fill="#ff4b1f" opacity="0.3" filter="url(#orbGlow)">
+                      <animate attributeName="r" values="25; 45; 25" dur="3s" repeatCount="indefinite" />
+                      <animate attributeName="opacity" values="0.2; 0.6; 0.2" dur="3s" repeatCount="indefinite" />
                     </circle>
-                    {/* The solid core */}
-                    <circle cx="0" cy="0" r="8" fill="white" filter="url(#orbGlow)" />
+                    
+                    {/* Styled Logo Badge */}
+                    <g style={{ filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.5))' }}>
+                      {/* Clean white background to enclose the rectangular image */}
+                      <circle cx="0" cy="0" r="22" fill="#fff" />
+                      {/* Centered logo, slightly smaller than the circle to give breathing room */}
+                      <image href="/SST L.png" x="-16" y="-16" width="32" height="32" preserveAspectRatio="xMidYMid meet" />
+                      {/* Elegant accent border to frame the badge */}
+                      <circle cx="0" cy="0" r="22" fill="none" stroke="var(--accent, #ff4b1f)" strokeWidth="1.5" />
+                    </g>
+
                     <animateMotion dur="8s" repeatCount="indefinite" path="M 100,440 C 450,400 550,100 900,60" />
                   </g>
                 </svg>

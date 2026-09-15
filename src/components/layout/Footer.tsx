@@ -240,7 +240,7 @@ export default function Footer() {
 
 function FooterLogo() {
   return (
-    <img src="/images/logo/SST Logo.png" alt="SST Logo" className="footer-logo" />
+    <img src="/images/logo/LOGO.png" alt="SST Logo" className="footer-logo" />
   );
 }
 
