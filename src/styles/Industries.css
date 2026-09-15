@@ -127,7 +127,7 @@
   position: relative;
   height: 450px;
   border-radius: 1rem;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.001); /* Invisible but catches hover */
   perspective: 1000px;
 }
 
@@ -139,6 +139,7 @@
   transform-style: preserve-3d;
   border-radius: 1rem;
   box-shadow: 0 8px 30px rgba(23, 22, 19, 0.12);
+  pointer-events: none; /* Prevents swinging corners from catching hover */
 }
 
 .industries-card:hover .industries-card-inner {
@@ -165,12 +166,13 @@
   border-color: rgba(244, 81, 30, 0.3);
 }
 
-.industries-card-front {
-  z-index: 1;
+.industries-card:hover .industries-card-back {
+  pointer-events: auto;
+  transition: border-color 0.3s ease, pointer-events 0s 0.8s;
 }
 
-.industries-card:hover .industries-card-front {
-  pointer-events: none;
+.industries-card-front {
+  z-index: 2;
 }
 
 .industries-card-back {
@@ -522,7 +524,9 @@
 
 .client-image-modal-img {
   width: 100%;
-  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
   display: block;
 }
 
