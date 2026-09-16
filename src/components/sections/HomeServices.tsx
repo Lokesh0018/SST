@@ -122,6 +122,10 @@ const formatTitle = (title: string) => {
 
 const ServicesBackground = () => (
   <div className="home-services-bg" aria-hidden="true">
+    {/* Ambient Glows */}
+    <div className="ambient-orb orb-orange"></div>
+    <div className="ambient-orb orb-blue"></div>
+    
     <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
       
       {/* BACKGROUND LAYER (Slowest, Faintest, Smallest) */}
@@ -187,6 +191,14 @@ const HomeServices = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   
   const { setActiveService, isUserInteracting, setIsUserInteracting } = useServiceContext();
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty('--mouse-x', `${x}px`);
+    e.currentTarget.style.setProperty('--mouse-y', `${y}px`);
+  };
 
   const handleMouseEnter = (slug: string) => {
     setIsUserInteracting(true);
@@ -259,14 +271,10 @@ const HomeServices = () => {
         {
           y: 150,
           opacity: 0,
-          rotationX: 15,
-          z: -60,
         },
         {
           y: 0,
           opacity: 1,
-          rotationX: 0,
-          z: 0,
           duration: 1,
           stagger: 0.5,
           ease: "power2.out"
@@ -315,6 +323,7 @@ const HomeServices = () => {
                 className={`service-card home-services-card motif-${service.slug} ${isFeatured ? 'featured' : ''}`}
                 onMouseEnter={() => handleMouseEnter(service.slug)}
                 onMouseLeave={handleMouseLeave}
+                onMouseMove={handleMouseMove}
               >
                 {/* 0. Large Background Watermark */}
                 <div className="card-watermark">

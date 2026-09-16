@@ -19,7 +19,7 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--color-charcoal);
+  color: #F8FAFC;
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -61,13 +61,14 @@
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.15em;
-  color: rgba(28, 28, 27, 0.4);
   margin-bottom: 1rem;
+  color: rgba(244, 81, 30, 0.9); /* Brand orange for contrast on dark */
 }
 
 .home-services-section {
-  background-color: #F4F1EB !important;
-  /* Warm architectural off-white */
+  background-color: #0F172A !important;
+  color: #F8FAFC;
+  /* Deep Charcoal / Night */
   position: relative;
   z-index: 1;
 }
@@ -85,6 +86,31 @@
   /* Network Environment Background */
   background: radial-gradient(circle at 75% 0%, rgba(255, 75, 25, 0.045), transparent 35%);
   opacity: 1;
+}
+
+.ambient-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.25;
+}
+
+.orb-orange {
+  top: -10%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(244, 81, 30, 0.6), transparent 70%);
+}
+
+.orb-blue {
+  bottom: -20%;
+  left: -10%;
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.4), transparent 70%);
 }
 
 .services-bg-svg {
@@ -107,21 +133,76 @@
   position: relative;
   overflow: hidden;
   border-radius: 0.625rem;
-  /* 10px */
-  background-color: #FCFBF8;
-  /* Architectural off-white base */
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 
-    0 4px 20px rgba(20, 20, 20, 0.03),
-    inset 0 1px 1px rgba(255, 255, 255, 0.9),
-    inset 0 -1px 2px rgba(20, 20, 20, 0.02);
+    0 4px 24px -2px rgba(0, 0, 0, 0.2),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
   padding: 1.5rem;
-  transition: box-shadow 400ms var(--ease-out-expo), border-color 400ms ease, translate 400ms var(--ease-out-expo);
+  transition: box-shadow 400ms var(--ease-out-expo), border-color 400ms ease, translate 400ms var(--ease-out-expo), background-color 400ms ease;
   display: flex;
   flex-direction: column;
   text-decoration: none;
   color: inherit;
   z-index: 1;
+}
+
+.home-services-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(
+    800px circle at var(--mouse-x, -800px) var(--mouse-y, -800px),
+    rgba(255, 255, 255, 0.08),
+    transparent 40%
+  );
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 400ms ease;
+}
+
+.home-services-card:hover::before {
+  opacity: 1;
+}
+
+.home-services-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(
+    90deg, 
+    rgba(244, 81, 30, 0) 0%, 
+    rgba(244, 81, 30, 1) 30%, 
+    rgba(255, 160, 120, 1) 50%,
+    rgba(244, 81, 30, 1) 70%, 
+    rgba(244, 81, 30, 0) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 400ms ease;
+  z-index: 5;
+}
+
+.home-services-card:hover::after {
+  opacity: 1;
+  animation: border-flow 2s linear infinite;
+}
+
+@keyframes border-flow {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
 }
 
 .card-watermark {
@@ -130,7 +211,7 @@
   bottom: -2rem;
   width: 180px;
   height: 180px;
-  opacity: 0.03;
+  opacity: 0.1;
   z-index: -1;
   pointer-events: none;
   transition: opacity 400ms ease, transform 600ms var(--ease-out-expo);
@@ -140,17 +221,17 @@
 .card-watermark svg {
   width: 100%;
   height: 100%;
-  color: var(--color-charcoal);
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .home-services-card:hover .card-watermark {
-  opacity: 0.06;
+  opacity: 0.25;
   transform: scale(1.1) rotate(0deg);
 }
 
 /* Featured Card Special Styling */
 .home-services-card.featured {
-  border: 1px solid rgba(241, 90, 36, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 @media (min-width: 1024px) {
@@ -162,8 +243,11 @@
 /* Hover State */
 .home-services-card:hover {
   translate: 0 -4px;
-  border-color: rgba(28, 28, 27, 0.12);
-  box-shadow: 0 12px 30px rgba(241, 90, 36, 0.04);
+  background-color: rgba(255, 255, 255, 0.05);
+  border-color: rgba(244, 81, 30, 0.3);
+  box-shadow: 
+    0 12px 30px -4px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(244, 81, 30, 0.1);
 }
 
 /* --- Top Row (Number & Arrow) --- */
@@ -178,12 +262,12 @@
   font-family: monospace;
   font-size: 0.7rem;
   font-weight: 500;
-  color: rgba(28, 28, 27, 0.3);
+  color: rgba(255, 255, 255, 0.3);
   letter-spacing: 0.1em;
 }
 
 .card-top-arrow {
-  color: rgba(28, 28, 27, 0.2);
+  color: rgba(255, 255, 255, 0.3);
   transition: all 400ms ease;
 }
 
@@ -194,15 +278,23 @@
 
 /* --- Technical Icon (Now in Top Right) --- */
 .home-services-card-icon {
-  color: var(--color-charcoal);
+  color: rgba(255, 255, 255, 0.85);
   transition: color 400ms ease;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.home-services-card-icon svg {
+  transition: transform 400ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .home-services-card:hover .home-services-card-icon {
   color: var(--color-orange);
+}
+
+.home-services-card:hover .home-services-card-icon svg {
+  transform: scale(1.15) rotate(5deg);
 }
 
 /* --- Content --- */
@@ -212,13 +304,13 @@
   text-transform: uppercase;
   letter-spacing: -0.015em;
   margin-bottom: 0.75rem;
-  color: var(--color-charcoal);
+  color: #F8FAFC;
   line-height: 1.15;
 }
 
 .home-services-card-desc {
   font-size: 0.75rem;
-  color: rgba(28, 28, 27, 0.55);
+  color: rgba(255, 255, 255, 0.6);
   line-height: 1.6;
   margin-bottom: 1rem;
 }
@@ -242,7 +334,7 @@
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: rgba(28, 28, 27, 0.7);
+  color: rgba(255, 255, 255, 0.7);
   display: flex;
   align-items: center;
   gap: 0.5rem;
@@ -251,10 +343,6 @@
 .home-services-card-features li svg {
   color: var(--color-orange);
   flex-shrink: 0;
-}
-
-.home-services-card.featured.bg-variant-dark .home-services-card-features li {
-  color: rgba(255, 255, 255, 0.8);
 }
 
 /* --- Bottom System Line & CTA --- */
@@ -266,7 +354,7 @@
 .card-divider {
   width: 100%;
   height: 1px;
-  background-color: rgba(28, 28, 27, 0.08);
+  background-color: rgba(255, 255, 255, 0.1);
   margin-bottom: 1rem;
   transition: background-color 400ms ease;
 }
@@ -287,14 +375,14 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  color: rgba(28, 28, 27, 0.4);
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .card-explore {
   display: flex;
   align-items: center;
   gap: 0.35rem;
-  color: var(--color-charcoal);
+  color: #F8FAFC;
   transition: color 400ms ease;
 }
 
