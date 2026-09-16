@@ -9,10 +9,18 @@ export interface Industry {
 
 export const industries: Industry[] = [
   {
-    slug: 'hotels',
-    title: 'Hotels',
+    slug: 'restaurants',
+    title: 'Restaurants',
+    description: 'Seamless dining experiences and operations.',
+    longDescription: 'Integrated infrastructure services that enhance the dining experience while ensuring safety and operational efficiency across restaurants and food service venues.',
+    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80',
+    services: ['Surveillance', 'Fire Safety', 'Network Infrastructure', 'Access Control'],
+  },
+  {
+    slug: 'hospitality',
+    title: 'Hospitality',
     description: 'Safety and comfort for every guest.',
-    longDescription: 'Integrated infrastructure services that enhance guest experience while ensuring safety and operational efficiency across hotels and resorts.',
+    longDescription: 'Integrated infrastructure services that enhance guest experience while ensuring safety and operational efficiency across hotels, resorts, and hospitality venues.',
     image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=80',
     services: ['Surveillance', 'Access Control', 'Fire Safety', 'Network Infrastructure'],
   },

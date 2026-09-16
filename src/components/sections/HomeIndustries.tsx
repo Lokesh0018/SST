@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionHeading from '../common/SectionHeading';
+import { CardHoverEffect } from '../ui/CardHoverEffect';
+import { Windmill } from '../ui/Windmill';
+import SmartInfrastructureNetwork from '../ui/SmartInfrastructureNetwork';
 import { industries } from '../../data/industries';
 import '../../styles/HomeIndustries.css';
 
@@ -10,36 +13,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 const IndustriesBackground = () => (
   <div className="home-industries-bg" aria-hidden="true" style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
-    <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      
-      {/* BACKGROUND LAYER */}
-      <g className="ind-layer-bg" stroke="rgba(28, 28, 27, 0.05)" strokeWidth="0.5" fill="none">
-        <path d="M50,0 L50,600 M250,0 L250,600 M450,0 L450,600 M650,0 L650,600 M850,0 L850,600" />
-        <path d="M0,50 L1000,50 M0,250 L1000,250 M0,450 L1000,450" />
-      </g>
-
-      {/* MIDGROUND LAYER (Structural Nodes) */}
-      <g className="ind-layer-mid" stroke="rgba(28, 28, 27, 0.1)" strokeWidth="1" fill="none">
-        <path d="M50,50 L250,250 L450,50 L650,250 L850,50" />
-        <path d="M50,450 L250,250 L450,450 L650,250 L850,450" />
-        <g fill="rgba(28, 28, 27, 0.2)">
-          <circle cx="250" cy="250" r="3" />
-          <circle cx="650" cy="250" r="3" />
-        </g>
-        <g fill="var(--color-orange)">
-          <circle r="3">
-            <animateMotion dur="15s" repeatCount="indefinite" path="M50,50 L250,250 L450,50 L650,250 L850,50" />
-          </circle>
-        </g>
-      </g>
-
-      {/* FOREGROUND LAYER (Diagonal accents) */}
-      <g className="ind-layer-fg" stroke="rgba(28, 28, 27, 0.15)" strokeWidth="1.5" fill="none">
-        <path d="M-50,300 L300,-50" />
-        <path d="M700,650 L1050,300" />
-      </g>
-
-    </svg>
+    {/* Smart Infrastructure Network between windmills */}
+    <SmartInfrastructureNetwork />
+    
+    {/* Windmills in empty spaces */}
+    <Windmill style={{ position: 'absolute', left: '2%', bottom: 0, opacity: 0.6 }} />
+    <Windmill style={{ position: 'absolute', right: '2%', bottom: 0, opacity: 0.6 }} />
   </div>
 );
 
@@ -50,41 +29,52 @@ export default function HomeIndustries() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion || !sectionRef.current) return;
 
-    const cards = sectionRef.current.querySelectorAll('.industry-card');
-    const cardsArray = Array.from(cards);
-    cardsArray.forEach((card, index) => {
-      gsap.fromTo(
-        card,
-        { opacity: 0, y: 100, scale: 0.95 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.8,
-          delay: (index % 3) * 0.15,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            toggleActions: 'play reverse play reverse',
-          },
-        }
-      );
-    });
+    const ctx = gsap.context(() => {
+      gsap.set('.industry-card', { opacity: 0, y: 100, scale: 0.95 });
 
-    // --- Background Parallax Layering ---
-    gsap.to('.ind-layer-bg', {
-      y: -15,
-      scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true }
-    });
-    gsap.to('.ind-layer-mid', {
-      y: -40,
-      scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true }
-    });
-    gsap.to('.ind-layer-fg', {
-      y: -80,
-      scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true }
-    });
+      ScrollTrigger.batch('.card-hover-item-wrapper', {
+        start: 'top 95%',
+        onEnter: (elements) => {
+          gsap.to(elements.map(el => el.querySelector('.industry-card')), {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.6,
+            stagger: 0.06,
+            ease: 'power3.out',
+            clearProps: 'transform',
+            overwrite: true
+          });
+        },
+        onLeaveBack: (elements) => {
+          gsap.to(elements.map(el => el.querySelector('.industry-card')), {
+            opacity: 0,
+            y: 100,
+            scale: 0.95,
+            duration: 0.8,
+            stagger: 0.1,
+            ease: 'power3.in',
+            overwrite: true
+          });
+        }
+      });
+
+      // --- Background Parallax Layering ---
+      gsap.to('.ind-layer-bg', {
+        y: -15,
+        scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true }
+      });
+      gsap.to('.ind-layer-mid', {
+        y: -40,
+        scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true }
+      });
+      gsap.to('.ind-layer-fg', {
+        y: -80,
+        scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
   }, []);
 
   return (
@@ -92,12 +82,15 @@ export default function HomeIndustries() {
       <IndustriesBackground />
       <div className="container">
         <div className="home-industries-header">
-          <SectionHeading
-            highlight="INDUSTRY."
-            subtitle="Tailored infrastructure services for diverse environments."
-          >
-            SERVICES FOR EVERY INDUSTRY.
-          </SectionHeading>
+          <div className="home-industries-title-wrapper">
+            <span className="home-services-section-label">03 / INDUSTRIES</span>
+            <SectionHeading
+              highlight="INDUSTRY."
+              subtitle="Tailored infrastructure services for diverse environments."
+            >
+              SERVICES FOR EVERY INDUSTRY.
+            </SectionHeading>
+          </div>
 
           <div className="home-industries-header-right">
             <p className="home-industries-header-text">
@@ -107,7 +100,7 @@ export default function HomeIndustries() {
             <Link
               to="/industries"
               className="home-services-link"
-              style={{ marginTop: '1rem', display: 'flex', justifyContent: 'flex-end' }}
+              style={{ marginTop: '1rem', display: 'flex', justifyContent: 'flex-end', color: 'var(--color-orange)' }}
             >
               Explore All Industries
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ marginLeft: '0.5rem' }}>
@@ -117,12 +110,11 @@ export default function HomeIndustries() {
           </div>
         </div>
 
-        <div className="home-industries-grid">
-          {industries.map((industry, i) => (
-            <div
-              key={industry.slug}
-              className="industry-card home-industries-card"
-            >
+        <CardHoverEffect
+          className="home-industries-grid"
+          items={industries.map(ind => ({ ...ind, id: ind.slug, link: `/industries#${ind.slug}` }))}
+          renderItem={(industry, isHovered) => (
+            <div className="industry-card home-industries-card">
               {/* Photographic Background */}
               <img
                 src={industry.image}
@@ -146,13 +138,20 @@ export default function HomeIndustries() {
                 <p className="home-industries-card-desc">
                   {industry.description}
                 </p>
+                <div className="home-industries-card-tags">
+                  {industry.services.map((service: string, index: number) => (
+                    <span key={index} className="home-industries-card-tag" style={{ '--tag-index': index } as React.CSSProperties}>
+                      {service}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               {/* Orange border glow on hover */}
               <div className="home-industries-card-border" />
             </div>
-          ))}
-        </div>
+          )}
+        />
       </div>
     </section>
   );

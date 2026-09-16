@@ -1,0 +1,96 @@
+.smart-infra-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 28%; /* Constrained to bottom 25-30% as requested */
+  min-height: 250px;
+  pointer-events: none;
+  z-index: 1; /* Sit above the background gradient, but behind the cards */
+  display: flex;
+  flex-direction: column;
+}
+
+/* 
+  Sky Transition Gradient 
+  This creates a smooth fade between the top of the container 
+  (where the cards are) and the architectural horizon below.
+*/
+.infra-sky-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px;
+  background: linear-gradient(180deg, rgba(226, 232, 240, 1) 0%, rgba(226, 232, 240, 0) 100%);
+  z-index: 2;
+}
+
+/* 
+  Atmospheric Animations 
+  Everything moves extremely slowly to represent scale and distance.
+*/
+
+.infra-atmosphere {
+  animation: infra-mist-pulse 30s ease-in-out infinite alternate;
+}
+
+.infra-distant-skyline {
+  /* Extremely slow parallax for distant skyline */
+  animation: infra-parallax-distant 120s linear infinite alternate;
+}
+
+.infra-aviation-light {
+  /* Tiny distant warning light */
+  animation: infra-blink-strobe 4s infinite;
+}
+
+@keyframes infra-mist-pulse {
+  0% { opacity: 0.8; }
+  100% { opacity: 1; }
+}
+
+@keyframes infra-parallax-distant {
+  0% { transform: translateX(2%); }
+  100% { transform: translateX(-2%); }
+}
+
+@keyframes infra-blink-strobe {
+  0%, 80% { opacity: 0.1; }
+  85% { opacity: 1; }
+  90% { opacity: 0.1; }
+  95% { opacity: 1; }
+  100% { opacity: 0.1; }
+}
+
+/* Responsiveness */
+@media (max-width: 1024px) {
+  .infra-midground {
+    /* Simplify on tablet by pushing it further back */
+    opacity: 0.4;
+  }
+}
+
+@media (max-width: 768px) {
+  .infra-midground, .infra-distant-skyline, .infra-vehicle-layer {
+    /* Hide the complex architecture on mobile to keep it clean */
+    display: none;
+  }
+  .smart-infra-container {
+    height: 20%;
+    min-height: 150px;
+  }
+}
+
+/* Prefers Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  .infra-atmosphere,
+  .infra-distant-skyline,
+  .infra-vehicle-layer animate,
+  .infra-aviation-light {
+    animation: none;
+  }
+  .infra-vehicle-layer {
+    display: none;
+  }
+}
