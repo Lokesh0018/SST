@@ -30,10 +30,10 @@ export default function SmartInfrastructureNetwork({ className = '', style }: { 
             <stop offset="100%" stopColor="rgba(148, 163, 184, 0.05)" />
           </linearGradient>
 
-          {/* Soft Transition into Cream Section Below */}
+          {/* Soft Transition into Clients Section Below */}
           <linearGradient id="base-transition" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="rgba(251, 253, 254, 0)" />
-            <stop offset="100%" stopColor="#FBFDFE" /> {/* SST Cream Color */}
+            <stop offset="0%" stopColor="rgba(15, 23, 42, 0)" />
+            <stop offset="100%" stopColor="#0F172A" /> {/* Dark BG of Clients section */}
           </linearGradient>
 
           {/* Architectural Surface Shading Materials */}

@@ -44,11 +44,13 @@ const row2Logos = [
 ].map(name => `/images/logo/${name}`);
 
 const ClientLogo = ({ src }: { src: string }) => {
+  const isReliance = src.includes('reliance-fresh');
   return (
     <img 
       src={src} 
       alt="Client Logo" 
       className="home-clients-logo-img"
+      style={{ '--logo-scale': isReliance ? '1.5' : '1' } as React.CSSProperties}
       loading="lazy"
     />
   );
@@ -100,7 +102,7 @@ export default function HomeClients() {
       <div className="container">
         <div className="home-clients-header">
           <div className="home-clients-title-group">
-            <span className="home-clients-eyebrow">TRUSTED BY INDUSTRY LEADERS</span>
+            <span className="home-services-section-label">04 / CLIENTS</span>
             <SectionHeading
               highlight="REAL-WORLD"
               subtitle="Trusted by teams building what’s next."
