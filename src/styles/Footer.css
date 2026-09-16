@@ -13,11 +13,11 @@
   width: 100%;
 }
 
-/* --- Main Footer (Charcoal) --- */
+/* --- Main Footer (Deep Dark Navy) --- */
 .footer-main {
   position: relative;
-  background-color: #171717;
-  color: #F4F0E8;
+  background-color: #020617; /* Much darker navy */
+  color: #F8FAFC;
   padding: 3rem 0 1.5rem;
   overflow: hidden;
 }
