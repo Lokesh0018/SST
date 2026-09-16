@@ -10,7 +10,7 @@ interface ServiceContextType {
 const ServiceContext = createContext<ServiceContextType | undefined>(undefined);
 
 export function ServiceProvider({ children }: { children: ReactNode }) {
-  const [activeService, setActiveService] = useState<string | null>('TURNKEY');
+  const [activeService, setActiveService] = useState<string | null>(null);
   const [isUserInteracting, setIsUserInteracting] = useState(false);
 
   return (

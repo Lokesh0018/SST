@@ -16,7 +16,7 @@ export default function PageLoader() {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        background: 'var(--color-ivory, #FFFDF8)',
+        background: '#FFFFFF',
         zIndex: 9998,
         opacity: mounted ? 1 : 0,
         transition: 'opacity 0.3s ease',

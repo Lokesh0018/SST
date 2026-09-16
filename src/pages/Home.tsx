@@ -1,5 +1,5 @@
 import PageTransition from '../components/common/PageTransition';
-import HeroSection from '../components/sections/HeroSection';
+import ServiceMapHero from '../components/hero/ServiceMapHero';
 import HomeServices from '../components/sections/HomeServices';
 import HomeIndustries from '../components/sections/HomeIndustries';
 import HomeClients from '../components/sections/HomeClients';
@@ -10,7 +10,7 @@ export default function Home() {
   return (
     <PageTransition>
       <ServiceProvider>
-        <HeroSection />
+        <ServiceMapHero />
         <HomeServices />
       </ServiceProvider>
       <HomeIndustries />

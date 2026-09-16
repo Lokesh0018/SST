@@ -22,8 +22,7 @@ const getClientsForIndustry = (slug: string) => {
 const clientImagesMap: Record<string, string> = {
   // Hospitality Sector
   'amalapuram heights': 'https://cf.bstatic.com/xdata/images/hotel/max1024x768/553775967.jpg?k=34bb2b7c806189f1cfd190f1abdc221f68c37051a86ddf12349d714a59ab31ff&o=',
-  'taj hotel': 'https://cdn.sanity.io/images/ocl5w36p/ihcl_prod/02d5266ba2e7a05097c8aa5c6f5533095f8b50fc-3840x1860.jpg',
-  'taj hotels': 'https://cdn.sanity.io/images/ocl5w36p/ihcl_prod/02d5266ba2e7a05097c8aa5c6f5533095f8b50fc-3840x1860.jpg',
+  'taj hotels': 'https://hospitalitybizindia.com/wp-content/uploads/2024/11/CFD89F80-2E42-4343-88F5-91955905FA72.jpeg',
   'double tree by hilton': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLvrshIXAj4bYq5Y-t9G5MUqMdgz_9FlZ0GNvtnI0CDTXF34IRHpVlmw0&s=10',
   'hayatt regency': 'https://assets.hyatt.com/content/dam/hyatt/hyattdam/images/2018/01/23/0953/Hyatt-Regency-Delhi-P312-Facade.jpg/Hyatt-Regency-Delhi-P312-Facade.4x3.jpg',
   'hyatt regency': 'https://assets.hyatt.com/content/dam/hyatt/hyattdam/images/2018/01/23/0953/Hyatt-Regency-Delhi-P312-Facade.jpg/Hyatt-Regency-Delhi-P312-Facade.4x3.jpg',
