@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import InteractiveDotsBackground from '../ui/InteractiveDotsBackground';
 import '../../styles/HomeAbout.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -13,6 +14,7 @@ export default function HomeAbout() {
   const networkBgRef = useRef<HTMLDivElement>(null);
   
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [isSectionActive, setIsSectionActive] = useState(false);
 
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -72,13 +74,23 @@ export default function HomeAbout() {
       "-=0.4"
     );
 
+    // Track if section is in viewport for the background animation
+    ScrollTrigger.create({
+      trigger: sectionRef.current,
+      start: "top bottom",
+      end: "bottom top",
+      onEnter: () => setIsSectionActive(true),
+      onEnterBack: () => setIsSectionActive(true),
+      onLeave: () => setIsSectionActive(false),
+      onLeaveBack: () => setIsSectionActive(false),
+    });
+
   }, []);
 
   return (
     <section ref={sectionRef} className="home-about-section">
-      
       <div ref={networkBgRef} className="home-about-network-bg" aria-hidden="true">
-        <img src="/images/about bg.png" alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        {isSectionActive && <InteractiveDotsBackground />}
       </div>
 
       <div className="home-about-grid">

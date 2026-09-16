@@ -1,7 +1,7 @@
 .home-about-section {
   position: relative;
-  /* Blueprint Grid + Depth Gradient */
-  background-color: #F7F4EE;
+  /* Very light background */
+  background: linear-gradient(120deg, #FFFFFF 0%, #F8FAFC 50%, #F1F5F9 100%);
   color: var(--color-charcoal);
   overflow: hidden;
   padding: 8rem 0;
@@ -12,7 +12,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, transparent 30%, #F7F4EE 100%);
+  background: radial-gradient(circle at center, transparent 30%, #F1F5F9 100%);
   pointer-events: none;
   z-index: 1; /* Sits above the grid and orb, below the content grid */
 }
@@ -260,6 +260,7 @@
   height: 100%;
   z-index: 0;
   pointer-events: none;
+  opacity: 0.6;
 }
 
 .cad-drawing {
