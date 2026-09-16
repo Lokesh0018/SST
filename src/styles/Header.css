@@ -8,10 +8,11 @@
 }
 
 .header-scrolled {
-  background-color: rgba(255, 253, 248, 0.9);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(216, 207, 190, 0.3);
-  box-shadow: 0 4px 30px rgba(28, 28, 27, 0.03);
+  background-color: rgba(15, 23, 42, 0.85); /* #0F172A */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
 }
 
 .header-transparent {
@@ -93,6 +94,7 @@
   transition: color 250ms ease;
 }
 
+/* Base state (Transparent top - over white map background) */
 .header-nav-text-active {
   color: #1C1C1B;
 }
@@ -108,11 +110,30 @@
   width: 0.625rem;
   height: 0.625rem;
   color: #5F5C55;
-  transition: transform 250ms ease;
+  transition: transform 250ms ease, color 250ms ease;
 }
 .header-nav-chevron-active {
   transform: rotate(180deg);
   color: #1C1C1B;
+}
+
+/* Scrolled state (Dark navy glassmorphism) */
+.header-scrolled .header-nav-text-active {
+  color: #FFFFFF;
+}
+
+.header-scrolled .header-nav-text-inactive {
+  color: rgba(255, 255, 255, 0.65);
+}
+.header-scrolled .header-nav-link:hover .header-nav-text-inactive {
+  color: #FFFFFF;
+}
+
+.header-scrolled .header-nav-chevron {
+  color: rgba(255, 255, 255, 0.65);
+}
+.header-scrolled .header-nav-chevron-active {
+  color: #FFFFFF;
 }
 
 .header-nav-indicator {
@@ -142,9 +163,11 @@
   left: 50%;
   transform: translateX(-50%);
   width: 540px; /* Increased to accommodate 2 columns */
-  background-color: #FFFDF8;
-  border: 1px solid rgba(216, 207, 190, 0.5);
-  box-shadow: 0 16px 40px rgba(28, 28, 27, 0.08);
+  background-color: rgba(15, 23, 42, 0.9); /* Dark Navy */
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
   border-radius: 18px;
   padding: 1.5rem;
   display: grid;
@@ -168,7 +191,7 @@
   transition: background-color 250ms ease;
 }
 .header-dropdown-link:hover {
-  background-color: #F6F0E2;
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
 .header-dropdown-grid {
@@ -183,7 +206,7 @@
   font-size: 10px;
   font-weight: 700;
   font-family: monospace;
-  color: rgba(95, 92, 85, 0.5);
+  color: rgba(255, 255, 255, 0.3);
   transition: color 250ms ease;
 }
 .header-dropdown-link:hover .header-dropdown-number {
@@ -195,11 +218,11 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #5F5C55;
+  color: rgba(255, 255, 255, 0.7);
   transition: all 250ms ease;
 }
 .header-dropdown-link:hover .header-dropdown-text {
-  color: #1C1C1B;
+  color: #FFFFFF;
   transform: translateX(3px);
 }
 
@@ -294,11 +317,17 @@
   }
 }
 
+/* Base state hamburger (Dark) */
 .header-menu-line {
   width: 1.25rem;
   height: 1.5px;
   background-color: #1C1C1B;
   transition: all 300ms ease;
+}
+
+/* Scrolled state hamburger (Light) */
+.header-scrolled .header-menu-line {
+  background-color: #FFFFFF;
 }
 .line-1-open {
   transform: translateY(7.5px) rotate(45deg);

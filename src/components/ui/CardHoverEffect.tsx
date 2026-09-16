@@ -71,12 +71,26 @@ export function CardHoverEffect<T extends HoverItem>({ items, renderItem, classN
 
       {items.map((item, index) => {
         const isHovered = hoveredIndex === index;
-        const Wrapper = item.link ? Link : 'div';
-        const wrapperProps = item.link ? { to: item.link } : {};
+        
+        if (item.link) {
+          return (
+            <Link
+              to={item.link}
+              key={item.id}
+              ref={(el: any) => (itemRefs.current[index] = el)}
+              className="card-hover-item-wrapper"
+              onMouseEnter={() => handleMouseEnter(index)}
+              onFocus={() => handleMouseEnter(index)}
+              onBlur={handleMouseLeave}
+              style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
+            >
+              {renderItem(item, isHovered)}
+            </Link>
+          );
+        }
 
         return (
-          <Wrapper
-            {...wrapperProps}
+          <div
             key={item.id}
             ref={(el: any) => (itemRefs.current[index] = el)}
             className="card-hover-item-wrapper"
@@ -86,7 +100,7 @@ export function CardHoverEffect<T extends HoverItem>({ items, renderItem, classN
             style={{ display: 'block', textDecoration: 'none', color: 'inherit' }}
           >
             {renderItem(item, isHovered)}
-          </Wrapper>
+          </div>
         );
       })}
     </div>

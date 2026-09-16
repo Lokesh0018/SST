@@ -389,7 +389,7 @@ export default function ServiceMapHero() {
             <Geographies geography={geoUrl}>
               {({ geographies }) =>
                 geographies.map((geo) => {
-                  const isIndia = geo.properties.name === "India";
+                  const isIndia = geo.properties?.name === "India";
                   if (isIndia) return null; // Hide the 'cut' version of India
 
                   return (
