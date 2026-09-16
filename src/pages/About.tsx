@@ -21,11 +21,13 @@ const capabilities = [
 ];
 
 const timelineData = [
-  { year: '2011', title: 'FOUNDATION', desc: 'Founded with a focus on ferro alloy engineering', cx: 50, cy: 420, mcy: 100 },
-  { year: '2014', title: 'FIRST MAJOR CONTRACT', desc: 'Secured major industrial contracts', cx: 275, cy: 367, mcy: 250 },
-  { year: '2018 / 2019', title: 'EPC EXPANSION', desc: 'Expanded into turnkey EPC projects', cx: 500, cy: 250, mcy: 400 },
-  { year: '2022', title: 'GLOBAL FOOTPRINT', desc: 'Established a global project footprint', cx: 725, cy: 133, mcy: 550 },
-  { year: '2026', title: 'INDUSTRY LEADERSHIP', desc: 'Delivering ferro alloy engineering solutions across global markets', cx: 950, cy: 80, mcy: 700 }
+  { year: '2016', title: 'ESTABLISHED', desc: 'SST was incorporated as a registered partnership firm in October 2016.', cx: 50, cy: 420, mcy: 100 },
+  { year: '2017', title: 'GST REGISTRATION', desc: 'GST liability began from 1 July 2017, establishing formal tax registration.', cx: 200, cy: 395, mcy: 200 },
+  { year: '2018', title: 'GST CERTIFICATE', desc: 'Registration certificate issued on 17 July 2018.', cx: 350, cy: 332, mcy: 300 },
+  { year: '2019 / 2020', title: 'INFRASTRUCTURE EXPANSION', desc: 'Expanded capabilities to include CCTV, fire & life safety, access control, and turnkey projects.', cx: 500, cy: 250, mcy: 400 },
+  { year: '2021 / 2022', title: 'BROADER TECHNOLOGY', desc: 'Services expanded across wireless technology, biometrics, GPS, and networking.', cx: 650, cy: 168, mcy: 500 },
+  { year: '2023 / 2024', title: 'MULTI-INDUSTRY REACH', desc: 'Spanning banking, hospitality, industrial, corporate, retail, and technology sectors.', cx: 800, cy: 105, mcy: 600 },
+  { year: '2025 / Present', title: 'INTEGRATED SOLUTIONS', desc: 'Focus on integrated security, technology infrastructure, turnkey projects and maintenance.', cx: 950, cy: 80, mcy: 700 }
 ];
 
 const marqueeItems = [
@@ -1062,7 +1064,7 @@ export default function About() {
                     
                     {/* The SVG Dots */}
                     {timelineData.map((item, idx) => (
-                      <circle key={`dot-${idx}`} cx={item.cx} cy={item.cy} r={item.year === '2026' ? 8 : 6} fill="#080d12" stroke={item.year === '2026' ? "#ffffff" : "#ff4b1f"} strokeWidth={item.year === '2026' ? 4 : 2} className="curved-svg-dot" />
+                      <circle key={`dot-${idx}`} cx={item.cx} cy={item.cy} r={item.year === '2025 / Present' ? 8 : 6} fill="#080d12" stroke={item.year === '2025 / Present' ? "#ffffff" : "#ff4b1f"} strokeWidth={item.year === '2025 / Present' ? 4 : 2} className="curved-svg-dot" />
                     ))}
 
                     {/* The Travelling Logo */}
@@ -1076,7 +1078,7 @@ export default function About() {
 
                   {/* HTML Text Overlay */}
                   {timelineData.map((item, idx) => {
-                    const is2026 = item.year === '2026';
+                    const is2026 = item.year === '2025 / Present';
                     const positionClass = idx % 2 === 0 ? 'text-above' : 'text-below';
                     
                     const leftPercent = (item.cx / 1000) * 100;
@@ -1116,11 +1118,11 @@ export default function About() {
                     {/* The SVG Dots */}
                     {timelineData.map((item, idx) => {
                       // X coordinates exactly tracking the new Bezier curve
-                      const xs = [40, 74, 150, 226, 260];
+                      const xs = [40, 56.3, 97, 150, 203, 243.7, 260];
                       const waveX = xs[idx];
                       const waveY = 800 - item.mcy;
                       return (
-                        <circle key={`dot-m-${idx}`} cx={waveX} cy={waveY} r={item.year === '2026' ? 8 : 6} fill="#080d12" stroke={item.year === '2026' ? "#ffffff" : "#ff4b1f"} strokeWidth={item.year === '2026' ? 4 : 2} className="curved-svg-dot" />
+                        <circle key={`dot-m-${idx}`} cx={waveX} cy={waveY} r={item.year === '2025 / Present' ? 8 : 6} fill="#080d12" stroke={item.year === '2025 / Present' ? "#ffffff" : "#ff4b1f"} strokeWidth={item.year === '2025 / Present' ? 4 : 2} className="curved-svg-dot" />
                       );
                     })}
 
@@ -1135,8 +1137,8 @@ export default function About() {
 
                   {/* HTML Text Overlay */}
                   {timelineData.map((item, idx) => {
-                    const is2026 = item.year === '2026';
-                    const xs = [40, 74, 150, 226, 260];
+                    const is2026 = item.year === '2025 / Present';
+                    const xs = [40, 56.3, 97, 150, 203, 243.7, 260];
                     const waveX = xs[idx];
                     const waveY = 800 - item.mcy;
                     const topPercent = (waveY / 800) * 100;
@@ -1145,30 +1147,15 @@ export default function About() {
                       top: `${topPercent}%`,
                       position: 'absolute',
                       width: 'calc(100vw - 120px)',
-                      maxWidth: '240px',
+                      maxWidth: '180px', // slightly smaller width since no description
                     };
 
-                    // Carefully position text to avoid intersecting the diagonal line
-                    if (idx === 0) {
+                    // Without descriptions, we can place them a bit closer and cleaner
+                    if (idx <= 3) {
                       textStyle.left = `calc(${(waveX / 300) * 100}% + 25px)`;
                       textStyle.transform = 'translateY(-50%)';
                       textStyle.textAlign = 'left';
-                    } else if (idx === 1) {
-                      textStyle.left = `calc(${(waveX / 300) * 100}% + 25px)`;
-                      textStyle.transform = 'translateY(-20%)';
-                      textStyle.textAlign = 'left';
-                    } else if (idx === 2) {
-                      // 2018: Place on right side. Restrict max-width so the long text wraps.
-                      textStyle.left = `calc(${(waveX / 300) * 100}% + 15px)`;
-                      textStyle.transform = 'translateY(0%)';
-                      textStyle.textAlign = 'left';
-                      textStyle.maxWidth = 'calc(50vw - 30px)'; // Forces "EPC projects" to wrap
-                    } else if (idx === 3) {
-                      // 2022: Move further left (+45px) and shift completely above the dot (-110%)
-                      textStyle.right = `calc(${((300 - waveX) / 300) * 100}% + 45px)`;
-                      textStyle.transform = 'translateY(-110%)';
-                      textStyle.textAlign = 'right';
-                    } else if (idx === 4) {
+                    } else {
                       textStyle.right = `calc(${((300 - waveX) / 300) * 100}% + 25px)`;
                       textStyle.transform = 'translateY(-50%)';
                       textStyle.textAlign = 'right';
@@ -1178,7 +1165,7 @@ export default function About() {
                       <div key={`txt-m-${idx}`} className={`curved-timeline-text-node ${is2026 ? 'highlight-text-node' : ''}`} style={textStyle}>
                         <div className="curved-timeline-year">{item.year}</div>
                         <h3 className="curved-timeline-title">{item.title}</h3>
-                        {item.desc && <p className="curved-timeline-desc">{item.desc}</p>}
+                        {/* Description hidden on mobile for cleaner look */}
                       </div>
                     )
                   })}
