@@ -294,14 +294,17 @@ export default function About() {
       });
     }
 
-    // Timeline Animation (Desktop)
-    if (timelineRef.current) {
-      const nodes = timelineRef.current.querySelectorAll('.curved-timeline-text-node');
-      const path = timelineRef.current.querySelector('.curved-timeline-path');
-      const svgDots = timelineRef.current.querySelectorAll('.curved-svg-dot');
+    // Timeline Animation
+    const animateTimeline = (ref: React.RefObject<HTMLDivElement | null>) => {
+      if (!ref.current) return;
+      const nodes = ref.current.querySelectorAll('.curved-timeline-text-node');
+      const path = ref.current.querySelector('.curved-timeline-path');
+      const svgDots = ref.current.querySelectorAll('.curved-svg-dot');
 
       if (path) {
-        const length = (path as SVGPathElement).getTotalLength();
+        // Add a buffer to the calculated length.
+        // Some browsers slightly undercalculate getTotalLength(), causing a small gap at the end of the stroke.
+        const length = (path as SVGPathElement).getTotalLength() + 50;
         gsap.set(path, { strokeDasharray: length, strokeDashoffset: length });
 
         gsap.to(path, {
@@ -309,7 +312,7 @@ export default function About() {
           duration: 2,
           ease: 'power2.inOut',
           scrollTrigger: {
-            trigger: timelineRef.current,
+            trigger: ref.current,
             start: 'top 75%',
             toggleActions: 'play none none reverse'
           }
@@ -326,7 +329,7 @@ export default function About() {
           ease: 'back.out(1.5)',
           delay: 0.2,
           scrollTrigger: {
-            trigger: timelineRef.current,
+            trigger: ref.current,
             start: 'top 75%',
             toggleActions: 'play none none reverse'
           }
@@ -341,96 +344,30 @@ export default function About() {
         ease: 'power3.out',
         delay: 0.4,
         scrollTrigger: {
-          trigger: timelineRef.current,
+          trigger: ref.current,
           start: 'top 75%',
           toggleActions: 'play none none reverse'
         }
       });
 
-      const logoGlow = timelineRef.current.querySelector('.travelling-logo-glow');
+      const logoGlow = ref.current.querySelector('.travelling-logo-glow');
       if (logoGlow) {
         gsap.to(logoGlow, {
           opacity: 1,
           duration: 1,
-          delay: 1.5, // Appears after timeline finishes drawing
+          delay: 1.5,
           ease: 'power2.out',
           scrollTrigger: {
-            trigger: timelineRef.current,
+            trigger: ref.current,
             start: 'top 75%',
             toggleActions: 'play none none reverse'
           }
         });
       }
-    }
+    };
 
-    // Timeline Animation (Mobile)
-    if (mobileTimelineRef.current) {
-      const mNodes = mobileTimelineRef.current.querySelectorAll('.curved-timeline-text-node');
-      const mPath = mobileTimelineRef.current.querySelector('.curved-timeline-path');
-      const mSvgDots = mobileTimelineRef.current.querySelectorAll('.curved-svg-dot');
-
-      if (mPath) {
-        const length = (mPath as SVGPathElement).getTotalLength();
-        gsap.set(mPath, { strokeDasharray: length, strokeDashoffset: length });
-
-        gsap.to(mPath, {
-          strokeDashoffset: 0,
-          duration: 2,
-          ease: 'power2.inOut',
-          scrollTrigger: {
-            trigger: mobileTimelineRef.current,
-            start: 'top 75%',
-            toggleActions: 'play none none reverse'
-          }
-        });
-      }
-
-      gsap.fromTo(mSvgDots,
-        { scale: 0, opacity: 0, transformOrigin: 'center' },
-        {
-          scale: 1,
-          opacity: 1,
-          duration: 0.6,
-          stagger: 0.3,
-          ease: 'back.out(1.5)',
-          delay: 0.2,
-          scrollTrigger: {
-            trigger: mobileTimelineRef.current,
-            start: 'top 75%',
-            toggleActions: 'play none none reverse'
-          }
-        }
-      );
-
-      gsap.to(mNodes, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        stagger: 0.3,
-        ease: 'power3.out',
-        delay: 0.4,
-        scrollTrigger: {
-          trigger: mobileTimelineRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none reverse'
-        }
-      });
-
-      const mLogoGlow = mobileTimelineRef.current.querySelector('.travelling-logo-glow');
-      if (mLogoGlow) {
-        gsap.to(mLogoGlow, {
-          opacity: 1,
-          duration: 1,
-          delay: 1.5, // Appears after timeline finishes drawing
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: mobileTimelineRef.current,
-            start: 'top 75%',
-            toggleActions: 'play none none reverse'
-          }
-        });
-      }
-    }
+    animateTimeline(timelineRef);
+    animateTimeline(mobileTimelineRef);
 
     // Stats Counter Animation
     if (timelineRef.current) {
@@ -1101,96 +1038,151 @@ export default function About() {
                 <p className="timeline-subtitle">Engineering expertise. Global impact. Built to last.</p>
               </div>
 
-              {/* DESKTOP TIMELINE */}
-              <div className="curved-timeline-wrapper" ref={timelineRef}>
-                <svg className="curved-timeline-svg" viewBox="0 0 1000 500" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="timelineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="rgba(255, 255, 255, 0.1)" />
-                      <stop offset="50%" stopColor="rgba(255, 75, 31, 0.5)" />
-                      <stop offset="100%" stopColor="#ff4b1f" />
-                    </linearGradient>
-                    <filter id="lineGlow">
-                      <feGaussianBlur stdDeviation="3" result="coloredBlur" />
-                      <feMerge>
-                        <feMergeNode in="coloredBlur" />
-                        <feMergeNode in="SourceGraphic" />
-                      </feMerge>
-                    </filter>
-                  </defs>
-                  
-                  {/* The continuous path */}
-                  <path id="desktop-path" className="curved-timeline-path" d="M 50 420 C 350 420, 650 80, 950 80" stroke="url(#timelineGradient)" filter="url(#lineGlow)" fill="none" strokeWidth="2" />
-                  
-                  {/* The SVG Dots */}
-                  {timelineData.map((item, idx) => (
-                    <circle key={`dot-${idx}`} cx={item.cx} cy={item.cy} r={item.year === '2026' ? 8 : 6} fill="#080d12" stroke={item.year === '2026' ? "#ffffff" : "#ff4b1f"} strokeWidth={item.year === '2026' ? 4 : 2} className="curved-svg-dot" />
-                  ))}
+              <div className="timeline-container-responsive">
+                {/* Desktop Timeline */}
+                <div className="curved-timeline-wrapper desktop-timeline" ref={timelineRef}>
+                  <svg className="curved-timeline-svg" viewBox="0 0 1000 500" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="timelineGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="rgba(255, 255, 255, 0.1)" />
+                        <stop offset="50%" stopColor="rgba(255, 75, 31, 0.5)" />
+                        <stop offset="100%" stopColor="#ff4b1f" />
+                      </linearGradient>
+                      <filter id="lineGlow">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                        <feMerge>
+                          <feMergeNode in="coloredBlur" />
+                          <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                      </filter>
+                    </defs>
+                    
+                    {/* The continuous path */}
+                    <path id="desktop-path" className="curved-timeline-path" d="M 50 420 C 350 420, 650 80, 950 80" stroke="url(#timelineGradient)" filter="url(#lineGlow)" fill="none" strokeWidth="2" />
+                    
+                    {/* The SVG Dots */}
+                    {timelineData.map((item, idx) => (
+                      <circle key={`dot-${idx}`} cx={item.cx} cy={item.cy} r={item.year === '2026' ? 8 : 6} fill="#080d12" stroke={item.year === '2026' ? "#ffffff" : "#ff4b1f"} strokeWidth={item.year === '2026' ? 4 : 2} className="curved-svg-dot" />
+                    ))}
 
-                  {/* The Travelling Logo */}
-                  <g className="travelling-logo-glow" style={{ opacity: 0 }}>
-                    <image href="/images/logo/LOGO.png" x="-18" y="-18" width="36" height="36" preserveAspectRatio="xMidYMid meet" />
-                    <animateMotion dur="15s" repeatCount="indefinite">
-                      <mpath href="#desktop-path" />
-                    </animateMotion>
-                  </g>
-                </svg>
+                    {/* The Travelling Logo */}
+                    <g className="travelling-logo-glow" style={{ opacity: 0 }}>
+                      <image href="/images/logo/LOGO.png" x="-18" y="-18" width="36" height="36" preserveAspectRatio="xMidYMid meet" />
+                      <animateMotion dur="15s" repeatCount="indefinite">
+                        <mpath href="#desktop-path" />
+                      </animateMotion>
+                    </g>
+                  </svg>
 
-                {/* HTML Text Overlay */}
-                {timelineData.map((item, idx) => {
-                  const is2026 = item.year === '2026';
-                  const positionClass = idx % 2 === 0 ? 'text-above' : 'text-below';
-                  
-                  const leftPercent = (item.cx / 1000) * 100;
-                  const topPercent = (item.cy / 500) * 100;
+                  {/* HTML Text Overlay */}
+                  {timelineData.map((item, idx) => {
+                    const is2026 = item.year === '2026';
+                    const positionClass = idx % 2 === 0 ? 'text-above' : 'text-below';
+                    
+                    const leftPercent = (item.cx / 1000) * 100;
+                    const topPercent = (item.cy / 500) * 100;
 
-                  return (
-                    <div key={idx} className={`curved-timeline-text-node ${positionClass} ${is2026 ? 'highlight-text-node' : ''}`} style={{ left: `${leftPercent}%`, top: `${topPercent}%` }}>
-                      <div className="curved-timeline-year">{item.year}</div>
-                      <h3 className="curved-timeline-title">{item.title}</h3>
-                      {item.desc && <p className="curved-timeline-desc">{item.desc}</p>}
-                    </div>
-                  )
-                })}
-              </div>
+                    return (
+                      <div key={`txt-${idx}`} className={`curved-timeline-text-node ${positionClass} ${is2026 ? 'highlight-text-node' : ''}`} style={{ left: `${leftPercent}%`, top: `${topPercent}%` }}>
+                        <div className="curved-timeline-year">{item.year}</div>
+                        <h3 className="curved-timeline-title">{item.title}</h3>
+                        {item.desc && <p className="curved-timeline-desc">{item.desc}</p>}
+                      </div>
+                    )
+                  })}
+                </div>
 
-              {/* MOBILE TIMELINE */}
-              <div className="mobile-timeline-wrapper" ref={mobileTimelineRef}>
-                <svg className="curved-timeline-svg" viewBox="0 0 100 800" preserveAspectRatio="none">
-                  <defs>
-                    <linearGradient id="mobileTimelineGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="rgba(255, 255, 255, 0.1)" />
-                      <stop offset="50%" stopColor="rgba(255, 75, 31, 0.5)" />
-                      <stop offset="100%" stopColor="#ff4b1f" />
-                    </linearGradient>
-                  </defs>
-                  
-                  <path id="mobile-path" className="curved-timeline-path" d="M 50 100 L 50 700" stroke="url(#mobileTimelineGradient)" filter="url(#lineGlow)" fill="none" strokeWidth="2" />
-                  
-                  {timelineData.map((item, idx) => (
-                    <circle key={`mdot-${idx}`} cx="50" cy={item.mcy} r={item.year === '2026' ? 8 : 6} fill="#080d12" stroke={item.year === '2026' ? "#ffffff" : "#ff4b1f"} strokeWidth={item.year === '2026' ? 4 : 2} className="curved-svg-dot" />
-                  ))}
+                {/* Mobile Timeline */}
+                <div className="curved-timeline-wrapper mobile-timeline" ref={mobileTimelineRef}>
+                  <svg className="curved-timeline-svg" viewBox="0 0 300 800" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="timelineGradientMobile" x1="0%" y1="100%" x2="0%" y2="0%">
+                        <stop offset="0%" stopColor="rgba(255, 255, 255, 0.1)" />
+                        <stop offset="50%" stopColor="rgba(255, 75, 31, 0.5)" />
+                        <stop offset="100%" stopColor="#ff4b1f" />
+                      </linearGradient>
+                      <filter id="lineGlowMobile" x="-20%" y="-20%" width="140%" height="140%">
+                        <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                        <feMerge>
+                          <feMergeNode in="coloredBlur" />
+                          <feMergeNode in="SourceGraphic" />
+                        </feMerge>
+                      </filter>
+                    </defs>
+                    
+                    {/* The continuous path - single S-curve from bottom-left to top-right */}
+                    <path id="mobile-path" className="curved-timeline-path" d="M 40 700 C 40 500, 260 300, 260 100" stroke="url(#timelineGradientMobile)" filter="url(#lineGlowMobile)" fill="none" strokeWidth="2" strokeLinecap="round" />
+                    
+                    {/* The SVG Dots */}
+                    {timelineData.map((item, idx) => {
+                      // X coordinates exactly tracking the new Bezier curve
+                      const xs = [40, 74, 150, 226, 260];
+                      const waveX = xs[idx];
+                      const waveY = 800 - item.mcy;
+                      return (
+                        <circle key={`dot-m-${idx}`} cx={waveX} cy={waveY} r={item.year === '2026' ? 8 : 6} fill="#080d12" stroke={item.year === '2026' ? "#ffffff" : "#ff4b1f"} strokeWidth={item.year === '2026' ? 4 : 2} className="curved-svg-dot" />
+                      );
+                    })}
 
-                  <g className="travelling-logo-glow" style={{ opacity: 0 }}>
-                    <image href="/images/logo/LOGO.png" x="-18" y="-18" width="36" height="36" preserveAspectRatio="xMidYMid meet" />
-                    <animateMotion dur="15s" repeatCount="indefinite">
-                      <mpath href="#mobile-path" />
-                    </animateMotion>
-                  </g>
-                </svg>
+                    {/* The Travelling Logo */}
+                    <g className="travelling-logo-glow" style={{ opacity: 0 }}>
+                      <image href="/images/logo/LOGO.png" x="-18" y="-18" width="36" height="36" preserveAspectRatio="xMidYMid meet" />
+                      <animateMotion dur="15s" repeatCount="indefinite">
+                        <mpath href="#mobile-path" />
+                      </animateMotion>
+                    </g>
+                  </svg>
 
-                {timelineData.map((item, idx) => {
-                  const is2026 = item.year === '2026';
-                  const topPercent = (item.mcy / 800) * 100;
+                  {/* HTML Text Overlay */}
+                  {timelineData.map((item, idx) => {
+                    const is2026 = item.year === '2026';
+                    const xs = [40, 74, 150, 226, 260];
+                    const waveX = xs[idx];
+                    const waveY = 800 - item.mcy;
+                    const topPercent = (waveY / 800) * 100;
+                    
+                    const textStyle: React.CSSProperties = {
+                      top: `${topPercent}%`,
+                      position: 'absolute',
+                      width: 'calc(100vw - 120px)',
+                      maxWidth: '240px',
+                    };
 
-                  return (
-                    <div key={`mtext-${idx}`} className={`curved-timeline-text-node ${is2026 ? 'highlight-text-node' : ''}`} style={{ left: '50%', top: `${topPercent}%` }}>
-                      <div className="curved-timeline-year">{item.year}</div>
-                      <h3 className="curved-timeline-title">{item.title}</h3>
-                      {item.desc && <p className="curved-timeline-desc">{item.desc}</p>}
-                    </div>
-                  )
-                })}
+                    // Carefully position text to avoid intersecting the diagonal line
+                    if (idx === 0) {
+                      textStyle.left = `calc(${(waveX / 300) * 100}% + 25px)`;
+                      textStyle.transform = 'translateY(-50%)';
+                      textStyle.textAlign = 'left';
+                    } else if (idx === 1) {
+                      textStyle.left = `calc(${(waveX / 300) * 100}% + 25px)`;
+                      textStyle.transform = 'translateY(-20%)';
+                      textStyle.textAlign = 'left';
+                    } else if (idx === 2) {
+                      // 2018: Place on right side. Restrict max-width so the long text wraps.
+                      textStyle.left = `calc(${(waveX / 300) * 100}% + 15px)`;
+                      textStyle.transform = 'translateY(0%)';
+                      textStyle.textAlign = 'left';
+                      textStyle.maxWidth = 'calc(50vw - 30px)'; // Forces "EPC projects" to wrap
+                    } else if (idx === 3) {
+                      // 2022: Move further left (+45px) and shift completely above the dot (-110%)
+                      textStyle.right = `calc(${((300 - waveX) / 300) * 100}% + 45px)`;
+                      textStyle.transform = 'translateY(-110%)';
+                      textStyle.textAlign = 'right';
+                    } else if (idx === 4) {
+                      textStyle.right = `calc(${((300 - waveX) / 300) * 100}% + 25px)`;
+                      textStyle.transform = 'translateY(-50%)';
+                      textStyle.textAlign = 'right';
+                    }
+                    
+                    return (
+                      <div key={`txt-m-${idx}`} className={`curved-timeline-text-node ${is2026 ? 'highlight-text-node' : ''}`} style={textStyle}>
+                        <div className="curved-timeline-year">{item.year}</div>
+                        <h3 className="curved-timeline-title">{item.title}</h3>
+                        {item.desc && <p className="curved-timeline-desc">{item.desc}</p>}
+                      </div>
+                    )
+                  })}
+                </div>
               </div>
 
             </div>

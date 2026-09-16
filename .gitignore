@@ -23,4 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 
+#firebase
+firebase.json
+.firebaserc
+.firebase
+
 SST Details.pdf
