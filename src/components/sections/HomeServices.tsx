@@ -256,28 +256,27 @@ const HomeServices = () => {
       const cards = gsap.utils.toArray('.home-services-card') as HTMLElement[];
       if (cards.length === 0) return;
 
-      // Create one master scroll-driven timeline
+      // Create one master scroll-driven timeline without scrub for faster, automatic arrival
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: '.home-services-grid',
-          start: "top 75%",
-          end: "bottom 70%", // Spread the animation across the height of the grid
-          scrub: 1.5, // Smooth scrubbing
+          start: "top 85%", // Trigger earlier
         }
       });
 
-      // Using stagger ensures they animate strictly one-by-one, regardless of their row layout
+      // Using stagger ensures they animate swiftly one-by-one
       tl.fromTo(cards, 
         {
-          y: 150,
+          y: 80,
           opacity: 0,
         },
         {
           y: 0,
           opacity: 1,
-          duration: 1,
-          stagger: 0.5,
-          ease: "power2.out"
+          duration: 1.0,
+          stagger: 0.25, // Noticeable delay between each card
+          ease: "power3.out",
+          delay: 0.2 // Slight delay before the first card starts
         }
       );
 
@@ -314,13 +313,11 @@ const HomeServices = () => {
 
         <div className="home-services-grid">
           {services.map((service, index) => {
-            const isFeatured = service.slug === 'turnkey-projects';
-
             return (
               <Link
                 key={service.slug}
                 to={`/services/${service.slug}`}
-                className={`service-card home-services-card motif-${service.slug} ${isFeatured ? 'featured' : ''}`}
+                className={`service-card home-services-card motif-${service.slug}`}
                 onMouseEnter={() => handleMouseEnter(service.slug)}
                 onMouseLeave={handleMouseLeave}
                 onMouseMove={handleMouseMove}

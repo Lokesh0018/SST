@@ -343,11 +343,25 @@ export default function ServiceMapHero() {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
     if (contentRef.current) {
-      const elements = contentRef.current.querySelectorAll('.hero-animate');
-      tl.fromTo(elements,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.8, stagger: 0.15 }
+      const tagline = contentRef.current.querySelector('.hero-tagline');
+      const titleLines = contentRef.current.querySelectorAll('.hero-title-line');
+      const desc = contentRef.current.querySelector('.hero-description-container');
+      const cta = contentRef.current.querySelector('.hero-cta-group');
+
+      // 1. Tagline
+      tl.to(tagline, { autoAlpha: 1, y: 0, duration: 0.8 });
+      
+      // 2. Title lines (staggered)
+      tl.to(titleLines, 
+        { autoAlpha: 1, y: 0, duration: 0.9, stagger: 0.15, ease: 'back.out(1.2)' },
+        "-=0.5" // overlap with tagline
       );
+
+      // 3. Description
+      tl.to(desc, { autoAlpha: 1, y: 0, duration: 0.8 }, "-=0.4");
+
+      // 4. CTA
+      tl.to(cta, { autoAlpha: 1, y: 0, duration: 0.8 }, "-=0.6");
     }
 
     if (mapRef.current) {
@@ -560,12 +574,12 @@ export default function ServiceMapHero() {
           </motion.p>
 
           <motion.h1
-            className="hero-title hero-animate"
+            className="hero-title"
             style={{ fontSize: '4.5rem', lineHeight: '1.1', marginTop: '1rem', marginBottom: '1.5rem', fontWeight: 800 }}
           >
-            <span style={{ display: 'block', color: '#1a202c' }}>ONE PARTNER.</span>
-            <span style={{ display: 'block', color: '#1a202c' }}>COMPLETE</span>
-            <span className="hero-title-highlight" style={{ display: 'block', color: '#F4511E' }}>INFRASTRUCTURE.</span>
+            <span className="hero-title-line" style={{ display: 'block', color: '#1a202c' }}>ONE PARTNER.</span>
+            <span className="hero-title-line" style={{ display: 'block', color: '#1a202c' }}>COMPLETE</span>
+            <span className="hero-title-line hero-title-highlight" style={{ display: 'block', color: '#F4511E' }}>INFRASTRUCTURE.</span>
           </motion.h1>
 
           <div className="hero-description-container hero-animate" style={{ marginBottom: '2rem', maxWidth: '600px' }}>
