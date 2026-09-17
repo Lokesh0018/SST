@@ -1,405 +1,263 @@
-/* ==========================================================================
-   SST INDUSTRIAL ENTERPRISE HERO STYLES (EXACT SVG SHAPE STRUCTURE)
-   ========================================================================== */
-
 .industrial-hero-section {
   position: relative;
   width: 100%;
-  min-height: 85vh;
+  min-height: 100vh;
+  background-color: #F8FAFC; 
   overflow: hidden;
-  border-bottom: 1px solid #EEF2F6;
   display: flex;
   align-items: center;
-  background-color: #FFFFFF;
+  justify-content: flex-start; /* Shift away from center */
 }
 
 /* --------------------------------------------------------------------------
-   BACKGROUND & RIGHT SIDE
+   BACKGROUND GLOBE & DOTS
    -------------------------------------------------------------------------- */
-.industrial-hero-bg {
-  position: absolute;
-  top: -20px;
-  left: -20px;
-  right: -20px;
-  bottom: -20px;
-  z-index: 1;
-  overflow: hidden;
-}
-
-.industrial-bg-image {
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-}
-
-/* Sky morphing gradient overlay */
-.industrial-sky-morph {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(120deg, rgba(8,15,31,0.6) 0%, rgba(255,85,0,0.1) 50%, rgba(8,15,31,0.6) 100%);
-  background-size: 200% 200%;
-  animation: sky-morph 15s ease infinite;
-  z-index: 2;
-  mix-blend-mode: multiply;
-}
-
-@keyframes sky-morph {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-/* Particles Layer */
-.atmospheric-particles-canvas {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 2;
-  pointer-events: none;
-}
-
-.industrial-sky-gradient {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0) 50%);
-  pointer-events: none;
-}
-
-/* World Map SVG Overlay */
-.world-map-overlay {
-  position: absolute;
-  top: 5%;
-  right: 15%;
-  width: 65%;
-  height: 60%;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.world-map-svg {
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-
-/* Map Text Labels */
-.map-label {
-  position: absolute;
-  font-size: 0.65rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
-  color: #0A1128;
-  z-index: 3;
-  text-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 20px rgba(255, 255, 255, 0.8), 0 0 5px #FFFFFF;
-}
-.map-label.label-1 { top: 15%; right: 40%; }
-.map-label.label-2 { top: 45%; right: 48%; }
-.map-label.label-3 { top: 22%; right: 10%; }
-
-/* Airplane */
-.animated-sky-plane {
-  position: absolute;
-  top: 35%;
-  right: 10%;
-  z-index: 3;
-}
-
-.vapor-trail {
+.bg-infrastructure-globe {
   position: absolute;
   top: 50%;
-  right: 90%;
-  width: 150px;
-  height: 4px;
-  background: linear-gradient(to left, rgba(255, 255, 255, 0.6), transparent);
-  filter: blur(2px);
-  transform: translateY(-50%);
-  z-index: -1;
-  animation: trail-pulse 3s infinite ease-in-out;
-  border-radius: 4px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 120vw;
+  height: 120vw;
+  max-width: 1400px;
+  max-height: 1400px;
+  opacity: 0.06;
+  pointer-events: none;
+  z-index: 0;
+  stroke: #0A1128;
 }
 
-@keyframes trail-pulse {
-  0% { opacity: 0.3; width: 100px; }
-  50% { opacity: 0.8; width: 200px; }
-  100% { opacity: 0.3; width: 100px; }
+.globe-orange-routes {
+  stroke: #FF5500;
+  stroke-width: 2px;
+  opacity: 0.5;
+}
+
+.ambient-glow-card {
+  position: absolute;
+  top: 50%;
+  left: 40%; /* slightly left of center */
+  transform: translate(-50%, -50%);
+  width: 120%;
+  height: 120%;
+  background: radial-gradient(circle at top left, rgba(10,17,40,0.06) 0%, transparent 40%),
+              radial-gradient(circle at bottom right, rgba(255,85,0,0.06) 0%, transparent 40%);
+  filter: blur(50px);
+  z-index: -1;
+  pointer-events: none;
 }
 
 /* --------------------------------------------------------------------------
-   STRUCTURAL SVG OVERLAYS
+   3D ICONS LAYER
    -------------------------------------------------------------------------- */
-.industrial-shapes-layer {
+.gravity-icons-container {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 4;
-  pointer-events: none;
+  z-index: 1;
+  pointer-events: none; 
 }
 
-.industrial-shapes-svg {
-  width: 100%;
-  height: 100%;
-  /* Using preserveAspectRatio="xMidYMid slice" in JSX makes it scale like object-fit: cover */
+.service-node {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  pointer-events: auto;
+  cursor: default;
+  transition: all 0.4s ease;
+}
+
+.service-node:hover {
+  filter: blur(0px) !important;
+}
+
+.service-node-circle {
+  background: #FFFFFF;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+  color: #0A1128;
+  transition: all 0.3s ease;
+}
+
+.service-node-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #0A1128;
+  letter-spacing: 0.05em;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.service-node:hover .service-node-circle {
+  border-color: #FF5500;
+  color: #FF5500;
+  box-shadow: 0 8px 25px rgba(255, 85, 0, 0.15);
+  transform: scale(1.05);
+}
+
+/* Depth classes */
+.node-foreground {
+  opacity: 1;
+  filter: blur(0px);
+}
+.node-midground {
+  opacity: 0.75;
+  filter: blur(1.5px);
+}
+.node-background {
+  opacity: 0.45;
+  filter: blur(3px);
 }
 
 /* --------------------------------------------------------------------------
-   CONTENT LAYER
+   HERO CONTENT
    -------------------------------------------------------------------------- */
 .industrial-hero-content-layer {
   position: relative;
   z-index: 5;
   width: 100%;
-  height: 100%;
+  max-width: 650px;
+  padding: 0;
+  margin-top: 100px; /* Separation from navbar */
+  margin-left: 10%; /* Asymmetrical positioning */
+  text-align: left;
+}
+
+.industrial-eyebrow {
   display: flex;
   align-items: center;
-  padding: 120px 5% 80px 8%;
-}
-
-.industrial-hero-content {
-  max-width: 600px;
-}
-
-/* Eyebrow */
-.industrial-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
+  justify-content: flex-start;
+  gap: 15px;
+  margin-bottom: 24px;
 }
 
 .industrial-eyebrow-text {
   font-size: 0.85rem;
   font-weight: 800;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.2em;
   color: #FF5500;
 }
 
 .industrial-eyebrow-line {
-  width: 30px;
   height: 2px;
-  background-color: #FF5500;
+  width: 40px;
+  background: #FF5500;
 }
 
-/* Headline */
 .industrial-hero-headline {
-  font-size: clamp(2.5rem, 4vw, 4rem);
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
   font-weight: 900;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  line-height: 1.1;
   color: #0A1128;
-  margin: 0 0 24px 0;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .industrial-orange-accent {
+  white-space: nowrap;
+  background: linear-gradient(90deg, #FF5500 0%, #FFAA00 25%, #FF5500 50%, #FFAA00 75%, #FF5500 100%);
+  background-size: 200% auto;
   color: #FF5500;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-text 4s linear infinite;
 }
 
-/* Description */
+@keyframes shimmer-text {
+  to { background-position: 200% center; }
+}
+
 .industrial-hero-description {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   line-height: 1.6;
-  color: #64748B;
-  max-width: 500px;
-  margin: 0 0 40px 0;
+  color: #475569;
+  margin-bottom: 40px;
+  max-width: 550px;
 }
 
-/* Action CTAs */
+/* --------------------------------------------------------------------------
+   BUTTONS & INDICATOR
+   -------------------------------------------------------------------------- */
 .industrial-hero-ctas {
   display: flex;
-  flex-wrap: wrap;
+  gap: 24px;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 60px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
 }
 
 .btn-industrial-primary {
-  padding: 16px 36px;
-  background-color: #FF5500;
-  color: #FFFFFF;
-  font-family: var(--font-heading, 'Inter', sans-serif);
-  font-weight: 700;
-  font-size: 0.95rem;
-  letter-spacing: 0.1em;
+  background: #FF5500;
+  color: white;
   border: none;
-  border-radius: 0;
+  padding: 16px 32px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  border-radius: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 12px;
   transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn-industrial-primary::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 50%;
-  height: 100%;
-  background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
-  transform: skewX(-20deg);
-  transition: none;
+  box-shadow: 0 4px 15px rgba(255, 85, 0, 0.2);
 }
 
 .btn-industrial-primary:hover {
-  background-color: #E64C00;
+  background: #D94800;
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255, 85, 0, 0.3);
+  box-shadow: 0 10px 20px rgba(255, 85, 0, 0.3);
 }
 
-.btn-industrial-primary:hover::before {
-  left: 200%;
-  transition: left 0.7s ease;
+.btn-arrow-icon {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.3s ease;
+}
+
+.btn-industrial-primary:hover .btn-arrow-icon {
+  transform: translateX(6px);
 }
 
 .btn-industrial-secondary {
-  padding: 14px 36px; /* slightly smaller padding to account for border */
-  background-color: transparent;
+  background: transparent;
   color: #0A1128;
-  font-family: var(--font-heading, 'Inter', sans-serif);
-  font-weight: 700;
-  font-size: 0.95rem;
-  letter-spacing: 0.1em;
   border: 2px solid #0A1128;
-  border-radius: 0;
+  padding: 14px 36px;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  border-radius: 8px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 12px;
   transition: all 0.3s ease;
 }
 
 .btn-industrial-secondary:hover {
   background: #0A1128;
-  color: #FFFFFF;
+  color: white;
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(10, 17, 40, 0.2);
+  box-shadow: 0 10px 20px rgba(10, 17, 40, 0.15);
 }
 
-/* Statistics Strip */
-.industrial-stats-strip {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-}
-
-.industrial-stat-box {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  flex: 1;
-}
-
-.stat-icon-wrapper {
-  margin-bottom: 8px;
-  color: #FF5500;
-}
-
-.industrial-stat-value {
-  font-size: 1.5rem;
-  font-weight: 900;
-  color: #0A1128;
-  line-height: 1.1;
-  margin-bottom: 4px;
-}
-
-.industrial-stat-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #64748B;
-  white-space: nowrap;
-}
-
-.industrial-stat-divider {
-  width: 1px;
-  height: 40px;
-  background-color: #E2E8F0;
-  margin: 0 10px;
-}
-
-/* --------------------------------------------------------------------------
-   RIGHT SIDE FLOATING TEXT
-   -------------------------------------------------------------------------- */
-.right-edge-list {
-  position: absolute;
-  top: 55%;
-  right: 30px;
-  transform: translateY(-50%);
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  z-index: 6;
-  border-right: 3px solid #FF5500;
-  padding-right: 24px;
-  align-items: flex-end;
-}
-
-.edge-item {
-  font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-  color: #0A1128;
-  cursor: default;
-  transition: color 0.3s ease;
-}
-
-.edge-item:hover {
-  color: #FF5500;
-}
-
-.bottom-right-text {
-  position: absolute;
-  bottom: 30px;
-  right: 30px;
-  font-size: 1.3rem;
-  font-weight: 900;
-  letter-spacing: 0.05em;
-  color: #FFFFFF;
-  text-align: right;
-  line-height: 1.25;
-  z-index: 6;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.2);
-}
-
-/* --------------------------------------------------------------------------
-   RESPONSIVE
-   -------------------------------------------------------------------------- */
-@media (max-width: 1200px) {
-  .industrial-hero-content {
-    max-width: 500px;
-  }
-}
-
-@media (max-width: 900px) {
-  .industrial-shapes-layer {
-    display: none;
-  }
-  .industrial-hero-content-layer {
-    background: rgba(255, 255, 255, 0.95);
-    padding: 100px 5% 60px 5%;
-  }
-  .world-map-overlay, .animated-sky-plane, .right-edge-list, .bottom-right-text {
-    display: none;
-  }
-}
-
-@media (max-width: 600px) {
-  .industrial-stats-strip {
-    flex-wrap: wrap;
-    gap: 15px;
-  }
-  .industrial-stat-divider {
-    display: none;
-  }
-  .industrial-stat-box {
-    flex: 0 0 45%;
-    margin-bottom: 15px;
-  }
+.btn-industrial-secondary:hover .btn-arrow-icon {
+  transform: translateX(6px);
 }

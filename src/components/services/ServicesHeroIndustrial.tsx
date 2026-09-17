@@ -1,218 +1,129 @@
-"use client";
-
-import React, { useEffect, useState } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import React, { useEffect } from 'react';
+import { motion, useMotionValue, useSpring, useTransform, type Variants } from 'framer-motion';
 import '../../styles/ServicesHeroIndustrial.css';
 
 interface ServicesHeroIndustrialProps {
-  onExploreClick?: () => void;
-  onIntegrateClick?: () => void;
-  onSelectDomain?: (categoryName: string) => void;
+  onExploreClick: () => void;
+  onIntegrateClick?: () => void; // Optional if not used
 }
 
-const AtmosphericParticles = () => {
-  const canvasRef = React.useRef<HTMLCanvasElement>(null);
+import { 
+  Video, Key, Flame, Network, Server, Wifi, Zap, Package, 
+  CreditCard, ShieldAlert, Activity, Briefcase, Building, Cpu, 
+  Scan, ShieldCheck, Cloud, Map, Speaker, Thermometer, 
+  Car, Monitor, LineChart, Mic 
+} from 'lucide-react';
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+const SST_SERVICES = [
+  { id: 'cctv', name: 'CCTV & Surveillance', icon: Video },
+  { id: 'access', name: 'Access Control', icon: Key },
+  { id: 'fire', name: 'Fire Safety', icon: Flame },
+  { id: 'network', name: 'Network Infrastructure', icon: Network },
+  { id: 'server', name: 'Data Centers', icon: Server },
+  { id: 'wireless', name: 'Wireless Systems', icon: Wifi },
+  { id: 'electrical', name: 'Electrical Engineering', icon: Zap },
+  { id: 'logistics', name: 'Logistics Tech', icon: Package },
+  { id: 'atm', name: 'ATM & Banking', icon: CreditCard },
+  { id: 'intrusion', name: 'Intrusion Detection', icon: ShieldAlert },
+  { id: 'safety', name: 'Workplace Safety', icon: Activity },
+  { id: 'turnkey', name: 'Turnkey Solutions', icon: Briefcase },
+  { id: 'bms', name: 'Building Management', icon: Building },
+  { id: 'fiber', name: 'Fiber Optics', icon: Cpu },
+  { id: 'biometrics', name: 'Biometrics', icon: Scan },
+  { id: 'perimeter', name: 'Perimeter Security', icon: ShieldCheck },
+  { id: 'cloud', name: 'Cloud Integration', icon: Cloud },
+  { id: 'fleet', name: 'Fleet Management', icon: Map },
+  { id: 'audio', name: 'PA Systems', icon: Speaker },
+  { id: 'hvac', name: 'HVAC Control', icon: Thermometer },
+  { id: 'parking', name: 'Smart Parking', icon: Car },
+  { id: 'control', name: 'Control Rooms', icon: Monitor },
+  { id: 'analytics', name: 'Video Analytics', icon: LineChart },
+  { id: 'intercom', name: 'Intercom Systems', icon: Mic }
+];
 
-    let particles: { x: number, y: number, vx: number, vy: number }[] = [];
-    let animationFrameId: number;
+// Asymmetrical distribution, heavier on the right side
+const nodePositions = [
+  { ...SST_SERVICES[0], x: 65, y: 15, size: 65, depth: 'foreground', parallaxMultiplier: -1.2, floatDuration: 3.5, delay: 0 },
+  { ...SST_SERVICES[1], x: 80, y: 35, size: 55, depth: 'midground', parallaxMultiplier: -0.8, floatDuration: 4.2, delay: 0.2 },
+  { ...SST_SERVICES[2], x: 90, y: 65, size: 45, depth: 'background', parallaxMultiplier: -0.4, floatDuration: 5.5, delay: 0.4 },
+  { ...SST_SERVICES[3], x: 70, y: 75, size: 75, depth: 'foreground', parallaxMultiplier: -1.5, floatDuration: 3.8, delay: 0.1 },
+  { ...SST_SERVICES[4], x: 50, y: 85, size: 50, depth: 'midground', parallaxMultiplier: -0.7, floatDuration: 4.5, delay: 0.3 },
+  { ...SST_SERVICES[5], x: 85, y: 10, size: 40, depth: 'background', parallaxMultiplier: -0.3, floatDuration: 6.0, delay: 0.5 },
+  { ...SST_SERVICES[6], x: 45, y: 12, size: 60, depth: 'midground', parallaxMultiplier: -0.9, floatDuration: 4.0, delay: 0.15 },
+  { ...SST_SERVICES[7], x: 10, y: 75, size: 45, depth: 'background', parallaxMultiplier: -0.5, floatDuration: 5.2, delay: 0.45 },
+  { ...SST_SERVICES[8], x: 75, y: 55, size: 45, depth: 'background', parallaxMultiplier: -0.3, floatDuration: 5.2, delay: 0.85 },
+  { ...SST_SERVICES[9], x: 95, y: 45, size: 35, depth: 'background', parallaxMultiplier: -0.2, floatDuration: 6.5, delay: 0.6 },
+  { ...SST_SERVICES[10], x: 60, y: 40, size: 40, depth: 'midground', parallaxMultiplier: -0.6, floatDuration: 4.8, delay: 0.35 },
+  { ...SST_SERVICES[11], x: 30, y: 80, size: 55, depth: 'midground', parallaxMultiplier: -0.8, floatDuration: 4.1, delay: 0.25 },
+  { ...SST_SERVICES[12], x: 95, y: 25, size: 35, depth: 'background', parallaxMultiplier: -0.3, floatDuration: 5.8, delay: 0.7 },
+  { ...SST_SERVICES[13], x: 55, y: 5, size: 40, depth: 'midground', parallaxMultiplier: -0.7, floatDuration: 4.6, delay: 0.2 },
+  { ...SST_SERVICES[14], x: 5, y: 15, size: 45, depth: 'background', parallaxMultiplier: -0.4, floatDuration: 5.1, delay: 0.5 },
+  { ...SST_SERVICES[15], x: 55, y: 25, size: 85, depth: 'foreground', parallaxMultiplier: -1.6, floatDuration: 3.4, delay: 0.1 },
+  { ...SST_SERVICES[16], x: 85, y: 90, size: 50, depth: 'midground', parallaxMultiplier: -0.8, floatDuration: 4.4, delay: 0.3 },
+  { ...SST_SERVICES[17], x: 98, y: 55, size: 30, depth: 'background', parallaxMultiplier: -0.1, floatDuration: 7.0, delay: 0.9 },
+  { ...SST_SERVICES[18], x: 82, y: 50, size: 45, depth: 'midground', parallaxMultiplier: -0.6, floatDuration: 4.9, delay: 0.4 },
+  { ...SST_SERVICES[19], x: 15, y: 90, size: 42, depth: 'background', parallaxMultiplier: -0.5, floatDuration: 5.3, delay: 0.6 },
+  { ...SST_SERVICES[20], x: 60, y: 95, size: 35, depth: 'background', parallaxMultiplier: -0.3, floatDuration: 5.7, delay: 0.75 },
+  { ...SST_SERVICES[21], x: 72, y: 28, size: 48, depth: 'midground', parallaxMultiplier: -0.7, floatDuration: 4.3, delay: 0.25 },
+  { ...SST_SERVICES[22], x: 2, y: 60, size: 32, depth: 'background', parallaxMultiplier: -0.2, floatDuration: 6.1, delay: 0.85 },
+  { ...SST_SERVICES[23], x: 30, y: 5, size: 40, depth: 'midground', parallaxMultiplier: -0.5, floatDuration: 5.0, delay: 0.45 }
+];
 
-    const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      initParticles();
-    };
+// Extracted component to avoid Rules of Hooks violation in loop
+const ServiceNodeItem = ({ node, parallaxX, parallaxY, hoveredNode, setHoveredNode }: { node: any, parallaxX: any, parallaxY: any, hoveredNode: string | null, setHoveredNode: (id: string | null) => void }) => {
+  const x = useTransform(parallaxX, (v: any) => v * node.parallaxMultiplier);
+  const y = useTransform(parallaxY, (v: any) => v * node.parallaxMultiplier);
 
-    const initParticles = () => {
-      particles = [];
-      const numParticles = Math.min(Math.floor(window.innerWidth / 30), 40); // Scale by screen size, max 40
-      for (let i = 0; i < numParticles; i++) {
-        particles.push({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          vx: (Math.random() - 0.5) * 0.4,
-          vy: (Math.random() - 0.5) * 0.4 - 0.1 // slight upward drift
-        });
-      }
-    };
-
-    const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      
-      // Update and draw particles
-      for (let i = 0; i < particles.length; i++) {
-        let p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-
-        // Wrap around
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
-        if (p.y < 0) p.y = canvas.height;
-        if (p.y > canvas.height) p.y = 0;
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
-        ctx.fill();
-
-        // Draw connections
-        for (let j = i + 1; j < particles.length; j++) {
-          let p2 = particles[j];
-          let dx = p.x - p2.x;
-          let dy = p.y - p2.y;
-          let dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < 120) {
-            ctx.beginPath();
-            ctx.strokeStyle = `rgba(255, 255, 255, ${0.2 * (1 - dist / 120)})`;
-            ctx.lineWidth = 1;
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      animationFrameId = requestAnimationFrame(draw);
-    };
-
-    window.addEventListener('resize', resize);
-    resize();
-    draw();
-
-    return () => {
-      window.removeEventListener('resize', resize);
-      cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
-  return <canvas ref={canvasRef} className="atmospheric-particles-canvas" />;
-};
-
-const NetworkTransmission = () => {
-  const origin = { x: '74%', y: '40%' };
-  
-  const targets = [
-    { x: '25%', y: '65%' },
-    { x: '45%', y: '85%' },
-    { x: '65%', y: '45%' },
-    { x: '35%', y: '30%' },
-    { x: '55%', y: '75%' }
-  ];
+  const isHovered = hoveredNode === node.id;
+  const isFaded = hoveredNode !== null && !isHovered;
 
   return (
-    <div className="network-transmission-layer" style={{ position: 'absolute', inset: 0, zIndex: 2, pointerEvents: 'none' }}>
-      
-      {/* Origin Pulsing Rings */}
-      <div style={{ position: 'absolute', top: origin.y, left: origin.x, transform: 'translate(-50%, -50%)' }}>
-        {[0, 1, 2].map(i => (
-          <motion.div
-            key={i}
-            initial={{ scale: 0, opacity: 0.8 }}
-            animate={{ scale: 3, opacity: 0 }}
-            transition={{
-              duration: 2.5,
-              repeat: Infinity,
-              delay: i * 0.8,
-              ease: "easeOut"
-            }}
-            style={{
-              position: 'absolute',
-              top: '50%', left: '50%',
-              width: '60px', height: '60px',
-              marginLeft: '-30px', marginTop: '-30px',
-              borderRadius: '50%',
-              border: '1.5px solid rgba(255, 85, 0, 0.8)',
-              boxShadow: '0 0 15px rgba(255, 85, 0, 0.4)'
-            }}
-          />
-        ))}
-        {/* Core dot */}
-        <div style={{
-          position: 'absolute',
-          top: '50%', left: '50%',
-          width: '8px', height: '8px',
-          marginLeft: '-4px', marginTop: '-4px',
-          borderRadius: '50%',
-          backgroundColor: '#FFF',
-          boxShadow: '0 0 12px 4px #FF5500'
-        }} />
-      </div>
-
-      {/* SVG Connecting Lines */}
-      <svg style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', overflow: 'visible' }}>
-        {targets.map((target, idx) => (
-          <line 
-            key={`line-${idx}`}
-            x1={origin.x} y1={origin.y} 
-            x2={target.x} y2={target.y} 
-            stroke="rgba(255, 85, 0, 0.25)" 
-            strokeWidth="1.5"
-            strokeDasharray="4 4"
-          />
-        ))}
-      </svg>
-
-      {/* Moving Packets and Target Pings */}
-      {targets.map((target, idx) => {
-        const duration = 2.5 + (idx * 0.3);
-        const delay = idx * 0.6;
+    <motion.div
+      className={`service-node node-${node.depth}`}
+      onMouseEnter={() => setHoveredNode(node.id)}
+      onMouseLeave={() => setHoveredNode(null)}
+      style={{
+        top: `${node.y}%`,
+        left: `${node.x}%`,
+        x,
+        y,
+        zIndex: isHovered ? 20 : 1
+      }}
+      initial={{ opacity: 0, scale: 0.2, y: 50 }}
+      animate={{ 
+        opacity: isFaded ? 0.15 : (node.depth === 'foreground' ? 1 : node.depth === 'midground' ? 0.75 : 0.45), 
+        scale: isHovered ? 1.15 : (isFaded ? 0.9 : 1),
+        y: 0
+      }}
+      transition={{ 
+        type: "spring",
+        stiffness: isHovered ? 300 : 120,
+        damping: isHovered ? 20 : 14,
+        delay: isHovered ? 0 : node.delay 
+      }}
+    >
+      <motion.div
+        style={{ display: 'flex', alignItems: 'center', gap: '12px' }}
+        animate={{
+          y: ["-5%", "5%", "-5%"],
+          rotate: [0, 2, -2, 0]
+        }}
+        transition={{
+          duration: node.floatDuration,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      >
+        <div 
+          className="service-node-circle"
+          style={{ width: `${node.size}px`, height: `${node.size}px` }}
+        >
+          <node.icon style={{ width: '45%', height: '45%' }} strokeWidth={2} />
+        </div>
         
-        return (
-          <React.Fragment key={`anim-${idx}`}>
-            {/* Packet */}
-            <motion.div
-              style={{
-                position: 'absolute',
-                width: '6px', height: '6px',
-                borderRadius: '50%',
-                backgroundColor: '#FFF',
-                boxShadow: '0 0 10px 2px #FF5500',
-                marginLeft: '-3px', marginTop: '-3px'
-              }}
-              initial={{ left: origin.x, top: origin.y, opacity: 0 }}
-              animate={{ 
-                left: [origin.x, target.x], 
-                top: [origin.y, target.y],
-                opacity: [0, 1, 1, 0]
-              }}
-              transition={{
-                duration: duration,
-                repeat: Infinity,
-                delay: delay,
-                ease: "easeInOut",
-                times: [0, 0.1, 0.9, 1]
-              }}
-            />
-            {/* Target Ping */}
-            <motion.div
-              style={{
-                position: 'absolute',
-                left: target.x, top: target.y,
-                width: '24px', height: '24px',
-                marginLeft: '-12px', marginTop: '-12px',
-                borderRadius: '50%',
-                border: '1.5px solid #FF5500'
-              }}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: [0, 1.5], opacity: [0, 0.6, 0] }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                delay: delay + duration - 0.5,
-                ease: "easeOut"
-              }}
-            />
-          </React.Fragment>
-        );
-      })}
-    </div>
+        <div className="service-node-label">{node.name}</div>
+      </motion.div>
+    </motion.div>
   );
 };
 
@@ -220,18 +131,19 @@ export default function ServicesHeroIndustrial({
   onExploreClick,
   onIntegrateClick
 }: ServicesHeroIndustrialProps) {
-  // Parallax setup
+  
+  const [hoveredNode, setHoveredNode] = React.useState<string | null>(null);
+
+  // Parallax setup for interactivity
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
-  const springConfig = { damping: 35, stiffness: 150, mass: 0.5 };
+  const springConfig = { damping: 30, stiffness: 100, mass: 1 };
   const smoothX = useSpring(mouseX, springConfig);
   const smoothY = useSpring(mouseY, springConfig);
 
-  const bgX = useTransform(smoothX, [-1, 1], [-15, 15]);
-  const bgY = useTransform(smoothY, [-1, 1], [-15, 15]);
-  const shapesX = useTransform(smoothX, [-1, 1], [-5, 5]);
-  const shapesY = useTransform(smoothY, [-1, 1], [-5, 5]);
+  const parallaxX = useTransform(smoothX, [-1, 1], [-25, 25]);
+  const parallaxY = useTransform(smoothY, [-1, 1], [-25, 25]);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const { clientX, clientY } = e;
@@ -242,234 +154,104 @@ export default function ServicesHeroIndustrial({
     mouseY.set(y);
   };
 
-  // Staggered text variants
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 1.2 // wait for background wipe
-      }
+      transition: { staggerChildren: 0.15, delayChildren: 0.3 }
     }
   };
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 35, filter: "blur(12px)" },
+    show: { opacity: 1, y: 0, filter: "blur(0px)", transition: { type: "spring", stiffness: 100, damping: 20 } }
   };
 
   return (
     <section className="industrial-hero-section" onMouseMove={handleMouseMove}>
-      {/* Background Image Layer (Full bleed) */}
-      <motion.div 
-        className="industrial-hero-bg"
-        initial={{ clipPath: 'inset(0 0 100% 0)' }}
-        animate={{ clipPath: 'inset(0 0 0% 0)' }}
-        transition={{ duration: 1.5, ease: [0.77, 0, 0.175, 1] }}
-        style={{ x: bgX, y: bgY }}
-      >
-        <div className="industrial-bg-image" style={{ backgroundImage: "url('/services-bg.png')" }} />
+      
+      {/* Background wireframe globe */}
+      <svg className="bg-infrastructure-globe" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="400" cy="400" r="390" fill="none" strokeWidth="1" strokeDasharray="4 8" />
+        <circle cx="400" cy="400" r="300" fill="none" strokeWidth="1" />
+        <circle cx="400" cy="400" r="200" fill="none" strokeWidth="1" strokeDasharray="2 4" />
+        <ellipse cx="400" cy="400" rx="390" ry="150" fill="none" strokeWidth="0.5" />
+        <ellipse cx="400" cy="400" rx="150" ry="390" fill="none" strokeWidth="0.5" />
         
-        {/* Sky morphing gradient overlay */}
-        <div className="industrial-sky-morph" />
+        {/* Animated routes on the globe */}
+        <motion.path 
+          className="globe-orange-routes"
+          d="M 100 400 Q 400 100 700 400" 
+          fill="none"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 0.6 }}
+          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+        />
+        <motion.path 
+          className="globe-orange-routes"
+          d="M 250 150 Q 400 700 650 200" 
+          fill="none"
+          initial={{ pathLength: 0, opacity: 0 }}
+          animate={{ pathLength: 1, opacity: 0.4 }}
+          transition={{ duration: 5, repeat: Infinity, ease: "linear", delay: 2 }}
+        />
+      </svg>
 
-        {/* Atmospheric Particles */}
-        <AtmosphericParticles />
+      <div className="ambient-glow-card" />
 
-        {/* Signal Tower Networking Animation */}
-        <NetworkTransmission />
-
-        {/* Sky gradient for text readability */}
-        <div className="industrial-sky-gradient" />
-
-        {/* Floating Airplane */}
-        <motion.div 
-          className="animated-sky-plane"
-          initial={{ x: '-20vw' }}
-          animate={{ 
-            x: ['-20vw', '30vw', '70vw', '120vw'],
-            y: ['-5vh', '-20vh', '-10vh', '-30vh'],
-            scale: [0.4, 0.8, 1.1, 0.5],
-            opacity: [0, 1, 1, 0],
-            rotate: [-10, 5, -12, 0]
-          }}
-          transition={{
-            duration: 25,
-            repeat: Infinity,
-            ease: "easeInOut",
-            times: [0, 0.35, 0.65, 1],
-            opacity: { duration: 25, repeat: Infinity, times: [0, 0.1, 0.9, 1] }
-          }}
-          style={{ width: '120px', display: 'flex', alignItems: 'center' }}
-        >
-          <div className="vapor-trail" />
-          <img src="/aeroplane.png" alt="Aeroplane" style={{ width: '100%', height: 'auto', filter: 'drop-shadow(0 15px 25px rgba(0,0,0,0.3))' }} />
-        </motion.div>
-      </motion.div>
-
-      {/* Structural SVG Overlays for exact curved shapes */}
-      <motion.div className="industrial-shapes-layer" style={{ x: shapesX, y: shapesY }}>
-        <svg viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice" className="industrial-shapes-svg">
-          {/* Left White Curved Shape */}
-          <path 
-            d="M0 0 L1150 0 C 800 450, 650 750, 1750 1080 L0 1080 Z" 
-            fill="#FFFFFF" 
+      {/* 3D Icons Layer */}
+      <div className="gravity-icons-container">
+        {nodePositions.map((node, index) => (
+          <ServiceNodeItem 
+            key={index}
+            node={node}
+            parallaxX={parallaxX}
+            parallaxY={parallaxY}
+            hoveredNode={hoveredNode}
+            setHoveredNode={setHoveredNode}
           />
-          
-          {/* Right White Curved Shape */}
-          <path 
-            d="M1920 400 C 1500 550, 1550 900, 1920 1080 Z" 
-            fill="#FFFFFF" 
-          />
-
-          {/* Bottom Right Orange Polygons */}
-          <motion.g
-            initial={{ x: 500, opacity: 0 }}
-            animate={{ x: [500, 0, 0, 0], y: [0, 0, -15, 0], opacity: [0, 1, 1, 1] }}
-            transition={{
-              x: { duration: 1.2, ease: "easeOut", delay: 0.5 },
-              y: { duration: 6, ease: "easeInOut", repeat: Infinity, delay: 1.7 },
-              opacity: { duration: 1.2, delay: 0.5 }
-            }}
-          >
-            <path 
-              d="M1450 1080 L1920 750 L1920 1080 Z" 
-              fill="#FF5500" 
-            />
-            <path 
-              d="M1750 1080 L1920 850 L1920 1080 Z" 
-              fill="#D94800" 
-            />
-          </motion.g>
-        </svg>
-      </motion.div>
-
-      {/* Content Layer */}
-      <div className="industrial-hero-content-layer">
-        {/* Left Content Area */}
-        <motion.div 
-          className="industrial-hero-content"
-          variants={containerVariants}
-          initial="hidden"
-          animate="show"
-        >
-          {/* Eyebrow */}
-          <motion.div className="industrial-eyebrow" variants={itemVariants}>
-            <span className="industrial-eyebrow-text">OUR SERVICES</span>
-            <span className="industrial-eyebrow-line" />
-          </motion.div>
-
-          {/* Headline */}
-          <motion.h1 className="industrial-hero-headline" variants={itemVariants}>
-            FROM COMPLEX<br />
-            CHALLENGES TO<br />
-            <span className="industrial-orange-accent">REAL SOLUTIONS</span>
-          </motion.h1>
-
-          {/* Description */}
-          <motion.p className="industrial-hero-description" variants={itemVariants}>
-            Integrated services across physical infrastructure, security, networks, enterprise systems, and logistics designed to keep your world moving.
-          </motion.p>
-
-          {/* Action CTAs */}
-          <motion.div className="industrial-hero-ctas" variants={itemVariants}>
-            <button 
-              onClick={onExploreClick}
-              className="btn-industrial-primary"
-              aria-label="Explore Our Services"
-            >
-              <span>EXPLORE OUR SERVICES</span>
-              <svg className="btn-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </button>
-
-            <button 
-              onClick={onIntegrateClick}
-              className="btn-industrial-secondary"
-              aria-label="Our Approach"
-            >
-              <span>OUR APPROACH</span>
-            </button>
-          </motion.div>
-
-          {/* Statistics Strip */}
-          <motion.div className="industrial-stats-strip" variants={itemVariants}>
-            <div className="industrial-stat-box">
-              <div className="stat-icon-wrapper">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <span className="industrial-stat-value">24+</span>
-              <span className="industrial-stat-label">Capabilities</span>
-            </div>
-            
-            <div className="industrial-stat-divider" />
-            
-            <div className="industrial-stat-box">
-              <div className="stat-icon-wrapper">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M3 21h18M5 21V7l8-4v18M13 3l8 4v14M9 11v2M9 15v2M17 11v2M17 15v2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <span className="industrial-stat-value">8+</span>
-              <span className="industrial-stat-label">Industries</span>
-            </div>
-            
-            <div className="industrial-stat-divider" />
-            
-            <div className="industrial-stat-box">
-              <div className="stat-icon-wrapper">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <circle cx="12" cy="12" r="10"/>
-                  <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-              <span className="industrial-stat-value">360°</span>
-              <span className="industrial-stat-label">Integration</span>
-            </div>
-            
-            <div className="industrial-stat-divider" />
-            
-            <div className="industrial-stat-box">
-              <div className="stat-icon-wrapper">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                  <circle cx="9" cy="7" r="4" />
-                  <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-                </svg>
-              </div>
-              <span className="industrial-stat-value">1</span>
-              <span className="industrial-stat-label">Technology Partner</span>
-            </div>
-          </motion.div>
-        </motion.div>
+        ))}
       </div>
 
-      {/* Right Edge Text List (positioned over the right white shape) */}
+      {/* Editorial Text Content */}
       <motion.div 
-        className="right-edge-list"
-        initial={{ opacity: 0, x: 20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1, delay: 2.2 }}
+        className="industrial-hero-content-layer"
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
       >
-        <div className="edge-item">PEOPLE</div>
-        <div className="edge-item">TECHNOLOGY</div>
-        <div className="edge-item">INFRASTRUCTURE</div>
-        <div className="edge-item">A STRONGER TOMORROW</div>
-      </motion.div>
+        <motion.div className="industrial-eyebrow" variants={itemVariants}>
+          <div className="industrial-eyebrow-text">OUR SERVICES</div>
+          <div className="industrial-eyebrow-line" />
+        </motion.div>
 
-      {/* Bottom Right Orange Text (positioned over the orange polygon) */}
-      <motion.div 
-        className="bottom-right-text"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, delay: 2.4 }}
-      >
-        SOLUTIONS<br/>THAT MOVE<br/>THE WORLD
+        <motion.h1 className="industrial-hero-headline" variants={itemVariants}>
+          <span>FROM COMPLEX</span>
+          <span>CHALLENGES TO</span>
+          <span className="industrial-orange-accent">REAL SOLUTIONS</span>
+        </motion.h1>
+
+        <motion.p className="industrial-hero-description" variants={itemVariants}>
+          Integrated services across physical infrastructure, security, networks, enterprise systems, and logistics designed to keep your world moving.
+        </motion.p>
+
+        <motion.div className="industrial-hero-ctas" variants={itemVariants}>
+          <button className="btn-industrial-primary" onClick={onExploreClick}>
+            EXPLORE OUR SERVICES 
+            <svg className="btn-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+          
+          <button className="btn-industrial-secondary" onClick={onIntegrateClick || onExploreClick}>
+            OUR APPROACH 
+            <svg className="btn-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </motion.div>
       </motion.div>
 
     </section>
