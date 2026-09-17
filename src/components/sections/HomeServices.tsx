@@ -129,10 +129,10 @@ const ServicesBackground = () => (
     <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
       
       {/* BACKGROUND LAYER (Slowest, Faintest, Smallest) */}
-      <g className="network-layer-bg" stroke="rgba(244, 81, 30, 0.05)" strokeWidth="0.5" fill="none">
+      <g className="network-layer-bg" stroke="rgba(143, 53, 31, 0.08)" strokeWidth="0.5" fill="none">
         <path d="M-50,50 L250,150 L450,50 L650,200 L900,100 L1050,250" />
         <path d="M250,150 L450,250 L650,200" />
-        <g fill="rgba(244, 81, 30, 0.1)">
+        <g fill="rgba(185, 70, 37, 0.20)">
           <circle cx="250" cy="150" r="2" />
           <circle cx="450" cy="50" r="2" />
           <circle cx="650" cy="200" r="2" />
@@ -142,17 +142,17 @@ const ServicesBackground = () => (
       </g>
 
       {/* MIDGROUND LAYER (Medium speed, Medium opacity) */}
-      <g className="network-layer-mid" stroke="rgba(244, 81, 30, 0.1)" strokeWidth="1" fill="none">
+      <g className="network-layer-mid" stroke="rgba(143, 53, 31, 0.10)" strokeWidth="1" fill="none">
         <path d="M-50,250 L150,350 L350,200 L550,400 L800,250 L1050,350" />
         <path d="M150,350 L350,400 L550,400" />
-        <g fill="rgba(244, 81, 30, 0.2)">
+        <g fill="rgba(185, 70, 37, 0.22)">
           <circle cx="150" cy="350" r="3" />
           <circle cx="350" cy="200" r="3" />
           <circle cx="550" cy="400" r="3" />
           <circle cx="800" cy="250" r="3" />
           <circle cx="350" cy="400" r="3" />
         </g>
-        <g fill="var(--color-orange)">
+        <g fill="#B94625">
           <circle r="2">
             <animateMotion dur="15s" repeatCount="indefinite" path="M-50,250 L150,350 L350,200 L550,400 L800,250 L1050,350" />
           </circle>
@@ -160,11 +160,11 @@ const ServicesBackground = () => (
       </g>
 
       {/* FOREGROUND LAYER (Fastest, Brightest, Largest) */}
-      <g className="network-layer-fg" stroke="rgba(244, 81, 30, 0.2)" strokeWidth="1.5" fill="none">
+      <g className="network-layer-fg" stroke="rgba(143, 53, 31, 0.12)" strokeWidth="1.5" fill="none">
         <path d="M-50,450 L200,350 L400,500 L650,350 L900,450 L1050,300" />
         <path d="M200,350 L400,300 L650,350" />
         <path d="M400,300 L600,200" />
-        <g fill="rgba(244, 81, 30, 0.35)">
+        <g fill="rgba(185, 70, 37, 0.25)">
           <circle cx="200" cy="350" r="4" />
           <circle cx="400" cy="500" r="5" />
           <circle cx="650" cy="350" r="4" />
@@ -172,7 +172,7 @@ const ServicesBackground = () => (
           <circle cx="400" cy="300" r="4" />
           <circle cx="600" cy="200" r="3" />
         </g>
-        <g fill="var(--color-orange)">
+        <g fill="#B94625">
           <circle r="4">
             <animateMotion dur="10s" repeatCount="indefinite" path="M1050,300 L900,450 L650,350 L400,500 L200,350 L-50,450" />
           </circle>

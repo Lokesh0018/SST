@@ -3,7 +3,7 @@
    ========================================================================== */
 
 .sd-page-wrapper {
-  background-color: var(--color-cream, #F7F4EC);
+  background-color: var(--color-cream);
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -49,11 +49,11 @@
   transition: color 300ms ease;
 }
 .sd-breadcrumb-link:hover {
-  color: var(--color-orange, #F4511E);
+  color: var(--color-orange);
 }
 
 .sd-breadcrumb-current {
-  color: var(--color-charcoal, #171717);
+  color: var(--color-charcoal);
 }
 
 .sd-hero-content {
@@ -75,7 +75,7 @@
   line-height: 0.95;
   letter-spacing: -0.03em;
   text-transform: uppercase;
-  color: var(--color-charcoal, #171717);
+  color: var(--color-charcoal);
   margin-bottom: 2rem;
 }
 
@@ -84,7 +84,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.2em;
-  color: var(--color-orange, #F4511E);
+  color: var(--color-orange);
   margin-bottom: 1.5rem;
 }
 
@@ -115,7 +115,7 @@
   border-radius: 2rem; /* Make it a bit more rounded and premium */
   overflow: hidden;
   position: relative;
-  background-color: var(--color-charcoal, #171717);
+  background-color: var(--color-charcoal);
   box-shadow: 0 20px 40px rgba(23, 23, 23, 0.08);
   /* Ensure the scale transform doesn't leak out of the border-radius */
   mask-image: radial-gradient(white, black); 
@@ -143,7 +143,7 @@ video.sd-hero-image {
 /* --- Features Section (Accordion) --- */
 .sd-features-section {
   padding: 8rem 0;
-  background-color: var(--color-charcoal, #171717);
+  background-color: var(--color-charcoal);
   border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -165,7 +165,7 @@ video.sd-hero-image {
 .sd-section-line {
   width: 4rem;
   height: 4px;
-  background-color: var(--color-orange, #F4511E);
+  background-color: var(--color-orange);
 }
 
 .sd-accordion {
@@ -206,7 +206,7 @@ video.sd-hero-image {
 .sd-accordion-number {
   font-size: 1.25rem;
   font-weight: 800;
-  color: var(--color-orange, #F4511E);
+  color: var(--color-orange);
   font-family: monospace;
 }
 
@@ -232,7 +232,7 @@ video.sd-hero-image {
 }
 .sd-accordion-item.active .sd-accordion-icon {
   transform: rotate(180deg);
-  color: var(--color-orange, #F4511E);
+  color: var(--color-orange);
 }
 
 .sd-accordion-body-wrapper {
@@ -283,7 +283,7 @@ video.sd-hero-image {
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: -0.01em;
-  color: var(--color-charcoal, #171717);
+  color: var(--color-charcoal);
   margin-bottom: 3rem;
 }
 
@@ -301,7 +301,7 @@ video.sd-hero-image {
   align-items: flex-start;
   gap: 1.25rem;
   padding: 1.5rem;
-  background-color: var(--color-cream, #F7F4EC);
+  background-color: var(--color-cream);
   border-radius: 1rem;
   border: 1px solid rgba(23, 23, 23, 0.03);
 }
@@ -311,7 +311,7 @@ video.sd-hero-image {
   height: 2rem;
   border-radius: 50%;
   background-color: rgba(244, 81, 30, 0.1);
-  color: var(--color-orange, #F4511E);
+  color: var(--color-orange);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -322,7 +322,7 @@ video.sd-hero-image {
   font-size: 1rem;
   font-weight: 800;
   font-family: monospace;
-  color: var(--color-orange, #F4511E);
+  color: var(--color-orange);
   flex-shrink: 0;
   padding-top: 0.125rem;
 }
@@ -374,7 +374,7 @@ video.sd-hero-image {
   transform: translateY(-2px);
 }
 .sd-nav-link:hover .sd-nav-service-name {
-  color: var(--color-orange, #F4511E);
+  color: var(--color-orange);
 }
 
 .sd-nav-text-group {
@@ -395,7 +395,7 @@ video.sd-hero-image {
   font-size: 1.25rem;
   font-weight: 800;
   text-transform: uppercase;
-  color: var(--color-charcoal, #171717); /* Dark text for light bg */
+  color: var(--color-charcoal); /* Dark text for light bg */
   transition: color 300ms ease;
 }
 
@@ -404,7 +404,7 @@ video.sd-hero-image {
   height: 3rem;
   border-radius: 50%;
   border: 1px solid rgba(23, 23, 23, 0.1);
-  color: var(--color-charcoal, #171717);
+  color: var(--color-charcoal);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -413,8 +413,8 @@ video.sd-hero-image {
 }
 
 .sd-nav-link:hover .sd-nav-arrow-circle {
-  background-color: var(--color-orange, #F4511E);
-  border-color: var(--color-orange, #F4511E);
+  background-color: var(--color-orange);
+  border-color: var(--color-orange);
   color: #FFFFFF;
 }
 
@@ -424,3 +424,4 @@ video.sd-hero-image {
 .sd-nav-next:hover .sd-nav-arrow-circle {
   transform: translateX(4px);
 }
+

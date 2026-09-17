@@ -1,105 +1,505 @@
-import { useRef, useState } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { useGSAP } from '@gsap/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import PageTransition from '../components/common/PageTransition';
-import NetworkBackground from '../components/common/NetworkBackground';
-import { services } from '../data/services';
+import ServicesHeroIndustrial from '../components/services/ServicesHeroIndustrial';
+import ServicesCategoryGrid from '../components/services/ServicesCategoryGrid';
+import ServicesEcosystemMap from '../components/services/ServicesEcosystemMap';
+import { services, categories } from '../data/services';
+import type { Service } from '../data/services';
 import '../styles/Services.css';
 
-gsap.registerPlugin(ScrollTrigger);
+export default function Services() {
+  const [selectedCategory, setSelectedCategory] = useState<string>('All Services');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [featuredIndex, setFeaturedIndex] = useState<number>(0);
+  const [isVideoModalOpen, setIsVideoModalOpen] = useState<boolean>(false);
 
-const servicePositions = services.map((_, i) => {
-  const angle = (i * 360) / services.length - 90;
-  const radius = 42;
-  const radian = (angle * Math.PI) / 180;
-  return {
-    x: Number((50 + radius * Math.cos(radian)).toFixed(1)),
-    y: Number((50 + radius * Math.sin(radian)).toFixed(1)),
+  const servicesGridRef = useRef<HTMLDivElement>(null);
+  const ecosystemRef = useRef<HTMLDivElement>(null);
+
+  // Filtered featured services for carousel
+  const featuredServices = useMemo(() => {
+    return services.filter((s) => s.featured || [17, 3, 12, 15, 20].includes(s.id));
+  }, []);
+
+  const currentFeatured = featuredServices[featuredIndex] || featuredServices[0] || services[0];
+
+  const handleNextFeatured = () => {
+    setFeaturedIndex((prev) => (prev + 1) % featuredServices.length);
   };
-});
 
-const getServiceIcon = (slug: string) => {
-  switch (slug) {
-    case 'turnkey-projects':
+  const handlePrevFeatured = () => {
+    setFeaturedIndex((prev) => (prev - 1 + featuredServices.length) % featuredServices.length);
+  };
+
+  // Filter services by category and search query
+  const filteredServices = useMemo(() => {
+    return services.filter((service) => {
+      const matchesCategory =
+        selectedCategory === 'All Services' ||
+        selectedCategory === 'All' ||
+        service.category.toLowerCase() === selectedCategory.toLowerCase();
+
+      const matchesSearch =
+        searchQuery.trim() === '' ||
+        service.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        service.shortTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        service.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        service.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        service.features.some((f) => f.title.toLowerCase().includes(searchQuery.toLowerCase()));
+
+      return matchesCategory && matchesSearch;
+    });
+  }, [selectedCategory, searchQuery]);
+
+  const handleCategoryClick = (categoryName: string) => {
+    setSelectedCategory(categoryName);
+    if (servicesGridRef.current) {
+      servicesGridRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const scrollToServices = () => {
+    if (servicesGridRef.current) {
+      servicesGridRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToEcosystem = () => {
+    if (ecosystemRef.current) {
+      ecosystemRef.current.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      setIsVideoModalOpen(true);
+    }
+  };
+
+  return (
+    <PageTransition>
+      <div className="services-page-root">
+        {/* ========================================================= */}
+        {/* 1. INDUSTRIAL HERO SECTION (40% / 60% Living Canvas)      */}
+        {/* ========================================================= */}
+        <ServicesHeroIndustrial 
+          onExploreClick={scrollToServices}
+          onIntegrateClick={scrollToEcosystem}
+          onSelectDomain={handleCategoryClick}
+        />
+
+        {/* ========================================================= */}
+        {/* 2. EXPLORE BY CATEGORY (Clean 6-Card Responsive Grid)     */}
+        {/* ========================================================= */}
+        <ServicesCategoryGrid 
+          selectedCategory={selectedCategory}
+          onSelectCategory={handleCategoryClick}
+        />
+
+        {/* ========================================================= */}
+        {/* 3. ONE ECOSYSTEM ARCHITECTURE MAP (Dark Navy Section)     */}
+        {/* ========================================================= */}
+        <div ref={ecosystemRef}>
+          <ServicesEcosystemMap />
+        </div>
+
+        {/* ========================================================= */}
+        {/* 3. FEATURED CAPABILITIES SECTION                           */}
+        {/* ========================================================= */}
+        <section className="services-featured-section">
+          <div className="container">
+            
+            <div className="featured-header-row">
+              <h2 className="services-section-title">FEATURED CAPABILITIES</h2>
+              <div className="featured-nav-buttons">
+                <button 
+                  onClick={handlePrevFeatured} 
+                  className="featured-nav-btn"
+                  aria-label="Previous Featured Capability"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button 
+                  onClick={handleNextFeatured} 
+                  className="featured-nav-btn"
+                  aria-label="Next Featured Capability"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <AnimatePresence mode="wait">
+              <motion.div 
+                key={currentFeatured.slug}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -15 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+                className="featured-capability-showcase"
+              >
+                {/* Left: High-res server / infrastructure photography */}
+                <div className="featured-showcase-visual">
+                  <img 
+                    src={currentFeatured.heroImage} 
+                    alt={currentFeatured.title} 
+                    className="featured-showcase-img"
+                    loading="lazy"
+                  />
+                  <div className="featured-showcase-overlay" />
+                </div>
+
+                {/* Right: Capability Description & Bullet Highlights */}
+                <div className="featured-showcase-content">
+                  <div className="featured-tag-row">
+                    <span className="featured-number">{currentFeatured.id < 10 ? `0${currentFeatured.id}` : currentFeatured.id}</span>
+                    <span className="featured-domain-badge">{currentFeatured.category.toUpperCase()}</span>
+                  </div>
+
+                  <h3 className="featured-title">{currentFeatured.title}</h3>
+                  <p className="featured-desc">{currentFeatured.description}</p>
+
+                  <div className="featured-checklist">
+                    {currentFeatured.features.map((feat, idx) => (
+                      <div key={idx} className="featured-check-item">
+                        <span className="featured-check-icon">
+                          <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                          </svg>
+                        </span>
+                        <span className="featured-check-text">{feat.title}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Link 
+                    to={`/services/${currentFeatured.slug}`}
+                    className="services-btn-primary featured-cta-btn"
+                  >
+                    <span>Explore Service</span>
+                    <svg className="btn-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </Link>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+          </div>
+        </section>
+
+        {/* ========================================================= */}
+        {/* 4. OUR 24 SERVICES GRID WITH REALTIME SEARCH & FILTER     */}
+        {/* ========================================================= */}
+        <section className="services-grid-section" ref={servicesGridRef}>
+          <div className="container">
+            
+            <div className="services-grid-header-row">
+              <div className="services-grid-title-area">
+                <h2 className="services-section-title">
+                  {selectedCategory === 'All Services' ? 'OUR 24 SERVICES' : `${selectedCategory.toUpperCase()} SERVICES`}
+                </h2>
+                <span className="services-count-badge">({filteredServices.length} AVAILABLE)</span>
+              </div>
+
+              {/* Search Bar with Instant Live Filter */}
+              <div className="services-search-wrapper">
+                <svg className="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input 
+                  type="text"
+                  placeholder="Search services..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="services-search-input"
+                  aria-label="Search services"
+                />
+                {searchQuery && (
+                  <button 
+                    onClick={() => setSearchQuery('')} 
+                    className="search-clear-btn"
+                    aria-label="Clear search"
+                  >
+                    &times;
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Service Cards Grid */}
+            {filteredServices.length > 0 ? (
+              <div className="services-cards-grid">
+                {filteredServices.map((service) => (
+                  <Link
+                    key={service.slug}
+                    to={`/services/${service.slug}`}
+                    className="service-card-modern"
+                  >
+                    <div className="service-card-top">
+                      <div className="service-card-icon">
+                        {getServiceCardIcon(service.icon)}
+                      </div>
+                      <span className="service-card-number">
+                        {service.id < 10 ? `0${service.id}` : service.id}
+                      </span>
+                    </div>
+
+                    <div className="service-card-content">
+                      <h3 className="service-card-title">{service.shortTitle}</h3>
+                      <p className="service-card-category">{service.category}</p>
+                    </div>
+
+                    <div className="service-card-arrow-row">
+                      <span className="service-card-arrow">→</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="services-empty-state">
+                <p className="empty-text">No services found matching "{searchQuery}"</p>
+                <button
+                  onClick={() => {
+                    setSearchQuery('');
+                    setSelectedCategory('All Services');
+                  }}
+                  className="services-btn-secondary empty-reset-btn"
+                >
+                  Reset Filters
+                </button>
+              </div>
+            )}
+
+          </div>
+        </section>
+
+        {/* ========================================================= */}
+        {/* 5. FROM VISION TO OPERATION (Process Roadmap)              */}
+        {/* ========================================================= */}
+        <section className="services-process-section">
+          <div className="process-bg-overlay" />
+          
+          <div className="container">
+            <div className="process-header">
+              <h2 className="process-title">FROM VISION TO OPERATION</h2>
+              <p className="process-subtitle">
+                A structured approach to deliver integrated solutions.
+              </p>
+            </div>
+
+            <div className="process-timeline-container">
+              <div className="process-timeline-line" />
+              
+              <div className="process-steps-grid">
+                {PROCESS_STEPS.map((step) => (
+                  <div key={step.num} className="process-step-item">
+                    <div className="process-step-node">
+                      <div className="process-step-dot" />
+                      <div className="process-step-ring" />
+                    </div>
+
+                    <div className="process-step-content">
+                      <span className="process-step-num">{step.num}</span>
+                      <h4 className="process-step-name">{step.title}</h4>
+                      <p className="process-step-desc">{step.sub}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================= */}
+        {/* 6. OVERVIEW VIDEO MODAL                                    */}
+        {/* ========================================================= */}
+        <AnimatePresence>
+          {isVideoModalOpen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="video-modal-backdrop"
+              onClick={() => setIsVideoModalOpen(false)}
+            >
+              <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                className="video-modal-container"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button 
+                  className="video-modal-close"
+                  onClick={() => setIsVideoModalOpen(false)}
+                  aria-label="Close Overview Modal"
+                >
+                  &times;
+                </button>
+
+                <div className="video-modal-header">
+                  <h3 className="video-modal-title">SST Integrated Ecosystem Overview</h3>
+                  <p className="video-modal-subtitle">
+                    Discover how our 24 services across physical infrastructure, security, networking, and software unite into a single powerhouse.
+                  </p>
+                </div>
+
+                <div className="video-modal-screen">
+                  <div className="video-placeholder-banner">
+                    <div className="video-play-pulse">
+                      <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
+                        <polygon points="6 3 20 12 6 21 6 3" />
+                      </svg>
+                    </div>
+                    <p className="video-caption">Interactive Infrastructure Architecture Presentation</p>
+                  </div>
+                </div>
+
+                <div className="video-modal-footer">
+                  <Link 
+                    to="/contact" 
+                    className="services-btn-primary"
+                    onClick={() => setIsVideoModalOpen(false)}
+                  >
+                    <span>Start a Project with Us</span>
+                    <svg className="btn-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </Link>
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+      </div>
+    </PageTransition>
+  );
+}
+
+// -------------------------------------------------------------
+// HELPER DATA & ICONS
+// -------------------------------------------------------------
+
+const PROCESS_STEPS = [
+  { num: '01', title: 'Discover', sub: 'Requirements' },
+  { num: '02', title: 'Design', sub: 'Architecture' },
+  { num: '03', title: 'Integrate', sub: 'Systems' },
+  { num: '04', title: 'Implement', sub: 'Deployment' },
+  { num: '05', title: 'Optimize', sub: 'Performance' },
+  { num: '06', title: 'Support', sub: 'Ongoing Care' },
+];
+
+function getCategoryIcon(iconName: string) {
+  switch (iconName) {
+    case 'grid':
       return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M2 22h20M12 2v20M4 22V10l8-8 8 8v12M8 18h8" />
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="3" y="3" width="7" height="7" rx="1.5" />
+          <rect x="14" y="3" width="7" height="7" rx="1.5" />
+          <rect x="14" y="14" width="7" height="7" rx="1.5" />
+          <rect x="3" y="14" width="7" height="7" rx="1.5" />
         </svg>
       );
-    case 'intrusion-detection':
+    case 'shield':
       return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
           <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          <path d="M12 8v4l3 3" />
         </svg>
       );
-    case 'access-control':
+    case 'network':
       return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 2a10 10 0 00-10 10c0 5.523 4.477 10 10 10s10-4.477 10-10A10 10 0 0012 2z" />
-          <path d="M12 6a6 6 0 00-6 6 M12 10a2 2 0 100 4 2 2 0 000-4z" />
-          <path d="M8 12a4 4 0 018 0" />
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="2" y="2" width="6" height="6" rx="1" />
+          <rect x="16" y="16" width="6" height="6" rx="1" />
+          <rect x="2" y="16" width="6" height="6" rx="1" />
+          <path d="M5 8v5a3 3 0 0 0 3 3h8" />
         </svg>
       );
-    case 'switches-storage':
+    case 'code':
       return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
+      );
+    case 'building':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z" />
+          <path d="M6 12H4a2 2 0 0 0-2 2v8h20v-8a2 2 0 0 0-2-2h-2" />
+        </svg>
+      );
+    case 'truck':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="1" y="3" width="15" height="13" rx="1" />
+          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+          <circle cx="5.5" cy="18.5" r="2.5" />
+          <circle cx="18.5" cy="18.5" r="2.5" />
+        </svg>
+      );
+    default:
+      return null;
+  }
+}
+
+function getServiceCardIcon(iconName: string) {
+  switch (iconName) {
+    case 'shield':
+    case 'shield-check':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <path d="m9 12 2 2 4-4" />
+        </svg>
+      );
+    case 'lock':
+    case 'lock-open':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+        </svg>
+      );
+    case 'camera':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
+          <circle cx="12" cy="13" r="4" />
+        </svg>
+      );
+    case 'flame':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 3.5z" />
+        </svg>
+      );
+    case 'server':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
           <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
           <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
           <line x1="6" y1="6" x2="6.01" y2="6" />
           <line x1="6" y1="18" x2="6.01" y2="18" />
         </svg>
       );
-    case 'logistics':
+    case 'wifi':
       return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="1" y="3" width="15" height="13" />
-          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
-          <circle cx="5.5" cy="18.5" r="2.5" />
-          <circle cx="18.5" cy="18.5" r="2.5" />
-        </svg>
-      );
-    case 'electrical-electronics':
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
-        </svg>
-      );
-    case 'fire-fighting':
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M7 21h10M9 21V7a3 3 0 016 0v14M12 7v7M9 10h6" />
-          <path d="M12 2v2" />
-          <path d="M15 4l-3-2-3 2" />
-        </svg>
-      );
-    case 'video-surveillance':
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-          <circle cx="12" cy="13" r="4" />
-        </svg>
-      );
-    case 'wireless-network':
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
           <path d="M5 12.55a11 11 0 0 1 14.08 0" />
           <path d="M1.42 9a16 16 0 0 1 21.16 0" />
           <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
           <line x1="12" y1="20" x2="12.01" y2="20" />
         </svg>
       );
-    case 'hardware-tools':
+    case 'network':
       return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-        </svg>
-      );
-    case 'network-infrastructure':
-      return (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
           <rect x="16" y="16" width="6" height="6" rx="1" />
           <rect x="2" y="16" width="6" height="6" rx="1" />
           <rect x="9" y="2" width="6" height="6" rx="1" />
@@ -107,341 +507,126 @@ const getServiceIcon = (slug: string) => {
           <path d="M12 8v3" />
         </svg>
       );
-    default:
-      return null;
-  }
-};
-
-const TinyFlower = ({ className }: { className?: string }) => {
-  const nodes = 8;
-  const outerRadius = 26;
-  const innerRadius = 12;
-  
-  const nodeData = Array.from({ length: nodes }).map((_, i) => {
-    // Start at top: -90 degrees
-    const angle = (i * 360) / nodes - 90;
-    const rad = (angle * Math.PI) / 180;
-    
-    const r = i % 2 === 0 ? outerRadius : innerRadius;
-    
-    return {
-      x: 30 + r * Math.cos(rad),
-      y: 30 + r * Math.sin(rad),
-      isOuter: i % 2 === 0
-    };
-  });
-
-  return (
-    <svg className={`tiny-flower-svg ${className || ''}`} viewBox="0 0 60 60" preserveAspectRatio="xMidYMid meet">
-      {/* Lines */}
-      <g className="flower-lines">
-        {/* Center to outer nodes */}
-        {nodeData.filter(n => n.isOuter).map((n, i) => (
-          <line key={`center-line-${i}`} x1="30" y1="30" x2={n.x} y2={n.y} />
-        ))}
-        {/* Perimeter lines */}
-        {nodeData.map((n, i) => {
-          const next = nodeData[(i + 1) % nodes];
-          return <line key={`perimeter-${i}`} x1={n.x} y1={n.y} x2={next.x} y2={next.y} />
-        })}
-      </g>
-      {/* Center dot */}
-      <circle cx="30" cy="30" r="1.5" className="flower-center-dot" />
-      {/* Nodes */}
-      <g className="flower-nodes">
-        {nodeData.map((n, i) => (
-          <circle key={`node-${i}`} cx={n.x} cy={n.y} r="2.5" className="flower-node-bg" />
-        ))}
-      </g>
-    </svg>
-  );
-};
-
-const AmbientFlowerNetworks = () => {
-  return (
-    <div className="ambient-flowers-container">
-      {[...Array(25)].map((_, i) => (
-        <div key={i} className={`ambient-flower-wrapper ambient-flower-${i + 1}`}>
-          <TinyFlower className={i % 2 === 0 ? 'rotate-cw' : 'rotate-ccw'} />
-        </div>
-      ))}
-    </div>
-  );
-};
-
-export default function Services() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [hoverSST, setHoverSST] = useState(false);
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-
-    // Network arrival and removal animation based on scroll
-    const heroNetworkTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: '.services-hero',
-        start: 'top center',
-        end: 'bottom 20%',
-        toggleActions: 'play reverse play reverse',
-      }
-    });
-
-    heroNetworkTl.fromTo(
-      '.services-hub-center-container',
-      { opacity: 0, scale: 0.5 },
-      { opacity: 1, scale: 1, duration: 0.4, ease: 'power3.out' }
-    ).fromTo(
-      '.service-node',
-      { opacity: 0, scale: 0 },
-      {
-        opacity: 1,
-        scale: 1,
-        duration: 0.3,
-        stagger: 0.02,
-        ease: 'back.out(1.5)',
-      },
-      "-=0.2"
-    );
-
-
-    // Content sections reveal
-    const sections = gsap.utils.toArray('.service-detail-section');
-    sections.forEach((section: any, index: number) => {
-      const isEven = index % 2 === 0;
-      const content = section.querySelector('.service-detail-content');
-      const visual = section.querySelector('.service-detail-visual');
-      
-      const contentStartX = isEven ? -100 : 100;
-      const visualStartX = isEven ? 100 : -100;
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 80%',
-          toggleActions: 'play reverse play reverse',
-        }
-      });
-
-      tl.fromTo(
-        content,
-        { opacity: 0, x: contentStartX },
-        { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' }
-      ).fromTo(
-        visual,
-        { opacity: 0, x: visualStartX },
-        { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' },
-        "-=0.6"
+    case 'cloud':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+        </svg>
       );
-    });
-  });
-
-  return (
-    <PageTransition>
-      <section className="services-hero">
-        <AmbientFlowerNetworks />
-        
-        <div className="container">
-          <div className="services-layout">
-            <div className="services-left">
-              <div className="services-indicator">11 CORE SERVICES</div>
-
-              <h1 className="services-hero-headline">
-                COMPLETE SERVICES.<br />
-                <span className="text-highlight-orange">ONE INTEGRATED</span><br />
-                SYSTEM.
-              </h1>
-
-              <p className="services-text">
-                From security and access control to electrical systems, logistics and turnkey execution — SST connects every layer into one reliable infrastructure solution.
-              </p>
-
-              <div className="services-footer">
-                <div className="services-nav-indicator">
-                  <span className="services-nav-indicator-text">Scroll to explore</span>
-                  <svg className="services-nav-indicator-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m0 0l-7-7m7 7l7-7" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-
-            <div ref={sectionRef} className="services-right">
-              <div className="services-hub">
-                <div className="services-hub-wrapper">
-                  <div
-                    className={`services-hub-center-container ${hoveredIndex !== null ? 'hub-glow' : ''}`}
-                    onMouseEnter={() => setHoverSST(true)}
-                    onMouseLeave={() => setHoverSST(false)}
-                  >
-                    <div className={`services-hub-center ${hoverSST ? 'hub-center-hovered' : ''}`}>
-                      <div className={`hub-center-content hub-default-content ${hoverSST ? 'fade-out' : 'fade-in'}`}>
-                        <span className="services-hub-center-title">SST</span>
-                        <span className="services-hub-center-subtitle">CORE SYSTEM</span>
-                        <div className="sst-center-pulse"></div>
-                      </div>
-                      <div className={`hub-center-content hub-hover-content ${hoverSST ? 'fade-in' : 'fade-out'}`}>
-                        <span className="services-hub-center-title" style={{ fontSize: '2.5rem' }}>11</span>
-                        <hr className="sst-divider" />
-                        <span className="services-hub-center-subtitle">MAJOR SERVICES</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="services-hub-network">
-                    <svg className="services-hub-svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
-                      {servicePositions.map((pos, i) => (
-                        <g key={i}>
-                          <line
-                            x1="50"
-                            y1="50"
-                            x2={pos.x}
-                            y2={pos.y}
-                            stroke={hoveredIndex === i ? '#F4511E' : '#D5D0C7'}
-                            strokeWidth={hoveredIndex === i ? '0.6' : '0.2'}
-                            className="connection-line"
-                          />
-                          {hoveredIndex === i && (
-                            <circle
-                              r="1.2"
-                              fill="#F4511E"
-                              className="connection-pulse"
-                            >
-                              <animateMotion
-                                dur="0.6s"
-                                repeatCount="indefinite"
-                                path={`M50,50 L${pos.x},${pos.y}`}
-                              />
-                            </circle>
-                          )}
-                        </g>
-                      ))}
-                    </svg>
-
-                    {services.map((service, i) => (
-                      <div
-                        key={service.slug}
-                        className="service-node"
-                        style={{
-                          left: `${servicePositions[i].x}%`,
-                          top: `${servicePositions[i].y}%`,
-                          zIndex: hoveredIndex === i ? 50 : 10,
-                        }}
-                        onMouseEnter={() => setHoveredIndex(i)}
-                        onMouseLeave={() => setHoveredIndex(null)}
-                      >
-                        <div className="service-node-counter-rotate">
-                          <Link
-                            to={`/services/${service.slug}`}
-                            className={`services-hub-node-card ${hoveredIndex === i
-                                ? 'services-hub-node-card-active'
-                                : hoveredIndex !== null
-                                  ? 'services-hub-node-card-faded'
-                                  : 'services-hub-node-card-inactive'
-                              }`}>
-                            <div className="node-default-content">
-                              <div className="node-icon-wrapper">
-                                {getServiceIcon(service.slug)}
-                              </div>
-                              <div className="node-number">{i + 1 < 10 ? `0${i + 1}` : i + 1}</div>
-                              <div className="services-hub-node-text">
-                                {service.shortTitle}
-                              </div>
-                            </div>
-
-                            <div className="node-hover-content">
-                              <div className="node-hover-header">
-                                <span className="node-hover-number">{i + 1 < 10 ? `0${i + 1}` : i + 1}</span>
-                                <h4 className="node-hover-title">{service.shortTitle}</h4>
-                              </div>
-                              <ul className="node-hover-list">
-                                {service.features.slice(0, 3).map((feat, idx) => (
-                                  <li key={idx} className="node-hover-list-item">
-                                    <span className="node-hover-bullet">•</span>
-                                    {feat.title}
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          </Link>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div className="services-list-container" ref={listRef}>
-        {services.map((service, index) => {
-          const isEven = index % 2 === 0;
-          return (
-            <section key={service.slug} className={`service-detail-section ${isEven ? 'bg-cream' : 'bg-white'}`}>
-              <NetworkBackground />
-              <div className="container">
-                <div className={`service-detail-layout ${isEven ? '' : 'reverse-layout'}`}>
-
-                  <div className="service-detail-content">
-                    <div className="service-detail-giant-number parallax-number">
-                      {index + 1 < 10 ? `0${index + 1}` : index + 1}
-                    </div>
-
-                    <h2 className="service-detail-title">{service.title}</h2>
-                    <div className="service-detail-accent"></div>
-                    <p className="service-detail-desc">{service.heroDescription}</p>
-
-                    <div className="service-detail-capabilities">
-                      {service.features.map((feature, idx) => (
-                        <div key={idx} className="capability-item staggered-fade">
-                          <h4 className="capability-title">{feature.title}</h4>
-                          <p className="capability-desc">{feature.description}</p>
-                        </div>
-                      ))}
-                    </div>
-
-                    <Link to={`/services/${service.slug}`} className="service-detail-link group">
-                      <span className="service-detail-link-text">Explore Details</span>
-                      <span className="service-detail-link-arrow">→</span>
-                    </Link>
-
-                    {/* Metrics Row */}
-                    <div className="service-metrics-row">
-                      {service.benefits.slice(0, 3).map((benefit, idx) => (
-                        <div key={idx} className="metric-item">
-                          <span className="metric-dot"></span>
-                          {benefit}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Visual Area */}
-                  <div className="service-detail-visual">
-                    <div className="premium-visual-box">
-                      <div className="premium-floating-label">
-                        {service.category.toUpperCase()}
-                      </div>
-                      <img
-                        src={service.heroImage}
-                        alt={service.title}
-                        loading="lazy"
-                        className="service-visual-bg-image parallax-image"
-                      />
-                      <div className="premium-visual-overlay"></div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-            </section>
-          );
-        })}
-      </div>
-    </PageTransition>
-  );
+    case 'layers':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <polygon points="12 2 2 7 12 12 22 7 12 2" />
+          <polyline points="2 17 12 22 22 17" />
+          <polyline points="2 12 12 17 22 12" />
+        </svg>
+      );
+    case 'globe':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="2" y1="12" x2="22" y2="12" />
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+        </svg>
+      );
+    case 'smartphone':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="5" y="2" width="14" height="20" rx="2" ry="2" />
+          <line x1="12" y1="18" x2="12.01" y2="18" />
+        </svg>
+      );
+    case 'cpu':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="4" y="4" width="16" height="16" rx="2" />
+          <rect x="9" y="9" width="6" height="6" />
+          <line x1="9" y1="1" x2="9" y2="4" />
+          <line x1="15" y1="1" x2="15" y2="4" />
+          <line x1="9" y1="20" x2="9" y2="23" />
+          <line x1="15" y1="20" x2="15" y2="23" />
+          <line x1="20" y1="9" x2="23" y2="9" />
+          <line x1="20" y1="15" x2="23" y2="15" />
+          <line x1="1" y1="9" x2="4" y2="9" />
+          <line x1="1" y1="15" x2="4" y2="15" />
+        </svg>
+      );
+    case 'git-merge':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <circle cx="18" cy="18" r="3" />
+          <circle cx="6" cy="6" r="3" />
+          <circle cx="6" cy="18" r="3" />
+          <path d="M6 9v6" />
+          <path d="M6 9a9 9 0 0 0 9 9" />
+        </svg>
+      );
+    case 'share-2':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <circle cx="18" cy="5" r="3" />
+          <circle cx="6" cy="12" r="3" />
+          <circle cx="18" cy="19" r="3" />
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+        </svg>
+      );
+    case 'activity':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+        </svg>
+      );
+    case 'database':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <ellipse cx="12" cy="5" rx="9" ry="3" />
+          <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3" />
+          <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5" />
+        </svg>
+      );
+    case 'layout':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+          <line x1="3" y1="9" x2="21" y2="9" />
+          <line x1="9" y1="21" x2="9" y2="9" />
+        </svg>
+      );
+    case 'briefcase':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+        </svg>
+      );
+    case 'zap':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        </svg>
+      );
+    case 'home':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+          <polyline points="9 22 9 12 15 12 15 22" />
+        </svg>
+      );
+    case 'truck':
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="1" y="3" width="15" height="13" rx="1" />
+          <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+          <circle cx="5.5" cy="18.5" r="2.5" />
+          <circle cx="18.5" cy="18.5" r="2.5" />
+        </svg>
+      );
+    default:
+      return (
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+          <rect x="2" y="2" width="20" height="20" rx="4" />
+        </svg>
+      );
+  }
 }

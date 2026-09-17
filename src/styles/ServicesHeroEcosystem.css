@@ -1,0 +1,432 @@
+/* ==========================================================================
+   SST SERVICES HERO - EXACT REFERENCE DESIGN IMPLEMENTATION
+   ========================================================================== */
+
+.services-hero-clean {
+  position: relative;
+  width: 100%;
+  background-color: #FFFFFF;
+  padding-top: 85px;
+  padding-bottom: 25px;
+  overflow: hidden;
+  border-bottom: 1px solid #EEF2F6;
+}
+
+.services-hero-inner {
+  width: 100%;
+  max-width: 1720px;
+  margin: 0 auto;
+  padding: 0 1.5rem 0 2rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1080px) {
+  .services-hero-inner {
+    grid-template-columns: 460px 1fr;
+    gap: 1.5rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .services-hero-inner {
+    grid-template-columns: 500px 1fr;
+    gap: 2.5rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   1. LEFT CONTENT COLUMN
+   -------------------------------------------------------------------------- */
+.services-hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  z-index: 10;
+  padding-top: 10px;
+}
+
+/* Badge */
+.hero-badge-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.hero-badge-dash {
+  width: 22px;
+  height: 3px;
+  background-color: #FF5500;
+  border-radius: 2px;
+}
+
+.hero-badge-name {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #FF5500;
+}
+
+/* Headline */
+.hero-headline {
+  font-size: clamp(2.1rem, 3.2vw, 3.1rem);
+  font-weight: 900;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: #0F172A;
+  margin: 0 0 14px 0;
+  text-transform: uppercase;
+}
+
+.text-orange-glow {
+  color: #FF5500;
+  display: inline;
+}
+
+/* Subtext */
+.hero-description {
+  font-size: 0.96rem;
+  line-height: 1.55;
+  color: #475569;
+  max-width: 440px;
+  margin: 0 0 24px 0;
+}
+
+/* CTA Buttons */
+.hero-cta-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.btn-explore-orange {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  background-color: #FF5500;
+  color: #FFFFFF;
+  font-size: 0.92rem;
+  font-weight: 700;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(255, 85, 0, 0.28);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-explore-orange:hover {
+  background-color: #E64A00;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(255, 85, 0, 0.38);
+}
+
+.btn-arrow {
+  width: 16px;
+  height: 16px;
+  transition: transform 0.2s ease;
+}
+
+.btn-explore-orange:hover .btn-arrow {
+  transform: translateX(3px);
+}
+
+.btn-approach-white {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background-color: #FFFFFF;
+  color: #1E293B;
+  font-size: 0.92rem;
+  font-weight: 700;
+  border-radius: 8px;
+  border: 1px solid #E2E8F0;
+  cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s ease;
+}
+
+.btn-approach-white:hover {
+  background-color: #F8FAFC;
+  border-color: #CBD5E1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.btn-approach-icon {
+  display: flex;
+  align-items: center;
+}
+
+/* Stats Row */
+.hero-metrics-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding-top: 18px;
+  border-top: 1px solid #E2E8F0;
+  width: 100%;
+}
+
+.hero-metric-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metric-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.metric-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-num {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.1;
+}
+
+.metric-txt {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #64748B;
+}
+
+.metric-sep {
+  width: 1px;
+  height: 26px;
+  background-color: #E2E8F0;
+}
+
+/* --------------------------------------------------------------------------
+   2. RIGHT COLUMN: FULL BLEED PANORAMA & PINS
+   -------------------------------------------------------------------------- */
+.services-hero-visual-pane {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.panorama-canvas-wrap {
+  position: relative;
+  width: 100%;
+  display: block;
+}
+
+.panorama-full-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Radar Rings on Telecom Tower */
+.telecom-radar-beacon {
+  position: absolute;
+  top: 36%;
+  left: 50.5%;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.beacon-ring {
+  position: absolute;
+  inset: -6px;
+  border: 1.5px solid rgba(255, 85, 0, 0.7);
+  border-radius: 50%;
+  animation: radar-wave 2.8s cubic-bezier(0.16, 1, 0.3, 1) infinite;
+}
+
+.ring-2 {
+  animation-delay: 1.4s;
+}
+
+@keyframes radar-wave {
+  0% { transform: scale(0.4); opacity: 1; }
+  100% { transform: scale(3.2); opacity: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   3. CLEAN FLOATING PIN MARKERS (Matching Reference Image)
+   -------------------------------------------------------------------------- */
+.panorama-pins-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.clean-hero-pin {
+  position: absolute;
+  transform: translate(-50%, -100%);
+  pointer-events: auto;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  user-select: none;
+}
+
+.clean-hero-pin:hover,
+.clean-hero-pin.active-pin {
+  transform: translate(-50%, -105%) scale(1.04);
+}
+
+.pin-text-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  white-space: nowrap;
+}
+
+.pin-heading-line {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pin-orange-dot {
+  width: 5px;
+  height: 5px;
+  background-color: #FF5500;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 6px rgba(255, 85, 0, 0.8);
+}
+
+.pin-domain-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1.1;
+  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9);
+}
+
+.pin-domain-sub {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: #64748B;
+  margin-top: 1px;
+  line-height: 1.1;
+  text-shadow: 0 1px 4px rgba(255, 255, 255, 0.9);
+}
+
+/* Pin Stem */
+.pin-stem-group {
+  position: absolute;
+  bottom: -20px;
+  left: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.pin-stem-bar {
+  width: 1.5px;
+  height: 16px;
+  background-color: #FF5500;
+}
+
+.pin-stem-anchor {
+  width: 6px;
+  height: 6px;
+  background-color: #FF5500;
+  border: 1.5px solid #FFFFFF;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255, 85, 0, 0.9);
+}
+
+/* Bottom Right Watermark */
+.panorama-watermark {
+  position: absolute;
+  bottom: 6px;
+  right: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.wm-line-1 {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: #64748B;
+  text-transform: uppercase;
+}
+
+.wm-line-2 {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #94A3B8;
+  text-transform: uppercase;
+}
+
+/* --------------------------------------------------------------------------
+   4. RESPONSIVE QUERIES
+   -------------------------------------------------------------------------- */
+@media (max-width: 1080px) {
+  .services-hero-clean {
+    padding-top: 75px;
+  }
+  
+  .services-hero-inner {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .clean-hero-pin {
+    transform: translate(-50%, -100%) scale(0.85);
+  }
+
+  .clean-hero-pin:hover {
+    transform: translate(-50%, -105%) scale(0.9);
+  }
+}
+
+@media (max-width: 768px) {
+  .services-hero-clean {
+    padding-top: 65px;
+    padding-bottom: 15px;
+  }
+
+  .services-hero-inner {
+    padding: 0 1rem;
+  }
+
+  .hero-metrics-row {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .metric-sep {
+    display: none;
+  }
+
+  .clean-hero-pin {
+    transform: translate(-50%, -100%) scale(0.7);
+  }
+}

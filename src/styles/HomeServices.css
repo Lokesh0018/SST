@@ -66,7 +66,7 @@
 }
 
 .home-services-section {
-  background-color: #0F172A !important;
+  background-color: #080F1F !important;
   color: #F8FAFC;
   /* Deep Charcoal / Night */
   position: relative;
@@ -102,7 +102,7 @@
   right: -10%;
   width: 600px;
   height: 600px;
-  background: radial-gradient(circle, rgba(244, 81, 30, 0.6), transparent 70%);
+  background: radial-gradient(circle, rgba(255, 90, 36, 0.035), transparent 70%);
 }
 
 .orb-blue {
@@ -110,7 +110,7 @@
   left: -10%;
   width: 700px;
   height: 700px;
-  background: radial-gradient(circle, rgba(56, 189, 248, 0.4), transparent 70%);
+  background: radial-gradient(circle, rgba(30, 64, 110, 0.12), transparent 70%);
 }
 
 .services-bg-svg {
@@ -132,16 +132,16 @@
 .home-services-card {
   position: relative;
   overflow: hidden;
-  border-radius: 0.625rem;
-  background-color: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  background: linear-gradient(160deg, #1A2740 0%, #172238 50%, #141E32 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(148, 163, 184, 0.14);
   box-shadow: 
-    0 4px 24px -2px rgba(0, 0, 0, 0.2),
-    inset 0 1px 1px rgba(255, 255, 255, 0.05);
+    0 12px 35px rgba(0, 0, 0, 0.20),
+    inset 0 1px 1px rgba(255, 255, 255, 0.03);
   padding: 1.5rem;
-  transition: box-shadow 400ms var(--ease-out-expo), border-color 400ms ease, translate 400ms var(--ease-out-expo), background-color 400ms ease;
+  transition: box-shadow 400ms var(--ease-out-expo), border-color 400ms ease, transform 400ms var(--ease-out-expo), background 400ms ease;
   display: flex;
   flex-direction: column;
   text-decoration: none;
@@ -176,19 +176,6 @@
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  padding: 1px;
-  background: linear-gradient(
-    90deg, 
-    rgba(244, 81, 30, 0) 0%, 
-    rgba(244, 81, 30, 1) 30%, 
-    rgba(255, 160, 120, 1) 50%,
-    rgba(244, 81, 30, 1) 70%, 
-    rgba(244, 81, 30, 0) 100%
-  );
-  background-size: 200% 100%;
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
   pointer-events: none;
   opacity: 0;
   transition: opacity 400ms ease;
@@ -197,7 +184,6 @@
 
 .home-services-card:hover::after {
   opacity: 1;
-  animation: border-flow 2s linear infinite;
 }
 
 @keyframes border-flow {
@@ -211,7 +197,7 @@
   bottom: -2rem;
   width: 180px;
   height: 180px;
-  opacity: 0.1;
+  opacity: 0.04;
   z-index: -1;
   pointer-events: none;
   transition: opacity 400ms ease, transform 600ms var(--ease-out-expo);
@@ -221,12 +207,12 @@
 .card-watermark svg {
   width: 100%;
   height: 100%;
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 1);
 }
 
 .home-services-card:hover .card-watermark {
-  opacity: 0.25;
-  transform: scale(1.1) rotate(0deg);
+  opacity: 0.09;
+  transform: scale(1.08) rotate(0deg) translate(-4px, -4px);
 }
 
 /* Featured Card Special Styling */
@@ -242,12 +228,13 @@
 
 /* Hover State */
 .home-services-card:hover {
-  translate: 0 -4px;
-  background-color: rgba(255, 255, 255, 0.05);
-  border-color: rgba(244, 81, 30, 0.3);
+  transform: translateY(-5px);
+  background: #1C2B46;
+  border-color: rgba(255, 90, 36, 0.45);
   box-shadow: 
-    0 12px 30px -4px rgba(0, 0, 0, 0.3),
-    0 0 20px rgba(244, 81, 30, 0.1);
+    0 16px 40px rgba(0, 0, 0, 0.25),
+    0 0 20px rgba(255, 90, 36, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.05);
 }
 
 /* --- Top Row (Number & Arrow) --- */
