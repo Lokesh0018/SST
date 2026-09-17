@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useRef, useEffect } from 'react';
+import React, { useState, useMemo, useRef, useEffect, useDeferredValue } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
@@ -77,7 +77,7 @@ const PROCESS_STEPS = [
   { num: '06', title: 'SUPPORT', sub: 'Ongoing Care', icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, details: ['24/7 Monitoring', 'Security Patches', 'SLA Guarantee'] },
 ];
 
-const ProcessSection = () => {
+const ProcessSection = React.memo(() => {
   const sectionRef = useRef<HTMLDivElement>(null);
   
   useGSAP(() => {
@@ -123,11 +123,15 @@ const ProcessSection = () => {
       const node = item.querySelector('.process-step-node');
       const icon = item.querySelector('.process-step-icon');
       const bgNum = item.querySelector('.process-bg-num');
+      const glow = item.querySelector('.process-step-glow');
       
       scrubTl.to(node, {
         scale: 1.1,
-        boxShadow: '0 0 25px rgba(244, 81, 30, 0.7)',
-        borderColor: 'rgba(244, 81, 30, 0.8)',
+        duration: 0.05
+      }, hitTime);
+
+      scrubTl.to(glow, {
+        opacity: 1,
         duration: 0.05
       }, hitTime);
       
@@ -195,6 +199,7 @@ const ProcessSection = () => {
                 <div className="process-bg-num">{step.num}</div>
 
                 <div className="process-step-node">
+                  <div className="process-step-glow" />
                   <div className="process-step-icon">{step.icon}</div>
                 </div>
                 
@@ -209,12 +214,62 @@ const ProcessSection = () => {
       </div>
     </section>
   );
-};
+});
+
+const MemoizedServiceCard = React.memo(({ service, index, isSHM = false }: { service: Service, index: number, isSHM?: boolean }) => {
+  const serviceNumber = String(index + 1).padStart(2, '0');
+  return (
+    <motion.div
+      key={service.slug}
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{
+        duration: 0.5,
+        delay: (index % 3) * 0.1,
+        ease: "easeOut"
+      }}
+    >
+      <Link to={`/services/${service.slug}`} className={`enterprise-service-card ${isSHM ? 'shm-card' : ''}`}>
+        <div className="esc-image-wrapper">
+          <img src={service.heroImage} alt={service.title} className="esc-image" loading="lazy" />
+          <div className="esc-image-overlay" />
+        </div>
+        <div className="esc-content">
+          <div className="esc-meta-row">
+            <span className="esc-category">{service.category.toUpperCase()}</span>
+            <span className="esc-number">{serviceNumber}</span>
+          </div>
+          <div className="esc-title-row">
+            <div className="esc-icon-wrapper">
+              {getServiceCardIcon(service.icon)}
+            </div>
+            <h3 className="esc-title">{service.shortTitle}</h3>
+          </div>
+          <p className="esc-description">{service.tagline}</p>
+          <hr className="esc-divider" />
+          <div className="esc-key-solutions">
+            <span className="esc-ks-label">KEY SOLUTIONS</span>
+            <span className="esc-ks-value">
+              {service.features?.slice(0, 3).map(f => f.title).join(' • ') || 'System Integration • Deployment • Support'}
+            </span>
+          </div>
+          <div className="esc-cta-row">
+            <span className="esc-cta-text">EXPLORE SERVICE</span>
+            <svg className="esc-cta-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </div>
+        </div>
+      </Link>
+    </motion.div>
+  );
+});
 
 export default function Services() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All Services');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [isVideoModalOpen, setIsVideoModalOpen] = useState<boolean>(false);
   const [sstVisibleCount, setSstVisibleCount] = useState<number>(6);
   const [shmVisibleCount, setShmVisibleCount] = useState<number>(6);
 
@@ -238,6 +293,17 @@ export default function Services() {
     return () => window.removeEventListener('mousemove', updateMouse);
   }, []);
 
+  // Refresh ScrollTrigger when layout changes (e.g., clicking Load More)
+  useEffect(() => {
+    // Timeout allows DOM to update and Framer Motion animations to finish before recalculating layout
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 150);
+    return () => clearTimeout(timer);
+  }, [sstVisibleCount, shmVisibleCount, selectedCategory, searchQuery]);
+
+  const deferredSearchQuery = useDeferredValue(searchQuery);
+
   // Filter services by category and search query
   const filteredServices = useMemo(() => {
     return services.filter((service) => {
@@ -247,16 +313,16 @@ export default function Services() {
         service.category.toLowerCase() === selectedCategory.toLowerCase();
 
       const matchesSearch =
-        searchQuery.trim() === '' ||
-        service.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        service.shortTitle.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        service.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        service.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        service.features.some((f) => f.title.toLowerCase().includes(searchQuery.toLowerCase()));
+        deferredSearchQuery.trim() === '' ||
+        service.title.toLowerCase().includes(deferredSearchQuery.toLowerCase()) ||
+        service.shortTitle.toLowerCase().includes(deferredSearchQuery.toLowerCase()) ||
+        service.category.toLowerCase().includes(deferredSearchQuery.toLowerCase()) ||
+        service.description.toLowerCase().includes(deferredSearchQuery.toLowerCase()) ||
+        service.features.some((f) => f.title.toLowerCase().includes(deferredSearchQuery.toLowerCase()));
 
       return matchesCategory && matchesSearch;
     });
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, deferredSearchQuery]);
 
   const handleCategoryClick = (categoryName: string) => {
     setSelectedCategory(categoryName);
@@ -274,8 +340,6 @@ export default function Services() {
   const scrollToEcosystem = () => {
     if (ecosystemRef.current) {
       ecosystemRef.current.scrollIntoView({ behavior: 'smooth' });
-    } else {
-      setIsVideoModalOpen(true);
     }
   };
 
@@ -340,57 +404,6 @@ export default function Services() {
                   const sstServices = filteredServices.filter(s => s.company === 'SST' || s.company === 'COMMON');
                   const shmServices = filteredServices.filter(s => s.company === 'SHM');
 
-                  const renderCard = (service: typeof filteredServices[0], index: number, isSHM: boolean = false) => {
-                    const serviceNumber = String(index + 1).padStart(2, '0');
-                    return (
-                      <motion.div 
-                        key={service.slug}
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: "-50px" }}
-                        transition={{ 
-                          duration: 0.5, 
-                          delay: (index % 3) * 0.1, 
-                          ease: "easeOut" 
-                        }}
-                      >
-                        <Link to={`/services/${service.slug}`} className={`enterprise-service-card ${isSHM ? 'shm-card' : ''}`}>
-                          <div className="esc-image-wrapper">
-                            <img src={service.heroImage} alt={service.title} className="esc-image" loading="lazy" />
-                            <div className="esc-image-overlay" />
-                          </div>
-                          <div className="esc-content">
-                            <div className="esc-meta-row">
-                              <span className="esc-category">{service.category.toUpperCase()}</span>
-                              <span className="esc-number">{serviceNumber}</span>
-                            </div>
-                            <div className="esc-title-row">
-                              <div className="esc-icon-wrapper">
-                                {getServiceCardIcon(service.icon)}
-                              </div>
-                              <h3 className="esc-title">{service.shortTitle}</h3>
-                            </div>
-                            <p className="esc-description">{service.tagline}</p>
-                            <hr className="esc-divider" />
-                            <div className="esc-key-solutions">
-                              <span className="esc-ks-label">KEY SOLUTIONS</span>
-                              <span className="esc-ks-value">
-                                {service.features?.slice(0, 3).map(f => f.title).join(' · ') || 'System Integration · Deployment · Support'}
-                              </span>
-                            </div>
-                            <div className="esc-cta-row">
-                              <span className="esc-cta-text">EXPLORE SERVICE</span>
-                              <svg className="esc-cta-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <line x1="7" y1="17" x2="17" y2="7"></line>
-                                <polyline points="7 7 17 7 17 17"></polyline>
-                              </svg>
-                            </div>
-                          </div>
-                        </Link>
-                      </motion.div>
-                    );
-                  };
-
                   return (
                     <>
                       {sstServices.length > 0 && (
@@ -405,7 +418,7 @@ export default function Services() {
                             <div className="company-section-line" style={{ background: 'linear-gradient(90deg, rgba(244,81,30,0.5) 0%, rgba(244,81,30,0) 100%)' }}></div>
                           </div>
                           <div className="services-cards-grid rich-cards" style={{ position: 'relative', zIndex: 1 }}>
-                            {sstServices.slice(0, sstVisibleCount).map((s, i) => renderCard(s, i, false))}
+                            {sstServices.slice(0, sstVisibleCount).map((s, i) => <MemoizedServiceCard key={s.slug} service={s} index={i} />)}
                           </div>
                           {sstServices.length > 6 && (
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem', position: 'relative', zIndex: 1 }}>
@@ -449,7 +462,7 @@ export default function Services() {
                             <div className="company-section-line" style={{ background: 'linear-gradient(90deg, rgba(59,130,246,0.5) 0%, rgba(59,130,246,0) 100%)' }}></div>
                           </div>
                           <div className="services-cards-grid rich-cards" style={{ position: 'relative', zIndex: 1 }}>
-                            {shmServices.slice(0, shmVisibleCount).map((s, i) => renderCard(s, i, true))}
+                            {shmServices.slice(0, shmVisibleCount).map((s, i) => <MemoizedServiceCard key={s.slug} service={s} index={i} isSHM={true} />)}
                           </div>
                           {shmServices.length > 6 && (
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem', position: 'relative', zIndex: 1 }}>
@@ -515,65 +528,6 @@ export default function Services() {
         {/* ========================================================= */}
         {/* 6. OVERVIEW VIDEO MODAL                                    */}
         {/* ========================================================= */}
-        <AnimatePresence>
-          {isVideoModalOpen && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="video-modal-backdrop"
-              onClick={() => setIsVideoModalOpen(false)}
-            >
-              <motion.div
-                initial={{ scale: 0.9, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
-                className="video-modal-container"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <button 
-                  className="video-modal-close"
-                  onClick={() => setIsVideoModalOpen(false)}
-                  aria-label="Close Overview Modal"
-                >
-                  &times;
-                </button>
-
-                <div className="video-modal-header">
-                  <h3 className="video-modal-title">SST Integrated Ecosystem Overview</h3>
-                  <p className="video-modal-subtitle">
-                    Discover how our 24 services across physical infrastructure, security, networking, and software unite into a single powerhouse.
-                  </p>
-                </div>
-
-                <div className="video-modal-screen">
-                  <div className="video-placeholder-banner">
-                    <div className="video-play-pulse">
-                      <svg viewBox="0 0 24 24" fill="currentColor" width="40" height="40">
-                        <polygon points="6 3 20 12 6 21 6 3" />
-                      </svg>
-                    </div>
-                    <p className="video-caption">Interactive Infrastructure Architecture Presentation</p>
-                  </div>
-                </div>
-
-                <div className="video-modal-footer">
-                  <Link 
-                    to="/contact" 
-                    className="services-btn-primary"
-                    onClick={() => setIsVideoModalOpen(false)}
-                  >
-                    <span>Start a Project with Us</span>
-                    <svg className="btn-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </Link>
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
       </div>
     </PageTransition>
   );

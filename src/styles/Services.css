@@ -1073,7 +1073,7 @@
   position: relative;
 }
 
-.process-step-icon {
+.process-step-icon { position: relative; z-index: 1; 
   color: #F4511E;
   display: flex;
   font-size: 1.5rem;
@@ -1978,4 +1978,20 @@
   will-change: transform;
   transform-style: preserve-3d;
   backface-visibility: hidden;
+}
+
+.process-step-glow {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 8px;
+  box-shadow: 0 0 25px rgba(244, 81, 30, 0.7);
+  border: 1px solid rgba(244, 81, 30, 0.8);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 0;
+  will-change: opacity;
+}
+
+.curved-timeline-fill, .parallax-bg-1, .parallax-bg-2, .process-step-node, .process-step-icon, .timeline-clip-rect {
+  will-change: transform, opacity;
 }
