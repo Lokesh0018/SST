@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { motion, useMotionValue, useSpring, useTransform, type Variants } from 'framer-motion';
+import { motion, useMotionValue, useSpring, useTransform, AnimatePresence, type Variants } from 'framer-motion';
 import '../../styles/ServicesHeroIndustrial.css';
 
 interface ServicesHeroIndustrialProps {
@@ -15,124 +15,91 @@ import {
 } from 'lucide-react';
 
 const SST_SERVICES = [
-  { id: 'cctv', name: 'CCTV & Surveillance', icon: Video },
-  { id: 'access', name: 'Access Control', icon: Key },
-  { id: 'fire', name: 'Fire Safety', icon: Flame },
-  { id: 'network', name: 'Network Infrastructure', icon: Network },
-  { id: 'server', name: 'Data Centers', icon: Server },
-  { id: 'wireless', name: 'Wireless Systems', icon: Wifi },
-  { id: 'electrical', name: 'Electrical Engineering', icon: Zap },
-  { id: 'logistics', name: 'Logistics Tech', icon: Package },
-  { id: 'atm', name: 'ATM & Banking', icon: CreditCard },
-  { id: 'intrusion', name: 'Intrusion Detection', icon: ShieldAlert },
-  { id: 'safety', name: 'Workplace Safety', icon: Activity },
-  { id: 'turnkey', name: 'Turnkey Solutions', icon: Briefcase },
-  { id: 'bms', name: 'Building Management', icon: Building },
-  { id: 'fiber', name: 'Fiber Optics', icon: Cpu },
-  { id: 'biometrics', name: 'Biometrics', icon: Scan },
-  { id: 'perimeter', name: 'Perimeter Security', icon: ShieldCheck },
-  { id: 'cloud', name: 'Cloud Integration', icon: Cloud },
-  { id: 'fleet', name: 'Fleet Management', icon: Map },
-  { id: 'audio', name: 'PA Systems', icon: Speaker },
-  { id: 'hvac', name: 'HVAC Control', icon: Thermometer },
-  { id: 'parking', name: 'Smart Parking', icon: Car },
-  { id: 'control', name: 'Control Rooms', icon: Monitor },
-  { id: 'analytics', name: 'Video Analytics', icon: LineChart },
-  { id: 'intercom', name: 'Intercom Systems', icon: Mic }
+  { id: 'cctv', name: 'CCTV & Surveillance', icon: Video, description: 'High-definition video monitoring and intelligent surveillance solutions.' },
+  { id: 'access', name: 'Access Control', icon: Key, description: 'Secure entry systems, biometric readers, and restricted zone management.' },
+  { id: 'fire', name: 'Fire Safety', icon: Flame, description: 'Advanced fire detection, alarm systems, and emergency suppression integration.' },
+  { id: 'network', name: 'Network Infrastructure', icon: Network, description: 'Robust, enterprise-grade wired and wireless networking solutions.' },
+  { id: 'server', name: 'Data Centers', icon: Server, description: 'Secure, climate-controlled environments for mission-critical IT infrastructure.' },
+  { id: 'wireless', name: 'Wireless Systems', icon: Wifi, description: 'Campus-wide WiFi, point-to-point wireless, and mobile network extensions.' },
+  { id: 'electrical', name: 'Electrical Engineering', icon: Zap, description: 'Industrial power distribution, backup generators, and UPS systems.' },
+  { id: 'logistics', name: 'Logistics Tech', icon: Package, description: 'Automated tracking, warehousing, and supply chain technology solutions.' },
+  { id: 'atm', name: 'ATM & Banking', icon: CreditCard, description: 'Secure transaction kiosks, ATM deployment, and banking infrastructure.' },
+  { id: 'intrusion', name: 'Intrusion Detection', icon: ShieldAlert, description: 'Advanced alarm systems designed to instantly detect unauthorized entry.' },
+  { id: 'safety', name: 'Workplace Safety', icon: Activity, description: 'Occupational health, environmental monitoring, and safety compliance systems.' },
+  { id: 'turnkey', name: 'Turnkey Solutions', icon: Briefcase, description: 'End-to-end project management from initial design to final deployment.' },
+  { id: 'bms', name: 'Building Management', icon: Building, description: 'Centralized control for facility lighting, HVAC, and power systems.' },
+  { id: 'fiber', name: 'Fiber Optics', icon: Cpu, description: 'High-speed, long-distance fiber optic cabling and splicing services.' },
+  { id: 'biometrics', name: 'Biometrics', icon: Scan, description: 'Fingerprint, iris, and facial recognition for high-security environments.' },
+  { id: 'perimeter', name: 'Perimeter Security', icon: ShieldCheck, description: 'Physical barriers, fence sensors, and long-range threat detection.' },
+  { id: 'cloud', name: 'Cloud Integration', icon: Cloud, description: 'Secure migration and management for hybrid and multi-cloud environments.' },
+  { id: 'fleet', name: 'Fleet Management', icon: Map, description: 'GPS tracking, vehicle diagnostics, and logistical route optimization.' },
+  { id: 'audio', name: 'PA Systems', icon: Speaker, description: 'Public address and mass notification audio systems for large facilities.' },
+  { id: 'hvac', name: 'HVAC Control', icon: Thermometer, description: 'Climate control automation for optimal temperature and air quality.' },
+  { id: 'parking', name: 'Smart Parking', icon: Car, description: 'Automated entry, space availability tracking, and parking management.' },
+  { id: 'control', name: 'Control Rooms', icon: Monitor, description: 'State-of-the-art command centers for 24/7 monitoring and response.' },
+  { id: 'analytics', name: 'Video Analytics', icon: LineChart, description: 'AI-driven object detection, facial recognition, and behavioral analysis.' },
+  { id: 'intercom', name: 'Intercom Systems', icon: Mic, description: 'Two-way audio and video communication for secure checkpoints.' }
 ];
 
-// Asymmetrical distribution, heavier on the right side
-const nodePositions = [
-  { ...SST_SERVICES[0], x: 65, y: 15, size: 65, depth: 'foreground', parallaxMultiplier: -1.2, floatDuration: 3.5, delay: 0 },
-  { ...SST_SERVICES[1], x: 80, y: 35, size: 55, depth: 'midground', parallaxMultiplier: -0.8, floatDuration: 4.2, delay: 0.2 },
-  { ...SST_SERVICES[2], x: 90, y: 65, size: 45, depth: 'background', parallaxMultiplier: -0.4, floatDuration: 5.5, delay: 0.4 },
-  { ...SST_SERVICES[3], x: 70, y: 75, size: 75, depth: 'foreground', parallaxMultiplier: -1.5, floatDuration: 3.8, delay: 0.1 },
-  { ...SST_SERVICES[4], x: 50, y: 85, size: 50, depth: 'midground', parallaxMultiplier: -0.7, floatDuration: 4.5, delay: 0.3 },
-  { ...SST_SERVICES[5], x: 85, y: 10, size: 40, depth: 'background', parallaxMultiplier: -0.3, floatDuration: 6.0, delay: 0.5 },
-  { ...SST_SERVICES[6], x: 45, y: 12, size: 60, depth: 'midground', parallaxMultiplier: -0.9, floatDuration: 4.0, delay: 0.15 },
-  { ...SST_SERVICES[7], x: 10, y: 75, size: 45, depth: 'background', parallaxMultiplier: -0.5, floatDuration: 5.2, delay: 0.45 },
-  { ...SST_SERVICES[8], x: 75, y: 55, size: 45, depth: 'background', parallaxMultiplier: -0.3, floatDuration: 5.2, delay: 0.85 },
-  { ...SST_SERVICES[9], x: 95, y: 45, size: 35, depth: 'background', parallaxMultiplier: -0.2, floatDuration: 6.5, delay: 0.6 },
-  { ...SST_SERVICES[10], x: 60, y: 40, size: 40, depth: 'midground', parallaxMultiplier: -0.6, floatDuration: 4.8, delay: 0.35 },
-  { ...SST_SERVICES[11], x: 30, y: 80, size: 55, depth: 'midground', parallaxMultiplier: -0.8, floatDuration: 4.1, delay: 0.25 },
-  { ...SST_SERVICES[12], x: 95, y: 25, size: 35, depth: 'background', parallaxMultiplier: -0.3, floatDuration: 5.8, delay: 0.7 },
-  { ...SST_SERVICES[13], x: 55, y: 5, size: 40, depth: 'midground', parallaxMultiplier: -0.7, floatDuration: 4.6, delay: 0.2 },
-  { ...SST_SERVICES[14], x: 5, y: 15, size: 45, depth: 'background', parallaxMultiplier: -0.4, floatDuration: 5.1, delay: 0.5 },
-  { ...SST_SERVICES[15], x: 55, y: 25, size: 85, depth: 'foreground', parallaxMultiplier: -1.6, floatDuration: 3.4, delay: 0.1 },
-  { ...SST_SERVICES[16], x: 85, y: 90, size: 50, depth: 'midground', parallaxMultiplier: -0.8, floatDuration: 4.4, delay: 0.3 },
-  { ...SST_SERVICES[17], x: 98, y: 55, size: 30, depth: 'background', parallaxMultiplier: -0.1, floatDuration: 7.0, delay: 0.9 },
-  { ...SST_SERVICES[18], x: 82, y: 50, size: 45, depth: 'midground', parallaxMultiplier: -0.6, floatDuration: 4.9, delay: 0.4 },
-  { ...SST_SERVICES[19], x: 15, y: 90, size: 42, depth: 'background', parallaxMultiplier: -0.5, floatDuration: 5.3, delay: 0.6 },
-  { ...SST_SERVICES[20], x: 60, y: 95, size: 35, depth: 'background', parallaxMultiplier: -0.3, floatDuration: 5.7, delay: 0.75 },
-  { ...SST_SERVICES[21], x: 72, y: 28, size: 48, depth: 'midground', parallaxMultiplier: -0.7, floatDuration: 4.3, delay: 0.25 },
-  { ...SST_SERVICES[22], x: 2, y: 60, size: 32, depth: 'background', parallaxMultiplier: -0.2, floatDuration: 6.1, delay: 0.85 },
-  { ...SST_SERVICES[23], x: 30, y: 5, size: 40, depth: 'midground', parallaxMultiplier: -0.5, floatDuration: 5.0, delay: 0.45 }
-];
+// Magnetic Button Wrapper
+function MagneticButton({ children, className, onClick }: { children: React.ReactNode, className?: string, onClick?: () => void }) {
+  const ref = React.useRef<HTMLButtonElement>(null);
+  const [position, setPosition] = React.useState({ x: 0, y: 0 });
 
-// Extracted component to avoid Rules of Hooks violation in loop
-const ServiceNodeItem = ({ node, parallaxX, parallaxY, hoveredNode, setHoveredNode }: { node: any, parallaxX: any, parallaxY: any, hoveredNode: string | null, setHoveredNode: (id: string | null) => void }) => {
-  const x = useTransform(parallaxX, (v: any) => v * node.parallaxMultiplier);
-  const y = useTransform(parallaxY, (v: any) => v * node.parallaxMultiplier);
+  const handleMouse = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const { clientX, clientY } = e;
+    const { height, width, left, top } = ref.current!.getBoundingClientRect();
+    const middleX = clientX - (left + width / 2);
+    const middleY = clientY - (top + height / 2);
+    setPosition({ x: middleX * 0.2, y: middleY * 0.2 }); // 0.2 determines strength of pull
+  };
 
-  const isHovered = hoveredNode === node.id;
-  const isFaded = hoveredNode !== null && !isHovered;
+  const reset = () => {
+    setPosition({ x: 0, y: 0 });
+  };
 
   return (
-    <motion.div
-      className={`service-node node-${node.depth}`}
-      onMouseEnter={() => setHoveredNode(node.id)}
-      onMouseLeave={() => setHoveredNode(null)}
-      style={{
-        top: `${node.y}%`,
-        left: `${node.x}%`,
-        x,
-        y,
-        zIndex: isHovered ? 20 : 1
-      }}
-      initial={{ opacity: 0, scale: 0.2, y: 50 }}
-      animate={{ 
-        opacity: isFaded ? 0.15 : (node.depth === 'foreground' ? 1 : node.depth === 'midground' ? 0.75 : 0.45), 
-        scale: isHovered ? 1.15 : (isFaded ? 0.9 : 1),
-        y: 0
-      }}
-      transition={{ 
-        type: "spring",
-        stiffness: isHovered ? 300 : 120,
-        damping: isHovered ? 20 : 14,
-        delay: isHovered ? 0 : node.delay 
-      }}
+    <motion.button
+      ref={ref}
+      className={className}
+      onClick={onClick}
+      onMouseMove={handleMouse}
+      onMouseLeave={reset}
+      animate={{ x: position.x, y: position.y }}
+      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
     >
-      <motion.div
-        style={{ display: 'flex', alignItems: 'center', gap: '12px' }}
-        animate={{
-          y: ["-5%", "5%", "-5%"],
-          rotate: [0, 2, -2, 0]
-        }}
-        transition={{
-          duration: node.floatDuration,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      >
-        <div 
-          className="service-node-circle"
-          style={{ width: `${node.size}px`, height: `${node.size}px` }}
-        >
-          <node.icon style={{ width: '45%', height: '45%' }} strokeWidth={2} />
-        </div>
-        
-        <div className="service-node-label">{node.name}</div>
-      </motion.div>
-    </motion.div>
+      {children}
+    </motion.button>
   );
-};
+}
+
+// Group 24 services into honeycomb rows: 4, 5, 6, 5, 4
+const rowCounts = [4, 5, 6, 5, 4];
+let currentIndex = 0;
+const honeycombRows = rowCounts.map(count => {
+  const row = SST_SERVICES.slice(currentIndex, currentIndex + count);
+  currentIndex += count;
+  return row;
+});
 
 export default function ServicesHeroIndustrial({
   onExploreClick,
   onIntegrateClick
 }: ServicesHeroIndustrialProps) {
   
-  const [hoveredNode, setHoveredNode] = React.useState<string | null>(null);
+  const [hoveredService, setHoveredService] = React.useState<string | null>(null);
+  const [activeIndex, setActiveIndex] = React.useState<number>(0);
+  const [isAutoPlaying, setIsAutoPlaying] = React.useState<boolean>(true);
+
+  React.useEffect(() => {
+    if (!isAutoPlaying) return;
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % SST_SERVICES.length);
+    }, 2500); // 2.5 seconds per active service
+    return () => clearInterval(interval);
+  }, [isAutoPlaying]);
+
+  const activeServiceId = hoveredService || SST_SERVICES[activeIndex]?.id;
 
   // Parallax setup for interactivity
   const mouseX = useMotionValue(0);
@@ -170,48 +137,53 @@ export default function ServicesHeroIndustrial({
   return (
     <section className="industrial-hero-section" onMouseMove={handleMouseMove}>
       
-      {/* Background wireframe globe */}
-      <svg className="bg-infrastructure-globe" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="400" cy="400" r="390" fill="none" strokeWidth="1" strokeDasharray="4 8" />
-        <circle cx="400" cy="400" r="300" fill="none" strokeWidth="1" />
-        <circle cx="400" cy="400" r="200" fill="none" strokeWidth="1" strokeDasharray="2 4" />
-        <ellipse cx="400" cy="400" rx="390" ry="150" fill="none" strokeWidth="0.5" />
-        <ellipse cx="400" cy="400" rx="150" ry="390" fill="none" strokeWidth="0.5" />
-        
-        {/* Animated routes on the globe */}
-        <motion.path 
-          className="globe-orange-routes"
-          d="M 100 400 Q 400 100 700 400" 
-          fill="none"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 0.6 }}
-          transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-        />
-        <motion.path 
-          className="globe-orange-routes"
-          d="M 250 150 Q 400 700 650 200" 
-          fill="none"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 0.4 }}
-          transition={{ duration: 5, repeat: Infinity, ease: "linear", delay: 2 }}
-        />
-      </svg>
+
 
       <div className="ambient-glow-card" />
 
-      {/* 3D Icons Layer */}
-      <div className="gravity-icons-container">
-        {nodePositions.map((node, index) => (
-          <ServiceNodeItem 
-            key={index}
-            node={node}
-            parallaxX={parallaxX}
-            parallaxY={parallaxY}
-            hoveredNode={hoveredNode}
-            setHoveredNode={setHoveredNode}
-          />
-        ))}
-      </div>
+      {/* 3D Neomorphic Hexagon Honeycomb */}
+      <motion.div 
+        className="honeycomb-grid"
+        style={{ x: parallaxX, y: parallaxY }}
+      >
+        <motion.div
+          style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+        >
+          <div className="honeycomb-light-sweep" />
+          
+          {honeycombRows.map((row, rowIndex) => (
+            <div key={`row-${rowIndex}`} className="honeycomb-row">
+              {row.map((service, colIndex) => (
+                <motion.div 
+                  key={service.id} 
+                  className={`hexagon-wrapper ${service.id === activeServiceId ? 'is-active' : ''}`}
+                  onMouseEnter={() => {
+                    setHoveredService(service.id);
+                    setIsAutoPlaying(false);
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredService(null);
+                    setIsAutoPlaying(true);
+                  }}
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ 
+                    delay: rowIndex * 0.1 + colIndex * 0.05 + 0.3, 
+                    type: "spring", 
+                    stiffness: 120,
+                    damping: 15
+                  }}
+                >
+                  <div className="hexagon-inner">
+                    <service.icon className="hexagon-icon" size={28} strokeWidth={1.5} />
+                    <div className="hexagon-label">{service.name}</div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          ))}
+        </motion.div>
+      </motion.div>
 
       {/* Editorial Text Content */}
       <motion.div 
@@ -231,26 +203,47 @@ export default function ServicesHeroIndustrial({
           <span className="industrial-orange-accent">REAL SOLUTIONS</span>
         </motion.h1>
 
-        <motion.p className="industrial-hero-description" variants={itemVariants}>
-          Integrated services across physical infrastructure, security, networks, enterprise systems, and logistics designed to keep your world moving.
-        </motion.p>
+        <motion.div className="industrial-hero-description" variants={itemVariants}>
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeServiceId || 'default'}
+              initial={{ opacity: 0, y: 5 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -5 }}
+              transition={{ duration: 0.2 }}
+            >
+              {activeServiceId ? (
+                <>
+                  <strong style={{ color: '#FF5500', display: 'block', marginBottom: '4px' }}>
+                    {SST_SERVICES.find(s => s.id === activeServiceId)?.name}
+                  </strong>
+                  {SST_SERVICES.find(s => s.id === activeServiceId)?.description}
+                </>
+              ) : (
+                <>
+                  Integrated services across physical infrastructure, security, networks, enterprise systems, and logistics designed to keep your world moving.
+                </>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        </motion.div>
 
         <motion.div className="industrial-hero-ctas" variants={itemVariants}>
-          <button className="btn-industrial-primary" onClick={onExploreClick}>
+          <MagneticButton className="btn-industrial-primary" onClick={onExploreClick}>
             EXPLORE OUR SERVICES 
             <svg className="btn-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
-          </button>
+          </MagneticButton>
           
-          <button className="btn-industrial-secondary" onClick={onIntegrateClick || onExploreClick}>
+          <MagneticButton className="btn-industrial-secondary" onClick={onIntegrateClick || onExploreClick}>
             OUR APPROACH 
             <svg className="btn-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
-          </button>
+          </MagneticButton>
         </motion.div>
       </motion.div>
 

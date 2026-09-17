@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background-color: #F8FAFC; 
+  background-color: #E2E8F0;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -48,77 +48,105 @@
 }
 
 /* --------------------------------------------------------------------------
-   3D ICONS LAYER
+   NEOMORPHIC HONEYCOMB GRID
    -------------------------------------------------------------------------- */
-.gravity-icons-container {
+.honeycomb-grid {
   position: absolute;
-  top: 0;
-  left: 0;
+  left: 53%;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none; /* Let clicks pass through empty space */
+}
+
+.honeycomb-grid::before {
+  content: "";
+  position: absolute;
+  top: -1560px;
+  left: -1960px;
+  right: -1960px;
+  bottom: -1560px;
+  background-image: url("data:image/svg+xml,%3Csvg width='98' height='156' viewBox='0 0 98 156' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(148,163,184,0.1)' stroke-width='1.5'%3E%3Cpolygon points='49,0 94,26 94,78 49,104 4,78 4,26'/%3E%3Cpolygon points='0,78 45,104 45,156 0,182 -45,156 -45,104'/%3E%3Cpolygon points='98,78 143,104 143,156 98,182 53,156 53,104'/%3E%3Cpolygon points='0,-78 45,-52 45,0 0,26 -45,0 -45,-52'/%3E%3Cpolygon points='98,-78 143,-52 143,0 98,26 53,0 53,-52'/%3E%3C/g%3E%3C/svg%3E");
+  background-position: 1960px 1560px; /* 20*98px and 10*156px aligns origin perfectly with .honeycomb-grid */
+  background-size: 98px 156px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.honeycomb-row {
+  display: flex;
+  justify-content: center;
+  margin-bottom: -26px; /* -25% of hexagon height (104px) */
+  pointer-events: auto; /* Re-enable clicks for rows */
+}
+
+.hexagon-wrapper {
+  position: relative;
+  width: 90px;
+  height: 104px;
+  margin: 0 4px;
+  /* Neomorphic outer drop shadows for #E2E8F0 background */
+  filter: drop-shadow(6px 6px 10px rgba(148, 163, 184, 0.5)) 
+          drop-shadow(-6px -6px 10px rgba(255, 255, 255, 0.9));
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+}
+
+.hexagon-inner {
   width: 100%;
   height: 100%;
-  z-index: 1;
-  pointer-events: none; 
-}
-
-.service-node {
-  position: absolute;
+  background: linear-gradient(135deg, #F1F5F9 0%, #E2E8F0 50%, #CBD5E1 100%);
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   display: flex;
-  align-items: center;
-  gap: 12px;
-  pointer-events: auto;
-  cursor: default;
-  transition: all 0.4s ease;
-}
-
-.service-node:hover {
-  filter: blur(0px) !important;
-}
-
-.service-node-circle {
-  background: #FFFFFF;
-  border-radius: 50%;
-  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(226, 232, 240, 0.8);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-  flex-shrink: 0;
   color: #0A1128;
+  transition: all 0.3s ease;
+  padding-top: 5px;
+}
+
+.hexagon-icon {
+  margin-bottom: 4px;
+  opacity: 0.8;
   transition: all 0.3s ease;
 }
 
-.service-node-label {
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #0A1128;
+.hexagon-label {
+  font-size: 0.55rem;
+  font-weight: 800;
+  text-transform: uppercase;
   letter-spacing: 0.05em;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(4px);
-  padding: 4px 10px;
-  border-radius: 6px;
-  white-space: nowrap;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  line-height: 1.1;
+  padding: 0 8px;
+  opacity: 0.7;
 }
 
-.service-node:hover .service-node-circle {
-  border-color: #FF5500;
+/* Hover & Active effects */
+.hexagon-wrapper:hover,
+.hexagon-wrapper.is-active {
+  /* Slightly deeper/tighter shadow for pressed/hover effect, and scaled */
+  filter: drop-shadow(3px 3px 6px rgba(148, 163, 184, 0.6)) 
+          drop-shadow(-3px -3px 6px rgba(255, 255, 255, 0.95));
+  transform: scale(0.95);
+  z-index: 10;
+}
+
+.hexagon-wrapper:hover .hexagon-inner,
+.hexagon-wrapper.is-active .hexagon-inner {
+  background: #FFFFFF;
+}
+
+.hexagon-wrapper:hover .hexagon-icon,
+.hexagon-wrapper:hover .hexagon-label,
+.hexagon-wrapper.is-active .hexagon-icon,
+.hexagon-wrapper.is-active .hexagon-label {
   color: #FF5500;
-  box-shadow: 0 8px 25px rgba(255, 85, 0, 0.15);
-  transform: scale(1.05);
-}
-
-/* Depth classes */
-.node-foreground {
   opacity: 1;
-  filter: blur(0px);
-}
-.node-midground {
-  opacity: 0.75;
-  filter: blur(1.5px);
-}
-.node-background {
-  opacity: 0.45;
-  filter: blur(3px);
 }
 
 /* --------------------------------------------------------------------------
@@ -183,11 +211,13 @@
 }
 
 .industrial-hero-description {
-  font-size: 1.15rem;
+  font-size: 1.25rem;
+  color: #334155;
   line-height: 1.6;
-  color: #475569;
   margin-bottom: 40px;
-  max-width: 550px;
+  max-width: 500px;
+  font-weight: 500;
+  min-height: 80px; /* Prevents layout jump during text transition */
 }
 
 /* --------------------------------------------------------------------------
@@ -260,4 +290,35 @@
 
 .btn-industrial-secondary:hover .btn-arrow-icon {
   transform: translateX(6px);
+}
+
+/* --------------------------------------------------------------------------
+   LIGHT SWEEP ANIMATION
+   -------------------------------------------------------------------------- */
+.honeycomb-light-sweep {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, 
+    transparent 0%, 
+    transparent 45%, 
+    rgba(255, 255, 255, 0.4) 50%, 
+    transparent 55%, 
+    transparent 100%
+  );
+  z-index: 20;
+  pointer-events: none;
+  transform: translateX(-100%);
+  animation: sweep 8s infinite;
+}
+
+@keyframes sweep {
+  0% {
+    transform: translateX(-100%) translateY(-100%);
+  }
+  10%, 100% {
+    transform: translateX(100%) translateY(100%);
+  }
 }
