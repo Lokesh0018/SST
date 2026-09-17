@@ -4,7 +4,8 @@ import '../../styles/ServicesHeroIndustrial.css';
 
 interface ServicesHeroIndustrialProps {
   onExploreClick: () => void;
-  onIntegrateClick?: () => void; // Optional if not used
+  onIntegrateClick?: () => void;
+  onSelectDomain?: (categoryName: string) => void;
 }
 
 import { 
@@ -94,8 +95,14 @@ export default function ServicesHeroIndustrial({
   React.useEffect(() => {
     if (!isAutoPlaying) return;
     const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % SST_SERVICES.length);
-    }, 2500); // 2.5 seconds per active service
+      setActiveIndex((prev) => {
+        let nextIndex;
+        do {
+          nextIndex = Math.floor(Math.random() * SST_SERVICES.length);
+        } while (nextIndex === prev);
+        return nextIndex;
+      });
+    }, 1800); // Faster, random switching
     return () => clearInterval(interval);
   }, [isAutoPlaying]);
 
@@ -148,6 +155,8 @@ export default function ServicesHeroIndustrial({
       >
         <motion.div
           style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+          animate={{ y: [-10, 10, -10] }}
+          transition={{ repeat: Infinity, duration: 7, ease: "easeInOut" }}
         >
           <div className="honeycomb-light-sweep" />
           

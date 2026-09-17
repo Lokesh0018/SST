@@ -3,35 +3,85 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import PageTransition from '../components/common/PageTransition';
 import ServicesHeroIndustrial from '../components/services/ServicesHeroIndustrial';
-import ServicesCategoryGrid from '../components/services/ServicesCategoryGrid';
-import ServicesEcosystemMap from '../components/services/ServicesEcosystemMap';
 import { services, categories } from '../data/services';
 import type { Service } from '../data/services';
 import '../styles/Services.css';
 
+const hexagonConfig = [
+  // Top Row
+  { top: '2%', left: '5%', size: 120, delay: 0.2, y: -15, rotate: 10, duration: 6 },
+  { top: '8%', left: '35%', size: 90, delay: 1.5, y: -10, rotate: -5, duration: 5.5 },
+  { top: '5%', right: '25%', size: 140, delay: 0.8, y: -20, rotate: 8, duration: 7 },
+  { top: '3%', right: '3%', size: 110, delay: 2.1, y: -12, rotate: -12, duration: 6.2 },
+  
+  // Upper-Middle
+  { top: '22%', left: '15%', size: 160, delay: 1.1, y: -18, rotate: -8, duration: 7.5 },
+  { top: '28%', left: '60%', size: 100, delay: 0.5, y: -12, rotate: 15, duration: 5.8 },
+  { top: '20%', right: '10%', size: 130, delay: 2.5, y: -15, rotate: 6, duration: 6.8 },
+  
+  // Middle
+  { top: '45%', left: '8%', size: 100, delay: 1.8, y: -10, rotate: 12, duration: 5.2 },
+  { top: '40%', left: '45%', size: 80, delay: 0.3, y: -8, rotate: -10, duration: 4.8 },
+  { top: '50%', right: '35%', size: 150, delay: 1.4, y: -22, rotate: 5, duration: 8 },
+  { top: '42%', right: '8%', size: 120, delay: 2.8, y: -14, rotate: -15, duration: 6.5 },
+  
+  // Lower-Middle
+  { top: '65%', left: '25%', size: 140, delay: 0.9, y: -16, rotate: 9, duration: 7.2 },
+  { top: '60%', left: '65%', size: 110, delay: 1.7, y: -12, rotate: -7, duration: 6 },
+  { top: '70%', right: '15%', size: 90, delay: 2.2, y: -10, rotate: 14, duration: 5.5 },
+  
+  // Bottom
+  { bottom: '5%', left: '5%', size: 130, delay: 0.6, y: -15, rotate: -11, duration: 6.8 },
+  { bottom: '10%', left: '45%', size: 170, delay: 1.3, y: -25, rotate: 8, duration: 8.5 },
+  { bottom: '8%', right: '30%', size: 100, delay: 2.6, y: -12, rotate: -9, duration: 5.9 },
+  { bottom: '3%', right: '3%', size: 140, delay: 0.4, y: -18, rotate: 12, duration: 7.1 },
+];
+
+const renderHexagons = (colorPrefix: 'sst' | 'shm') => {
+  const isSST = colorPrefix === 'sst';
+  const baseColor = isSST ? '244, 81, 30' : '59, 130, 246';
+  
+  return hexagonConfig.map((config, index) => (
+    <motion.div
+      key={`hex-${colorPrefix}-${index}`}
+      style={{ 
+        position: 'absolute', 
+        ...(config.top ? { top: config.top } : {}),
+        ...(config.bottom ? { bottom: config.bottom } : {}),
+        ...(config.left ? { left: config.left } : {}),
+        ...(config.right ? { right: config.right } : {}),
+        width: `${config.size}px`, 
+        height: `${config.size}px`, 
+        clipPath: 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)', 
+        background: `linear-gradient(135deg, rgba(${baseColor}, 0.35) 0%, rgba(${baseColor}, 0.05) 100%)`, 
+        zIndex: 0, 
+        pointerEvents: 'none' 
+      }}
+      animate={{ y: [0, config.y, 0], rotate: [0, config.rotate, 0] }}
+      transition={{ duration: config.duration, repeat: Infinity, ease: 'easeInOut', delay: config.delay }}
+    />
+  ));
+};
+
 export default function Services() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All Services');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [featuredIndex, setFeaturedIndex] = useState<number>(0);
   const [isVideoModalOpen, setIsVideoModalOpen] = useState<boolean>(false);
+  const [sstVisibleCount, setSstVisibleCount] = useState<number>(6);
+  const [shmVisibleCount, setShmVisibleCount] = useState<number>(6);
 
   const servicesGridRef = useRef<HTMLDivElement>(null);
   const ecosystemRef = useRef<HTMLDivElement>(null);
 
-  // Filtered featured services for carousel
-  const featuredServices = useMemo(() => {
-    return services.filter((s) => s.featured || [17, 3, 12, 15, 20].includes(s.id));
+  // Global mouse tracking for fixed background glow effects
+  useEffect(() => {
+    const updateMouse = (e: MouseEvent) => {
+      document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+      document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+    };
+    window.addEventListener('mousemove', updateMouse);
+    return () => window.removeEventListener('mousemove', updateMouse);
   }, []);
-
-  const currentFeatured = featuredServices[featuredIndex] || featuredServices[0] || services[0];
-
-  const handleNextFeatured = () => {
-    setFeaturedIndex((prev) => (prev + 1) % featuredServices.length);
-  };
-
-  const handlePrevFeatured = () => {
-    setFeaturedIndex((prev) => (prev - 1 + featuredServices.length) % featuredServices.length);
-  };
 
   // Filter services by category and search query
   const filteredServices = useMemo(() => {
@@ -86,111 +136,9 @@ export default function Services() {
           onSelectDomain={handleCategoryClick}
         />
 
-        {/* ========================================================= */}
-        {/* 2. EXPLORE BY CATEGORY (Clean 6-Card Responsive Grid)     */}
-        {/* ========================================================= */}
-        <ServicesCategoryGrid 
-          selectedCategory={selectedCategory}
-          onSelectCategory={handleCategoryClick}
-        />
 
-        {/* ========================================================= */}
-        {/* 3. ONE ECOSYSTEM ARCHITECTURE MAP (Dark Navy Section)     */}
-        {/* ========================================================= */}
-        <div ref={ecosystemRef}>
-          <ServicesEcosystemMap />
-        </div>
 
-        {/* ========================================================= */}
-        {/* 3. FEATURED CAPABILITIES SECTION                           */}
-        {/* ========================================================= */}
-        <section className="services-featured-section">
-          <div className="container">
-            
-            <div className="featured-header-row">
-              <h2 className="services-section-title">FEATURED CAPABILITIES</h2>
-              <div className="featured-nav-buttons">
-                <button 
-                  onClick={handlePrevFeatured} 
-                  className="featured-nav-btn"
-                  aria-label="Previous Featured Capability"
-                >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                  </svg>
-                </button>
-                <button 
-                  onClick={handleNextFeatured} 
-                  className="featured-nav-btn"
-                  aria-label="Next Featured Capability"
-                >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </button>
-              </div>
-            </div>
 
-            <AnimatePresence mode="wait">
-              <motion.div 
-                key={currentFeatured.slug}
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -15 }}
-                transition={{ duration: 0.35, ease: 'easeOut' }}
-                className="featured-capability-showcase"
-              >
-                {/* Left: High-res server / infrastructure photography */}
-                <div className="featured-showcase-visual">
-                  <img 
-                    src={currentFeatured.heroImage} 
-                    alt={currentFeatured.title} 
-                    className="featured-showcase-img"
-                    loading="lazy"
-                  />
-                  <div className="featured-showcase-overlay" />
-                </div>
-
-                {/* Right: Capability Description & Bullet Highlights */}
-                <div className="featured-showcase-content">
-                  <div className="featured-tag-row">
-                    <span className="featured-number">{currentFeatured.id < 10 ? `0${currentFeatured.id}` : currentFeatured.id}</span>
-                    <span className="featured-domain-badge">{currentFeatured.category.toUpperCase()}</span>
-                  </div>
-
-                  <h3 className="featured-title">{currentFeatured.title}</h3>
-                  <p className="featured-desc">{currentFeatured.description}</p>
-
-                  <div className="featured-checklist">
-                    {currentFeatured.features.map((feat, idx) => (
-                      <div key={idx} className="featured-check-item">
-                        <span className="featured-check-icon">
-                          <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                          </svg>
-                        </span>
-                        <span className="featured-check-text">{feat.title}</span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <Link 
-                    to={`/services/${currentFeatured.slug}`}
-                    className="services-btn-primary featured-cta-btn"
-                  >
-                    <span>Explore Service</span>
-                    <svg className="btn-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </Link>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-          </div>
-        </section>
-
-        {/* ========================================================= */}
         {/* 4. OUR 24 SERVICES GRID WITH REALTIME SEARCH & FILTER     */}
         {/* ========================================================= */}
         <section className="services-grid-section" ref={servicesGridRef}>
@@ -230,48 +178,175 @@ export default function Services() {
               </div>
             </div>
 
-            {/* Service Cards Grid */}
+            {/* Service Cards Grid - Split into SST and SHM */}
             {filteredServices.length > 0 ? (
-              <div className="services-cards-grid">
-                {filteredServices.map((service) => (
-                  <Link
-                    key={service.slug}
-                    to={`/services/${service.slug}`}
-                    className="service-card-modern"
-                  >
-                    <div className="service-card-top">
-                      <div className="service-card-icon">
-                        {getServiceCardIcon(service.icon)}
-                      </div>
-                      <span className="service-card-number">
-                        {service.id < 10 ? `0${service.id}` : service.id}
-                      </span>
-                    </div>
+              <div className="services-sections-container">
+                {(() => {
+                  const sstServices = filteredServices.filter(s => s.company === 'SST' || s.company === 'COMMON');
+                  const shmServices = filteredServices.filter(s => s.company === 'SHM');
 
-                    <div className="service-card-content">
-                      <h3 className="service-card-title">{service.shortTitle}</h3>
-                      <p className="service-card-category">{service.category}</p>
-                    </div>
+                  const renderCard = (service: typeof filteredServices[0], index: number, isSHM: boolean = false) => {
+                    const serviceNumber = String(index + 1).padStart(2, '0');
+                    return (
+                      <motion.div 
+                        key={service.slug}
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, margin: "-50px" }}
+                        transition={{ 
+                          duration: 0.5, 
+                          delay: (index % 3) * 0.1, 
+                          ease: "easeOut" 
+                        }}
+                      >
+                        <Link to={`/services/${service.slug}`} className={`enterprise-service-card ${isSHM ? 'shm-card' : ''}`}>
+                          <div className="esc-image-wrapper">
+                            <img src={service.heroImage} alt={service.title} className="esc-image" loading="lazy" />
+                            <div className="esc-image-overlay" />
+                          </div>
+                          <div className="esc-content">
+                            <div className="esc-meta-row">
+                              <span className="esc-category">{service.category.toUpperCase()}</span>
+                              <span className="esc-number">{serviceNumber}</span>
+                            </div>
+                            <div className="esc-title-row">
+                              <div className="esc-icon-wrapper">
+                                {getServiceCardIcon(service.icon)}
+                              </div>
+                              <h3 className="esc-title">{service.shortTitle}</h3>
+                            </div>
+                            <p className="esc-description">{service.tagline}</p>
+                            <hr className="esc-divider" />
+                            <div className="esc-key-solutions">
+                              <span className="esc-ks-label">KEY SOLUTIONS</span>
+                              <span className="esc-ks-value">
+                                {service.features?.slice(0, 3).map(f => f.title).join(' · ') || 'System Integration · Deployment · Support'}
+                              </span>
+                            </div>
+                            <div className="esc-cta-row">
+                              <span className="esc-cta-text">EXPLORE SERVICE</span>
+                              <svg className="esc-cta-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <line x1="7" y1="17" x2="17" y2="7"></line>
+                                <polyline points="7 7 17 7 17 17"></polyline>
+                              </svg>
+                            </div>
+                          </div>
+                        </Link>
+                      </motion.div>
+                    );
+                  };
 
-                    <div className="service-card-arrow-row">
-                      <span className="service-card-arrow">→</span>
-                    </div>
-                  </Link>
-                ))}
+                  return (
+                    <>
+                      {sstServices.length > 0 && (
+                        <div className="services-company-section sst-section-bg" style={{ position: 'relative', overflow: 'hidden' }}>
+                          {renderHexagons('sst')}
+                          <div className="company-section-header" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
+                            <Link to="/" style={{ textDecoration: 'none' }}>
+                              <h3 className="company-section-title" style={{ transition: 'color 0.3s ease', color: '#0F172A' }} onMouseOver={(e) => e.currentTarget.style.color = '#F4511E'} onMouseOut={(e) => e.currentTarget.style.color = '#0F172A'}>
+                                <span style={{ color: '#F4511E' }}>SST</span> — ENGINEERED FOR CONNECTED OPERATIONS.
+                              </h3>
+                            </Link>
+                            <div className="company-section-line" style={{ background: 'linear-gradient(90deg, rgba(244,81,30,0.5) 0%, rgba(244,81,30,0) 100%)' }}></div>
+                          </div>
+                          <div className="services-cards-grid rich-cards" style={{ position: 'relative', zIndex: 1 }}>
+                            {sstServices.slice(0, sstVisibleCount).map((s, i) => renderCard(s, i, false))}
+                          </div>
+                          {sstServices.length > 6 && (
+                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem', position: 'relative', zIndex: 1 }}>
+                              {sstVisibleCount < sstServices.length ? (
+                                <button 
+                                  onClick={() => setSstVisibleCount(sstServices.length)}
+                                  className="load-more-btn"
+                                  style={{ borderColor: 'rgba(244, 81, 30, 0.5)', color: '#F4511E' }}
+                                >
+                                  LOAD MORE SERVICES
+                                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '8px' }}>
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                  </svg>
+                                </button>
+                              ) : (
+                                <button 
+                                  onClick={() => setSstVisibleCount(6)}
+                                  className="load-more-btn"
+                                  style={{ borderColor: 'rgba(244, 81, 30, 0.5)', color: '#F4511E' }}
+                                >
+                                  SHOW LESS
+                                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '8px', transform: 'rotate(180deg)' }}>
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                  </svg>
+                                </button>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                      {shmServices.length > 0 && (
+                        <div className="services-company-section shm-section-bg" style={{ marginTop: '5rem', position: 'relative', overflow: 'hidden' }}>
+                          {renderHexagons('shm')}
+                          <div className="company-section-header" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
+                            <a href="https://shmtechnologies.com/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                              <h3 className="company-section-title" style={{ transition: 'color 0.3s ease', color: '#0F172A' }} onMouseOver={(e) => e.currentTarget.style.color = '#3B82F6'} onMouseOut={(e) => e.currentTarget.style.color = '#0F172A'}>
+                                <span style={{ color: '#3B82F6' }}>SHM</span> — BUILT FOR SMARTER MOVEMENT.
+                              </h3>
+                            </a>
+                            <div className="company-section-line" style={{ background: 'linear-gradient(90deg, rgba(59,130,246,0.5) 0%, rgba(59,130,246,0) 100%)' }}></div>
+                          </div>
+                          <div className="services-cards-grid rich-cards" style={{ position: 'relative', zIndex: 1 }}>
+                            {shmServices.slice(0, shmVisibleCount).map((s, i) => renderCard(s, i, true))}
+                          </div>
+                          {shmServices.length > 6 && (
+                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem', position: 'relative', zIndex: 1 }}>
+                              {shmVisibleCount < shmServices.length ? (
+                                <button 
+                                  onClick={() => setShmVisibleCount(shmServices.length)}
+                                  className="load-more-btn shm-load-more"
+                                  style={{ borderColor: 'rgba(59, 130, 246, 0.5)', color: '#3B82F6' }}
+                                >
+                                  LOAD MORE SERVICES
+                                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '8px' }}>
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                  </svg>
+                                </button>
+                              ) : (
+                                <button 
+                                  onClick={() => setShmVisibleCount(6)}
+                                  className="load-more-btn shm-load-more"
+                                  style={{ borderColor: 'rgba(59, 130, 246, 0.5)', color: '#3B82F6' }}
+                                >
+                                  SHOW LESS
+                                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '8px', transform: 'rotate(180deg)' }}>
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                  </svg>
+                                </button>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      )}
+
+                    </>
+                  );
+                })()}
               </div>
             ) : (
-              <div className="services-empty-state">
-                <p className="empty-text">No services found matching "{searchQuery}"</p>
-                <button
-                  onClick={() => {
-                    setSearchQuery('');
-                    setSelectedCategory('All Services');
-                  }}
-                  className="services-btn-secondary empty-reset-btn"
-                >
-                  Reset Filters
+              <motion.div 
+                className="services-empty-state"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.3 }}
+              >
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <h3>No services found</h3>
+                <p>We couldn't find any services matching "{searchQuery}" in the {selectedCategory} category.</p>
+                <button className="btn-secondary" onClick={() => { setSearchQuery(''); setSelectedCategory('All Services'); }}>
+                  Clear Filters
                 </button>
-              </div>
+              </motion.div>
             )}
 
           </div>

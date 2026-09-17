@@ -1,4 +1,5 @@
 export interface Service {
+  company: "SST" | "SHM" | "COMMON";
   id: number;
   slug: string;
   title: string;
@@ -23,6 +24,7 @@ export const services: Service[] = [
   {
     id: 1,
     slug: 'intrusion-detection',
+    company: 'SST',
     title: 'Intrusion Detection',
     shortTitle: 'Intrusion Detection',
     category: 'Security & Safety',
@@ -46,11 +48,12 @@ export const services: Service[] = [
       'Industrial manufacturing plants',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1200&q=80',
+    heroImage: 'https://images.unsplash.com/photo-1581092921461-7031e4bfb683?auto=format&fit=crop&w=1200&q=80',
   },
   {
     id: 2,
     slug: 'access-control',
+    company: 'SST',
     title: 'Access Control Systems',
     shortTitle: 'Access Control',
     category: 'Security & Safety',
@@ -79,6 +82,7 @@ export const services: Service[] = [
   {
     id: 3,
     slug: 'video-surveillance',
+    company: 'COMMON',
     title: 'Video Surveillance & CCTV',
     shortTitle: 'Video Surveillance',
     category: 'Security & Safety',
@@ -108,6 +112,7 @@ export const services: Service[] = [
   {
     id: 4,
     slug: 'fire-fighting',
+    company: 'SST',
     title: 'Fire Fighting & Life Safety',
     shortTitle: 'Fire Fighting',
     category: 'Security & Safety',
@@ -136,6 +141,7 @@ export const services: Service[] = [
   {
     id: 5,
     slug: 'perimeter-security',
+    company: 'SST',
     title: 'Perimeter & Asset Security',
     shortTitle: 'Perimeter Security',
     category: 'Security & Safety',
@@ -168,6 +174,7 @@ export const services: Service[] = [
   {
     id: 6,
     slug: 'switches-storage',
+    company: 'SST',
     title: 'Switches & Storage Systems',
     shortTitle: 'Switches & Storage',
     category: 'IT & Network',
@@ -196,6 +203,7 @@ export const services: Service[] = [
   {
     id: 7,
     slug: 'wireless-network',
+    company: 'SST',
     title: 'Wireless & Wi-Fi 6 Solutions',
     shortTitle: 'Wireless Technology',
     category: 'IT & Network',
@@ -224,6 +232,7 @@ export const services: Service[] = [
   {
     id: 8,
     slug: 'network-infrastructure',
+    company: 'COMMON',
     title: 'Structured Network Infrastructure',
     shortTitle: 'Network Infrastructure',
     category: 'IT & Network',
@@ -247,11 +256,12 @@ export const services: Service[] = [
       'Multi-building campus distribution',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=80',
+    heroImage: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=1200&q=80',
   },
   {
     id: 9,
     slug: 'cyber-security',
+    company: 'SHM',
     title: 'Cyber Security & Firewalls',
     shortTitle: 'Cyber Security',
     category: 'IT & Network',
@@ -280,6 +290,7 @@ export const services: Service[] = [
   {
     id: 17,
     slug: 'cloud-infrastructure',
+    company: 'SHM',
     title: 'Cloud Infrastructure & DevOps',
     shortTitle: 'Cloud Infrastructure',
     category: 'IT & Network',
@@ -314,6 +325,7 @@ export const services: Service[] = [
   {
     id: 12,
     slug: 'enterprise-software',
+    company: 'SHM',
     title: 'Enterprise Software Solutions',
     shortTitle: 'Enterprise Software',
     category: 'Software & Digital',
@@ -343,6 +355,7 @@ export const services: Service[] = [
   {
     id: 13,
     slug: 'web-applications',
+    company: 'SHM',
     title: 'Custom Web Applications',
     shortTitle: 'Web Applications',
     category: 'Software & Digital',
@@ -371,6 +384,7 @@ export const services: Service[] = [
   {
     id: 14,
     slug: 'mobile-applications',
+    company: 'SHM',
     title: 'Cross-Platform Mobile Apps',
     shortTitle: 'Mobile Applications',
     category: 'Software & Digital',
@@ -399,6 +413,7 @@ export const services: Service[] = [
   {
     id: 15,
     slug: 'ai-solutions',
+    company: 'SHM',
     title: 'AI Solutions & Analytics',
     shortTitle: 'AI Solutions',
     category: 'Software & Digital',
@@ -422,12 +437,13 @@ export const services: Service[] = [
       'Predictive equipment lifecycle management',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1677442136019-21780efad99a?auto=format&fit=crop&w=1200&q=80',
+    heroImage: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=80',
     featured: true,
   },
   {
     id: 16,
     slug: 'erp-crm-integration',
+    company: 'SHM',
     title: 'ERP & CRM Systems Integration',
     shortTitle: 'ERP & CRM Systems',
     category: 'Software & Digital',
@@ -451,11 +467,12 @@ export const services: Service[] = [
       'Enterprise client billing & tracking',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+    heroImage: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=1200&q=80',
   },
   {
     id: 10,
     slug: 'api-cloud-services',
+    company: 'SHM',
     title: 'API & Microservices Architecture',
     shortTitle: 'API & Cloud Services',
     category: 'Software & Digital',
@@ -484,6 +501,7 @@ export const services: Service[] = [
   {
     id: 11,
     slug: 'iot-automation',
+    company: 'SHM',
     title: 'IoT & Edge Automation Platforms',
     shortTitle: 'IoT & Automation',
     category: 'Software & Digital',
@@ -512,6 +530,7 @@ export const services: Service[] = [
   {
     id: 18,
     slug: 'data-engineering',
+    company: 'SHM',
     title: 'Data Engineering & Big Data Analytics',
     shortTitle: 'Data Engineering',
     category: 'Software & Digital',
@@ -540,6 +559,7 @@ export const services: Service[] = [
   {
     id: 19,
     slug: 'digital-product-design',
+    company: 'SHM',
     title: 'UI/UX & Digital Product Design',
     shortTitle: 'Product Design',
     category: 'Software & Digital',
@@ -572,6 +592,7 @@ export const services: Service[] = [
   {
     id: 20,
     slug: 'turnkey-projects',
+    company: 'SST',
     title: 'Turnkey Infrastructure Projects',
     shortTitle: 'Turnkey Projects',
     category: 'Infrastructure',
@@ -595,12 +616,13 @@ export const services: Service[] = [
       'Government infrastructure projects',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
+    heroImage: 'https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=1200&q=80',
     featured: true,
   },
   {
     id: 21,
     slug: 'electrical-electronics',
+    company: 'SST',
     title: 'Electrical & Power Engineering',
     shortTitle: 'Electrical & Electronics',
     category: 'Infrastructure',
@@ -629,6 +651,7 @@ export const services: Service[] = [
   {
     id: 22,
     slug: 'data-center-buildouts',
+    company: 'SST',
     title: 'Data Center Physical Buildouts',
     shortTitle: 'Data Center Buildouts',
     category: 'Infrastructure',
@@ -652,11 +675,12 @@ export const services: Service[] = [
       'Colocation hosting facilities',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
+    heroImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80',
   },
   {
     id: 23,
     slug: 'smart-building-automation',
+    company: 'SST',
     title: 'Smart Building Automation & BMS',
     shortTitle: 'Building Automation',
     category: 'Infrastructure',
@@ -680,7 +704,7 @@ export const services: Service[] = [
       'Airport terminals and transport hubs',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
+    heroImage: 'https://images.unsplash.com/photo-1603732551658-5fabbafa84eb?auto=format&fit=crop&w=1200&q=80',
   },
 
   // -------------------------------------------------------------
@@ -689,6 +713,7 @@ export const services: Service[] = [
   {
     id: 24,
     slug: 'logistics',
+    company: 'SST',
     title: 'Hardware Tools & Logistics Management',
     shortTitle: 'Logistics & Supply Chain',
     category: 'Logistics & Mobility',
