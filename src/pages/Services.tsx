@@ -1,6 +1,9 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import PageTransition from '../components/common/PageTransition';
 import ServicesHeroIndustrial from '../components/services/ServicesHeroIndustrial';
 import { services, categories } from '../data/services';
@@ -63,6 +66,151 @@ const renderHexagons = (colorPrefix: 'sst' | 'shm') => {
   ));
 };
 
+gsap.registerPlugin(ScrollTrigger);
+
+const PROCESS_STEPS = [
+  { num: '01', title: 'DISCOVER', sub: 'Requirements', icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>, details: ['Stakeholder Interviews', 'System Audits', 'Feasibility Study'] },
+  { num: '02', title: 'DESIGN', sub: 'Architecture', icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>, details: ['Blueprint Creation', 'Scalability Modeling', 'Tech Stack Selection'] },
+  { num: '03', title: 'INTEGRATE', sub: 'Systems', icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><circle cx="12" cy="12" r="3"/><circle cx="5" cy="5" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M6.5 6.5l4 4"/><path d="M17.5 6.5l-4 4"/><path d="M6.5 17.5l4-4"/><path d="M17.5 17.5l-4-4"/></svg>, details: ['API Connections', 'Data Migration', 'Third-party Sync'] },
+  { num: '04', title: 'IMPLEMENT', sub: 'Deployment', icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>, details: ['Staged Rollouts', 'CI/CD Pipelines', 'Zero-downtime Deploy'] },
+  { num: '05', title: 'OPTIMIZE', sub: 'Performance', icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>, details: ['Load Balancing', 'Caching Strategies', 'Code Profiling'] },
+  { num: '06', title: 'SUPPORT', sub: 'Ongoing Care', icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>, details: ['24/7 Monitoring', 'Security Patches', 'SLA Guarantee'] },
+];
+
+const ProcessSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  
+  useGSAP(() => {
+    // 1. Initial Reveal (independent triggers, safe because they trigger before the pin)
+    gsap.fromTo('.process-eyebrow, .process-title, .process-subtitle', 
+      { y: 30, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out', scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' } }
+    );
+    
+    gsap.fromTo('.process-step-item', 
+      { y: 40, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: 'back.out(1.2)', scrollTrigger: { trigger: sectionRef.current, start: 'top 65%' } }
+    );
+
+    // 2. ONE MASTER SCROLL-SCRUBBING PIPELINE
+    const scrubTl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: '+=2500', // Slower, more deliberate scroll range
+        scrub: true,
+        pin: true,
+      }
+    });
+
+    // Add parallax backgrounds to the master timeline (so they animate over the same pinned scroll distance)
+    scrubTl.to('.parallax-bg-1', { yPercent: -50, ease: 'none', duration: 1 }, 0);
+    scrubTl.to('.parallax-bg-2', { yPercent: 80, ease: 'none', duration: 1 }, 0);
+
+    // 3. The line draws from 0 to 1000 (viewBox width) using a clip-path rectangle
+    scrubTl.fromTo('.timeline-clip-rect', 
+      { attr: { width: 0 } }, 
+      { attr: { width: 1000 }, ease: 'none', duration: 1 },
+      0
+    );
+
+    // Node activations based on master scrub progress
+    const items = gsap.utils.toArray('.process-step-item');
+    const timePerNode = 1 / (items.length - 1); // 0, 0.2, 0.4, 0.6, 0.8, 1.0
+
+    items.forEach((item: any, i) => {
+      const hitTime = i * timePerNode;
+      const node = item.querySelector('.process-step-node');
+      const icon = item.querySelector('.process-step-icon');
+      const bgNum = item.querySelector('.process-bg-num');
+      
+      scrubTl.to(node, {
+        scale: 1.1,
+        boxShadow: '0 0 25px rgba(244, 81, 30, 0.7)',
+        borderColor: 'rgba(244, 81, 30, 0.8)',
+        duration: 0.05
+      }, hitTime);
+      
+      scrubTl.to(icon, {
+        opacity: 1,
+        color: '#F4511E',
+        duration: 0.05
+      }, hitTime);
+
+      scrubTl.to(bgNum, {
+        color: 'rgba(244, 81, 30, 0.1)',
+        duration: 0.05
+      }, hitTime);
+    });
+
+  }, { scope: sectionRef, dependencies: [] });
+
+  return (
+    <section className="services-process-section" ref={sectionRef}>
+      <div className="process-bg-overlay" />
+      <div className="process-grid-overlay" />
+      <div className="process-radial-glow" />
+      
+      {/* Parallax Elements */}
+      
+      <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+        <div className="process-header">
+          <p className="process-eyebrow">OUR DELIVERY FRAMEWORK</p>
+          <h2 className="process-title">FROM REQUIREMENT TO REAL-WORLD IMPACT</h2>
+          <p className="process-subtitle">
+            One integrated process for complex infrastructure and technology systems.
+          </p>
+        </div>
+
+        <div className="process-timeline-container">
+          <svg className="curved-timeline-svg" viewBox="0 0 1000 200" preserveAspectRatio="none">
+             <defs>
+               <clipPath id="timeline-clip">
+                 <rect className="timeline-clip-rect" x="0" y="0" width="0" height="200" />
+               </clipPath>
+             </defs>
+             <path 
+               className="curved-timeline-bg"
+               d="M 0,20 C 100,20 100,180 200,180 C 300,180 300,20 400,20 C 500,20 500,180 600,180 C 700,180 700,20 800,20 C 900,20 900,180 1000,180"
+               fill="none"
+               stroke="rgba(255,255,255,0.1)"
+               strokeWidth="3"
+               vectorEffect="non-scaling-stroke"
+             />
+             <path 
+               className="curved-timeline-fill"
+               d="M 0,20 C 100,20 100,180 200,180 C 300,180 300,20 400,20 C 500,20 500,180 600,180 C 700,180 700,20 800,20 C 900,20 900,180 1000,180"
+               fill="none"
+               stroke="#F4511E"
+               strokeWidth="3"
+               vectorEffect="non-scaling-stroke"
+               clipPath="url(#timeline-clip)"
+             />
+          </svg>
+          
+          <div className="process-wave-layout">
+            {PROCESS_STEPS.map((step, index) => (
+              <div key={step.num} className={`process-step-item ${index % 2 === 0 ? 'step-top' : 'step-bottom'}`}>
+                {/* Giant Background Number */}
+                <div className="process-bg-num">{step.num}</div>
+
+                <div className="process-step-node">
+                  <div className="process-step-icon">{step.icon}</div>
+                </div>
+                
+                <div className="process-step-content">
+                  <h4 className="process-step-name">{step.title}</h4>
+                  <p className="process-step-desc">{step.sub}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
 export default function Services() {
   const [selectedCategory, setSelectedCategory] = useState<string>('All Services');
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -73,13 +221,20 @@ export default function Services() {
   const servicesGridRef = useRef<HTMLDivElement>(null);
   const ecosystemRef = useRef<HTMLDivElement>(null);
 
-  // Global mouse tracking for fixed background glow effects
+  // Global mouse tracking for fixed background glow effects with RAF optimization
   useEffect(() => {
+    let ticking = false;
     const updateMouse = (e: MouseEvent) => {
-      document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
-      document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+          document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener('mousemove', updateMouse);
+    window.addEventListener('mousemove', updateMouse, { passive: true });
     return () => window.removeEventListener('mousemove', updateMouse);
   }, []);
 
@@ -353,41 +508,9 @@ export default function Services() {
         </section>
 
         {/* ========================================================= */}
-        {/* 5. FROM VISION TO OPERATION (Process Roadmap)              */}
+        {/* 5. ENGINEERING DELIVERY PIPELINE                           */}
         {/* ========================================================= */}
-        <section className="services-process-section">
-          <div className="process-bg-overlay" />
-          
-          <div className="container">
-            <div className="process-header">
-              <h2 className="process-title">FROM VISION TO OPERATION</h2>
-              <p className="process-subtitle">
-                A structured approach to deliver integrated solutions.
-              </p>
-            </div>
-
-            <div className="process-timeline-container">
-              <div className="process-timeline-line" />
-              
-              <div className="process-steps-grid">
-                {PROCESS_STEPS.map((step) => (
-                  <div key={step.num} className="process-step-item">
-                    <div className="process-step-node">
-                      <div className="process-step-dot" />
-                      <div className="process-step-ring" />
-                    </div>
-
-                    <div className="process-step-content">
-                      <span className="process-step-num">{step.num}</span>
-                      <h4 className="process-step-name">{step.title}</h4>
-                      <p className="process-step-desc">{step.sub}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
+        <ProcessSection />
 
         {/* ========================================================= */}
         {/* 6. OVERVIEW VIDEO MODAL                                    */}
@@ -460,14 +583,7 @@ export default function Services() {
 // HELPER DATA & ICONS
 // -------------------------------------------------------------
 
-const PROCESS_STEPS = [
-  { num: '01', title: 'Discover', sub: 'Requirements' },
-  { num: '02', title: 'Design', sub: 'Architecture' },
-  { num: '03', title: 'Integrate', sub: 'Systems' },
-  { num: '04', title: 'Implement', sub: 'Deployment' },
-  { num: '05', title: 'Optimize', sub: 'Performance' },
-  { num: '06', title: 'Support', sub: 'Ongoing Care' },
-];
+
 
 function getCategoryIcon(iconName: string) {
   switch (iconName) {

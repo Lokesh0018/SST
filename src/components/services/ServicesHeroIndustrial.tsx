@@ -238,21 +238,19 @@ export default function ServicesHeroIndustrial({
         </motion.div>
 
         <motion.div className="industrial-hero-ctas" variants={itemVariants}>
-          <MagneticButton className="btn-industrial-primary" onClick={onExploreClick}>
+          <button className="btn-industrial-primary hero-btn-hover" onClick={onExploreClick}>
             EXPLORE OUR SERVICES 
-            <svg className="btn-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </MagneticButton>
+            <span className="header-cta-arrow">
+              <span className="header-cta-arrow-head" />
+            </span>
+          </button>
           
-          <MagneticButton className="btn-industrial-secondary" onClick={onIntegrateClick || onExploreClick}>
+          <button className="btn-industrial-secondary hero-btn-hover" onClick={onIntegrateClick || onExploreClick}>
             OUR APPROACH 
-            <svg className="btn-arrow-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </MagneticButton>
+            <span className="header-cta-arrow">
+              <span className="header-cta-arrow-head" />
+            </span>
+          </button>
         </motion.div>
       </motion.div>
 
