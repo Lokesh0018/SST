@@ -13,14 +13,38 @@ import '../styles/Industries.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
+const getInitials = (name: string) => {
+  const parts = name.trim().replace(/[^a-zA-Z0-9 ]/g, '').split(/\s+/);
+  if (parts.length >= 2) {
+    return (parts[0][0] + parts[1][0]).toUpperCase();
+  }
+  return name.substring(0, 2).toUpperCase();
+};
+
+const getAvatarColor = (name: string) => {
+  const colors = [
+    '#0F172A', // Slate 900
+    '#F4511E', // Orange
+    '#0EA5E9', // Sky Blue
+    '#334155', // Slate 700
+    '#10B981', // Emerald
+    '#8B5CF6'  // Violet
+  ];
+  let hash = 0;
+  for (let i = 0; i < name.length; i++) {
+    hash = name.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return colors[Math.abs(hash) % colors.length];
+};
+
 const getClientsForIndustry = (slug: string) => {
   const categoryMap: Record<string, string> = {
-    'hospitality-sector': 'Hospitality Sector',
-    'industries': 'Industries',
-    'financial-institutions': 'Financial Institutions',
-    'ecommerce-software-companies': 'E-Commerce & Software Companies',
-    'banks': 'Banks',
-    'retail': 'Retail',
+    'hospitality': 'Hospitality Sector',
+    'manufacturing-industrial': 'Industries',
+    'financial-services': 'Financial Institutions',
+    'healthcare': 'Healthcare', // New, map might be empty
+    'retail-commercial': 'Retail',
+    'corporate-technology': 'E-Commerce & Software Companies',
   };
   const category = categoryMap[slug];
   return clients.filter(c => c.category === category && c.name.trim() !== '');
@@ -72,7 +96,7 @@ const clientImagesMap: Record<string, string> = {
   // E-Commerce & Software Companies
   'mahathi software': 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFTn2arQ1Sq_TlyB1nSiJwBFehxI6KySRy2jyH5AOydQ&s=10',
   'securius global': 'https://www.securuscctv.com/web/image/30137-fe7f1fb8/DSC_0588.webp',
-  'se techie': 'https://content3.jdmagicbox.com/comp/pune/h6/020pxx20.xx20.160115110050.a7h6/catalogue/techie-diaries-technology-pvt-ltd-viman-nagar-pune-colleges-xkj499wjva.jpg',
+  'se techie': 'https://tfipost.com/wp-content/uploads/2020/02/1-5-1024x680.jpg',
   'ss infotech': 'https://images.jdmagicbox.com/v2/comp/nagpur/y8/0712px712.x712.241010131958.y8y8/catalogue/ss-infotech-ramdaspeth-nagpur-mobile-application-developers-7bfi8zj3vd.jpg',
   'flipkart': 'https://www.retail-insight-network.com/wp-content/uploads/sites/18/2022/08/Flipkart-1.jpg',
   'lenskart': 'https://my-lkstore.lenskart.com/store_locator_image/LKST544/1.jpeg',
@@ -221,57 +245,65 @@ const TrackRecordSection = () => {
   );
 };
 
+const getBentoClass = (index: number) => {
+  if (index === 0) return 'featured-card';
+  return 'supporting-card';
+};
+
 const MemoizedIndustryCard = React.memo(({ industry, index, onShowClients }: { industry: any, index: number, onShowClients: (ind: any) => void }) => {
   const industryNumber = String(index + 1).padStart(2, '0');
+  const bentoClass = getBentoClass(index);
+  const isFeatured = index === 0;
   
   return (
     <motion.div
-      initial={{ opacity: 0, y: 50 }}
+      initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
+      viewport={{ once: false, margin: "-10%" }}
       transition={{
-        duration: 0.5,
+        duration: 0.7,
         delay: (index % 3) * 0.1,
-        ease: "easeOut"
+        ease: [0.21, 0.47, 0.32, 0.98]
       }}
+      className={`rich-industry-card-wrapper ${bentoClass}`}
     >
-      <div className="rich-industry-card">
+      <div className={`rich-industry-card ${isFeatured ? 'featured' : ''}`}>
         <div className="ric-image-wrapper">
           <img src={industry.image} alt={industry.title} className="ric-image" loading="lazy" />
-          <div className="ric-image-overlay" />
         </div>
+        
         <div className="ric-content">
           <div className="ric-meta-row">
-            <span className="ric-category">INDUSTRY SECTOR</span>
             <span className="ric-number">{industryNumber}</span>
           </div>
           
           <h3 className="ric-title">{industry.title}</h3>
-          <p className="ric-description">{industry.longDescription}</p>
           
-          <hr className="ric-divider" />
-          
+          {isFeatured && <p className="ric-description">{industry.longDescription}</p>}
           <div className="ric-services">
-            {industry.services.slice(0, 3).map((service: string) => (
+            {industry.services.slice(0, isFeatured ? 10 : 3).map((service: string) => (
               <span key={service} className="ric-service-tag">{service}</span>
             ))}
-            {industry.services.length > 3 && (
+            {!isFeatured && industry.services.length > 3 && (
               <span className="ric-service-tag">+{industry.services.length - 3} MORE</span>
             )}
           </div>
           
-          <div className="ric-cta-row" onClick={() => onShowClients(industry)}>
-            <span className="ric-cta-text">VIEW KEY PARTNERS</span>
-            <svg className="ric-cta-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="7" y1="17" x2="17" y2="7"></line>
-              <polyline points="7 7 17 7 17 17"></polyline>
-            </svg>
+          <div className="ric-footer">
+            <div className="ric-cta-row" onClick={() => onShowClients(industry)}>
+              <span className="ric-cta-text">EXPLORE INDUSTRY</span>
+              <svg className="ric-cta-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </div>
           </div>
         </div>
       </div>
     </motion.div>
   );
 });
+
 
 
 export default function Industries() {
@@ -315,6 +347,17 @@ export default function Industries() {
     window.addEventListener('mousemove', updateMouse, { passive: true });
     return () => window.removeEventListener('mousemove', updateMouse);
   }, []);
+
+  useEffect(() => {
+    if (selectedIndustry || selectedClientImage) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedIndustry, selectedClientImage]);
 
   return (
     <PageTransition>
@@ -395,10 +438,10 @@ export default function Industries() {
             >
               <motion.div 
                 className="partners-modal-content"
-                initial={{ y: 50, opacity: 0, scale: 0.95 }}
+                initial={{ y: 20, opacity: 0, scale: 0.98 }}
                 animate={{ y: 0, opacity: 1, scale: 1 }}
-                exit={{ y: 20, opacity: 0, scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                exit={{ y: 15, opacity: 0, scale: 0.98 }}
+                transition={{ duration: 0.25, ease: "easeOut" }}
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="partners-modal-header">
@@ -413,18 +456,42 @@ export default function Industries() {
                       const imageKey = client.name.toLowerCase().trim();
                       const clientImage = clientImagesMap[imageKey];
                       return (
-                        <motion.div 
+                        <div 
                           key={client.id}
-                          className={`partner-item ${clientImage ? 'has-image' : ''}`}
-                          initial={{ opacity: 0, y: 10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: i * 0.05 }}
-                          onClick={() => {
-                            if (clientImage) setSelectedClientImage(clientImage);
-                          }}
+                          className="partner-item-wrapper animate-in"
+                          style={{ animationDelay: `${i * 0.04}s` }}
                         >
-                          {client.name}
-                        </motion.div>
+                          <div 
+                            className={`partner-item ${clientImage ? 'has-image' : ''}`}
+                            onClick={() => {
+                              if (clientImage) setSelectedClientImage(clientImage);
+                            }}
+                          >
+                            <div className="partner-item-content">
+                              <div 
+                                className="partner-avatar"
+                                style={{ backgroundColor: getAvatarColor(client.name) }}
+                              >
+                                {getInitials(client.name)}
+                              </div>
+                              <div 
+                                className="partner-info"
+                                title={`${client.name} - ${client.category} Partner`}
+                              >
+                                <span className="partner-item-text">{client.name}</span>
+                                <span className="partner-item-sub">{client.category} Partner</span>
+                              </div>
+                            </div>
+                            {clientImage && (
+                              <div className="partner-item-action">
+                                <svg className="partner-item-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                                  <polyline points="7 7 17 7 17 17"></polyline>
+                                </svg>
+                              </div>
+                            )}
+                          </div>
+                        </div>
                       );
                     })}
                   </div>
@@ -449,9 +516,10 @@ export default function Industries() {
             >
               <motion.div 
                 className="client-image-modal-content"
-                initial={{ scale: 0.9, opacity: 0 }}
+                initial={{ scale: 0.95, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.9, opacity: 0 }}
+                exit={{ scale: 0.95, opacity: 0 }}
+                transition={{ duration: 0.2, ease: "easeOut" }}
                 onClick={e => e.stopPropagation()}
               >
                 <button 
