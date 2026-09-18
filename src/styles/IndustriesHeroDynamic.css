@@ -1,0 +1,401 @@
+.industries-dynamic-hero {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: #FFFFFF;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+}
+
+/* Dynamic Arc Background */
+.industry-arc-node-wrapper {
+  position: absolute;
+  top: var(--auto-top);
+  left: var(--auto-left);
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 12px;
+  height: 12px;
+}
+
+.industries-arc-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: auto;
+}
+
+.arc-svg-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.hero-ambient-lines {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 75%;
+  height: 65%;
+  opacity: 1;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.arc-node-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  transform: translate(-50%, -50%);
+  background-color: #F4511E;
+  border-radius: 50%;
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 3;
+  cursor: pointer;
+}
+
+.industry-arc-node-wrapper.is-active .arc-node-dot {
+  animation: activeDotPulse 2.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes activeDotPulse {
+  0% { box-shadow: 0 0 0 0 rgba(244, 81, 30, 0.4); }
+  70% { box-shadow: 0 0 0 10px rgba(244, 81, 30, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(244, 81, 30, 0); }
+}
+
+.industry-arc-node-wrapper:hover .arc-node-dot {
+  box-shadow: 0 0 0 2px rgba(244, 81, 30, 0.15);
+}
+
+/* Connector line restored for visual connection to arc */
+.industry-pill-connector {
+  position: absolute;
+  top: 50%;
+  height: 1px;
+  background: rgba(244, 81, 30, 0.4);
+  width: 40px;
+  transform: translateY(-50%);
+  transition: all 0.4s ease;
+  z-index: 1;
+}
+
+.industry-pill-connector.right {
+  left: 6px; 
+}
+
+.industry-pill-card {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #FFFFFF;
+  padding: 8px 16px;
+  border-radius: 24px;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03), 0 1px 3px rgba(0,0,0,0.02);
+  border: 1px solid #E2E8F0;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+.industry-pill-card.right {
+  left: 45px; 
+}
+
+.industry-arc-node-wrapper:hover .industry-pill-card.right {
+  transform: translateY(-50%);
+  border-color: #F4511E;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+}
+
+.industry-arc-node-wrapper.is-active .industry-pill-card.right {
+  transform: translateY(-50%);
+  border-color: #F4511E;
+  animation: activePillPulse 2.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.industry-arc-node-wrapper.is-active .industry-pill-connector,
+.industry-arc-node-wrapper:hover .industry-pill-connector {
+  background: rgba(244, 81, 30, 0.9);
+  box-shadow: 0 0 8px rgba(244, 81, 30, 0.4);
+}
+
+@keyframes activePillPulse {
+  0% { box-shadow: 0 0 0 0 rgba(244, 81, 30, 0.15), 0 6px 20px rgba(0, 0, 0, 0.05); }
+  70% { box-shadow: 0 0 0 12px rgba(244, 81, 30, 0), 0 6px 20px rgba(0, 0, 0, 0.05); }
+  100% { box-shadow: 0 0 0 0 rgba(244, 81, 30, 0), 0 6px 20px rgba(0, 0, 0, 0.05); }
+}
+
+.industry-pill-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: transparent;
+  color: #10182D;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.4s ease;
+}
+
+.industry-pill-card.right .industry-pill-icon {
+  margin-right: 8px;
+}
+
+.industry-arc-node-wrapper.is-active .industry-pill-icon,
+.industry-arc-node-wrapper:hover .industry-pill-icon,
+.industry-arc-node-wrapper.is-active .industry-pill-label,
+.industry-arc-node-wrapper:hover .industry-pill-label {
+  color: #F4511E;
+}
+
+/* Icon Drawing Animations */
+.industry-arc-node-wrapper.is-active .industry-pill-icon svg *,
+.industry-arc-node-wrapper:hover .industry-pill-icon svg * {
+  stroke-dasharray: 150;
+  stroke-dashoffset: 150;
+  animation: drawIcon 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes drawIcon {
+  0% { stroke-dashoffset: 150; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.industry-pill-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  color: #10182D;
+  transition: color 0.4s ease;
+}
+
+/* Micro-Data HUD Ticker */
+.hero-hud-ticker {
+  position: absolute;
+  bottom: 50px;
+  left: 10%;
+  font-family: 'SF Mono', 'Fira Code', 'Roboto Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: rgba(16, 24, 45, 0.4);
+  z-index: 10;
+  pointer-events: none;
+  animation: hudPulse 8s infinite alternate;
+}
+
+@keyframes hudPulse {
+  0% { opacity: 0.5; }
+  100% { opacity: 0.9; }
+}
+
+/* Editorial Text Content */
+.industries-dynamic-content {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 600px;
+  padding-left: 10%;
+}
+
+.industries-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.industries-eyebrow-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: rgba(16, 24, 45, 0.6);
+  text-transform: uppercase;
+}
+
+.industries-eyebrow-line {
+  height: 1px;
+  width: 60px;
+  background: #F4511E;
+  opacity: 0.5;
+}
+
+.industries-headline {
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  line-height: 1.05;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #10182D;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.industries-orange-accent {
+  color: #F4511E;
+}
+
+.industries-description {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: rgba(16, 24, 45, 0.75);
+  margin-bottom: 3rem;
+  max-width: 480px;
+  min-height: 120px; 
+}
+
+.industries-stats-row {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  margin-top: 1rem;
+}
+
+.industries-stat {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.industries-stat-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #0F172A;
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.industries-stat:hover .industries-stat-value {
+  color: #F4511E;
+}
+
+.industries-stat-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: #F4511E;
+  text-transform: uppercase;
+}
+
+.industries-stat-divider {
+  width: 1px;
+  height: 50px;
+  background-color: rgba(15, 23, 42, 0.15);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .industries-arc-container {
+    width: 60%;
+    right: -10%;
+  }
+}
+
+@media (max-width: 768px) {
+  .industries-dynamic-hero {
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 100px;
+  }
+  
+  .industries-arc-container {
+    position: relative;
+    width: 100%;
+    right: auto;
+    height: 400px;
+    margin-top: 2rem;
+    overflow: hidden;
+  }
+
+  .arc-svg-line {
+    transform: rotate(90deg);
+  }
+  
+  .industry-arc-node {
+    /* Need to recalculate positions for horizontal stack or keep them vertical */
+    /* For now, just keep the arc as is on mobile but smaller */
+    transform: scale(0.8) translateY(-50%);
+  }
+
+  
+  .industries-dynamic-content {
+    padding-left: 2rem;
+    padding-right: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .industries-eyebrow {
+    justify-content: center;
+  }
+  
+  .industries-headline {
+    align-items: center;
+  }
+}
+
+/* ========================================================================= */
+/* MANUALLY ADJUST INDIVIDUAL SECTORS (PLAIN CSS) */
+/* Uncomment these blocks to freely move dots and cards anywhere on screen  */
+/* ========================================================================= */
+
+/* 1. HOSPITALITY */
+.industry-node-hospitality {
+  top: 16%;
+  left: 27%;
+}
+.industry-connector-hospitality {
+  width: 40px;
+}
+.industry-card-hospitality {
+  left: 45px;
+}
+
+/* 2. INDUSTRIES */
+.industry-node-industries {
+  top: 30%;
+  left: 42%;
+}
+
+/* 3. FINANCIAL INSTITUTIONS */
+.industry-node-finance {
+  top: 47%;
+  left: 49.2%;
+}
+
+/* 4. E-COMMERCE & SOFTWARE */
+.industry-node-ecommerce {
+  top: 64%;
+  left: 45%;
+}
+
+/* 5. BANKS */
+.industry-node-banks {
+  top: 80%;
+  left: 30%;
+}
+
+/* 6. RETAIL */
+.industry-node-retail {
+  top: 93%;
+  left: 11%;
+}

@@ -1995,3 +1995,95 @@
 .curved-timeline-fill, .parallax-bg-1, .parallax-bg-2, .process-step-node, .process-step-icon, .timeline-clip-rect {
   will-change: transform, opacity;
 }
+
+/* --------------------------------------------------------------------------
+   REAL-TIME SEARCH & HEADER ROW
+   -------------------------------------------------------------------------- */
+.services-grid-header-row {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+@media (min-width: 768px) {
+  .services-grid-header-row {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+}
+
+.services-grid-title-area {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.services-section-title {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0F172A;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.services-count-badge {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: #F4511E;
+}
+
+.services-search-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: #64748B;
+  pointer-events: none;
+}
+
+.services-search-input {
+  width: 100%;
+  padding: 0.85rem 2.5rem 0.85rem 3rem;
+  background: #FFFFFF;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  color: #0F172A;
+  font-size: 0.95rem;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.services-search-input:focus {
+  background: #FFFFFF;
+  border-color: rgba(244, 81, 30, 0.5);
+  box-shadow: 0 0 0 4px rgba(244, 81, 30, 0.1);
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #64748B;
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+}
+.search-clear-btn:hover {
+  color: #F4511E;
+}

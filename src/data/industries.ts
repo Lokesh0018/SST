@@ -9,16 +9,8 @@ export interface Industry {
 
 export const industries: Industry[] = [
   {
-    slug: 'restaurants',
-    title: 'Restaurants',
-    description: 'Seamless dining experiences and operations.',
-    longDescription: 'Integrated infrastructure services that enhance the dining experience while ensuring safety and operational efficiency across restaurants and food service venues.',
-    image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1000&q=80',
-    services: ['Surveillance', 'Fire Safety', 'Network Infrastructure', 'Access Control'],
-  },
-  {
-    slug: 'hospitality',
-    title: 'Hospitality',
+    slug: 'hospitality-sector',
+    title: 'Hospitality Sector',
     description: 'Safety and comfort for every guest.',
     longDescription: 'Integrated infrastructure services that enhance guest experience while ensuring safety and operational efficiency across hotels, resorts, and hospitality venues.',
     image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1000&q=80',
@@ -41,8 +33,8 @@ export const industries: Industry[] = [
     services: ['Surveillance', 'Access Control', 'Network Infrastructure', 'Electrical'],
   },
   {
-    slug: 'ecommerce-software',
-    title: 'E-commerce & Software Companies',
+    slug: 'ecommerce-software-companies',
+    title: 'E-Commerce & Software Companies',
     description: 'Building secure digital environments.',
     longDescription: 'End-to-end technology and security infrastructure for e-commerce and software companies that prioritize high-availability and safety.',
     image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1000&q=80',

@@ -1,17 +1,24 @@
-import { useRef, useEffect, useState } from 'react';
-import { gsap } from 'gsap';
+import React, { useRef, useEffect, useState, useMemo, useDeferredValue } from 'react';
+import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import PageTransition from '../components/common/PageTransition';
 import SectionHeading from '../components/common/SectionHeading';
+import IndustriesHeroDynamic from '../components/industries/IndustriesHeroDynamic';
 import { industries } from '../data/industries';
 import { clients } from '../data/clients';
+import '../styles/Industries.css';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const getClientsForIndustry = (slug: string) => {
   const categoryMap: Record<string, string> = {
-    'hotels': 'Hospitality Sector',
+    'hospitality-sector': 'Hospitality Sector',
     'industries': 'Industries',
     'financial-institutions': 'Financial Institutions',
-    'ecommerce-software': 'E-Commerce & Software Companies',
+    'ecommerce-software-companies': 'E-Commerce & Software Companies',
     'banks': 'Banks',
     'retail': 'Retail',
   };
@@ -95,209 +102,371 @@ const clientImagesMap: Record<string, string> = {
   'blackberry': 'https://content.jdmagicbox.com/comp/karimnagar/l2/9999px878.x878.230904154536.f8l2/catalogue/blackberrys-cvrn-road-karimnagar-men-readymade-garment-wholesalers-tnh9i1w9rm.jpg',
   'reliance fresh': 'https://content.jdmagicbox.com/v2/comp/delhi/n4/011pxx11.xx11.150701160558.c1n4/catalogue/reliance-fresh-paschim-vihar-delhi-grocery-stores-uismq5.jpg'
 };
-import { partners } from '../data/partners';
-import TopographicalBackground from '../components/common/TopographicalBackground';
-import '../styles/Industries.css';
 
-gsap.registerPlugin(ScrollTrigger);
 
-import ArchitecturalSkyline from '../components/ArchitecturalSkyline';
+const TRACK_RECORD_CLIENTS = [
+  {
+    name: 'Muthoot Finance',
+    sub: 'BFSI Surveillance & AMC',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M4 10h16M4 14h16M4 18h16M12 2L2 7h20L12 2z"/>
+      </svg>
+    )
+  },
+  {
+    name: 'Mahindra Finance',
+    sub: 'Branch Security Refits',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M8 6h8M8 12h8M12 6v12"/>
+        <path d="M12 12c2.5 0 4-1.5 4-3s-1.5-3-4-3-4 1.5-4 3c0 1 1 2 2.5 2h3c1.5 0 2.5 1 2.5 2s-1.5 3-4 3-4-1.5-4-3"/>
+      </svg>
+    )
+  },
+  {
+    name: 'Swiggy',
+    sub: 'Hub Automation & Dock Bays',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="7" cy="17" r="3"/><circle cx="17" cy="17" r="3"/>
+        <path d="M2 14h4l3-9h5l3 4h4v3"/>
+      </svg>
+    )
+  },
+  {
+    name: 'Lifestyle',
+    sub: 'EAS & Footfall Analytics',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 0 1-8 0"/>
+      </svg>
+    )
+  },
+  {
+    name: 'Reliance Fresh',
+    sub: 'Central POS Surveillance',
+    icon: (
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+      </svg>
+    )
+  }
+];
+
+const TrackRecordSection = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    gsap.fromTo('.track-record-header > *', 
+      { y: 30, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out', scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' } }
+    );
+    
+    gsap.fromTo('.tr-client-card', 
+      { y: 40, opacity: 0 }, 
+      { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: 'back.out(1.2)', scrollTrigger: { trigger: sectionRef.current, start: 'top 65%' } }
+    );
+
+    gsap.fromTo('.tr-stats-banner',
+      { y: 30, opacity: 0, scale: 0.98 },
+      { y: 0, opacity: 1, scale: 1, duration: 0.8, delay: 0.4, ease: 'power3.out', scrollTrigger: { trigger: sectionRef.current, start: 'top 60%' } }
+    );
+  }, { scope: sectionRef });
+
+  return (
+    <section className="track-record-section" ref={sectionRef}>
+      <div className="container">
+        <div className="track-record-header">
+          <p className="tr-eyebrow">PROVEN TRACK RECORD</p>
+          <h2 className="tr-title">Trusted by Industry Leaders Across South India</h2>
+          <p className="tr-subtitle">
+            Over 7 years of relentless execution in Andhra Pradesh, Telangana, Tamil Nadu, and pan-India turnkey deployments.
+          </p>
+        </div>
+
+        <div className="tr-clients-row">
+          {TRACK_RECORD_CLIENTS.map((client, idx) => (
+            <div key={idx} className="tr-client-card">
+              <div className="tr-client-icon">{client.icon}</div>
+              <h4 className="tr-client-name">{client.name}</h4>
+              <p className="tr-client-sub">{client.sub}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="tr-stats-banner">
+          <div className="tr-stat-item">
+            <h3 className="tr-stat-val text-orange">10,000+</h3>
+            <p className="tr-stat-label">CAMERAS & SENSORS DEPLOYED</p>
+          </div>
+          <div className="tr-stat-item">
+            <h3 className="tr-stat-val text-green">99.8%</h3>
+            <p className="tr-stat-label">SLA UPTIME MAINTAINED</p>
+          </div>
+          <div className="tr-stat-item">
+            <h3 className="tr-stat-val text-white">450+</h3>
+            <p className="tr-stat-label">TURNKEY SITES HANDLED</p>
+          </div>
+          <div className="tr-stat-item">
+            <h3 className="tr-stat-val text-orange">24 / 7</h3>
+            <p className="tr-stat-label">DIRECT VIZAG DISPATCH DESK</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const MemoizedIndustryCard = React.memo(({ industry, index, onShowClients }: { industry: any, index: number, onShowClients: (ind: any) => void }) => {
+  const industryNumber = String(index + 1).padStart(2, '0');
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{
+        duration: 0.5,
+        delay: (index % 3) * 0.1,
+        ease: "easeOut"
+      }}
+    >
+      <div className="rich-industry-card">
+        <div className="ric-image-wrapper">
+          <img src={industry.image} alt={industry.title} className="ric-image" loading="lazy" />
+          <div className="ric-image-overlay" />
+        </div>
+        <div className="ric-content">
+          <div className="ric-meta-row">
+            <span className="ric-category">INDUSTRY SECTOR</span>
+            <span className="ric-number">{industryNumber}</span>
+          </div>
+          
+          <h3 className="ric-title">{industry.title}</h3>
+          <p className="ric-description">{industry.longDescription}</p>
+          
+          <hr className="ric-divider" />
+          
+          <div className="ric-services">
+            {industry.services.slice(0, 3).map((service: string) => (
+              <span key={service} className="ric-service-tag">{service}</span>
+            ))}
+            {industry.services.length > 3 && (
+              <span className="ric-service-tag">+{industry.services.length - 3} MORE</span>
+            )}
+          </div>
+          
+          <div className="ric-cta-row" onClick={() => onShowClients(industry)}>
+            <span className="ric-cta-text">VIEW KEY PARTNERS</span>
+            <svg className="ric-cta-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="7" y1="17" x2="17" y2="7"></line>
+              <polyline points="7 7 17 7 17 17"></polyline>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+});
 
 
 export default function Industries() {
-  const sectionRef = useRef<HTMLDivElement>(null);
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedIndustry, setSelectedIndustry] = useState<any | null>(null);
   const [selectedClientImage, setSelectedClientImage] = useState<string | null>(null);
+  
+  const industriesGridRef = useRef<HTMLDivElement>(null);
+  const deferredSearchQuery = useDeferredValue(searchQuery);
 
-  useEffect(() => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion || !sectionRef.current) return;
-
-    const cards = sectionRef.current.querySelectorAll('.industry-detail-card');
-    cards.forEach((card) => {
-      gsap.fromTo(
-        card,
-        { 
-          opacity: 0, 
-          y: 60,
-          scale: 0.95 
-        },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.8,
-          ease: 'power3.out',
-          scrollTrigger: {
-            trigger: card,
-            start: 'top 85%',
-            toggleActions: 'play none none reverse',
-          }
-        }
+  const filteredIndustries = useMemo(() => {
+    return industries.filter((industry) => {
+      const query = deferredSearchQuery.toLowerCase();
+      if (!query) return true;
+      return (
+        industry.title.toLowerCase().includes(query) ||
+        industry.longDescription.toLowerCase().includes(query) ||
+        industry.services.some(s => s.toLowerCase().includes(query))
       );
     });
+  }, [deferredSearchQuery]);
+
+  const scrollToIndustries = () => {
+    if (industriesGridRef.current) {
+      industriesGridRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  useEffect(() => {
+    let ticking = false;
+    const updateMouse = (e: MouseEvent) => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+          document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('mousemove', updateMouse, { passive: true });
+    return () => window.removeEventListener('mousemove', updateMouse);
   }, []);
 
   return (
     <PageTransition>
-      {/* Hero */}
-      <section className="industries-hero">
-        <ArchitecturalSkyline />
-        <div className="container">
-          <div className="industries-hero-header">
-            <div>
-              <SectionHeading as="h1" highlight="INDUSTRY.">
-                SERVICES FOR EVERY INDUSTRY.
-              </SectionHeading>
-              <p className="industries-hero-text">
-                Tailored infrastructure services for diverse environments.
-              </p>
-            </div>
-            <div className="industries-hero-right">
-              <p className="industries-hero-right-text">
-                Different Industries.<br />
-                <span className="industries-hero-right-highlight">A Stronger</span><br />
-                Tomorrow.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div className="industries-page-root">
+        {/* Dynamic Hero */}
+        <IndustriesHeroDynamic onExploreClick={scrollToIndustries} />
 
-      {/* Industry Cards */}
-      <section 
-        ref={sectionRef} 
-        className="industries-section"
-        onMouseMove={(e) => {
-          if (!sectionRef.current) return;
-          const rect = sectionRef.current.getBoundingClientRect();
-          const x = e.clientX - rect.left;
-          const y = e.clientY - rect.top;
-          sectionRef.current.style.setProperty('--mouse-x', `${x}px`);
-          sectionRef.current.style.setProperty('--mouse-y', `${y}px`);
-        }}
-      >
-        <TopographicalBackground className="industries-topo-container" />
-        
-        <div className="container">
-          <div className="industries-grid">
-            {industries.map((industry) => (
-              <div
-                key={industry.slug}
-                className="industry-detail-card industries-card"
-              >
-                <div className="industries-card-inner">
-                  {/* FRONT OF CARD */}
-                  <div className="industries-card-front">
-                    {/* Photographic Background */}
-                    <img
-                      src={industry.image}
-                      alt={industry.title}
-                      className="industries-card-img"
-                    />
-
-                    {/* Dark Gradient Overlay */}
-                    <div className="industries-card-overlay" />
-                    
-                    {/* Scanner Line */}
-                    <div className="industries-card-scanner" />
-                    
-                    {/* Corner Crosshairs */}
-                    <div className="industries-card-crosshair crosshair-tl" />
-                    <div className="industries-card-crosshair crosshair-tr" />
-                    <div className="industries-card-crosshair crosshair-bl" />
-                    <div className="industries-card-crosshair crosshair-br" />
-
-                    {/* Content */}
-                    <div className="industries-card-content">
-                      <div className="industries-card-glass">
-                        <span className="industries-card-tag">
-                          Industry Service
-                        </span>
-
-                        <h3 className="industries-card-title">
-                          {industry.title}
-                        </h3>
-
-                        <p className="industries-card-desc">
-                          {industry.longDescription}
-                        </p>
-
-                        {/* Services tags */}
-                        <div className="industries-card-services">
-                          {industry.services.map((service) => (
-                            <span
-                              key={service}
-                              className="industries-card-service"
-                            >
-                              {service}
-                            </span>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Orange border glow on hover */}
-                    <div className="industries-card-glow" />
-                  </div>
-
-                  {/* BACK OF CARD */}
-                  <div className="industries-card-back">
-                    {/* Watermark Logo */}
-                    <img 
-                      src="/images/logo/SST L.png" 
-                      alt="" 
-                      className="industries-card-back-watermark" 
-                    />
-                    
-                    <h3 className="industries-card-back-title">Our Partners</h3>
-                    <ul className="industries-card-back-list">
-                      {getClientsForIndustry(industry.slug).map((client, index) => {
-                        const imageKey = client.name.toLowerCase().trim();
-                        const clientImage = clientImagesMap[imageKey];
-                        
-                        return (
-                          <li 
-                            key={client.id}
-                            style={{ 
-                              animationDelay: `${index * 0.05}s`,
-                              cursor: clientImage ? 'pointer' : 'default'
-                            }}
-                            onClick={() => {
-                              if (clientImage) {
-                                setSelectedClientImage(clientImage);
-                              }
-                            }}
-                          >
-                            {client.name}
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-                </div>
+        {/* Real-time Search & Rich Cards Grid */}
+        <section className="industries-grid-section" ref={industriesGridRef}>
+          <div className="container">
+            <div className="industries-grid-header-row">
+              <div className="industries-grid-title-area">
+                <h2 className="industries-section-title">SECTORS WE SERVE</h2>
+                <span className="industries-count-badge">({filteredIndustries.length} SECTORS)</span>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      {/* Client Image Modal */}
-      {selectedClientImage && (
-        <div 
-          className="client-image-modal-overlay"
-          onClick={() => setSelectedClientImage(null)}
-        >
-          <div className="client-image-modal-content" onClick={e => e.stopPropagation()}>
-            <button 
-              className="client-image-modal-close"
+              <div className="industries-search-wrapper">
+                <svg className="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <circle cx="11" cy="11" r="8" />
+                  <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                </svg>
+                <input 
+                  type="text"
+                  placeholder="Search industries, services..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="industries-search-input"
+                />
+                {searchQuery && (
+                  <button onClick={() => setSearchQuery('')} className="search-clear-btn">
+                    &times;
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {filteredIndustries.length > 0 ? (
+              <div className="rich-industries-grid">
+                {filteredIndustries.map((ind, i) => (
+                  <MemoizedIndustryCard 
+                    key={ind.slug} 
+                    industry={ind} 
+                    index={i} 
+                    onShowClients={(industry) => setSelectedIndustry(industry)} 
+                  />
+                ))}
+              </div>
+            ) : (
+              <motion.div 
+                className="industries-empty-state"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+              >
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#94A3B8" strokeWidth="1.5">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+                <h3>No sectors found</h3>
+                <p>We couldn't find any industries matching "{searchQuery}".</p>
+                <button className="btn-secondary" onClick={() => setSearchQuery('')}>Clear Search</button>
+              </motion.div>
+            )}
+          </div>
+        </section>
+
+        {/* Track Record Section */}
+        <TrackRecordSection />
+
+        {/* Partners Modal */}
+        <AnimatePresence>
+          {selectedIndustry && (
+            <motion.div 
+              className="partners-modal-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedIndustry(null)}
+            >
+              <motion.div 
+                className="partners-modal-content"
+                initial={{ y: 50, opacity: 0, scale: 0.95 }}
+                animate={{ y: 0, opacity: 1, scale: 1 }}
+                exit={{ y: 20, opacity: 0, scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div className="partners-modal-header">
+                  <h3>{selectedIndustry.title} Partners</h3>
+                  <button className="partners-modal-close" onClick={() => setSelectedIndustry(null)}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+                  </button>
+                </div>
+                <div className="partners-modal-body">
+                  <div className="partners-grid">
+                    {getClientsForIndustry(selectedIndustry.slug).map((client, i) => {
+                      const imageKey = client.name.toLowerCase().trim();
+                      const clientImage = clientImagesMap[imageKey];
+                      return (
+                        <motion.div 
+                          key={client.id}
+                          className={`partner-item ${clientImage ? 'has-image' : ''}`}
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: i * 0.05 }}
+                          onClick={() => {
+                            if (clientImage) setSelectedClientImage(clientImage);
+                          }}
+                        >
+                          {client.name}
+                        </motion.div>
+                      );
+                    })}
+                  </div>
+                  {getClientsForIndustry(selectedIndustry.slug).length === 0 && (
+                     <p className="no-partners-msg">Our partner network is currently being updated for this sector.</p>
+                  )}
+                </div>
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {/* Client Image Modal */}
+        <AnimatePresence>
+          {selectedClientImage && (
+            <motion.div 
+              className="client-image-modal-overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               onClick={() => setSelectedClientImage(null)}
             >
-              &times;
-            </button>
-            <img src={selectedClientImage} alt="Client Location" className="client-image-modal-img" />
-          </div>
-        </div>
-      )}
+              <motion.div 
+                className="client-image-modal-content"
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                onClick={e => e.stopPropagation()}
+              >
+                <button 
+                  className="client-image-modal-close"
+                  onClick={() => setSelectedClientImage(null)}
+                >
+                  &times;
+                </button>
+                <img src={selectedClientImage} alt="Client Location" className="client-image-modal-img" />
+              </motion.div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+      </div>
     </PageTransition>
   );
 }

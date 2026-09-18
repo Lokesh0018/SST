@@ -1,0 +1,125 @@
+/* ========================================================================= */
+/* INDUSTRIES HERO PURE-CODE BACKGROUND DESIGN SYSTEM */
+/* ========================================================================= */
+
+.industries-hero-bg-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* 1. Center Warm Ambient Glow behind Globe */
+.hero-bg-center-glow {
+  position: absolute;
+  left: 54%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+  width: 780px;
+  height: 780px;
+  border-radius: 50%;
+  background: transparent; /* Removed for pure white theme */
+  pointer-events: none;
+}
+
+/* 2. 3D Dotted World Globe Canvas */
+.hero-bg-globe-wrapper {
+  position: absolute;
+  left: 54%;
+  top: 48%;
+  transform: translate(-50%, -50%);
+  width: 640px;
+  height: 640px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-bg-globe-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+
+/* 4. Constellation Tech Network */
+.hero-bg-constellation {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* 5. 3D Frosted Peach/Orange Spheres */
+.hero-bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #FFFFFF 0%, #FFD2C2 28%, #FF8A65 65%, #F4511E 95%, #D84315 100%);
+  pointer-events: none;
+}
+
+.hero-bg-orb-bl {
+  left: 2.5%;
+  bottom: 14%;
+  width: 94px;
+  height: 94px;
+  box-shadow: 0 20px 45px rgba(244, 81, 30, 0.22), inset 0 -6px 14px rgba(0, 0, 0, 0.08);
+  filter: blur(0.5px);
+  animation: orbFloatBL 7s ease-in-out infinite alternate;
+}
+
+.hero-bg-orb-tr {
+  right: 3.5%;
+  top: 13%;
+  width: 76px;
+  height: 76px;
+  box-shadow: 0 16px 38px rgba(244, 81, 30, 0.18), inset 0 -5px 12px rgba(0, 0, 0, 0.08);
+  filter: blur(1.2px);
+  animation: orbFloatTR 8s ease-in-out infinite alternate;
+}
+
+@keyframes orbFloatBL {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(-12px) rotate(6deg); }
+}
+
+@keyframes orbFloatTR {
+  0% { transform: translateY(0px) rotate(0deg); }
+  100% { transform: translateY(10px) rotate(-6deg); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .hero-bg-globe-wrapper {
+    width: 480px;
+    height: 480px;
+    left: 50%;
+  }
+  .hero-bg-orb-bl {
+    width: 70px;
+    height: 70px;
+  }
+  .hero-bg-orb-tr {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-bg-globe-wrapper {
+    width: 340px;
+    height: 340px;
+    top: 55%;
+    left: 50%;
+    opacity: 0.65;
+  }
+  .hero-bg-orb-bl,
+  .hero-bg-orb-tr {
+    display: none;
+  }
+}
