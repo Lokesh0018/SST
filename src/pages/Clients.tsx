@@ -124,12 +124,24 @@ export default function Clients() {
       <section className="clients-grid-section">
         <div className="container relative z-10">
           
-          <div className="clients-section-transition">
+          <motion.div 
+            className="clients-section-transition"
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.2 }}
+          >
             <h2 className="clients-transition-heading">TRUSTED ACROSS INDUSTRIES</h2>
             <p className="clients-transition-text">From hospitality and banking to tech, retail and enterprise infrastructure.</p>
-          </div>
+          </motion.div>
 
-          <div className="clients-filter-container">
+          <motion.div 
+            className="clients-filter-container"
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.2 }}
+          >
             <div className="client-segmented-control">
               {categories.map(category => (
                 <button
@@ -148,20 +160,31 @@ export default function Clients() {
                 </button>
               ))}
             </div>
-          </div>
+          </motion.div>
 
           <motion.div 
             layout
             className="premium-client-grid"
           >
             <AnimatePresence mode="popLayout">
-              {filteredClients.map((client) => (
+              {filteredClients.map((client, index) => (
                 <motion.div 
                   layout
-                  variants={itemVariants}
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    show: { 
+                      opacity: 1, 
+                      y: 0, 
+                      transition: { 
+                        type: 'spring', stiffness: 400, damping: 25, 
+                        delay: index * 0.01 
+                      } 
+                    }
+                  }}
                   initial="hidden"
-                  animate="show"
-                  exit="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, margin: "-50px" }}
+                  exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
                   key={client.id} 
                   className="premium-client-card"
                 >
