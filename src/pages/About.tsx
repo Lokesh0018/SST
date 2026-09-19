@@ -408,7 +408,11 @@ export default function About() {
 
           {/* 1. ABOUT HERO */}
           <section className="about-hero-section">
-            <div className="container relative z-0">
+            {/* Ambient Tech Glows */}
+            <div className="about-hero-glow-blob orange"></div>
+            <div className="about-hero-glow-blob blue"></div>
+            
+            <div className="container relative z-10">
               <div className="about-hero-container" style={{ display: 'flex', flexDirection: 'column', gap: '3rem', width: '100%' }}>
                 
                 {/* Split Top Section */}
@@ -826,50 +830,6 @@ export default function About() {
             </div>
           </section>
 
-
-          {/* 8.5 TESTIMONIALS */}
-          <section className="about-testimonials-section" style={{ padding: '8rem 0', backgroundColor: '#0b1219' }}>
-            {/* Subtle Background pattern for dark theme */}
-            <div className="timeline-bg-grid" style={{ opacity: 0.5 }}></div>
-
-            <div className="container relative z-10">
-              <div className="text-center" style={{ marginBottom: '3rem' }}>
-                <span className="about-eyebrow">OUR TESTIMONIALS</span>
-                <h2 className="why-headline" style={{ color: 'white' }}>WHAT OUR CLIENTS <span className="text-orange">SAY.</span></h2>
-              </div>
-            </div>
-
-            <div className="testimonial-marquee-container relative z-10">
-              <div className="testimonial-marquee-track">
-                {/* Duplicate the array to create a seamless infinite loop */}
-                {[...testimonials, ...testimonials].map((testimonial, idx) => (
-                  <div key={`${testimonial.id}-${idx}`} className="testimonial-card-glass">
-                    <svg width="40" height="40" viewBox="0 0 24 24" fill="#F4511E" opacity="0.2" style={{ position: 'absolute', top: '1.5rem', right: '1.5rem' }}>
-                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-                    </svg>
-
-                    <div className="testimonial-rating">
-                      {[...Array(testimonial.rating || 5)].map((_, i) => (
-                        <svg key={i} className="testimonial-star" viewBox="0 0 24 24">
-                          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-                        </svg>
-                      ))}
-                    </div>
-
-                    <p className="testimonial-text">{testimonial.text}</p>
-
-                    <div className="testimonial-author">
-                      <img src={testimonial.avatar} alt={testimonial.name} className="testimonial-avatar" />
-                      <div>
-                        <div className="testimonial-name">{testimonial.name}</div>
-                        <div style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.5)' }}>Verified Client</div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
 
           {/* 9. FINAL CTA */}
           <section className="about-cta-section">
