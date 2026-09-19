@@ -4,9 +4,9 @@
 
 :root {
   /* Premium Industrial Palette */
-  --color-ivory: #FFFDF8; /* Cream White - Main bg */
-  --color-cream: #F0EFEA; /* Light Warm Gray - Surfaces */
-  --color-cream-dark: #E6E5E0; /* Darker Warm Gray - Secondary bg */
+  --color-ivory: #FFFFFF; /* Pure White - Main bg */
+  --color-cream: #F8F9FA; /* Light Neutral Gray - Surfaces */
+  --color-cream-dark: #E9ECEF; /* Darker Neutral Gray - Secondary bg */
   --color-orange: #F4511E; /* SST Orange - Brand */
   --color-orange-bright: #F4511E; 
   --color-orange-glow: #FFB08A; /* Soft Orange - Glow */

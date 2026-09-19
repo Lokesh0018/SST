@@ -280,7 +280,7 @@ const MemoizedIndustryCard = React.memo(({ industry, index, onShowClients }: { i
     >
       <div className={`rich-industry-card ${isFeatured ? 'featured' : ''}`}>
         <div className="ric-image-wrapper">
-          <img src={industry.image} alt={industry.title} className="ric-image" loading="lazy" />
+          <img src={industry.image} alt={industry.title} className="ric-image" />
         </div>
         
         <div className="ric-content">

@@ -102,24 +102,7 @@ export default function About() {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
-    // Hero Animation
-    if (heroContentRef.current) {
-      const elements = heroContentRef.current.querySelectorAll('.hero-animate');
-      gsap.fromTo(elements,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: 'power2.out', delay: 0.2 }
-      );
-
-      // Floating animation removed per request
-    }
-    
-    if (heroGridRef.current) {
-      const cards = heroGridRef.current.querySelectorAll('.vertical-stat-item');
-      gsap.fromTo(cards,
-        { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, duration: 0.8, stagger: 0.1, ease: 'power2.out', delay: 0.6 }
-      );
-    }
+    // Hero animations removed to rely on Framer Motion PageTransition and prevent route-change disappearing bugs
 
     // Dashboard chips animation
     if (heroContentRef.current) {
@@ -392,7 +375,7 @@ export default function About() {
       );
     }
 
-  });
+  }, { dependencies: [] });
 
   return (
     <>
@@ -421,27 +404,27 @@ export default function About() {
                   
                   {/* Left Column: Content */}
                   <div className="hero-split-left" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                    <div className="hero-animate">
+                    <div className="">
                       <span className="mockup-eyebrow">ABOUT OUR COMPANY</span>
                     </div>
                     
-                    <h1 className="mockup-headline hero-animate">
+                    <h1 className="mockup-headline ">
                       <span className="mockup-headline-navy">SRI SADGURU</span>
                       <span className="mockup-headline-orange">TRADERS</span>
                     </h1>
                     
-                    <h2 className="mockup-subheadline hero-animate">
+                    <h2 className="mockup-subheadline ">
                       A REGISTERED PARTNERSHIP FIRM INCORPORATED IN OCT-2016.
                     </h2>
                     
-                    <div className="mockup-overview-block hero-animate">
+                    <div className="mockup-overview-block ">
                       <h3 className="mockup-overview-heading">OVERVIEW</h3>
                       <p className="mockup-overview-text">
                         Our company specializes in Handling Turnkey Projects, CCTV, FAS, PA system, Access Control System, Time and Attendance System, Banking Repair & Maintenance works, Interiors, ATM Infrastructure. There is a professional team of engineers and technology professionals working within our company. We are in the process of expanding the company in different verticals of business.
                       </p>
                     </div>
 
-                    <div className="mockup-cta-group hero-animate">
+                    <div className="mockup-cta-group ">
                       <a href="/contact" className="btn btn-primary">
                         Start a Project &rarr;
                       </a>
@@ -464,35 +447,35 @@ export default function About() {
             <div className="container relative z-10">
               <div className="vertical-stats-list" ref={heroGridRef}>
                 
-                <div className="vertical-stat-item hero-animate">
+                <div className="vertical-stat-item ">
                   <div className="vertical-stat-number">01</div>
                   <h4 className="vertical-stat-title">OUR EXPERIENCE</h4>
                   <div className="vertical-stat-sub">ENGINEERING-LED TECHNOLOGY SOLUTIONS</div>
                 </div>
                 
-                <div className="vertical-stat-item hero-animate">
+                <div className="vertical-stat-item ">
                   <div className="vertical-stat-number">02</div>
                   <h4 className="vertical-stat-title">OUR CAPABILITY</h4>
                   <div className="vertical-stat-sub">INTEGRATED INFRASTRUCTURE & SECURITY SYSTEMS</div>
                 </div>
                 
-                <div className="vertical-stat-item hero-animate">
+                <div className="vertical-stat-item ">
                   <div className="vertical-stat-number">03</div>
                   <h4 className="vertical-stat-title">OUR APPROACH</h4>
                   <div className="vertical-stat-sub">DESIGN &bull; DEPLOY &bull; MAINTAIN &bull; SUPPORT</div>
                 </div>
                 
-                <div className="vertical-stat-item hero-animate">
+                <div className="vertical-stat-item ">
                   <div className="vertical-stat-number">2016</div>
                   <h4 className="vertical-stat-title">ESTABLISHED</h4>
                 </div>
                 
-                <div className="vertical-stat-item hero-animate">
+                <div className="vertical-stat-item ">
                   <div className="vertical-stat-number">360&deg;</div>
                   <h4 className="vertical-stat-title">INTEGRATED SOLUTIONS</h4>
                 </div>
                 
-                <div className="vertical-stat-item hero-animate">
+                <div className="vertical-stat-item ">
                   <div className="vertical-stat-number">END-TO-END</div>
                   <h4 className="vertical-stat-title">PROJECT SUPPORT</h4>
                   <div className="vertical-stat-sub" style={{display: 'none'}}></div>
@@ -762,7 +745,7 @@ export default function About() {
               <div className="people-blocks mt-12" ref={peopleRef}>
 
                 <div className="people-block">
-                  <img src="/images/timely-deliver.png" alt="Timely Delivery" loading="lazy" className="people-bg-img" />
+                  <img src="/images/timely-deliver.png" alt="Timely Delivery" className="people-bg-img" />
                   <div className="people-overlay"></div>
                   <div className="people-content">
                     <div className="people-content-inner">
@@ -773,7 +756,7 @@ export default function About() {
                 </div>
 
                 <div className="people-block">
-                  <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" alt="Professional Staff" loading="lazy" className="people-bg-img" />
+                  <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=800&q=80" alt="Professional Staff" className="people-bg-img" />
                   <div className="people-overlay"></div>
                   <div className="people-content">
                     <div className="people-content-inner">
@@ -784,7 +767,7 @@ export default function About() {
                 </div>
 
                 <div className="people-block">
-                  <img src="/images/tech-support.jpg" alt="Tech Support" loading="lazy" className="people-bg-img" />
+                  <img src="/images/tech-support.jpg" alt="Tech Support" className="people-bg-img" />
                   <div className="people-overlay"></div>
                   <div className="people-content">
                     <div className="people-content-inner">
@@ -823,7 +806,7 @@ export default function About() {
                 </div>
                 <div className="ceo-image-col">
                   <div className="ceo-img-wrapper">
-                    <img src="https://i.pinimg.com/736x/0c/04/39/0c043902008fc7d73f7a75dbbbf02158.jpg" alt="Charvik, CEO" loading="lazy" className="ceo-img" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80'; }} />
+                    <img src="https://i.pinimg.com/736x/0c/04/39/0c043902008fc7d73f7a75dbbbf02158.jpg" alt="Charvik, CEO" className="ceo-img" onError={(e) => { e.currentTarget.src = 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80'; }} />
                   </div>
                 </div>
               </div>
@@ -839,7 +822,6 @@ export default function About() {
                 <div className="cta-card-bg-elements">
                   <div className="cta-card-dots"></div>
                   <div className="cta-watermark">SST</div>
-                  <div className="cta-geo-line"></div>
                 </div>
 
                 <div className="cta-card-content">

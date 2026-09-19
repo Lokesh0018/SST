@@ -103,10 +103,6 @@ const ProcessSection = React.memo(() => {
       }
     });
 
-    // Add parallax backgrounds to the master timeline (so they animate over the same pinned scroll distance)
-    scrubTl.to('.parallax-bg-1', { yPercent: -50, ease: 'none', duration: 1 }, 0);
-    scrubTl.to('.parallax-bg-2', { yPercent: 80, ease: 'none', duration: 1 }, 0);
-
     // 3. The line draws from 0 to 1000 (viewBox width) using a clip-path rectangle
     scrubTl.fromTo('.timeline-clip-rect', 
       { attr: { width: 0 } }, 
@@ -236,7 +232,7 @@ const MemoizedServiceCard = React.memo(({ service, index, isSHM = false, onSelec
         style={{ cursor: 'pointer' }}
       >
         <div className="esc-image-wrapper">
-          <img src={service.heroImage} alt={service.title} className="esc-image" loading="lazy" />
+          <img src={service.heroImage} alt={service.title} className="esc-image" />
           <div className="esc-image-overlay" />
         </div>
         <div className="esc-content">

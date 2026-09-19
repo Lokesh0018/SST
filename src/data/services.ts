@@ -25,6 +25,7 @@ export const services: Service[] = [
   {
     id: 1,
     slug: 'intrusion-detection',
+    video: '/videos/services/intrusion-detection.mp4',
     company: 'SST',
     title: 'Intrusion Detection',
     shortTitle: 'Intrusion Detection',
@@ -50,11 +51,11 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://i.pinimg.com/736x/76/dd/c9/76ddc9e4c400f9e51312367b26a4b3bd.jpg',
-    video: '/videos/services/intrusion-detection.mp4',
   },
   {
     id: 2,
     slug: 'access-control',
+    video: '/videos/services/access-control.mp4',
     company: 'SST',
     title: 'Access Control Systems',
     shortTitle: 'Access Control',
@@ -80,11 +81,11 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1200&q=80',
-    video: '/videos/services/access-control.mp4',
   },
   {
     id: 3,
     slug: 'video-surveillance',
+    video: '/videos/services/video-surveillance.mp4',
     company: 'COMMON',
     title: 'Video Surveillance & CCTV',
     shortTitle: 'Video Surveillance',
@@ -110,12 +111,12 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1200&q=80',
-    video: '/videos/services/video-surveillance.mp4',
     featured: true,
   },
   {
     id: 4,
     slug: 'fire-fighting',
+    video: '/videos/services/fire-fighting.mp4',
     company: 'SST',
     title: 'Fire Fighting & Life Safety',
     shortTitle: 'Fire Fighting',
@@ -141,11 +142,11 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://i.pinimg.com/736x/e2/d3/fc/e2d3fcecb213a2d37dfa20f9526e68f3.jpg',
-    video: '/videos/services/fire-fighting.mp4',
   },
   {
     id: 5,
     slug: 'perimeter-security',
+    video: '/videos/services/perimeter-security.mp4',
     company: 'SST',
     title: 'Perimeter & Asset Security',
     shortTitle: 'Perimeter Security',
@@ -171,7 +172,6 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://i.pinimg.com/736x/f4/bd/a1/f4bda157126f66b2831be110df731863.jpg',
-    video: '/videos/services/perimeter-security.mp4',
   },
 
   // -------------------------------------------------------------
@@ -180,6 +180,7 @@ export const services: Service[] = [
   {
     id: 6,
     slug: 'switches-storage',
+    video: '/videos/services/switches&storages.mp4',
     company: 'SST',
     title: 'Switches & Storage Systems',
     shortTitle: 'Switches & Storage',
@@ -205,7 +206,6 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
-    video: '/videos/services/switches&storages.mp4',
   },
   {
     id: 7,
@@ -240,6 +240,7 @@ export const services: Service[] = [
   {
     id: 8,
     slug: 'network-infrastructure',
+    video: '/videos/services/network&infrastructure.mp4',
     company: 'COMMON',
     title: 'Structured Network Infrastructure',
     shortTitle: 'Network Infrastructure',
@@ -265,11 +266,11 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=1200&q=80',
-    video: '/videos/services/network&infrastructure.mp4',
   },
   {
     id: 9,
     slug: 'cyber-security',
+    video: '/videos/services/cyber security.mp4',
     company: 'SHM',
     title: 'Cyber Security & Firewalls',
     shortTitle: 'Cyber Security',
@@ -295,7 +296,6 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://i.pinimg.com/736x/85/25/0b/85250b5f803c56a550a8554065cc41cd.jpg',
-    video: '/videos/services/cyber security.mp4',
   },
   {
     id: 17,
@@ -336,6 +336,7 @@ export const services: Service[] = [
   {
     id: 12,
     slug: 'enterprise-software',
+    video: '/videos/services/entriprise software.mp4',
     company: 'SHM',
     title: 'Enterprise Software Solutions',
     shortTitle: 'Enterprise Software',
@@ -361,12 +362,12 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80',
-    video: '/videos/services/entriprise software.mp4',
     featured: true,
   },
   {
     id: 13,
     slug: 'web-applications',
+    video: '/videos/services/web-applications.mp4',
     company: 'SHM',
     title: 'Custom Web Applications',
     shortTitle: 'Web Applications',
@@ -392,11 +393,11 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
-    video: '/videos/services/web-applications.mp4',
   },
   {
     id: 14,
     slug: 'mobile-applications',
+    video: '/videos/services/mobile-applications.mp4',
     company: 'SHM',
     title: 'Cross-Platform Mobile Apps',
     shortTitle: 'Mobile Applications',
@@ -422,11 +423,11 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80',
-    video: '/videos/services/mobile-applications.mp4',
   },
   {
     id: 15,
     slug: 'ai-solutions',
+    video: '/videos/services/ai-solutions.mp4',
     company: 'SHM',
     title: 'AI Solutions & Analytics',
     shortTitle: 'AI Solutions',
@@ -452,7 +453,6 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=80',
-    video: '/videos/services/ai-solutions.mp4',
     featured: true,
   },
   {
@@ -488,6 +488,7 @@ export const services: Service[] = [
   {
     id: 10,
     slug: 'api-cloud-services',
+    video: '/videos/services/api-cloud-services.mp4',
     company: 'SHM',
     title: 'API & Microservices Architecture',
     shortTitle: 'API & Cloud Services',
@@ -513,11 +514,11 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80',
-    video: '/videos/services/api-cloud-services.mp4',
   },
   {
     id: 11,
     slug: 'iot-automation',
+    video: '/videos/services/iot-automation.mp4',
     company: 'SHM',
     title: 'IoT & Edge Automation Platforms',
     shortTitle: 'IoT & Automation',
@@ -543,11 +544,11 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
-    video: '/videos/services/iot-automation.mp4',
   },
   {
     id: 18,
     slug: 'data-engineering',
+    video: '/videos/services/data-engineering.mp4',
     company: 'SHM',
     title: 'Data Engineering & Big Data Analytics',
     shortTitle: 'Data Engineering',
@@ -573,7 +574,6 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
-    video: '/videos/services/data-engineering.mp4',
   },
   {
     id: 19,
@@ -612,6 +612,7 @@ export const services: Service[] = [
   {
     id: 20,
     slug: 'turnkey-projects',
+    video: '/videos/services/turnkey.mp4',
     company: 'SST',
     title: 'Turnkey Infrastructure Projects',
     shortTitle: 'Turnkey Projects',
@@ -637,12 +638,12 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=1200&q=80',
-    video: '/videos/services/turnkey.mp4',
     featured: true,
   },
   {
     id: 21,
     slug: 'electrical-electronics',
+    video: '/videos/services/electrical&electronics.mp4',
     company: 'SST',
     title: 'Electrical & Power Engineering',
     shortTitle: 'Electrical & Electronics',
@@ -668,7 +669,6 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80',
-    video: '/videos/services/electrical&electronics.mp4',
   },
   {
     id: 22,
@@ -737,6 +737,7 @@ export const services: Service[] = [
   {
     id: 24,
     slug: 'logistics',
+    video: '/videos/services/logistics.mp4',
     company: 'SST',
     title: 'Hardware Tools & Logistics Management',
     shortTitle: 'Logistics & Supply Chain',
@@ -762,7 +763,6 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80',
-    video: '/videos/services/logistics.mp4',
   },
 ];
 

@@ -109,7 +109,7 @@ export default function Header() {
                         >
                           {item.children!.map((child, idx) => (
                             <Link 
-                              key={child.href} 
+                              key={`${child.href}-${child.label}`} 
                               to={child.href} 
                               className="header-dropdown-link"
                             >
@@ -212,7 +212,7 @@ export default function Header() {
                         <div style={{ paddingTop: '0.75rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                           {item.children.map(child => (
                             <Link
-                              key={child.href}
+                              key={`${child.href}-${child.label}`}
                               to={child.href}
                               onClick={() => setIsMobileMenuOpen(false)}
                               className="header-mobile-dropdown-link"

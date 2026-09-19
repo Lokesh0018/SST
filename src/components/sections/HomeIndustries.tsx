@@ -59,19 +59,7 @@ export default function HomeIndustries() {
         }
       });
 
-      // --- Background Parallax Layering ---
-      gsap.to('.ind-layer-bg', {
-        y: -15,
-        scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true }
-      });
-      gsap.to('.ind-layer-mid', {
-        y: -40,
-        scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true }
-      });
-      gsap.to('.ind-layer-fg', {
-        y: -80,
-        scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true }
-      });
+
     }, sectionRef);
 
     return () => ctx.revert();
