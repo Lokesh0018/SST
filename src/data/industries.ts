@@ -57,8 +57,3 @@ export const industries: Industry[] = [
     services: ['Video Surveillance', 'Access Control', 'Network Infrastructure', 'Fire Safety'],
   },
 ];
-
-export const getIndustryBySlug = (slug: string): Industry | undefined => {
-  return industries.find((i) => i.slug === slug);
-};
-

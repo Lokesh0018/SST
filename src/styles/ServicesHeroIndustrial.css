@@ -198,18 +198,9 @@
 
 .industrial-orange-accent {
   white-space: nowrap;
-  background: linear-gradient(90deg, #FF5500 0%, #FFAA00 25%, #FF5500 50%, #FFAA00 75%, #FF5500 100%);
-  background-size: 200% auto;
-  color: #FF5500;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: shimmer-text 4s linear infinite;
+  color: #F4511E;
 }
 
-@keyframes shimmer-text {
-  to { background-position: 200% center; }
-}
 
 .industrial-hero-description {
   font-size: 1.25rem;

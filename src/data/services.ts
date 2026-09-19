@@ -745,13 +745,6 @@ export const getServiceBySlug = (slug: string): Service | undefined => {
   return services.find((s) => s.slug === slug);
 };
 
-export const getServicesByCategory = (category: string): Service[] => {
-  if (category === 'All Services' || category === 'All') {
-    return services;
-  }
-  return services.filter((s) => s.category.toLowerCase() === category.toLowerCase());
-};
-
 export const categories = [
   { id: 'all', name: 'All Services', count: 24, icon: 'grid' },
   { id: 'security', name: 'Security & Safety', count: 5, icon: 'shield' },

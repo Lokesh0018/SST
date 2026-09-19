@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { useServiceContext } from '../../context/ServiceContext';
 import './ServiceMapHero.css';
-import '../../styles/HeroSection.css';
+
 
 // Higher resolution topology for accurate India outline
 const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-50m.json";
