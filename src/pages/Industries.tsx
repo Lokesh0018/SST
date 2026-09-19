@@ -39,16 +39,16 @@ const getAvatarColor = (name: string) => {
 };
 
 const getClientsForIndustry = (slug: string) => {
-  const categoryMap: Record<string, string> = {
-    'hospitality': 'Hospitality Sector',
-    'manufacturing-industrial': 'Industries',
-    'financial-services': 'Financial Institutions',
-    'healthcare': 'Healthcare', // New, map might be empty
-    'retail-commercial': 'Retail',
-    'corporate-technology': 'E-Commerce & Software Companies',
+  const categoryMap: Record<string, string[]> = {
+    'hospitality': ['Hospitality'],
+    'manufacturing-industrial': ['Industries'],
+    'financial-services': ['Financial', 'Banks'],
+    'healthcare': ['Healthcare'],
+    'retail-commercial': ['Retail'],
+    'corporate-technology': ['Tech & E-Commerce', 'Technology Partners'],
   };
-  const category = categoryMap[slug];
-  return clients.filter(c => c.category === category && c.name.trim() !== '');
+  const mappedCategories = categoryMap[slug] || [];
+  return clients.filter(c => mappedCategories.includes(c.category) && c.name.trim() !== '');
 };
 
 const clientImagesMap: Record<string, string> = {
