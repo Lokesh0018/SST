@@ -48,7 +48,7 @@ const getClientsForIndustry = (slug: string) => {
     'corporate-technology': ['Tech & E-Commerce', 'Technology Partners'],
   };
   const mappedCategories = categoryMap[slug] || [];
-  return clients.filter(c => mappedCategories.includes(c.category) && c.name.trim() !== '');
+  return clients.filter(c => mappedCategories.includes(c.category) && c.name.trim() !== '' && Boolean(c.logo && c.logo.trim() !== ''));
 };
 
 const clientImagesMap: Record<string, string> = {

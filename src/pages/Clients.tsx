@@ -4,7 +4,6 @@ import type { Variants } from 'framer-motion';
 import PageTransition from '../components/common/PageTransition';
 import { clients } from '../data/clients';
 import { testimonials } from '../data/testimonials';
-import { ArrowUpRight } from 'lucide-react';
 import '../styles/Clients.css';
 import '../styles/About.css';
 
@@ -36,17 +35,19 @@ const rightVariants: Variants = {
 export default function Clients() {
   const [activeCategory, setActiveCategory] = useState<string>('All');
 
+  const validClients = useMemo(() => clients.filter(c => c.logo && c.logo.trim() !== ''), []);
+
   const categories = useMemo(() => {
-    const unique = new Set(clients.map(c => c.category));
+    const unique = new Set(validClients.map(c => c.category));
     return ['All', ...Array.from(unique)];
-  }, []);
+  }, [validClients]);
 
   const filteredClients = useMemo(() => {
-    if (activeCategory === 'All') return clients;
-    return clients.filter(c => c.category === activeCategory);
-  }, [activeCategory]);
+    if (activeCategory === 'All') return validClients;
+    return validClients.filter(c => c.category === activeCategory);
+  }, [activeCategory, validClients]);
 
-  const allLogos = useMemo(() => clients.filter(c => c.logo), []);
+  const allLogos = useMemo(() => validClients, [validClients]);
   const cubeFaces = useMemo(() => {
     const rubiksLogos = Array.from({ length: 54 }, (_, i) => allLogos[i % allLogos.length]);
     return [
@@ -206,9 +207,6 @@ export default function Clients() {
                     
                     <div className="premium-client-hover-elements">
                       <div className="premium-client-orange-line"></div>
-                      <div className="premium-client-arrow">
-                        <ArrowUpRight size={16} />
-                      </div>
                     </div>
                   </div>
                 </motion.div>

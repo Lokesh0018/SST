@@ -418,16 +418,6 @@
   transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.premium-client-arrow {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  color: var(--color-orange);
-  opacity: 0;
-  transform: translate(-5px, 5px);
-  transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
 /* Hover States */
 .premium-client-card:hover {
   transform: translateY(-8px);

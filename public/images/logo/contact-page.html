@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact &mdash; Need support?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --red-1:#ff8b74;   /* highlight   */
+  --red-2:#f4503a;   /* main body   */
+  --red-3:#dc4127;   /* shade       */
+  --red-4:#b0301b;   /* deep shade  */
+  --page:#f05138;    /* page bg     */
+  --card:#f4f1ef;    /* card bg     */
+  --ink:#8b8b8b;
+  --field:#f6e3df;
+
+  /* ---- ONE knob controls the whole phone's size ---- */
+  --cap:186px;       /* diameter of the top cap */
+}
+*{box-sizing:border-box}
+body{
+  margin:0; min-height:100vh; display:grid; place-items:center; padding:40px 20px;
+  background:var(--page);
+  font-family:"Poppins","Segoe UI",system-ui,sans-serif;
+}
+
+/* ---------------- card ---------------- */
+.card{
+  position:relative; width:min(1000px,100%); background:var(--card);
+  border-radius:26px; padding:60px 60px 0; overflow:hidden;
+  display:grid; grid-template-columns:minmax(260px,40%) 1fr; gap:40px;
+  box-shadow:0 40px 80px rgba(120,25,10,.35);
+}
+
+/* ============== TELEPHONE HANDSET ============== */
+.phone-stage{position:relative; min-height:800px; z-index:1}
+
+.handset{
+  position:absolute; left:75px; top:20px; width:var(--cap);
+  display:flex; flex-direction:column; align-items:center;
+  transform:rotate(-2deg);
+}
+
+/* ---- the flared round caps ---- */
+.cap{
+  position:relative; width:var(--cap); height:var(--cap); border-radius:50%;
+  background:
+    radial-gradient(circle at 36% 26%, var(--red-1) 0%, var(--red-2) 44%, var(--red-3) 74%, var(--red-4) 100%);
+  box-shadow:
+    inset 0 -14px 26px rgba(140,28,12,.34),
+    inset 0 14px 24px rgba(255,255,255,.22),
+    inset 0 0 0 1px rgba(140,28,12,.10),
+    0 22px 34px rgba(170,55,35,.20);
+  z-index:2;
+}
+.cap.bottom{width:calc(var(--cap) * .98); height:calc(var(--cap) * .98)}
+
+/* recessed dish inside the cone */
+.dish{
+  position:absolute; inset:9%; border-radius:50%;
+  background:radial-gradient(circle at 42% 32%, var(--red-1) 0%, var(--red-2) 52%, var(--red-3) 100%);
+  box-shadow:
+    inset 0 7px 14px rgba(140,28,12,.30),
+    inset 0 -8px 14px rgba(255,255,255,.14);
+}
+/* the spiral groove */
+.spiral{position:absolute; inset:6%; width:88%; height:88%; overflow:visible}
+.sp-hi{fill:none; stroke:rgba(255,190,170,.40); stroke-width:1.5; transform:translateY(1.1px)}
+.sp-dk{fill:none; stroke:rgba(140,28,12,.42); stroke-width:1.9}
+
+/* ---- the tapered bar ---- */
+.bar{
+  position:relative; width:calc(var(--cap) * .753); height:calc(var(--cap) * 2.043);
+  margin:calc(var(--cap) * -.269) 0;
+  clip-path:polygon(8.57% 0.00%, 15.03% 3.33%, 19.89% 6.67%, 23.46% 10.00%, 26.02% 13.33%, 27.80% 16.67%, 28.99% 20.00%, 29.76% 23.33%, 30.22% 26.67%, 30.49% 30.00%, 30.62% 33.33%, 30.68% 36.67%, 30.71% 40.00%, 30.71% 43.33%, 30.71% 46.67%, 30.71% 50.00%, 30.71% 53.33%, 30.71% 56.67%, 30.71% 60.00%, 30.68% 63.33%, 30.62% 66.67%, 30.49% 70.00%, 30.22% 73.33%, 29.76% 76.67%, 28.99% 80.00%, 27.80% 83.33%, 26.02% 86.67%, 23.46% 90.00%, 19.89% 93.33%, 15.03% 96.67%, 8.57% 100.00%, 91.43% 100.00%, 84.97% 96.67%, 80.11% 93.33%, 76.54% 90.00%, 73.98% 86.67%, 72.20% 83.33%, 71.01% 80.00%, 70.24% 76.67%, 69.78% 73.33%, 69.51% 70.00%, 69.38% 66.67%, 69.32% 63.33%, 69.29% 60.00%, 69.29% 56.67%, 69.29% 53.33%, 69.29% 50.00%, 69.29% 46.67%, 69.29% 43.33%, 69.29% 40.00%, 69.32% 36.67%, 69.38% 33.33%, 69.51% 30.00%, 69.78% 26.67%, 70.24% 23.33%, 71.01% 20.00%, 72.20% 16.67%, 73.98% 13.33%, 76.54% 10.00%, 80.11% 6.67%, 84.97% 3.33%, 91.43% 0.00%);
+  background:linear-gradient(90deg,
+    var(--red-4) 0%, var(--red-3) 12%, var(--red-2) 28%,
+    var(--red-1) 45%, var(--red-2) 64%, var(--red-3) 85%, var(--red-4) 100%);
+  z-index:1;
+}
+.bar .btn{
+  position:absolute; left:50%; top:54%; width:5.5%; aspect-ratio:1; transform:translateX(-50%);
+  border-radius:50%;
+  background:radial-gradient(circle at 40% 35%, var(--red-3), var(--red-4));
+  box-shadow:inset 0 1px 2px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.22);
+}
+.bar .ce{
+  position:absolute; left:50%; top:23%; transform:translateX(-50%);
+  font-size:9px; letter-spacing:1px; font-weight:600; color:rgba(140,28,12,.5);
+}
+
+/* ---- soft cast shadow of the handset ---- */
+.handset.shadow{
+  transform:rotate(-2deg) translate(32px,20px); filter:blur(18px); opacity:.28; z-index:0;
+}
+.handset.shadow .cap, .handset.shadow .bar{background:#8d8079; box-shadow:none}
+
+/* ---- the coiled cord ---- */
+.cord{
+  position:absolute; left:0; right:0; bottom:-52px; width:100%; height:auto;
+  overflow:visible; pointer-events:none; z-index:0;
+}
+.cord .wire{fill:none; stroke:var(--red-2); stroke-width:5.5; stroke-linecap:round}
+.cord .sh{fill:none; stroke:#8d8079; stroke-width:6.5; stroke-linecap:round; opacity:.20; filter:blur(5px)}
+
+/* ============== FORM SIDE ============== */
+.form-side{padding:78px 0 128px; position:relative; z-index:1}
+.form-side h2{margin:0 0 6px; font-size:21px; font-weight:700; color:var(--red-2)}
+.form-side p.sub{margin:0 0 34px; font-size:13px; color:var(--ink); font-weight:300}
+.field{margin-bottom:20px}
+.field label{display:block; margin-bottom:9px; font-size:12.5px; color:var(--ink); font-weight:400}
+.field input, .field textarea{
+  width:100%; border:0; background:var(--field); border-radius:6px;
+  padding:12px 14px; font:inherit; font-size:14px; color:#5a4a47;
+  transition:background .2s, box-shadow .2s; outline:0;
+}
+.field textarea{height:128px; resize:vertical}
+.field input:focus, .field textarea:focus{background:#f9ecea; box-shadow:0 0 0 2px rgba(244,80,58,.35)}
+.actions{display:flex; justify-content:flex-end; margin-top:26px}
+.submit{
+  border:0; cursor:pointer; padding:13px 34px; border-radius:6px;
+  background:linear-gradient(135deg,#ff7a5f,#f2492f);
+  color:#fff; font:inherit; font-size:12px; font-weight:600; letter-spacing:1.2px;
+  box-shadow:0 8px 16px rgba(240,80,55,.35); transition:transform .15s, box-shadow .15s;
+}
+.submit:hover{transform:translateY(-2px); box-shadow:0 12px 22px rgba(240,80,55,.45)}
+.submit:active{transform:translateY(0)}
+
+@media (max-width:860px){
+  :root{--cap:150px}
+  .card{grid-template-columns:1fr; padding:36px 28px 0}
+  .phone-stage{min-height:660px}
+  .handset{left:50%; margin-left:calc(var(--cap) / -2); transform:rotate(-2deg)}
+  .handset.shadow{transform:rotate(-2deg) translate(26px,16px)}
+  .form-side{padding:0 0 120px}
+}
+</style>
+</head>
+<body>
+
+<!-- spiral drawn once, reused by both caps -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs><path id="sp" d="M 52.5 50.0 L 52.6 50.5 52.6 51.1 52.4 51.6 52.2 52.2 51.8 52.7 51.3 53.1 50.7 53.5 50.0 53.7 49.3 53.7 48.5 53.7 47.7 53.4 47.0 53.0 46.3 52.4 45.8 51.7 45.4 50.9 45.2 50.0 45.1 49.0 45.3 48.0 45.6 47.1 46.2 46.2 46.9 45.4 47.8 44.7 48.9 44.2 50.0 44.0 51.2 44.0 52.4 44.2 53.6 44.6 54.7 45.3 55.6 46.3 56.4 47.4 56.9 48.6 57.2 50.0 57.2 51.4 56.9 52.9 56.3 54.2 55.5 55.5 54.4 56.6 53.1 57.5 51.6 58.1 50.0 58.4 48.3 58.3 46.7 58.0 45.1 57.3 43.7 56.3 42.4 55.1 41.5 53.5 40.8 51.8 40.5 50.0 40.5 48.1 40.9 46.2 41.7 44.5 42.8 42.8 44.3 41.5 46.0 40.4 47.9 39.6 50.0 39.3 52.1 39.4 54.2 39.8 56.2 40.7 58.0 42.0 59.5 43.6 60.7 45.6 61.5 47.7 61.9 50.0 61.8 52.3 61.2 54.7 60.2 56.8 58.8 58.8 57.0 60.5 54.9 61.8 52.5 62.7 50.0 63.0 47.4 62.9 44.9 62.3 42.5 61.2 40.4 59.6 38.5 57.7 37.1 55.3 36.2 52.7 35.8 50.0 35.9 47.2 36.6 44.4 37.8 41.9 39.5 39.5 41.7 37.6 44.2 36.1 47.0 35.0 50.0 34.6 53.0 34.8 56.0 35.5 58.8 36.8 61.3 38.7 63.4 41.0 65.0 43.8 66.1 46.8 66.6 50.0 66.4 53.3 65.6 56.5 64.1 59.4 62.1 62.1 59.6 64.4 56.7 66.1 53.4 67.2 50.0 67.7 46.5 67.5 43.1 66.7 39.9 65.1 37.0 63.0 34.6 60.3 32.8 57.1 31.6 53.7 31.1 50.0 31.3 46.3 32.3 42.7 33.9 39.3 36.2 36.2 39.1 33.7 42.4 31.7 46.1 30.5 50.0 29.9 53.9 30.2 57.8 31.2 61.4 32.9 64.6 35.4 67.3 38.4 69.4 42.0 70.7 45.9 71.2 50.0 71.0 54.2 69.9 58.2 68.0 62.1 65.4 65.4 62.2 68.3 58.5 70.4 54.3 71.8 50.0 72.4 45.6 72.1 41.3 71.0 37.3 69.0 33.7 66.3 30.7 62.9 28.5 58.9 27.0 54.6 26.4 50.0 26.7 45.4 27.9 40.9 30.0 36.6 32.9 32.9 36.5 29.8 40.6 27.4 45.2 25.9 50.0 25.2 54.9 25.6 59.6 26.8 64.0 29.0 67.9 32.1 71.2 35.8 73.7 40.2 75.3 45.0 75.9 50.0 75.6 55.1 74.2 60.0 71.9 64.7 68.8 68.8 64.8 72.2 60.3 74.8 55.3 76.4 50.0 77.1 44.7 76.7 39.5 75.3 34.7 72.9 30.4 69.6 26.9 65.5 24.1 60.7 22.4 55.5 21.7 50.0 22.1 44.5 23.6 39.1 26.1 34.0 29.6 29.6 33.9 25.9 38.8 23.1 44.3 21.3 50.0 20.5 55.8 21.0 61.4 22.5 66.6 25.1 71.2 28.8 75.1 33.2 78.0 38.4 79.9 44.1 80.6 50.0 80.2 56.0 78.6 61.8 75.8 67.3 72.1 72.1 67.4 76.1 62.1 79.1 56.2 81.0 50.0 81.8 43.8 81.3 37.7 79.6 32.1 76.8 27.1 72.9 23.0 68.1 19.8 62.5 17.8 56.4 17.0 50.0 17.5 43.5 19.3 37.3 22.2 31.4 26.3 26.3 31.3 22.0 37.0 18.7 43.4 16.7 50.0 15.9 56.7 16.4 63.2 18.2 69.2 21.2 74.6 25.4 79.0 30.6 82.4 36.6 84.5 43.1 85.3 50.0 84.8 56.9 82.9 63.6 79.7 69.9 75.4 75.4 70.0 80.0 63.8 83.4 57.1 85.6 50.0 86.5 42.9 85.9 35.9 84.0 29.5 80.7 23.8 76.2 19.1 70.7 15.5 64.3 13.2 57.3 12.3 50.0 12.9 42.6 14.9 35.5 18.3 28.8 23.0 23.0 28.7 18.1 35.3 14.4 42.5 12.1 50.0 11.2 57.6 11.8 65.0 13.9 71.8 17.4 77.9 22.1 82.9 28.0 86.7 34.8 89.1 42.2 90.0 50.0"/></defs>
+</svg>
+
+<div class="card">
+
+  <!-- ===== the cord: drawn once, re-used for its own shadow ===== -->
+  <svg class="cord" viewBox="0 -60 1000 260" aria-hidden="true">
+    <defs>
+      <g id="cord">
+        <path d="M 232 -34 C 227 16, 236 62, 263 93"/>
+        <ellipse cx="266.0" cy="96.0" rx="5.7" ry="11.8" transform="rotate(9 266.0 96.0)"/>
+      <ellipse cx="277.0" cy="97.1" rx="5.8" ry="14.8" transform="rotate(9 277.0 97.1)"/>
+      <ellipse cx="288.0" cy="98.2" rx="5.9" ry="17.1" transform="rotate(9 288.0 98.2)"/>
+      <ellipse cx="299.0" cy="99.3" rx="6.0" ry="18.4" transform="rotate(9 299.0 99.3)"/>
+      <ellipse cx="310.0" cy="100.4" rx="6.0" ry="19.0" transform="rotate(9 310.0 100.4)"/>
+      <ellipse cx="321.0" cy="101.5" rx="6.0" ry="19.0" transform="rotate(9 321.0 101.5)"/>
+      <ellipse cx="332.0" cy="102.5" rx="6.0" ry="19.0" transform="rotate(9 332.0 102.5)"/>
+      <ellipse cx="343.0" cy="103.4" rx="6.0" ry="19.0" transform="rotate(9 343.0 103.4)"/>
+      <ellipse cx="354.0" cy="104.3" rx="6.0" ry="19.0" transform="rotate(9 354.0 104.3)"/>
+      <ellipse cx="365.0" cy="105.1" rx="6.0" ry="19.0" transform="rotate(9 365.0 105.1)"/>
+      <ellipse cx="376.0" cy="105.9" rx="6.0" ry="19.0" transform="rotate(9 376.0 105.9)"/>
+      <ellipse cx="387.0" cy="106.6" rx="6.0" ry="19.0" transform="rotate(9 387.0 106.6)"/>
+      <ellipse cx="398.0" cy="107.2" rx="6.0" ry="19.0" transform="rotate(9 398.0 107.2)"/>
+      <ellipse cx="409.0" cy="107.7" rx="6.0" ry="19.0" transform="rotate(9 409.0 107.7)"/>
+      <ellipse cx="420.0" cy="108.2" rx="6.0" ry="19.0" transform="rotate(9 420.0 108.2)"/>
+      <ellipse cx="431.0" cy="108.5" rx="6.0" ry="19.0" transform="rotate(9 431.0 108.5)"/>
+      <ellipse cx="442.0" cy="108.8" rx="6.0" ry="19.0" transform="rotate(9 442.0 108.8)"/>
+      <ellipse cx="453.0" cy="109.0" rx="6.0" ry="19.0" transform="rotate(9 453.0 109.0)"/>
+      <ellipse cx="464.0" cy="109.2" rx="6.0" ry="19.0" transform="rotate(9 464.0 109.2)"/>
+      <ellipse cx="475.0" cy="109.2" rx="6.0" ry="19.0" transform="rotate(9 475.0 109.2)"/>
+      <ellipse cx="486.0" cy="109.2" rx="6.0" ry="19.0" transform="rotate(9 486.0 109.2)"/>
+      <ellipse cx="497.0" cy="109.1" rx="6.0" ry="19.0" transform="rotate(9 497.0 109.1)"/>
+      <ellipse cx="508.0" cy="109.0" rx="6.0" ry="19.0" transform="rotate(9 508.0 109.0)"/>
+      <ellipse cx="519.0" cy="108.7" rx="6.0" ry="19.0" transform="rotate(9 519.0 108.7)"/>
+      <ellipse cx="530.0" cy="108.5" rx="6.0" ry="19.0" transform="rotate(9 530.0 108.5)"/>
+      <ellipse cx="541.0" cy="108.2" rx="6.0" ry="19.0" transform="rotate(9 541.0 108.2)"/>
+      <ellipse cx="552.0" cy="107.8" rx="6.0" ry="19.0" transform="rotate(9 552.0 107.8)"/>
+      <ellipse cx="563.0" cy="107.4" rx="6.0" ry="19.0" transform="rotate(9 563.0 107.4)"/>
+      <ellipse cx="574.0" cy="107.0" rx="6.0" ry="19.0" transform="rotate(9 574.0 107.0)"/>
+      <ellipse cx="585.0" cy="106.6" rx="6.0" ry="19.0" transform="rotate(9 585.0 106.6)"/>
+      <ellipse cx="596.0" cy="106.1" rx="6.0" ry="19.0" transform="rotate(9 596.0 106.1)"/>
+      <ellipse cx="607.0" cy="105.7" rx="6.0" ry="19.0" transform="rotate(9 607.0 105.7)"/>
+      <ellipse cx="618.0" cy="105.3" rx="6.0" ry="19.0" transform="rotate(9 618.0 105.3)"/>
+      <ellipse cx="629.0" cy="104.8" rx="6.0" ry="19.0" transform="rotate(9 629.0 104.8)"/>
+      <ellipse cx="640.0" cy="104.4" rx="6.0" ry="19.0" transform="rotate(9 640.0 104.4)"/>
+      <ellipse cx="651.0" cy="104.0" rx="6.0" ry="19.0" transform="rotate(9 651.0 104.0)"/>
+      <ellipse cx="662.0" cy="103.7" rx="6.0" ry="19.0" transform="rotate(9 662.0 103.7)"/>
+      <ellipse cx="673.0" cy="103.4" rx="6.0" ry="19.0" transform="rotate(9 673.0 103.4)"/>
+      <ellipse cx="684.0" cy="103.1" rx="6.0" ry="19.0" transform="rotate(9 684.0 103.1)"/>
+      <ellipse cx="695.0" cy="102.8" rx="6.0" ry="19.0" transform="rotate(9 695.0 102.8)"/>
+      <ellipse cx="706.0" cy="102.6" rx="6.0" ry="19.0" transform="rotate(9 706.0 102.6)"/>
+      <ellipse cx="717.0" cy="102.4" rx="6.0" ry="19.0" transform="rotate(9 717.0 102.4)"/>
+      <ellipse cx="728.0" cy="102.3" rx="6.0" ry="19.0" transform="rotate(9 728.0 102.3)"/>
+      <ellipse cx="739.0" cy="102.2" rx="6.0" ry="19.0" transform="rotate(9 739.0 102.2)"/>
+      <ellipse cx="750.0" cy="102.2" rx="6.0" ry="19.0" transform="rotate(9 750.0 102.2)"/>
+      <ellipse cx="761.0" cy="102.2" rx="6.0" ry="19.0" transform="rotate(9 761.0 102.2)"/>
+      <ellipse cx="772.0" cy="102.2" rx="6.0" ry="19.0" transform="rotate(9 772.0 102.2)"/>
+      <ellipse cx="783.0" cy="102.3" rx="6.0" ry="19.0" transform="rotate(9 783.0 102.3)"/>
+      <ellipse cx="794.0" cy="102.4" rx="6.0" ry="19.0" transform="rotate(9 794.0 102.4)"/>
+      <ellipse cx="805.0" cy="102.5" rx="6.0" ry="19.0" transform="rotate(9 805.0 102.5)"/>
+      <ellipse cx="816.0" cy="102.6" rx="6.0" ry="19.0" transform="rotate(9 816.0 102.6)"/>
+      <ellipse cx="827.0" cy="102.8" rx="6.0" ry="19.0" transform="rotate(9 827.0 102.8)"/>
+      <ellipse cx="838.0" cy="103.0" rx="6.0" ry="19.0" transform="rotate(9 838.0 103.0)"/>
+      <ellipse cx="849.0" cy="103.1" rx="6.0" ry="19.0" transform="rotate(9 849.0 103.1)"/>
+      <ellipse cx="860.0" cy="103.3" rx="6.0" ry="19.0" transform="rotate(9 860.0 103.3)"/>
+      <ellipse cx="871.0" cy="103.4" rx="6.0" ry="19.0" transform="rotate(9 871.0 103.4)"/>
+      <ellipse cx="882.0" cy="103.5" rx="6.0" ry="19.0" transform="rotate(9 882.0 103.5)"/>
+      <ellipse cx="893.0" cy="103.6" rx="6.0" ry="19.0" transform="rotate(9 893.0 103.6)"/>
+      <ellipse cx="904.0" cy="103.7" rx="6.0" ry="19.0" transform="rotate(9 904.0 103.7)"/>
+      <ellipse cx="915.0" cy="103.7" rx="6.0" ry="19.0" transform="rotate(9 915.0 103.7)"/>
+      <ellipse cx="926.0" cy="103.7" rx="6.0" ry="19.0" transform="rotate(9 926.0 103.7)"/>
+      <ellipse cx="937.0" cy="103.6" rx="6.0" ry="19.0" transform="rotate(9 937.0 103.6)"/>
+      <ellipse cx="948.0" cy="103.4" rx="6.0" ry="19.0" transform="rotate(9 948.0 103.4)"/>
+      <ellipse cx="959.0" cy="103.3" rx="6.0" ry="19.0" transform="rotate(9 959.0 103.3)"/>
+      <ellipse cx="970.0" cy="103.0" rx="6.0" ry="19.0" transform="rotate(9 970.0 103.0)"/>
+      <ellipse cx="981.0" cy="102.7" rx="6.0" ry="19.0" transform="rotate(9 981.0 102.7)"/>
+      <ellipse cx="992.0" cy="102.3" rx="6.0" ry="19.0" transform="rotate(9 992.0 102.3)"/>
+      <ellipse cx="1003.0" cy="101.8" rx="6.0" ry="19.0" transform="rotate(9 1003.0 101.8)"/>
+      <ellipse cx="1014.0" cy="101.3" rx="6.0" ry="19.0" transform="rotate(9 1014.0 101.3)"/>
+      </g>
+    </defs>
+    <use href="#cord" class="sh" transform="translate(7,11)"/>
+    <use href="#cord" class="wire"/>
+  </svg>
+
+  <!-- ===== LEFT: the telephone ===== -->
+  <div class="phone-stage">
+    <div class="handset shadow" aria-hidden="true">
+      <div class="cap"></div><div class="bar"></div><div class="cap bottom"></div>
+    </div>
+
+    <div class="handset">
+      <div class="cap">
+        <div class="dish"></div>
+        <svg class="spiral" viewBox="0 0 100 100"><use href="#sp" class="sp-hi"/><use href="#sp" class="sp-dk"/></svg>
+      </div>
+      <div class="bar"><span class="ce">CE</span><span class="btn"></span></div>
+      <div class="cap bottom">
+        <div class="dish"></div>
+        <svg class="spiral" viewBox="0 0 100 100"><use href="#sp" class="sp-hi"/><use href="#sp" class="sp-dk"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RIGHT: the form ===== -->
+  <div class="form-side">
+    <h2>Need support?</h2>
+    <p class="sub">Contact us if you need further assistance.</p>
+
+    <form>
+      <div class="field">
+        <label for="name">Name and surname</label>
+        <input id="name" name="name" type="text" autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="phone">Phone number</label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel">
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" autocomplete="email">
+      </div>
+      <div class="field">
+        <label for="msg">Please enter the details of your request.</label>
+        <textarea id="msg" name="message"></textarea>
+      </div>
+      <div class="actions">
+        <button class="submit" type="submit">SUBMIT</button>
+      </div>
+    </form>
+  </div>
+
+</div>
+</body>
+</html>
