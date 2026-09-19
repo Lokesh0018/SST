@@ -9,6 +9,7 @@ import SectionHeading from '../components/common/SectionHeading';
 import IndustriesHeroDynamic from '../components/industries/IndustriesHeroDynamic';
 import { industries } from '../data/industries';
 import { clients } from '../data/clients';
+import { Building2, PieChart, Bike, ShoppingBag, ShoppingCart } from 'lucide-react';
 import '../styles/Industries.css';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -132,54 +133,58 @@ const TRACK_RECORD_CLIENTS = [
   {
     name: 'Muthoot Finance',
     sub: 'BFSI Surveillance & AMC',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M4 10h16M4 14h16M4 18h16M12 2L2 7h20L12 2z"/>
-      </svg>
-    )
+    icon: <Building2 size={40} strokeWidth={1.2} />
   },
   {
     name: 'Mahindra Finance',
     sub: 'Branch Security Refits',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M8 6h8M8 12h8M12 6v12"/>
-        <path d="M12 12c2.5 0 4-1.5 4-3s-1.5-3-4-3-4 1.5-4 3c0 1 1 2 2.5 2h3c1.5 0 2.5 1 2.5 2s-1.5 3-4 3-4-1.5-4-3"/>
-      </svg>
-    )
+    icon: <PieChart size={40} strokeWidth={1.2} />
   },
   {
     name: 'Swiggy',
     sub: 'Hub Automation & Dock Bays',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <circle cx="7" cy="17" r="3"/><circle cx="17" cy="17" r="3"/>
-        <path d="M2 14h4l3-9h5l3 4h4v3"/>
-      </svg>
-    )
+    icon: <Bike size={40} strokeWidth={1.2} />
   },
   {
     name: 'Lifestyle',
     sub: 'EAS & Footfall Analytics',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/>
-        <line x1="3" y1="6" x2="21" y2="6"/>
-        <path d="M16 10a4 4 0 0 1-8 0"/>
-      </svg>
-    )
+    icon: <ShoppingBag size={40} strokeWidth={1.2} />
   },
   {
     name: 'Reliance Fresh',
     sub: 'Central POS Surveillance',
-    icon: (
-      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
-        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
-      </svg>
-    )
+    icon: <ShoppingCart size={40} strokeWidth={1.2} />
   }
 ];
+
+const AnimatedCounter = ({ endValue, suffix = '', prefix = '', duration = 2, decimals = 0 }: { endValue: number, suffix?: string, prefix?: string, duration?: number, decimals?: number }) => {
+  const nodeRef = useRef<HTMLSpanElement>(null);
+
+  useGSAP(() => {
+    if (!nodeRef.current) return;
+    
+    const obj = { val: 0 };
+    
+    gsap.to(obj, {
+      val: endValue,
+      duration: duration,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: nodeRef.current,
+        start: "top 85%",
+        toggleActions: "restart none none reset"
+      },
+      onUpdate: () => {
+        if (nodeRef.current) {
+          const val = decimals > 0 ? obj.val.toFixed(decimals) : Math.floor(obj.val).toLocaleString('en-US');
+          nodeRef.current.innerText = prefix + val + suffix;
+        }
+      }
+    });
+  }, { scope: nodeRef });
+
+  return <span ref={nodeRef}>{prefix}0{suffix}</span>;
+};
 
 const TrackRecordSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -187,22 +192,17 @@ const TrackRecordSection = () => {
   useGSAP(() => {
     gsap.fromTo('.track-record-header > *', 
       { y: 30, opacity: 0 }, 
-      { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out', scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' } }
+      { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out', scrollTrigger: { trigger: sectionRef.current, start: 'top 75%', toggleActions: 'restart none none reset' } }
     );
-    
-    gsap.fromTo('.tr-client-card', 
-      { y: 40, opacity: 0 }, 
-      { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: 'back.out(1.2)', scrollTrigger: { trigger: sectionRef.current, start: 'top 65%' } }
-    );
-
-    gsap.fromTo('.tr-stats-banner',
+    gsap.fromTo('.tr-bento-stats > .tr-stat-card',
       { y: 30, opacity: 0, scale: 0.98 },
-      { y: 0, opacity: 1, scale: 1, duration: 0.8, delay: 0.4, ease: 'power3.out', scrollTrigger: { trigger: sectionRef.current, start: 'top 60%' } }
+      { y: 0, opacity: 1, scale: 1, duration: 0.8, stagger: 0.1, ease: 'power3.out', scrollTrigger: { trigger: sectionRef.current, start: 'top 60%', toggleActions: 'restart none none reset' } }
     );
   }, { scope: sectionRef });
 
   return (
     <section className="track-record-section" ref={sectionRef}>
+      <div className="tr-watermark">TRUSTED</div>
       <div className="container">
         <div className="track-record-header">
           <p className="tr-eyebrow">PROVEN TRACK RECORD</p>
@@ -212,31 +212,42 @@ const TrackRecordSection = () => {
           </p>
         </div>
 
-        <div className="tr-clients-row">
-          {TRACK_RECORD_CLIENTS.map((client, idx) => (
-            <div key={idx} className="tr-client-card">
-              <div className="tr-client-icon">{client.icon}</div>
-              <h4 className="tr-client-name">{client.name}</h4>
-              <p className="tr-client-sub">{client.sub}</p>
-            </div>
-          ))}
+        <div className="tr-marquee-container">
+          <div className="tr-marquee-content">
+            {/* Double the array for seamless marquee looping */}
+            {[...TRACK_RECORD_CLIENTS, ...TRACK_RECORD_CLIENTS].map((client, idx) => (
+              <div key={idx} className="tr-client-card">
+                <div className="tr-client-icon">{client.icon}</div>
+                <h4 className="tr-client-name">{client.name}</h4>
+                <p className="tr-client-sub">{client.sub}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
-        <div className="tr-stats-banner">
-          <div className="tr-stat-item">
-            <h3 className="tr-stat-val text-orange">10,000+</h3>
+        <div className="tr-bento-stats">
+          <div className="tr-stat-card">
+            <h3 className="tr-stat-val text-orange">
+              <AnimatedCounter endValue={10000} suffix="+" />
+            </h3>
             <p className="tr-stat-label">CAMERAS & SENSORS DEPLOYED</p>
           </div>
-          <div className="tr-stat-item">
-            <h3 className="tr-stat-val text-green">99.8%</h3>
+          <div className="tr-stat-card">
+            <h3 className="tr-stat-val text-green">
+              <AnimatedCounter endValue={99.8} decimals={1} suffix="%" />
+            </h3>
             <p className="tr-stat-label">SLA UPTIME MAINTAINED</p>
           </div>
-          <div className="tr-stat-item">
-            <h3 className="tr-stat-val text-white">450+</h3>
+          <div className="tr-stat-card">
+            <h3 className="tr-stat-val text-white">
+              <AnimatedCounter endValue={450} suffix="+" />
+            </h3>
             <p className="tr-stat-label">TURNKEY SITES HANDLED</p>
           </div>
-          <div className="tr-stat-item">
-            <h3 className="tr-stat-val text-orange">24 / 7</h3>
+          <div className="tr-stat-card">
+            <h3 className="tr-stat-val text-orange">
+              <AnimatedCounter endValue={24} suffix=" / 7" duration={1.5} />
+            </h3>
             <p className="tr-stat-label">DIRECT VIZAG DISPATCH DESK</p>
           </div>
         </div>
