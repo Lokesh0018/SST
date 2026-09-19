@@ -1,8 +1,24 @@
 import React, { useState, type FormEvent } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Send,
+  CheckCircle2,
+  Building2,
+  ShieldCheck,
+  ChevronDown,
+  Navigation,
+  Globe,
+  MessageSquare,
+  ArrowDownRight,
+  ExternalLink
+} from 'lucide-react';
 import PageTransition from '../components/common/PageTransition';
-import SectionHeading from '../components/common/SectionHeading';
-import Button from '../components/common/Button';
 import CustomSelect from '../components/ui/CustomSelect';
+import InteractiveContactMap from '../components/contact/InteractiveContactMap';
 import '../styles/Contact.css';
 
 interface FormData {
@@ -21,6 +37,39 @@ interface FormErrors {
   message?: string;
 }
 
+const FAQ_ITEMS = [
+  {
+    q: 'How fast can SST deploy an on-site inspection or assessment team?',
+    a: 'For Andhra Pradesh and Telangana regions, our engineering teams can typically conduct an on-site survey within 24–48 hours. For Pan-India enterprise deployments, site surveys are scheduled based on the project scope and rollout timeline.'
+  },
+  {
+    q: 'Do you provide turnkey execution from design to handover?',
+    a: 'Yes, SST specializes in complete turnkey infrastructure projects. We handle everything from system architecture, equipment procurement, cabling, and installation to final testing, commissioning, and staff training.'
+  },
+  {
+    q: 'What is covered under SST’s AMC (Annual Maintenance Contract)?',
+    a: 'Our AMC packages include scheduled preventive maintenance, firmware updates, 24/7 emergency breakdown support, spare parts replacement management, and SLA-guaranteed technician dispatch.'
+  },
+  {
+    q: 'Can you integrate modern IP security with our legacy infrastructure?',
+    a: 'Absolutely. We design hybrid architectures that seamlessly integrate newer IP surveillance, access control, and wireless networks with existing legacy analog or serial systems without operational downtime.'
+  }
+];
+
+const SERVICE_OPTIONS = [
+  { value: 'turnkey-projects', label: 'Turnkey Infrastructure Projects' },
+  { value: 'video-surveillance', label: 'CCTV & Video Surveillance' },
+  { value: 'access-control', label: 'Access Control & Biometrics' },
+  { value: 'fire-fighting', label: 'Fire & Life Safety Systems' },
+  { value: 'network-infrastructure', label: 'Network Infrastructure & Cabling' },
+  { value: 'switches-storage', label: 'Servers, Switches & Storage' },
+  { value: 'logistics', label: 'Logistics & Fleet GPS Tracking' },
+  { value: 'electrical-electronics', label: 'Electrical & Electronic Systems' },
+  { value: 'wireless-network', label: 'Enterprise Wireless & Point-to-Point' },
+  { value: 'intrusion-detection', label: 'Intrusion Detection & Alarms' },
+  { value: 'amc-support', label: 'Annual Maintenance Contract (AMC)' },
+];
+
 export default function Contact() {
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -30,21 +79,24 @@ export default function Contact() {
     service: '',
     message: '',
   });
+
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
 
   const validate = (): boolean => {
     const newErrors: FormErrors = {};
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
+    if (!formData.name.trim()) newErrors.name = 'Full name is required';
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = 'Email address is required';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email';
+      newErrors.email = 'Please enter a valid email address';
     }
     if (formData.phone && !/^[+]?[\d\s()-]{7,}$/.test(formData.phone)) {
       newErrors.phone = 'Please enter a valid phone number';
     }
-    if (!formData.message.trim()) newErrors.message = 'Message is required';
+    if (!formData.message.trim()) newErrors.message = 'Please provide details about your inquiry';
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -55,16 +107,20 @@ export default function Contact() {
     if (!validate()) return;
 
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     setIsSubmitting(false);
+    setIsSuccess(true);
 
-    let fullMessage = `*New Contact Inquiry*\n`;
-    fullMessage += `Name: ${formData.name}\n`;
-    fullMessage += `Email: ${formData.email}\n`;
-    if (formData.phone) fullMessage += `Phone: ${formData.phone}\n`;
-    if (formData.company) fullMessage += `Company: ${formData.company}\n`;
-    if (formData.service) fullMessage += `Service: ${formData.service}\n`;
+    // Format WhatsApp message with inquiry details
+    let fullMessage = `*New Contact Inquiry - SST Portal*\n\n`;
+    fullMessage += `*Name:* ${formData.name}\n`;
+    fullMessage += `*Email:* ${formData.email}\n`;
+    if (formData.phone) fullMessage += `*Phone:* ${formData.phone}\n`;
+    if (formData.company) fullMessage += `*Company:* ${formData.company}\n`;
+    if (formData.service) {
+      const selectedLabel = SERVICE_OPTIONS.find(s => s.value === formData.service)?.label || formData.service;
+      fullMessage += `*Service Required:* ${selectedLabel}\n`;
+    }
     fullMessage += `\n*Message:*\n${formData.message}`;
 
     const whatsappUrl = `https://wa.me/919494139156?text=${encodeURIComponent(fullMessage)}`;
@@ -78,270 +134,599 @@ export default function Contact() {
     }
   };
 
+  const toggleFaq = (idx: number) => {
+    setOpenFaq(openFaq === idx ? null : idx);
+  };
+
+  const scrollToForm = () => {
+    const el = document.getElementById('contact-form-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <PageTransition>
-      {/* Hero */}
-      <section className="contact-hero contact-hero-bg">
-        <div className="container">
-          <div className="contact-hero-header">
-            <div>
-              <SectionHeading as="h1" highlight="NEXT.">
-                LET'S BUILD WHAT'S NEXT.
-              </SectionHeading>
-              <p className="contact-hero-text">
-                Have a client, infrastructure requirement or security challenge? We're ready to help.
-              </p>
-            </div>
-            <div className="contact-hero-right">
-              <p className="contact-hero-right-text">
-                Connecting<br />People<br />Places<br /><span className="contact-hero-right-highlight">Possibilities</span>
-              </p>
+      <div className="contact-page-wrapper">
+        {/* =========================================================================
+            1. HERO SECTION WITH INDUSTRIAL COMMAND DECK & DIRECT ACTIONS
+            ========================================================================= */}
+        <section className="contact-hero-premium">
+          {/* Subtle Ambient Blueprint Grid and Glows */}
+          <div className="contact-hero-grid-pattern" />
+          <div className="contact-hero-glow-blob orange" />
+          <div className="contact-hero-glow-blob blue" />
+
+          <div className="container relative z-10">
+            <div className="contact-hero-split-grid">
+              
+              {/* Left Column: Heading, Direct Channels & SLA Metrics */}
+              <motion.div
+                className="contact-hero-left"
+                initial={{ opacity: 0, y: 25 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {/* Live Status Eyebrow Badge */}
+                <div className="contact-hero-eyebrow-badge">
+                  <span className="contact-beacon-ping-wrapper">
+                    <span className="contact-beacon-dot" />
+                    <span className="contact-beacon-pulse" />
+                  </span>
+                  <span className="contact-badge-text">CENTRAL DISPATCH ONLINE • PAN-INDIA RESPONSE</span>
+                </div>
+
+                <h1 className="contact-hero-heading">
+                  LET'S BUILD &amp; SECURE <br />
+                  YOUR <span className="text-orange">INFRASTRUCTURE.</span>
+                </h1>
+
+                <p className="contact-hero-desc">
+                  Connect with our engineering specialists for turnkey enterprise security, surveillance, networking, and critical infrastructure solutions. Fast-track surveys and 24/7 technical dispatch across India.
+                </p>
+
+                {/* Direct Action Fast-Links */}
+                <div className="contact-quick-channels">
+                  <a
+                    href="tel:+919494139156"
+                    className="quick-channel-card"
+                    title="Call Direct Hotline"
+                  >
+                    <div className="quick-channel-icon-box phone">
+                      <Phone size={17} />
+                    </div>
+                    <div className="quick-channel-info">
+                      <span className="quick-channel-label">Direct Hotline</span>
+                      <span className="quick-channel-val">+91 94941 39156</span>
+                    </div>
+                  </a>
+
+                  <a
+                    href="mailto:info@sstco.in"
+                    className="quick-channel-card"
+                    title="Enterprise RFP & Inquiry Mail"
+                  >
+                    <div className="quick-channel-icon-box mail">
+                      <Mail size={17} />
+                    </div>
+                    <div className="quick-channel-info">
+                      <span className="quick-channel-label">Official Mail</span>
+                      <span className="quick-channel-val">info@sstco.in</span>
+                    </div>
+                  </a>
+
+                  <a
+                    href="https://wa.me/919494139156?text=Hi%20SST%20Team%2C%20I%20have%20an%20infrastructure%2Fsecurity%20inquiry."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="quick-channel-card whatsapp"
+                    title="Instant WhatsApp Chat"
+                  >
+                    <div className="quick-channel-icon-box whatsapp">
+                      <MessageSquare size={17} />
+                    </div>
+                    <div className="quick-channel-info">
+                      <span className="quick-channel-label">Instant WhatsApp</span>
+                      <span className="quick-channel-val">Start Fast Chat</span>
+                    </div>
+                  </a>
+                </div>
+
+                {/* SLA Trust Metrics Bar */}
+                <div className="contact-hero-sla-strip">
+                  <div className="sla-item">
+                    <span className="sla-val">&lt; 24h</span>
+                    <span className="sla-lbl">Site Survey (AP &amp; TS)</span>
+                  </div>
+                  <div className="sla-divider" />
+                  <div className="sla-item">
+                    <span className="sla-val">24/7</span>
+                    <span className="sla-lbl">Emergency AMC Dispatch</span>
+                  </div>
+                  <div className="sla-divider" />
+                  <div className="sla-item">
+                    <span className="sla-val">Pan-India</span>
+                    <span className="sla-lbl">Rollout Capability</span>
+                  </div>
+                </div>
+
+                {/* Smooth Scroll to Form Button */}
+                <div className="contact-hero-cta-row">
+                  <button
+                    type="button"
+                    onClick={scrollToForm}
+                    className="contact-hero-scroll-btn"
+                  >
+                    <span>Submit Inquiry Message Below</span>
+                    <ArrowDownRight size={16} />
+                  </button>
+                </div>
+              </motion.div>
+
+              {/* Right Column: Interactive HQ Map Console */}
+              <div className="contact-hero-right">
+                <InteractiveContactMap />
+              </div>
+
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Contact Content */}
-      <section className="contact-section">
-        <div className="container">
-          <div className="contact-grid">
-            {/* Left - Contact Info */}
-            <div>
-              <div className="contact-info-list">
-                <div className="animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-                  <ContactItem
-                    icon={
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-                      </svg>
-                    }
-                    title="Call Anytime"
-                    detail={
-                      <>
-                        +91 9494 139 156<br />
-                        +91 7095 306 939
-                      </>
-                    }
-                  />
+
+        {/* =========================================================================
+            2. FLOATING SPLIT CONTACT CARD (Form on Left + Info on Right)
+            ========================================================================= */}
+        <section id="contact-form-section" className="contact-card-section">
+          <div className="container">
+            <motion.div
+              className="contact-split-card"
+              initial={{ opacity: 0, y: 35 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {/* Left Panel: White Message Form */}
+              <div className="contact-form-panel">
+                <div className="contact-form-header">
+                  <div>
+                    <span className="contact-form-eyebrow">DIRECT INQUIRY</span>
+                    <h2 className="contact-form-title">Send us a Message</h2>
+                  </div>
+                  <div className="contact-form-header-icon">
+                    <Mail size={20} strokeWidth={2} />
+                  </div>
                 </div>
-                <div className="animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-                  <ContactItem
-                    icon={
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
-                        <polyline points="22,6 12,13 2,6" />
+
+                {isSuccess && (
+                  <motion.div
+                    className="contact-success-banner"
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                  >
+                    <CheckCircle2 size={22} className="flex-shrink-0" />
+                    <div>
+                      <h4 className="success-banner-title">Inquiry Sent Successfully!</h4>
+                      <p className="success-banner-desc">
+                        Thank you for reaching out. We have prepared your details for WhatsApp dispatch, and an SST technical specialist will follow up with you promptly.
+                      </p>
+                    </div>
+                  </motion.div>
+                )}
+
+                <form onSubmit={handleSubmit} noValidate className="contact-form-grid">
+                  <div className="contact-field-row">
+                    {/* Your Name */}
+                    <div className="contact-input-group floating-group">
+                      <input
+                        type="text"
+                        id="name"
+                        placeholder=" "
+                        value={formData.name}
+                        onChange={(e) => handleChange('name', e.target.value)}
+                        className={`contact-clean-input ${errors.name ? 'input-has-error' : ''}`}
+                      />
+                      <label htmlFor="name" className="contact-floating-label">
+                        Your Name <span className="contact-input-req">*</span>
+                      </label>
+                      {errors.name && <span className="contact-field-error">{errors.name}</span>}
+                    </div>
+
+                    {/* Email Address */}
+                    <div className="contact-input-group floating-group">
+                      <input
+                        type="email"
+                        id="email"
+                        placeholder=" "
+                        value={formData.email}
+                        onChange={(e) => handleChange('email', e.target.value)}
+                        className={`contact-clean-input ${errors.email ? 'input-has-error' : ''}`}
+                      />
+                      <label htmlFor="email" className="contact-floating-label">
+                        Email Address <span className="contact-input-req">*</span>
+                      </label>
+                      {errors.email && <span className="contact-field-error">{errors.email}</span>}
+                    </div>
+                  </div>
+
+                  <div className="contact-field-row">
+                    {/* Phone Number */}
+                    <div className="contact-input-group floating-group">
+                      <input
+                        type="tel"
+                        id="phone"
+                        placeholder=" "
+                        value={formData.phone}
+                        onChange={(e) => handleChange('phone', e.target.value)}
+                        className={`contact-clean-input ${errors.phone ? 'input-has-error' : ''}`}
+                      />
+                      <label htmlFor="phone" className="contact-floating-label">Phone Number</label>
+                      {errors.phone && <span className="contact-field-error">{errors.phone}</span>}
+                    </div>
+
+                    {/* Company */}
+                    <div className="contact-input-group floating-group">
+                      <input
+                        type="text"
+                        id="company"
+                        placeholder=" "
+                        value={formData.company}
+                        onChange={(e) => handleChange('company', e.target.value)}
+                        className="contact-clean-input"
+                      />
+                      <label htmlFor="company" className="contact-floating-label">Company / Organization</label>
+                    </div>
+                  </div>
+
+                  {/* Service Interest */}
+                  <div className="contact-input-group">
+                    <label className="contact-input-label">Service Interested In</label>
+                    <CustomSelect
+                      value={formData.service}
+                      onChange={(val) => handleChange('service', val)}
+                      placeholder="Select a technology or infrastructure service"
+                      options={SERVICE_OPTIONS}
+                    />
+                  </div>
+
+                  {/* Message */}
+                  <div className="contact-input-group floating-group">
+                    <div style={{ position: 'relative' }}>
+                      <textarea
+                        id="message"
+                        placeholder=" "
+                        value={formData.message}
+                        onChange={(e) => {
+                          if (e.target.value.length <= 500) {
+                            handleChange('message', e.target.value);
+                          }
+                        }}
+                        rows={2}
+                        className={`contact-clean-textarea ${errors.message ? 'input-has-error' : ''}`}
+                      />
+                      <label htmlFor="message" className="contact-floating-label">
+                        Project Details / Inquiry <span className="contact-input-req">*</span>
+                      </label>
+                      <div style={{ position: 'absolute', bottom: '10px', right: '12px', fontSize: '0.75rem', color: formData.message.length >= 500 ? '#ef4444' : '#94a3b8', fontWeight: 500 }}>
+                        {formData.message.length} / 500
+                      </div>
+                    </div>
+                    {errors.message && <span className="contact-field-error">{errors.message}</span>}
+                  </div>
+
+                  {/* File Upload Dropzone */}
+                  <label className="enterprise-file-upload">
+                    <input 
+                      type="file" 
+                      style={{ display: 'none' }} 
+                      accept=".pdf,.doc,.docx"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files.length > 0) {
+                          alert(`File selected: ${e.target.files[0].name}`);
+                        }
+                      }} 
+                    />
+                    <div className="upload-icon-box" style={{ width: '2rem', height: '2rem' }}>
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
                       </svg>
-                    }
-                    title="Send E-Mail"
-                    detail={
+                    </div>
+                    <div className="upload-text">
+                      <span className="upload-title" style={{ fontSize: '0.75rem' }}>Attach RFP or Floorplan (Optional)</span>
+                    </div>
+                  </label>
+
+                  {/* Rectangular Submit Button */}
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="contact-linear-submit-btn"
+                  >
+                    {isSubmitting ? (
                       <>
-                        info@sstco.in<br />
-                        sstvisakhapatnam@gmail.com
+                        <div className="submit-btn-spinner" style={{ width: '16px', height: '16px', borderWidth: '2px', marginRight: '8px' }} />
+                        <span>ENCRYPTING...</span>
                       </>
-                    }
-                  />
+                    ) : (
+                      <>
+                        <Send size={18} style={{ marginRight: '8px' }} />
+                        <span>Send Inquiry</span>
+                      </>
+                    )}
+                  </button>
+                  
+                  {/* Trust Badges */}
+                  <div className="enterprise-trust-strip">
+                    <div className="trust-item">
+                      <ShieldCheck size={14} className="text-orange" />
+                      <span>256-bit Secure</span>
+                    </div>
+                    <div className="trust-item">
+                      <CheckCircle2 size={14} className="text-orange" />
+                      <span>ISO Compliant</span>
+                    </div>
+                    <div className="trust-item">
+                      <Clock size={14} className="text-orange" />
+                      <span>24/7 SLA Support</span>
+                    </div>
+                  </div>
+
+                  {/* Social Proof */}
+                  <div className="enterprise-social-proof">
+                    <p className="social-proof-title">TRUSTED FOR CRITICAL INFRASTRUCTURE</p>
+                    <div className="client-logos-row">
+                      <Building2 size={20} className="social-proof-icon" />
+                      <Navigation size={20} className="social-proof-icon" />
+                      <Globe size={20} className="social-proof-icon" />
+                      <span className="social-proof-text">100+ Enterprise Deployments</span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              {/* Right Panel: Dark Navy Contact Information */}
+              <div className="contact-info-panel">
+                {/* Subtle SST Logo Emblem in Background */}
+                <img
+                  src="/images/logo/LOGO.png"
+                  alt=""
+                  aria-hidden="true"
+                  className="contact-info-watermark"
+                />
+
+                <div className="contact-info-top">
+                  <h3 className="contact-info-title">Contact Information</h3>
+                  <p className="contact-info-sub">
+                    Direct access to our central executive office, technical dispatch, and project management desks.
+                  </p>
+
+                  <div className="contact-info-list">
+                    {/* Head Office Address */}
+                    <div className="contact-info-item">
+                      <div className="contact-info-icon-box">
+                        <MapPin size={18} />
+                      </div>
+                      <div>
+                        <div className="contact-info-label">Headquarters Location</div>
+                        <div className="contact-info-val" style={{ marginBottom: '10px' }}>
+                          D.No.4-28, Plot 9, Nandanavanam Layout,<br />
+                          Vellanki 2, Anandapuram Mandal,<br />
+                          Visakhapatnam - 531163, Andhra Pradesh
+                        </div>
+                        <a 
+                          href="https://maps.google.com/?q=SST+Visakhapatnam" 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem', fontWeight: 600, color: '#fff', backgroundColor: 'rgba(255,255,255,0.1)', padding: '6px 12px', borderRadius: '4px', transition: 'background-color 0.2s', textDecoration: 'none' }}
+                          onMouseOver={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.2)'}
+                          onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.1)'}
+                        >
+                          <Navigation size={12} />
+                          Get Directions
+                        </a>
+                      </div>
+                    </div>
+
+                    {/* Phone Support */}
+                    <div className="contact-info-item">
+                      <div className="contact-info-icon-box">
+                        <Phone size={18} />
+                      </div>
+                      <div>
+                        <div className="contact-info-label">Direct Phone &amp; Support</div>
+                        <div className="contact-info-val">
+                          <a href="tel:+919494139156">+91 9494 139 156</a><br />
+                          <a href="tel:+917095306939">+91 7095 306 939</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Official Emails */}
+                    <div className="contact-info-item">
+                      <div className="contact-info-icon-box">
+                        <Mail size={18} />
+                      </div>
+                      <div>
+                        <div className="contact-info-label">Official Inquiries &amp; RFPs</div>
+                        <div className="contact-info-val">
+                          <a href="mailto:info@sstco.in">info@sstco.in</a><br />
+                          <a href="mailto:sstvisakhapatnam@gmail.com">sstvisakhapatnam@gmail.com</a>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Operational Hours */}
+                    <div className="contact-info-item">
+                      <div className="contact-info-icon-box">
+                        <Clock size={18} />
+                      </div>
+                      <div>
+                        <div className="contact-info-label">Working Hours</div>
+                        <div className="contact-info-val">
+                          Monday – Saturday: 9:00 AM – 7:00 PM<br />
+                          <span style={{ color: '#F97316', fontSize: '0.82rem', fontWeight: 600 }}>
+                            24/7 Dedicated AMC Emergency Dispatch
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-                  <ContactItem
-                    icon={
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
-                        <circle cx="12" cy="10" r="3" />
+
+                {/* Social Connect Icons */}
+                <div className="contact-info-bottom">
+                  <div className="contact-social-label">Follow &amp; Connect</div>
+                  <div className="contact-social-links">
+                    {/* LinkedIn */}
+                    <a
+                      href="https://linkedin.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="contact-social-btn"
+                      aria-label="LinkedIn"
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                        <rect x="2" y="9" width="4" height="12"></rect>
+                        <circle cx="4" cy="4" r="2"></circle>
                       </svg>
-                    }
-                    title="Our Location"
-                    detail={
-                      <>
-                        D.No.4-28, Plot 9,<br />
-                        Nandanavanam Layout, Vellanki 2,<br />
-                        Visakhapatnam - 531163
-                      </>
-                    }
-                  />
-                </div>
-                {/* Social Media */}
-                <div className="contact-socials animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-                  <h3 className="contact-socials-title">Follow Us</h3>
-                  <div className="contact-socials-list">
-                    <a href="#" aria-label="Facebook" className="contact-social-icon">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
                     </a>
-                    <a href="#" aria-label="Twitter" className="contact-social-icon">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+
+                    {/* Instagram */}
+                    <a
+                      href="https://instagram.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="contact-social-btn"
+                      aria-label="Instagram"
+                    >
+                      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                      </svg>
                     </a>
-                    <a href="#" aria-label="Instagram" className="contact-social-icon">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+
+                    {/* WhatsApp Direct */}
+                    <a
+                      href="https://wa.me/919494139156"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="contact-social-btn"
+                      aria-label="WhatsApp"
+                    >
+                      <MessageSquare size={15} />
                     </a>
-                    <a href="#" aria-label="Pinterest" className="contact-social-icon">
-                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.951-7.252 4.168 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.366 18.604 0 12.017 0z"/></svg>
+
+                    {/* Twitter/X */}
+                    <a
+                      href="https://twitter.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="contact-social-btn"
+                      aria-label="Twitter"
+                    >
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                      </svg>
                     </a>
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
+          </div>
+        </section>
 
-            {/* Right - Form */}
-            <div>
-              <form onSubmit={handleSubmit} className="contact-form animate-fade-in-up" style={{ animationDelay: '0.4s' }} noValidate>
-                  <div className="contact-form-row">
-                    <FormField
-                      label="Name"
-                      required
-                      error={errors.name}
-                      value={formData.name}
-                      onChange={(v) => handleChange('name', v)}
-                      placeholder="Your name"
-                    />
-                    <FormField
-                      label="Email"
-                      type="email"
-                      required
-                      error={errors.email}
-                      value={formData.email}
-                      onChange={(v) => handleChange('email', v)}
-                      placeholder="your@email.com"
-                    />
-                  </div>
-                  <div className="contact-form-row">
-                    <FormField
-                      label="Phone"
-                      type="tel"
-                      error={errors.phone}
-                      value={formData.phone}
-                      onChange={(v) => handleChange('phone', v)}
-                      placeholder="+91 XXXXX XXXXX"
-                    />
-                    <FormField
-                      label="Company"
-                      value={formData.company}
-                      onChange={(v) => handleChange('company', v)}
-                      placeholder="Your company"
-                    />
-                  </div>
-                  <div>
-                    <label className="contact-form-label">Service</label>
-                    <CustomSelect
-                      value={formData.service}
-                      onChange={(val) => handleChange('service', val)}
-                      placeholder="Select a service"
-                      options={[
-                        { value: 'turnkey-projects', label: 'Turnkey Projects' },
-                        { value: 'intrusion-detection', label: 'Intrusion Detection' },
-                        { value: 'access-control', label: 'Access Control' },
-                        { value: 'switches-storage', label: 'Switches & Storage' },
-                        { value: 'logistics', label: 'Logistics' },
-                        { value: 'electrical-electronics', label: 'Electrical & Electronics' },
-                        { value: 'fire-fighting', label: 'Fire Fighting' },
-                        { value: 'video-surveillance', label: 'Video Surveillance' },
-                        { value: 'wireless-network', label: 'Wireless Technology' },
-                        { value: 'hardware-tools', label: 'Hardware & Tools' },
-                        { value: 'network-infrastructure', label: 'Network Infrastructure' },
-                      ]}
-                    />
-                  </div>
-                  <div>
-                    <label className="contact-form-label">
-                      Message <span className="contact-form-req">*</span>
-                    </label>
-                    <textarea
-                      value={formData.message}
-                      onChange={(e) => handleChange('message', e.target.value)}
-                      rows={5}
-                      placeholder="Tell us about your client"
-                      className={`contact-form-textarea ${
-                        errors.message ? 'contact-form-error-input' : ''
-                      }`}
-                    />
-                    {errors.message && <p className="contact-form-error">{errors.message}</p>}
-                  </div>
-                  <div className="contact-form-btn">
-                    <Button
-                      type="submit"
-                      variant="primary"
-                      size="lg"
-                      disabled={isSubmitting}
-                      className="w-full md:w-auto"
-                      icon={
-                        !isSubmitting ? (
-                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M5 12h14M12 5l7 7-7 7" />
-                          </svg>
-                        ) : undefined
-                      }
+
+
+        {/* =========================================================================
+            4. ENTERPRISE FAQ ACCORDION SECTION
+            ========================================================================= */}
+        <section className="contact-faq-section">
+          <div className="container">
+            <div className="faq-container">
+              <div className="faq-header-wrap">
+                <span className="contact-hero-eyebrow" style={{ color: '#F4511E' }}>
+                  <span className="contact-eyebrow-dot" style={{ backgroundColor: '#F4511E', boxShadow: '0 0 8px #F4511E' }} />
+                  COMMON INQUIRIES
+                </span>
+                <h2 style={{ fontSize: '2.25rem', fontWeight: 800, color: '#0F172A', marginTop: '0.5rem', letterSpacing: '-0.02em' }}>
+                  Frequently Asked Questions
+                </h2>
+                <p style={{ color: '#64748B', fontSize: '0.975rem', marginTop: '0.6rem' }}>
+                  Quick answers to common questions about our technical consultations, turnarounds, and support agreements.
+                </p>
+              </div>
+
+              <div className="faq-accordion-list">
+                {FAQ_ITEMS.map((faq, idx) => {
+                  const isOpen = openFaq === idx;
+                  return (
+                    <div
+                      key={idx}
+                      className={`faq-accordion-item ${isOpen ? 'open' : ''}`}
                     >
-                      {isSubmitting ? 'Sending...' : 'Send Message'}
-                    </Button>
-                  </div>
-                </form>
+                      <button
+                        type="button"
+                        className="faq-accordion-btn"
+                        onClick={() => toggleFaq(idx)}
+                        aria-expanded={isOpen}
+                      >
+                        <span className="faq-question-text">{faq.q}</span>
+                        <div className="faq-accordion-icon">
+                          <ChevronDown size={16} />
+                        </div>
+                      </button>
+
+                      <AnimatePresence>
+                        {isOpen && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: 'auto', opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.25, ease: 'easeInOut' }}
+                          >
+                            <div className="faq-accordion-content">
+                              {faq.a}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Direct WhatsApp Callout Banner */}
+              <div className="contact-cta-banner">
+                <div className="cta-banner-content">
+                  <h3 className="cta-banner-title">Need Immediate Project Support?</h3>
+                  <p className="cta-banner-desc">
+                    Connect directly with our senior infrastructure engineer on WhatsApp for fast response times and instant scope evaluations.
+                  </p>
+                </div>
+                <div className="cta-banner-actions">
+                  <a
+                    href="https://wa.me/919494139156?text=Hi%20SST%20Team%2C%20I%20would%20like%20to%20inquire%20about%20your%20infrastructure%20and%20security%20solutions."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cta-whatsapp-btn"
+                  >
+                    <MessageSquare size={16} />
+                    <span>WhatsApp Us Now</span>
+                  </a>
+                  <a
+                    href="tel:+919494139156"
+                    className="cta-call-btn"
+                  >
+                    <Phone size={16} />
+                    <span>Call Direct</span>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
-          {/* Map Section */}
-          <div className="contact-map-container animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-            <iframe
-              title="Our Location"
-              src="https://maps.google.com/maps?q=D.No.4-28,+Plot+9,+Nandanavanam+Layout,+Vellanki+2,+Visakhapatnam+-+531163&t=&z=15&ie=UTF8&iwloc=&output=embed"
-              width="100%"
-              height="450"
-              style={{ border: 0, borderRadius: '1rem', marginTop: '4rem' }}
-              allowFullScreen={false}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </PageTransition>
-  );
-}
-
-function ContactItem({ icon, title, detail }: { icon: React.JSX.Element; title: string; detail: React.ReactNode }) {
-  return (
-    <div className="contact-item">
-      <div className="contact-item-icon">
-        {icon}
-      </div>
-      <div>
-        <h3 className="contact-item-title">{title}</h3>
-        <p className="contact-item-detail">{detail}</p>
-      </div>
-    </div>
-  );
-}
-
-function FormField({
-  label,
-  type = 'text',
-  required,
-  error,
-  value,
-  onChange,
-  placeholder,
-}: {
-  label: string;
-  type?: string;
-  required?: boolean;
-  error?: string;
-  value: string;
-  onChange: (value: string) => void;
-  placeholder?: string;
-}) {
-  return (
-    <div>
-      <label className="contact-form-label">
-        {label} {required && <span className="contact-form-req">*</span>}
-      </label>
-      <input
-        type={type}
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className={`contact-form-input ${
-          error ? 'contact-form-error-input' : ''
-        }`}
-        required={required}
-        aria-invalid={!!error}
-      />
-      {error && <p className="contact-form-error">{error}</p>}
-    </div>
   );
 }
