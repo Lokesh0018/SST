@@ -7,7 +7,7 @@ import PageLoader from './components/common/PageLoader';
 // Lazy-loaded pages for code splitting
 const Home = lazy(() => import('./pages/Home'));
 const Services = lazy(() => import('./pages/Services'));
-const ServiceDetail = lazy(() => import('./pages/ServiceDetail'));
+
 
 const Industries = lazy(() => import('./pages/Industries'));
 const About = lazy(() => import('./pages/About'));
@@ -33,7 +33,7 @@ function App() {
           <Routes location={location}>
             <Route path="/" element={<Home />} />
             <Route path="/services" element={<Services />} />
-            <Route path="/services/:slug" element={<ServiceDetail />} />
+
 
             <Route path="/industries" element={<Industries />} />
             <Route path="/about" element={<About />} />

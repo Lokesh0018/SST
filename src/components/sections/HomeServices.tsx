@@ -316,7 +316,7 @@ const HomeServices = () => {
             return (
               <Link
                 key={service.slug}
-                to={`/services/${service.slug}`}
+                to="/services"
                 className={`service-card home-services-card motif-${service.slug}`}
                 onMouseEnter={() => handleMouseEnter(service.slug)}
                 onMouseLeave={handleMouseLeave}

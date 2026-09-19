@@ -216,7 +216,7 @@ const ProcessSection = React.memo(() => {
   );
 });
 
-const MemoizedServiceCard = React.memo(({ service, index, isSHM = false }: { service: Service, index: number, isSHM?: boolean }) => {
+const MemoizedServiceCard = React.memo(({ service, index, isSHM = false, onSelect }: { service: Service, index: number, isSHM?: boolean, onSelect: (s: Service) => void }) => {
   const serviceNumber = String(index + 1).padStart(2, '0');
   return (
     <motion.div
@@ -230,7 +230,11 @@ const MemoizedServiceCard = React.memo(({ service, index, isSHM = false }: { ser
         ease: "easeOut"
       }}
     >
-      <Link to={`/services/${service.slug}`} className={`enterprise-service-card ${isSHM ? 'shm-card' : ''}`}>
+      <div 
+        className={`enterprise-service-card ${isSHM ? 'shm-card' : ''}`}
+        onClick={() => onSelect(service)}
+        style={{ cursor: 'pointer' }}
+      >
         <div className="esc-image-wrapper">
           <img src={service.heroImage} alt={service.title} className="esc-image" loading="lazy" />
           <div className="esc-image-overlay" />
@@ -254,20 +258,115 @@ const MemoizedServiceCard = React.memo(({ service, index, isSHM = false }: { ser
               {service.features?.slice(0, 3).map(f => f.title).join(' • ') || 'System Integration • Deployment • Support'}
             </span>
           </div>
-          <div className="esc-cta-row">
-            <span className="esc-cta-text">EXPLORE SERVICE</span>
-            <svg className="esc-cta-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="7" y1="17" x2="17" y2="7"></line>
-              <polyline points="7 7 17 7 17 17"></polyline>
-            </svg>
-          </div>
         </div>
-      </Link>
+      </div>
     </motion.div>
   );
 });
 
+const ServiceModal = ({ service, onClose }: { service: Service, onClose: () => void }) => {
+  // Prevent background scrolling when modal is open
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    return () => { document.body.style.overflow = 'auto'; };
+  }, []);
+
+  return (
+    <AnimatePresence>
+      <div className="service-modal-overlay" onClick={onClose}>
+        <motion.div
+          className="service-modal-content"
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 10 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button className="service-modal-close" onClick={onClose}>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+          
+          <div className="service-modal-body-split">
+            <div className="service-modal-left">
+              <div className="service-modal-header">
+                <span className="service-modal-category">{service.category}</span>
+                <h2 className="service-modal-title">{service.title}</h2>
+              </div>
+
+              <p className="service-modal-desc">{service.description || service.tagline}</p>
+              
+              <div className="service-modal-grid">
+                {service.benefits && service.benefits.length > 0 && (
+                  <div className="service-modal-section">
+                    <h4 className="service-modal-section-title">Key Benefits</h4>
+                    <ul className="service-modal-list">
+                      {service.benefits.map((b, i) => (
+                        <li key={i}>
+                          <svg className="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                          <span>{b}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+
+                {service.features && service.features.length > 0 && (
+                  <div className="service-modal-section">
+                    <h4 className="service-modal-section-title">Capabilities</h4>
+                    <ul className="service-modal-list">
+                      {service.features.map((f, i) => (
+                        <li key={i}>
+                          <svg className="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                          <div>
+                            <strong>{f.title}</strong>
+                            {f.description && <p>{f.description}</p>}
+                          </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+              
+              <div className="service-modal-footer">
+                <Link to="/contact" className="btn btn-primary" style={{ width: '100%', justifyContent: 'center' }}>
+                  REQUEST A CONSULTATION &rarr;
+                </Link>
+              </div>
+            </div>
+
+            <div className="service-modal-right">
+              <div className="service-modal-media">
+                {service.video ? (
+                  <video 
+                    key={service.video}
+                    className="service-modal-video" 
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                  >
+                    <source src={service.video} type="video/mp4" />
+                    Your browser does not support the video tag.
+                  </video>
+                ) : (
+                  <img src={service.heroImage} alt={service.title} className="service-modal-video" style={{ objectFit: 'cover' }} />
+                )}
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </div>
+    </AnimatePresence>
+  );
+};
+
 export default function Services() {
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All Services');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [sstVisibleCount, setSstVisibleCount] = useState<number>(6);
@@ -418,7 +517,7 @@ export default function Services() {
                             <div className="company-section-line" style={{ background: 'linear-gradient(90deg, rgba(244,81,30,0.5) 0%, rgba(244,81,30,0) 100%)' }}></div>
                           </div>
                           <div className="services-cards-grid rich-cards" style={{ position: 'relative', zIndex: 1 }}>
-                            {sstServices.slice(0, sstVisibleCount).map((s, i) => <MemoizedServiceCard key={s.slug} service={s} index={i} />)}
+                            {sstServices.slice(0, sstVisibleCount).map((s, i) => <MemoizedServiceCard key={s.slug} service={s} index={i} onSelect={setSelectedService} />)}
                           </div>
                           {sstServices.length > 6 && (
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem', position: 'relative', zIndex: 1 }}>
@@ -462,7 +561,7 @@ export default function Services() {
                             <div className="company-section-line" style={{ background: 'linear-gradient(90deg, rgba(59,130,246,0.5) 0%, rgba(59,130,246,0) 100%)' }}></div>
                           </div>
                           <div className="services-cards-grid rich-cards" style={{ position: 'relative', zIndex: 1 }}>
-                            {shmServices.slice(0, shmVisibleCount).map((s, i) => <MemoizedServiceCard key={s.slug} service={s} index={i} isSHM={true} />)}
+                            {shmServices.slice(0, shmVisibleCount).map((s, i) => <MemoizedServiceCard key={s.slug} service={s} index={i} isSHM={true} onSelect={setSelectedService} />)}
                           </div>
                           {shmServices.length > 6 && (
                             <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem', position: 'relative', zIndex: 1 }}>
@@ -529,6 +628,12 @@ export default function Services() {
         {/* 6. OVERVIEW VIDEO MODAL                                    */}
         {/* ========================================================= */}
       </div>
+
+      <AnimatePresence>
+        {selectedService && (
+          <ServiceModal service={selectedService} onClose={() => setSelectedService(null)} />
+        )}
+      </AnimatePresence>
     </PageTransition>
   );
 }

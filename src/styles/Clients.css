@@ -441,9 +441,4 @@
   transform: scaleX(1);
 }
 
-.premium-client-card:hover .premium-client-arrow {
-  opacity: 1;
-  transform: translate(0, 0);
-}
-
 /* Testimonials section is identical so we can reuse previous existing css */

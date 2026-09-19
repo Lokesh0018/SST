@@ -14,6 +14,7 @@ export interface Service {
   applications: string[];
   gallery: string[];
   heroImage: string;
+  video?: string;
   featured?: boolean;
 }
 
@@ -48,7 +49,8 @@ export const services: Service[] = [
       'Industrial manufacturing plants',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1581092921461-7031e4bfb683?auto=format&fit=crop&w=1200&q=80',
+    heroImage: 'https://i.pinimg.com/736x/76/dd/c9/76ddc9e4c400f9e51312367b26a4b3bd.jpg',
+    video: '/videos/services/intrusion-detection.mp4',
   },
   {
     id: 2,
@@ -78,6 +80,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/access-control.mp4',
   },
   {
     id: 3,
@@ -107,6 +110,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/video-surveillance.mp4',
     featured: true,
   },
   {
@@ -136,7 +140,8 @@ export const services: Service[] = [
       'High-rise corporate buildings',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1582139329536-e7284fece509?auto=format&fit=crop&w=1200&q=80',
+    heroImage: 'https://i.pinimg.com/736x/e2/d3/fc/e2d3fcecb213a2d37dfa20f9526e68f3.jpg',
+    video: '/videos/services/fire-fighting.mp4',
   },
   {
     id: 5,
@@ -165,7 +170,8 @@ export const services: Service[] = [
       'Government facilities & defense sites',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
+    heroImage: 'https://i.pinimg.com/736x/f4/bd/a1/f4bda157126f66b2831be110df731863.jpg',
+    video: '/videos/services/perimeter-security.mp4',
   },
 
   // -------------------------------------------------------------
@@ -199,6 +205,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/switches&storages.mp4',
   },
   {
     id: 7,
@@ -228,6 +235,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/wireless technology.mp4',
   },
   {
     id: 8,
@@ -257,6 +265,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/network&infrastructure.mp4',
   },
   {
     id: 9,
@@ -285,7 +294,8 @@ export const services: Service[] = [
       'Critical infrastructure SCADA networks',
     ],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80',
+    heroImage: 'https://i.pinimg.com/736x/85/25/0b/85250b5f803c56a550a8554065cc41cd.jpg',
+    video: '/videos/services/cyber security.mp4',
   },
   {
     id: 17,
@@ -316,6 +326,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/cloud infrastructre & devops.mp4',
     featured: true,
   },
 
@@ -350,6 +361,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/entriprise software.mp4',
     featured: true,
   },
   {
@@ -380,6 +392,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/web-applications.mp4',
   },
   {
     id: 14,
@@ -409,6 +422,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/mobile-applications.mp4',
   },
   {
     id: 15,
@@ -438,6 +452,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/ai-solutions.mp4',
     featured: true,
   },
   {
@@ -468,6 +483,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1542831371-29b0f74f9713?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/ERP & CRM Systems Integration.mp4',
   },
   {
     id: 10,
@@ -497,6 +513,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/api-cloud-services.mp4',
   },
   {
     id: 11,
@@ -526,6 +543,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/iot-automation.mp4',
   },
   {
     id: 18,
@@ -555,6 +573,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/data-engineering.mp4',
   },
   {
     id: 19,
@@ -584,6 +603,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/ui-ux design.mp4',
   },
 
   // -------------------------------------------------------------
@@ -617,6 +637,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1563770660941-20978e870e26?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/turnkey.mp4',
     featured: true,
   },
   {
@@ -647,6 +668,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/electrical&electronics.mp4',
   },
   {
     id: 22,
@@ -676,6 +698,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/data-center build outs.mp4',
   },
   {
     id: 23,
@@ -705,6 +728,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1603732551658-5fabbafa84eb?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/Building Automation & BMS.mp4',
   },
 
   // -------------------------------------------------------------
@@ -738,6 +762,7 @@ export const services: Service[] = [
     ],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/logistics.mp4',
   },
 ];
 
