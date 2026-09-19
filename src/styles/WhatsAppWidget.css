@@ -12,20 +12,20 @@
 
 /* Float Button */
 .whatsapp-widget-float {
-  background-color: #25d366;
-  color: white;
+  background-color: white;
+  color: #25d366;
   border-radius: 50px;
-  padding: 1rem;
+  padding: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.4);
+  box-shadow: 0 4px 12px rgba(10, 17, 40, 0.08);
   cursor: pointer;
-  border: none;
+  border: 1px solid rgba(10, 17, 40, 0.05);
   outline: none;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
   pointer-events: auto;
 }
@@ -41,20 +41,22 @@
   max-width: 0;
   opacity: 0;
   white-space: nowrap;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
-  font-size: 1rem;
+  font-size: 0.875rem;
+  color: #1C1C1B;
 }
 
 .whatsapp-widget-float:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.5);
-  gap: 0.5rem;
-  padding: 1rem 1.5rem;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(10, 17, 40, 0.12);
+  border-color: rgba(37, 211, 102, 0.3);
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem 0.75rem 0.75rem;
 }
 
 .whatsapp-widget-float:hover span {
-  max-width: 150px;
+  max-width: 120px;
   opacity: 1;
 }
 

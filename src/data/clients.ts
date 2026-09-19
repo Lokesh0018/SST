@@ -6,16 +6,16 @@ export interface Client {
 }
 
 export const clients: Client[] = [
-  // Hospitality Sector
-  { id: '1', name: 'Four Points by Sheraton', logo: '/images/logo/four-points-by-sheraton.svg', category: 'Hospitality Sector' },
-  { id: '2', name: 'Courtyard by Marriott', logo: '/images/logo/Courtyard.svg', category: 'Hospitality Sector' },
-  { id: '3', name: 'Fair Field by Marriott', logo: '', category: 'Hospitality Sector' },
-  { id: '4', name: 'Southern Spice Restaurants', logo: '/images/logo/southern-spice.svg', category: 'Hospitality Sector' },
-  { id: '5', name: 'Hyatt Regency', logo: '', category: 'Hospitality Sector' },
-  { id: '6', name: 'Double Tree By Hilton', logo: '', category: 'Hospitality Sector' },
-  { id: '7', name: 'Novotel', logo: '', category: 'Hospitality Sector' },
-  { id: '8', name: 'Taj Hotels', logo: '', category: 'Hospitality Sector' },
-  { id: '9', name: 'Amalapuram Heights', logo: '', category: 'Hospitality Sector' },
+  // Hospitality
+  { id: '1', name: 'Four Points by Sheraton', logo: '/images/logo/four-points-by-sheraton.svg', category: 'Hospitality' },
+  { id: '2', name: 'Courtyard by Marriott', logo: '/images/logo/Courtyard.svg', category: 'Hospitality' },
+  { id: '3', name: 'Fair Field by Marriott', logo: '', category: 'Hospitality' },
+  { id: '4', name: 'Southern Spice Restaurants', logo: '/images/logo/southern-spice.svg', category: 'Hospitality' },
+  { id: '5', name: 'Hyatt Regency', logo: '', category: 'Hospitality' },
+  { id: '6', name: 'Double Tree By Hilton', logo: '', category: 'Hospitality' },
+  { id: '7', name: 'Novotel', logo: '', category: 'Hospitality' },
+  { id: '8', name: 'Taj Hotels', logo: '', category: 'Hospitality' },
+  { id: '9', name: 'Amalapuram Heights', logo: '', category: 'Hospitality' },
 
   // Industries
   { id: '10', name: 'Andhra Paper Mill', logo: '/images/logo/Andhra Paper Limited.png', category: 'Industries' },
@@ -37,24 +37,24 @@ export const clients: Client[] = [
   { id: '26', name: 'Sneha Pharma', logo: '', category: 'Industries' },
   { id: '27', name: 'Pilkington Automotive India Private Limited', logo: '', category: 'Industries' },
 
-  // Financial Institutions
-  { id: '28', name: 'Edelwise Housing Finance', logo: '/images/logo/Edelweiss.svg', category: 'Financial Institutions' },
-  { id: '29', name: 'Bajaj Finance', logo: '/images/logo/bajajfinserv.svg', category: 'Financial Institutions' },
-  { id: '30', name: 'Shriram Finance', logo: '', category: 'Financial Institutions' },
-  { id: '31', name: 'Mahindra Finance', logo: '/images/logo/Mahindra_Finance.svg', category: 'Financial Institutions' },
-  { id: '32', name: 'Muthoot Fin Corp', logo: '/images/logo/Muthoot-Finance.svg', category: 'Financial Institutions' },
-  { id: '33', name: 'IIFL Finance', logo: '', category: 'Financial Institutions' },
+  // Financial
+  { id: '28', name: 'Edelwise Housing Finance', logo: '/images/logo/Edelweiss.svg', category: 'Financial' },
+  { id: '29', name: 'Bajaj Finance', logo: '/images/logo/bajajfinserv.svg', category: 'Financial' },
+  { id: '30', name: 'Shriram Finance', logo: '', category: 'Financial' },
+  { id: '31', name: 'Mahindra Finance', logo: '/images/logo/Mahindra_Finance.svg', category: 'Financial' },
+  { id: '32', name: 'Muthoot Fin Corp', logo: '/images/logo/Muthoot-Finance.svg', category: 'Financial' },
+  { id: '33', name: 'IIFL Finance', logo: '', category: 'Financial' },
 
-  // E-Commerce & Software Companies
-  { id: '34', name: 'Mahathi Software', logo: '', category: 'E-Commerce & Software Companies' },
-  { id: '35', name: 'Securius Global', logo: '', category: 'E-Commerce & Software Companies' },
-  { id: '36', name: 'SE Techie', logo: '', category: 'E-Commerce & Software Companies' },
-  { id: '37', name: 'SS Infotech', logo: '', category: 'E-Commerce & Software Companies' },
-  { id: '38', name: 'Flipkart', logo: '/images/logo/flipkart.svg', category: 'E-Commerce & Software Companies' },
-  { id: '39', name: 'Lenskart', logo: '/images/logo/Lenskart.png', category: 'E-Commerce & Software Companies' },
-  { id: '40', name: 'Swiggy', logo: '/images/logo/Swiggy.svg', category: 'E-Commerce & Software Companies' },
-  { id: '41', name: 'V4U Computer Inc', logo: '', category: 'E-Commerce & Software Companies' },
-  { id: '42', name: 'Delivery', logo: '', category: 'E-Commerce & Software Companies' },
+  // Tech & E-Commerce
+  { id: '34', name: 'Mahathi Software', logo: '', category: 'Tech & E-Commerce' },
+  { id: '35', name: 'Securius Global', logo: '', category: 'Tech & E-Commerce' },
+  { id: '36', name: 'SE Techie', logo: '', category: 'Tech & E-Commerce' },
+  { id: '37', name: 'SS Infotech', logo: '', category: 'Tech & E-Commerce' },
+  { id: '38', name: 'Flipkart', logo: '/images/logo/flipkart.svg', category: 'Tech & E-Commerce' },
+  { id: '39', name: 'Lenskart', logo: '/images/logo/Lenskart.png', category: 'Tech & E-Commerce' },
+  { id: '40', name: 'Swiggy', logo: '/images/logo/Swiggy.svg', category: 'Tech & E-Commerce' },
+  { id: '41', name: 'V4U Computer Inc', logo: '', category: 'Tech & E-Commerce' },
+  { id: '42', name: 'Delivery', logo: '', category: 'Tech & E-Commerce' },
 
   // Banks
   { id: '43', name: 'HSBC', logo: '/images/logo/HSBC.svg', category: 'Banks' },
