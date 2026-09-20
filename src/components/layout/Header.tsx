@@ -49,7 +49,7 @@ export default function Header() {
     <>
       <header
         className={`header-root ${
-          isScrolled
+          isScrolled || isMobileMenuOpen
             ? 'header-scrolled'
             : 'header-transparent'
         }`}
