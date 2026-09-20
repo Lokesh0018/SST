@@ -6,6 +6,7 @@ import { clients } from '../data/clients';
 import { testimonials } from '../data/testimonials';
 import '../styles/Clients.css';
 import '../styles/About.css';
+import RubiksCube from '../components/ui/RubiksCube';
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -48,18 +49,6 @@ export default function Clients() {
   }, [activeCategory, validClients]);
 
   const allLogos = useMemo(() => validClients, [validClients]);
-  const cubeFaces = useMemo(() => {
-    const rubiksLogos = Array.from({ length: 54 }, (_, i) => allLogos[i % allLogos.length]);
-    return [
-      { id: 'front', tiles: rubiksLogos.slice(0, 9) },
-      { id: 'right', tiles: rubiksLogos.slice(9, 18) },
-      { id: 'back', tiles: rubiksLogos.slice(18, 27) },
-      { id: 'left', tiles: rubiksLogos.slice(27, 36) },
-      { id: 'top', tiles: rubiksLogos.slice(36, 45) },
-      { id: 'bottom', tiles: rubiksLogos.slice(45, 54) },
-    ];
-  }, [allLogos]);
-
   return (
     <PageTransition>
       {/* Hero */}
@@ -103,18 +92,7 @@ export default function Clients() {
               animate="show"
             >
               <div className="rubiks-cube-wrapper">
-                <div className="rubiks-cube-container">
-                  {cubeFaces.map((face) => (
-                    <div key={face.id} className={`cube-face ${face.id}`}>
-                      {face.tiles.map((client, idx) => (
-                        <div key={`${face.id}-${idx}`} className="cube-tile">
-                          <img src={client.logo} alt={client.name} />
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-                <div className="rubiks-cube-shadow"></div>
+                <RubiksCube logos={allLogos} />
               </div>
             </motion.div>
           </div>
