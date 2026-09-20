@@ -90,6 +90,11 @@ export default function About() {
 
   const [activeTab, setActiveTab] = useState<'SECURITY' | 'NETWORK' | 'SAFETY' | 'INFRASTRUCTURE'>('SECURITY');
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [activeCert, setActiveCert] = useState<1 | 2>(1);
+  const certGstRef = useRef<HTMLDivElement>(null);
+  const certUdyamRef = useRef<HTMLDivElement>(null);
+  const prevCertRef = useRef<1 | 2>(1);
+  const certTlRef = useRef<gsap.core.Timeline | null>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -97,6 +102,54 @@ export default function About() {
     const y = (e.clientY - rect.top) / rect.height - 0.5;
     setMousePos({ x, y });
   };
+
+  useGSAP(() => {
+    if (!certGstRef.current || !certUdyamRef.current) return;
+    
+    const frontState = { x: 0, y: 0, z: 0, scale: 1, rotateY: 0, rotateX: 0, opacity: 1, zIndex: 3 };
+    const backState = { x: 18, y: 14, z: -30, scale: 0.97, rotateY: -5, rotateX: 2, opacity: 0.8, zIndex: 1 };
+    const passingState = { x: -70, y: 15, z: -10, scale: 0.98, rotateY: -2, rotateX: 1 };
+
+    const isGSTFront = activeCert === 1;
+    const frontEl = isGSTFront ? certGstRef.current : certUdyamRef.current;
+    const backEl = isGSTFront ? certUdyamRef.current : certGstRef.current;
+
+    if (prevCertRef.current === activeCert) {
+      // Initial set
+      gsap.set(frontEl, frontState);
+      gsap.set(backEl, backState);
+    } else {
+      // Run animation
+      if (certTlRef.current) certTlRef.current.kill();
+      
+      const tl = gsap.timeline();
+      certTlRef.current = tl;
+
+      const movingBackEl = backEl; // The one that WAS front
+      const movingFrontEl = frontEl; // The one that WAS back
+
+      tl.to(movingBackEl, {
+        ...passingState,
+        duration: 0.35,
+        ease: 'power2.inOut',
+        onComplete: () => {
+          gsap.set(movingBackEl, { zIndex: 1 });
+          gsap.set(movingFrontEl, { zIndex: 3 });
+        }
+      })
+      .to(movingBackEl, {
+        ...backState,
+        duration: 0.35,
+        ease: 'power2.inOut'
+      })
+      .to(movingFrontEl, {
+        ...frontState,
+        duration: 0.4,
+        ease: 'power2.inOut'
+      }, "-=0.4");
+    }
+    prevCertRef.current = activeCert;
+  }, { dependencies: [activeCert] });
 
   useGSAP(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -373,6 +426,13 @@ export default function About() {
         { opacity: 0, y: 30 },
         { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: 'power2.out', scrollTrigger: { trigger: ceoRef.current, start: 'top 80%', toggleActions: 'play none none reverse' } }
       );
+    }
+
+    // Digital Compliance Dossier Animations
+    if (!prefersReducedMotion) {
+      gsap.to('.cert-doc-1', { y: '-=8', duration: 4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+      gsap.to('.cert-doc-2', { y: '-=5', duration: 3.5, delay: 0.5, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+      gsap.to('.cert-doc-3', { y: '-=3', duration: 4.5, delay: 1, ease: 'sine.inOut', yoyo: true, repeat: -1 });
     }
 
   }, { dependencies: [] });
@@ -777,6 +837,184 @@ export default function About() {
                   </div>
                 </div>
 
+              </div>
+            </div>
+          </section>
+
+          {/* CERTIFICATIONS & REGISTRATIONS - DIGITAL COMPLIANCE DOSSIER */}
+          <section className="about-certifications-section">
+            <div className="cert-bg-glow"></div>
+            <div className="cert-bg-glow-2"></div>
+            <div className="cert-bg-circles"></div>
+            
+            <div className="container relative z-10">
+              <span className="about-eyebrow">CERTIFICATIONS & REGISTRATIONS</span>
+              <h2 className="why-headline">REGISTERED & <br /><span className="text-orange">RECOGNIZED.</span></h2>
+              
+              <div className="cert-split-grid">
+                <div className="cert-text-col">
+                  <h3 style={{ fontSize: '1.5rem', fontWeight: 600, marginBottom: '1rem' }}>BUILT ON TRUST. BACKED BY COMPLIANCE.</h3>
+                  <p style={{ color: 'rgba(255, 255, 255, 0.7)', fontSize: '1.1rem', maxWidth: '600px', marginBottom: '2.5rem' }}>
+                    Official business registrations that reflect our commitment to operating transparently and professionally.
+                  </p>
+                  
+                  <div className="cert-verification-timeline">
+                    <div className="cert-timeline-node">
+                      <div className="cert-timeline-dot"></div>
+                      REGISTERED
+                    </div>
+                    <div className="cert-timeline-arrow">&rarr;</div>
+                    <div className="cert-timeline-node">
+                      <div className="cert-timeline-dot"></div>
+                      VERIFIED
+                    </div>
+                    <div className="cert-timeline-arrow">&rarr;</div>
+                    <div className="cert-timeline-node active">
+                      <div className="cert-timeline-dot"></div>
+                      ACTIVE
+                    </div>
+                    <div className="cert-timeline-arrow">&rarr;</div>
+                    <div className="cert-timeline-node">
+                      <div className="cert-timeline-dot"></div>
+                      COMPLIANT
+                    </div>
+                  </div>
+                  
+                  <div className="cert-links-container">
+                    <a href="/certificates/GST.pdf" target="_blank" rel="noopener noreferrer" className="cert-link-card" 
+                       onMouseEnter={(e) => {
+                         setActiveCert(1);
+                         gsap.to(e.currentTarget, { x: 5, duration: 0.3, ease: 'power2.out' });
+                         gsap.to(e.currentTarget.querySelector('.cert-link-icon'), { scale: 1.1, duration: 0.3 });
+                         gsap.to(e.currentTarget.querySelector('.cert-link-arrow-text'), { opacity: 1, x: 0, duration: 0.3 });
+                       }}
+                       onMouseLeave={(e) => {
+                         gsap.to(e.currentTarget, { x: 0, duration: 0.3, ease: 'power2.out' });
+                         gsap.to(e.currentTarget.querySelector('.cert-link-icon'), { scale: 1, duration: 0.3 });
+                         gsap.to(e.currentTarget.querySelector('.cert-link-arrow-text'), { opacity: 0, x: -10, duration: 0.3 });
+                       }}>
+                      <div className="cert-card-number">01</div>
+                      <div className="cert-link-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                      </div>
+                      <div className="cert-link-text">
+                        <h4>GST Registration</h4>
+                        <span className="cert-subtitle">Goods & Services Tax</span>
+                        <div className="cert-card-status">VERIFIED &bull; ACTIVE</div>
+                      </div>
+                      <div className="cert-link-arrow">
+                        <span className="cert-link-arrow-text">VIEW CERTIFICATE</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                      </div>
+                    </a>
+                    
+                    <a href="/certificates/Udayam.pdf" target="_blank" rel="noopener noreferrer" className="cert-link-card"
+                       onMouseEnter={(e) => {
+                         setActiveCert(2);
+                         gsap.to(e.currentTarget, { x: 5, duration: 0.3, ease: 'power2.out' });
+                         gsap.to(e.currentTarget.querySelector('.cert-link-icon'), { scale: 1.1, duration: 0.3 });
+                         gsap.to(e.currentTarget.querySelector('.cert-link-arrow-text'), { opacity: 1, x: 0, duration: 0.3 });
+                       }}
+                       onMouseLeave={(e) => {
+                         gsap.to(e.currentTarget, { x: 0, duration: 0.3, ease: 'power2.out' });
+                         gsap.to(e.currentTarget.querySelector('.cert-link-icon'), { scale: 1, duration: 0.3 });
+                         gsap.to(e.currentTarget.querySelector('.cert-link-arrow-text'), { opacity: 0, x: -10, duration: 0.3 });
+                       }}>
+                      <div className="cert-card-number">02</div>
+                      <div className="cert-link-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                      </div>
+                      <div className="cert-link-text">
+                        <h4>Udyam Registration</h4>
+                        <span className="cert-subtitle">MSME</span>
+                        <div className="cert-card-status">VERIFIED &bull; ACTIVE</div>
+                      </div>
+                      <div className="cert-link-arrow">
+                        <span className="cert-link-arrow-text">VIEW CERTIFICATE</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+
+                <div className="cert-visual-col">
+                  <div className="cert-stats-bg">
+                    <div className="cert-stats-num">02</div>
+                    <div className="cert-stats-label">ACTIVE <span>CREDENTIALS</span></div>
+                  </div>
+                  
+                  <div className="cert-docs-wrapper">
+                    <div className="cert-doc-layer cert-doc-3"></div>
+                    
+                    {/* Udyam Certificate Layer */}
+                    <div ref={certUdyamRef} className="cert-doc-layer cert-doc-content">
+                      {activeCert === 2 && <div className="cert-scan-line"></div>}
+                      
+                      <div className="cert-doc-header">
+                        <div className="cert-doc-title">CERTIFICATE<br/>REGISTRATION</div>
+                        <div className="cert-doc-num">02</div>
+                      </div>
+                      
+                      <div className="cert-doc-body">
+                        <div className="cert-doc-h">UDYAM</div>
+                        <div className="cert-abstract-lines">
+                          <div className="cert-abstract-line w-3-4"></div>
+                          <div className="cert-abstract-line w-full"></div>
+                          <div className="cert-abstract-line w-1-2"></div>
+                          <div className="cert-abstract-line w-full" style={{ marginTop: '0.5rem' }}></div>
+                          <div className="cert-abstract-line w-3-4"></div>
+                        </div>
+                      </div>
+                      
+                      <div className="cert-doc-footer">
+                        <div className="cert-doc-status">
+                          <div className="cert-doc-status-item">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            VERIFIED
+                          </div>
+                          <div className="cert-doc-status-item" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                            ACTIVE
+                          </div>
+                        </div>
+                        {activeCert === 2 && <div className="cert-doc-seal"></div>}
+                      </div>
+                    </div>
+                    
+                    {/* GST Certificate Layer */}
+                    <div ref={certGstRef} className="cert-doc-layer cert-doc-content">
+                      {activeCert === 1 && <div className="cert-scan-line"></div>}
+                      
+                      <div className="cert-doc-header">
+                        <div className="cert-doc-title">CERTIFICATE<br/>REGISTRATION</div>
+                        <div className="cert-doc-num">01</div>
+                      </div>
+                      
+                      <div className="cert-doc-body">
+                        <div className="cert-doc-h">GST</div>
+                        <div className="cert-abstract-lines">
+                          <div className="cert-abstract-line w-full"></div>
+                          <div className="cert-abstract-line w-3-4"></div>
+                          <div className="cert-abstract-line w-1-2"></div>
+                          <div className="cert-abstract-line w-full" style={{ marginTop: '0.5rem' }}></div>
+                          <div className="cert-abstract-line w-3-4"></div>
+                        </div>
+                      </div>
+                      
+                      <div className="cert-doc-footer">
+                        <div className="cert-doc-status">
+                          <div className="cert-doc-status-item">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            VERIFIED
+                          </div>
+                          <div className="cert-doc-status-item" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                            ACTIVE
+                          </div>
+                        </div>
+                        {activeCert === 1 && <div className="cert-doc-seal"></div>}
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </section>

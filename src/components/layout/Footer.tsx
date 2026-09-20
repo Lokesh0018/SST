@@ -227,6 +227,10 @@ export default function Footer() {
               <span className="copyright-dot">●</span> &copy; {new Date().getFullYear()} SRI SADGURU TRADERS
             </p>
             <div className="footer-legal-links">
+              <a href="/certificates/GST.pdf" target="_blank" rel="noopener noreferrer" className="footer-legal-link">GST CERTIFICATE</a>
+              <span className="legal-separator">&middot;</span>
+              <a href="/certificates/Udayam.pdf" target="_blank" rel="noopener noreferrer" className="footer-legal-link">UDAYAM CERTIFICATE</a>
+              <span className="legal-separator">&middot;</span>
               <a href="#" className="footer-legal-link">PRIVACY POLICY</a>
               <span className="legal-separator">&middot;</span>
               <a href="#" className="footer-legal-link">TERMS OF SERVICE</a>
