@@ -371,6 +371,22 @@ export default function Services() {
   const servicesGridRef = useRef<HTMLDivElement>(null);
   const ecosystemRef = useRef<HTMLDivElement>(null);
 
+  // Check for hash in URL to open specific service modal
+  useEffect(() => {
+    const hash = window.location.hash.replace('#', '');
+    if (hash) {
+      const targetService = services.find(s => s.slug === hash);
+      if (targetService) {
+        setSelectedService(targetService);
+        // If it's a specific category, switch to it so it's visible in the background
+        setSelectedCategory('All Services'); // or targetService.category
+        
+        // Remove hash from URL cleanly so it doesn't reopen on refresh unless intended
+        window.history.replaceState(null, '', window.location.pathname);
+      }
+    }
+  }, []);
+
   // Global mouse tracking for fixed background glow effects with RAF optimization
   useEffect(() => {
     let ticking = false;

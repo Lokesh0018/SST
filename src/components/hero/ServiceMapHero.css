@@ -63,7 +63,15 @@
 }
 
 .hero-content-col {
-  pointer-events: auto;
+  pointer-events: none;
+}
+
+.hero-content-col > * {
+  pointer-events: none; /* Let clicks pass through to map by default */
+}
+
+.hero-content-col .hero-cta-group {
+  pointer-events: auto; /* Only allow interaction on buttons */
 }
 
 /* ===== Typography ===== */

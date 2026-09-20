@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState, useMemo, useDeferredValue } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -321,6 +321,7 @@ export default function Industries() {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedIndustry, setSelectedIndustry] = useState<any | null>(null);
   const [selectedClientImage, setSelectedClientImage] = useState<string | null>(null);
+  const location = useLocation();
   
   const industriesGridRef = useRef<HTMLDivElement>(null);
   const deferredSearchQuery = useDeferredValue(searchQuery);
@@ -369,6 +370,16 @@ export default function Industries() {
       document.body.style.overflow = 'unset';
     };
   }, [selectedIndustry, selectedClientImage]);
+
+  useEffect(() => {
+    if (location.hash) {
+      const slug = location.hash.replace('#', '');
+      const industry = industries.find(ind => ind.slug === slug);
+      if (industry) {
+        setSelectedIndustry(industry);
+      }
+    }
+  }, [location.hash]);
 
   return (
     <PageTransition>

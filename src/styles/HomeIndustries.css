@@ -1,7 +1,7 @@
 .home-industries-section {
   position: relative;
   /* A slightly darker, elegant slate gradient */
-  background: linear-gradient(120deg, #E2E8F0 0%, #CBD5E1 50%, #B8C2CC 100%);
+  background: #B8C2CC;
   background-size: 200% 200%;
   overflow: hidden;
 }

@@ -4,44 +4,13 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import SectionHeading from '../common/SectionHeading';
 import '../../styles/HomeClients.css';
+import { clients } from '../../data/clients';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const row1Logos = [
-  'seagate.svg',
-  'flipkart.svg',
-  'sbi.svg',
-  'HDFC.svg',
-  'HSBC.svg',
-  'Kotak.svg',
-  'Federal-bank.svg',
-  'Canara-Bank.svg',
-  'Muthoot-Finance.svg',
-  'Edelweiss.svg',
-  'Mahindra_Finance.svg',
-  'bajajfinserv.svg',
-  'Swiggy.svg',
-  'Lenskart.png',
-  'lifestyle.png',
-].map(name => `/images/logo/${name}`);
-
-const row2Logos = [
-  'max.svg',
-  'reliance-fresh.svg',
-  'Spencer\'s Retail Logo PNG.png',
-  'Andhra Paper Limited.png',
-  'four-points-by-sheraton.svg',
-  'Courtyard.svg',
-  'southern-spice.svg',
-  'Blackberry.svg',
-  'CommScope.svg',
-  'Dahua_Technology.svg',
-  'GEF.svg',
-  'Greentech.png',
-  'Ruckus.png',
-  'Toshiba.svg',
-  'uniview.svg',
-].map(name => `/images/logo/${name}`);
+const halfLength = Math.ceil(clients.length / 2);
+const row1Logos = clients.slice(0, halfLength).map(c => c.logo);
+const row2Logos = clients.slice(halfLength).map(c => c.logo);
 
 const ClientLogo = ({ src }: { src: string }) => {
   const isReliance = src.includes('reliance-fresh');

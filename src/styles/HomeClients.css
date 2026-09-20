@@ -152,11 +152,11 @@
 
 /* Tracks with different speeds */
 .track-1 {
-  animation: scrollLeft 32s linear infinite;
+  animation: scrollLeft 64s linear infinite;
 }
 
 .track-2 {
-  animation: scrollRight 28s linear infinite;
+  animation: scrollRight 56s linear infinite;
 }
 
 .track-3 {

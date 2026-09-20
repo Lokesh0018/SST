@@ -1,88 +1,52 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion } from 'framer-motion';
 import SectionHeading from '../common/SectionHeading';
 import { services } from '../../data/services';
 import { useServiceContext } from '../../context/ServiceContext';
 import '../../styles/HomeServices.css';
 
 import React from 'react';
+import { 
+  Camera, Lock, Network, Zap, Flame, Truck, Wifi, Wrench, Briefcase, 
+  Shield, Server, ShieldCheck, Monitor, Cpu, Smartphone, Activity,
+  LockOpen, Cloud, Layers, Globe, GitMerge, Share2, Database, Layout,
+  Home, Grid, Code, Building
+} from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const serviceIcons: Record<string, React.JSX.Element> = {
-  camera: (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-      <circle cx="12" cy="13" r="4" />
-    </svg>
-  ),
-  lock: (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-      <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-    </svg>
-  ),
-  network: (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="1" y="1" width="6" height="6" rx="1" />
-      <rect x="17" y="1" width="6" height="6" rx="1" />
-      <rect x="9" y="17" width="6" height="6" rx="1" />
-      <path d="M6 4h11M4 7v10l8 3M20 7v10l-8 3" />
-    </svg>
-  ),
-  zap: (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-    </svg>
-  ),
-  flame: (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22c-4.97 0-9-2.69-9-6 0-4 5-11 9-14 4 3 9 10 9 14 0 3.31-4.03 6-9 6z" />
-      <path d="M12 22c-1.66 0-3-1.34-3-3 0-2 2-5 3-6 1 1 3 4 3 6 0 1.66-1.34 3-3 3z" />
-    </svg>
-  ),
-  truck: (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="1" y="3" width="15" height="13" />
-      <polygon points="16 8 20 8 23 11 23 16 16 16 8" />
-      <circle cx="5.5" cy="18.5" r="2.5" />
-      <circle cx="18.5" cy="18.5" r="2.5" />
-    </svg>
-  ),
-  wifi: (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M5 12.55a11 11 0 0 1 14.08 0" />
-      <path d="M1.42 9a16 16 0 0 1 21.16 0" />
-      <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
-      <line x1="12" y1="20" x2="12.01" y2="20" />
-    </svg>
-  ),
-  tool: (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
-    </svg>
-  ),
-  briefcase: (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
-      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
-    </svg>
-  ),
-  shield: (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-    </svg>
-  ),
-  server: (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
-      <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
-      <line x1="6" y1="6" x2="6.01" y2="6" />
-      <line x1="6" y1="18" x2="6.01" y2="18" />
-    </svg>
-  ),
+  camera: <Camera size={32} strokeWidth={1} />,
+  lock: <Lock size={32} strokeWidth={1} />,
+  network: <Network size={32} strokeWidth={1} />,
+  zap: <Zap size={32} strokeWidth={1} />,
+  flame: <Flame size={32} strokeWidth={1} />,
+  truck: <Truck size={32} strokeWidth={1} />,
+  wifi: <Wifi size={32} strokeWidth={1} />,
+  tool: <Wrench size={32} strokeWidth={1} />,
+  briefcase: <Briefcase size={32} strokeWidth={1} />,
+  shield: <Shield size={32} strokeWidth={1} />,
+  server: <Server size={32} strokeWidth={1} />,
+  'shield-check': <ShieldCheck size={32} strokeWidth={1} />,
+  monitor: <Monitor size={32} strokeWidth={1} />,
+  cpu: <Cpu size={32} strokeWidth={1} />,
+  smartphone: <Smartphone size={32} strokeWidth={1} />,
+  activity: <Activity size={32} strokeWidth={1} />,
+  'lock-open': <LockOpen size={32} strokeWidth={1} />,
+  cloud: <Cloud size={32} strokeWidth={1} />,
+  layers: <Layers size={32} strokeWidth={1} />,
+  globe: <Globe size={32} strokeWidth={1} />,
+  'git-merge': <GitMerge size={32} strokeWidth={1} />,
+  'share-2': <Share2 size={32} strokeWidth={1} />,
+  database: <Database size={32} strokeWidth={1} />,
+  layout: <Layout size={32} strokeWidth={1} />,
+  home: <Home size={32} strokeWidth={1} />,
+  grid: <Grid size={32} strokeWidth={1} />,
+  code: <Code size={32} strokeWidth={1} />,
+  building: <Building size={32} strokeWidth={1} />,
 };
 
 const slugToId: Record<string, string> = {
@@ -123,65 +87,26 @@ const formatTitle = (title: string) => {
 const ServicesBackground = () => (
   <div className="home-services-bg" aria-hidden="true">
     {/* Ambient Glows */}
-    <div className="ambient-orb orb-orange"></div>
-    <div className="ambient-orb orb-blue"></div>
+    <div className="ambient-orb orb-orange" style={{ opacity: 0.3 }}></div>
+    <div className="ambient-orb orb-blue" style={{ opacity: 0.3 }}></div>
     
     <svg width="100%" height="100%" viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
-      
-      {/* BACKGROUND LAYER (Slowest, Faintest, Smallest) */}
-      <g className="network-layer-bg" stroke="rgba(143, 53, 31, 0.08)" strokeWidth="0.5" fill="none">
-        <path d="M-50,50 L250,150 L450,50 L650,200 L900,100 L1050,250" />
-        <path d="M250,150 L450,250 L650,200" />
-        <g fill="rgba(185, 70, 37, 0.20)">
-          <circle cx="250" cy="150" r="2" />
-          <circle cx="450" cy="50" r="2" />
-          <circle cx="650" cy="200" r="2" />
-          <circle cx="900" cy="100" r="2" />
-          <circle cx="450" cy="250" r="2" />
+      {/* Minimalistic Network Connections */}
+      <g className="network-layer-mid" stroke="rgba(185, 70, 37, 0.05)" strokeWidth="1" fill="none">
+        
+        {/* Simple connecting lines */}
+        <path d="M400,200 L600,200" />
+        <path d="M300,100 L400,200" />
+        <path d="M700,100 L600,200" />
+        <path d="M600,200 L700,400" />
+        <path d="M400,200 L300,400" />
+        
+        {/* Few visible nodes */}
+        <g fill="rgba(185, 70, 37, 0.15)">
+          <circle cx="400" cy="200" r="4" />
+          <circle cx="600" cy="200" r="4" />
         </g>
       </g>
-
-      {/* MIDGROUND LAYER (Medium speed, Medium opacity) */}
-      <g className="network-layer-mid" stroke="rgba(143, 53, 31, 0.10)" strokeWidth="1" fill="none">
-        <path d="M-50,250 L150,350 L350,200 L550,400 L800,250 L1050,350" />
-        <path d="M150,350 L350,400 L550,400" />
-        <g fill="rgba(185, 70, 37, 0.22)">
-          <circle cx="150" cy="350" r="3" />
-          <circle cx="350" cy="200" r="3" />
-          <circle cx="550" cy="400" r="3" />
-          <circle cx="800" cy="250" r="3" />
-          <circle cx="350" cy="400" r="3" />
-        </g>
-        <g fill="#B94625">
-          <circle r="2">
-            <animateMotion dur="15s" repeatCount="indefinite" path="M-50,250 L150,350 L350,200 L550,400 L800,250 L1050,350" />
-          </circle>
-        </g>
-      </g>
-
-      {/* FOREGROUND LAYER (Fastest, Brightest, Largest) */}
-      <g className="network-layer-fg" stroke="rgba(143, 53, 31, 0.12)" strokeWidth="1.5" fill="none">
-        <path d="M-50,450 L200,350 L400,500 L650,350 L900,450 L1050,300" />
-        <path d="M200,350 L400,300 L650,350" />
-        <path d="M400,300 L600,200" />
-        <g fill="rgba(185, 70, 37, 0.25)">
-          <circle cx="200" cy="350" r="4" />
-          <circle cx="400" cy="500" r="5" />
-          <circle cx="650" cy="350" r="4" />
-          <circle cx="900" cy="450" r="5" />
-          <circle cx="400" cy="300" r="4" />
-          <circle cx="600" cy="200" r="3" />
-        </g>
-        <g fill="#B94625">
-          <circle r="4">
-            <animateMotion dur="10s" repeatCount="indefinite" path="M1050,300 L900,450 L650,350 L400,500 L200,350 L-50,450" />
-          </circle>
-          <circle r="3">
-            <animateMotion dur="12s" repeatCount="indefinite" path="M-50,450 L200,350 L400,300 L600,200" />
-          </circle>
-        </g>
-      </g>
-      
     </svg>
   </div>
 );
@@ -189,8 +114,27 @@ const ServicesBackground = () => (
 const HomeServices = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
   
   const { setActiveService, isUserInteracting, setIsUserInteracting } = useServiceContext();
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const scrollPrev = () => {
+    setCurrentIndex((prev) => (prev > 0 ? prev - 1 : services.length - 1));
+  };
+
+  const scrollNext = () => {
+    setCurrentIndex((prev) => (prev < services.length - 1 ? prev + 1 : 0));
+  };
+
+  // Auto-play carousel
+  useEffect(() => {
+    if (isUserInteracting) return;
+    const interval = setInterval(() => {
+      scrollNext();
+    }, 3000);
+    return () => clearInterval(interval);
+  }, [isUserInteracting, currentIndex]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -252,31 +196,21 @@ const HomeServices = () => {
         scrollTrigger: { trigger: sectionRef.current, start: "top bottom", end: "bottom top", scrub: true }
       });
 
-      // --- 3D Card Sequence Animation ---
-      const cards = gsap.utils.toArray('.home-services-card') as HTMLElement[];
-      if (cards.length === 0) return;
-
-      // Create one master scroll-driven timeline without scrub for faster, automatic arrival
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: '.home-services-grid',
-          start: "top 85%", // Trigger earlier
-        }
-      });
-
-      // Using stagger ensures they animate swiftly one-by-one
-      tl.fromTo(cards, 
+      // --- Continuous Carousel Fade In ---
+      gsap.fromTo(containerRef.current, 
         {
-          y: 80,
+          y: 40,
           opacity: 0,
         },
         {
           y: 0,
           opacity: 1,
           duration: 1.0,
-          stagger: 0.25, // Noticeable delay between each card
           ease: "power3.out",
-          delay: 0.2 // Slight delay before the first card starts
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 75%",
+          }
         }
       );
 
@@ -286,7 +220,7 @@ const HomeServices = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="section-padding home-services-section">
+    <section ref={sectionRef} className="home-services-section">
       <ServicesBackground />
       <div className="container" ref={containerRef}>
         <div className="home-services-header">
@@ -311,74 +245,143 @@ const HomeServices = () => {
           </Link>
         </div>
 
-        <div className="home-services-grid">
-          {services.map((service, index) => {
-            return (
-              <Link
-                key={service.slug}
-                to="/services"
-                className={`service-card home-services-card motif-${service.slug}`}
-                onMouseEnter={() => handleMouseEnter(service.slug)}
-                onMouseLeave={handleMouseLeave}
-                onMouseMove={handleMouseMove}
-              >
-                {/* 0. Large Background Watermark */}
-                <div className="card-watermark">
-                  {serviceIcons[service.icon]}
-                </div>
+        <div className="home-services-carousel-wrapper">
+          
+          {/* Ecosystem Connection Line */}
+          <div className="ecosystem-track" style={{
+            position: 'absolute',
+            top: '50%',
+            left: '5%',
+            right: '5%',
+            height: '1px',
+            background: 'linear-gradient(90deg, transparent, rgba(15,23,42,0.15) 20%, rgba(15,23,42,0.15) 80%, transparent)',
+            transform: 'translateY(-50%)',
+            zIndex: 0
+          }}>
+            <div style={{ position: 'absolute', left: '20%', top: '50%', transform: 'translate(-50%, -50%)', width: '6px', height: '6px', borderRadius: '50%', background: 'rgba(15,23,42,0.3)' }} />
+            <div style={{ position: 'absolute', left: '80%', top: '50%', transform: 'translate(-50%, -50%)', width: '6px', height: '6px', borderRadius: '50%', background: 'rgba(15,23,42,0.3)' }} />
+          </div>
 
-                {/* 1. Number and Top-Right Icon */}
-                <div className="card-top-row">
-                  <span className="card-number">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  <span className="home-services-card-icon">
-                    {serviceIcons[service.icon]}
-                  </span>
-                </div>
+          <button 
+            onClick={scrollPrev} 
+            className="carousel-control-btn btn-prev" 
+            aria-label="Previous service"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+          </button>
 
-                {/* 3. Title */}
-                <h3 className="home-services-card-title">
-                  {formatTitle(service.shortTitle)}
-                </h3>
+          <div className="home-services-coverflow">
+            {services.map((service, index) => {
+              const rawOffset = index - currentIndex;
+              const length = services.length;
+              let offset = rawOffset;
+              
+              // Infinite wrapping logic
+              if (rawOffset > Math.floor(length / 2)) {
+                offset = rawOffset - length;
+              } else if (rawOffset < -Math.floor(length / 2)) {
+                offset = rawOffset + length;
+              }
 
-                {/* 4. Description */}
-                <p className="home-services-card-desc">
-                  {service.description}
-                </p>
+              const isVisible = Math.abs(offset) <= 3;
+              
+              if (!isVisible && services.length > 5) return null;
 
-                {/* 4.5 Key Features (Fills empty vertical space) */}
-                <ul className="home-services-card-features">
-                  {service.features.map((feature, i) => (
-                    <li key={i}>
-                      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg>
-                      {feature.title}
-                    </li>
-                  ))}
-                </ul>
+              // Calculate responsive x-offset based on screen width (rough estimate)
+              // We'll use a base pixel value that works well for standard card widths
+              const xOffset = offset * (window.innerWidth < 768 ? 90 : 180);
+              const zIndex = 10 - Math.abs(offset);
+              const scale = offset === 0 ? 1 : 1 - Math.abs(offset) * 0.15;
+              const opacity = Math.abs(offset) >= 3 ? 0 : 1 - Math.abs(offset) * 0.15;
 
-                {/* 5. Bottom System Line & CTA */}
-                <div className="card-bottom-section">
-                  <div className="card-divider" />
+              return (
+                <motion.div
+                  key={service.slug}
+                  initial={false}
+                  animate={{
+                    x: xOffset,
+                    scale: scale,
+                    zIndex: zIndex,
+                    opacity: opacity,
+                  }}
+                  transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }} // smooth spring-like ease
+                  className="coverflow-card-container"
+                  style={{ position: 'absolute' }}
+                >
+                  <Link
+                    to={`/services#${service.slug}`}
+                    onClick={(e) => {
+                      if (offset !== 0) {
+                        e.preventDefault();
+                        setCurrentIndex(index);
+                      }
+                    }}
+                    className={`service-card home-services-card motif-${service.slug} ${offset === 0 ? 'is-active' : ''}`}
+                    onMouseEnter={() => { handleMouseEnter(service.slug); }}
+                    onMouseLeave={handleMouseLeave}
+                    onMouseMove={handleMouseMove}
+                    style={{ 
+                      pointerEvents: opacity === 0 ? 'none' : 'auto',
+                      backgroundImage: `linear-gradient(to bottom, rgba(8, 15, 31, 0.0) 0%, rgba(8, 15, 31, 0.6) 100%), url(${service.heroImage})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center'
+                    }}
+                  >
+                    <div className="card-content-wrapper" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', padding: '1.5rem' }}>
+                      <div className="card-top-row" style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <span className="home-services-card-icon">
+                          {serviceIcons[service.icon]}
+                        </span>
+                      </div>
 
-                  <div className="home-services-card-action">
-                    <span className="card-category">{service.category}</span>
-                    <div className="card-explore">
-                      <span className="home-services-card-action-text">EXPLORE</span>
-                      <svg
-                        width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                        className="home-services-card-action-icon"
-                      >
-                        <path d="M5 12h14M12 5l7 7-7 7" />
-                      </svg>
+                      <div className="card-bottom-row" style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', textAlign: 'left' }}>
+                        <h3 className="home-services-card-title" style={{ fontSize: '1.5rem', margin: 0, fontWeight: 700, textShadow: '0 2px 10px rgba(0,0,0,0.8)' }}>
+                          {formatTitle(service.shortTitle)}
+                        </h3>
+                        <div className="card-explore" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#F4511E' }}>
+                          <span className="home-services-card-action-text" style={{ fontSize: '0.9rem', fontWeight: 500, letterSpacing: '0.05em' }}>EXPLORE</span>
+                          <svg
+                            width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                            className="home-services-card-action-icon"
+                          >
+                            <path d="M5 12h14M12 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
+                  </Link>
+              </motion.div>
+              );
+            })}
+          </div>
+
+          <button 
+            onClick={scrollNext} 
+            className="carousel-control-btn btn-next" 
+            aria-label="Next service"
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 18l6-6-6-6" />
+            </svg>
+          </button>
+
+          <div className="home-services-pagination">
+            <span className="pagination-text">
+              {String(currentIndex + 1).padStart(2, '0')} / {services.length}
+            </span>
+            <div className="pagination-dots">
+              {services.map((_, i) => (
+                <button 
+                  key={i} 
+                  onClick={() => setCurrentIndex(i)} 
+                  className={`pagination-dot ${i === currentIndex ? 'active' : ''}`}
+                  aria-label={`Go to slide ${i + 1}`}
+                />
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
