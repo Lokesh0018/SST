@@ -7,6 +7,7 @@ interface DotPoint {
   z: number;
   baseRadius: number;
   isEdge: boolean;
+  isWater: boolean;
 }
 
 interface Ripple {
@@ -71,7 +72,7 @@ export default function IndustriesHeroBackground() {
         
         const idx = (py * 200 + px) * 4;
         
-        // If it's land (white in our mask), keep it
+        // If it's land (white in our mask), keep it as land
         if (imgData[idx] > 128) {
           // Detect if it's on the edge of the landmass
           let isEdge = false;
@@ -81,7 +82,13 @@ export default function IndustriesHeroBackground() {
           if (py < 99 && imgData[((py + 1) * 200 + px) * 4] <= 128) isEdge = true;
 
           const baseRadius = isEdge ? 1.4 + Math.random() * 0.4 : 0.8 + Math.random() * 0.4;
-          points.push({ x, y, z, baseRadius, isEdge });
+          points.push({ x, y, z, baseRadius, isEdge, isWater: false });
+        } else {
+          // It's water
+          // Keep water dots slightly smaller and sparser (e.g., skip 50% of them)
+          if (Math.random() > 0.5) {
+            points.push({ x, y, z, baseRadius: 0.6 + Math.random() * 0.3, isEdge: false, isWater: true });
+          }
         }
       }
     };
@@ -275,12 +282,16 @@ export default function IndustriesHeroBackground() {
           ctx.arc(screenX, screenY, dotRadius * 1.05, 0, Math.PI * 2);
           ctx.fill();
         } else {
-          // Light gray dots for the globe, with slightly darker edges for structure
-          // Hex #D1D5DB (light gray, 209, 213, 219)
-          // Hex #9CA3AF (gray edge, 156, 163, 175)
-          const fillStyle = pt.isEdge 
-            ? `rgba(156, 163, 175, ${Math.min(0.8, activeAlpha * 1.2)})` 
-            : `rgba(209, 213, 219, ${activeAlpha})`;
+          let fillStyle;
+          if (pt.isWater) {
+            // Blue dots for water (reduced opacity)
+            fillStyle = `rgba(59, 130, 246, ${Math.min(0.25, activeAlpha * 0.3)})`;
+          } else {
+            // Light gray dots for the globe landmass, with slightly darker edges for structure
+            fillStyle = pt.isEdge 
+              ? `rgba(156, 163, 175, ${Math.min(0.8, activeAlpha * 1.2)})` 
+              : `rgba(209, 213, 219, ${activeAlpha})`;
+          }
           ctx.fillStyle = fillStyle;
           ctx.beginPath();
           ctx.arc(screenX, screenY, dotRadius, 0, Math.PI * 2);
