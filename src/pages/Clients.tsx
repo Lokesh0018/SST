@@ -63,7 +63,7 @@ export default function Clients() {
             >
               <motion.span variants={itemVariants} className="clients-hero-eyebrow">OUR CLIENTS · PARTNERSHIPS THAT MATTER</motion.span>
               <motion.h1 variants={itemVariants} className="clients-hero-heading">
-                BUILDING  TRUST <br /> <span style={{ whiteSpace: 'nowrap' }}>POWERING <span className="text-orange">INDUSTRIES.</span></span>
+                BUILDING TRUST <br /> <span>POWERING <span className="text-orange">INDUSTRIES.</span></span>
               </motion.h1>
               <motion.p variants={itemVariants} className="clients-hero-description">
                 We are proud to have partnered with some of the industry's leading companies, delivering top-tier solutions and infrastructure across various sectors globally.

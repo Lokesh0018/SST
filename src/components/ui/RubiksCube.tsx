@@ -426,9 +426,27 @@ export default function RubiksCube({ logos }: RubiksCubeProps) {
       baseTargetRotX = 0.28;
     };
 
+    const handleTouchMove = (e: TouchEvent) => {
+      if (!e.touches[0]) return;
+      const rect = container.getBoundingClientRect();
+      const nx = ((e.touches[0].clientX - rect.left) / rect.width - 0.5) * 2;
+      const ny = ((e.touches[0].clientY - rect.top) / rect.height - 0.5) * 2;
+      baseTargetRotY = -0.55 + nx * 0.7;
+      baseTargetRotX = 0.28 + ny * 0.4;
+      mouseActive = true;
+    };
+
+    const handleTouchEnd = () => {
+      mouseActive = false;
+      baseTargetRotX = 0.28;
+    };
+
     container.addEventListener('mousemove', handleMouseMove);
     container.addEventListener('mouseenter', handleMouseEnter);
     container.addEventListener('mouseleave', handleMouseLeave);
+    container.addEventListener('touchmove', handleTouchMove, { passive: true });
+    container.addEventListener('touchstart', handleMouseEnter, { passive: true });
+    container.addEventListener('touchend', handleTouchEnd, { passive: true });
 
     // Render loop
     let clock = new THREE.Clock();
@@ -486,6 +504,9 @@ export default function RubiksCube({ logos }: RubiksCubeProps) {
       container.removeEventListener('mousemove', handleMouseMove);
       container.removeEventListener('mouseenter', handleMouseEnter);
       container.removeEventListener('mouseleave', handleMouseLeave);
+      container.removeEventListener('touchmove', handleTouchMove);
+      container.removeEventListener('touchstart', handleMouseEnter);
+      container.removeEventListener('touchend', handleTouchEnd);
 
       geometriesToDispose.forEach(g => g.dispose());
       materialsToDispose.forEach(m => m.dispose());
