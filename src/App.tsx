@@ -14,17 +14,9 @@ const About = lazy(() => import('./pages/About'));
 const Clients = lazy(() => import('./pages/Clients'));
 const Contact = lazy(() => import('./pages/Contact'));
 const NotFound = lazy(() => import('./pages/NotFound'));
-import UnderDevelopment from './underdev/UnderDevelopment';
 
 function App() {
   const location = useLocation();
-
-  // If we want to block the entire site with the under development screen:
-  const isUnderDevelopment = false;
-
-  if (isUnderDevelopment) {
-    return <UnderDevelopment />;
-  }
 
   return (
     <MainLayout>

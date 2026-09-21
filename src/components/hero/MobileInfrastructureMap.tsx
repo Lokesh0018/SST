@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { ComposableMap, Geographies, Geography, Marker, Line } from "react-simple-maps";
+import { ComposableMap, Geographies, Geography, Marker, useMapContext } from "react-simple-maps";
 import { INDIA_COORD } from './heroData';
 import MobileServiceNodes from './MobileServiceNodes';
 
@@ -13,22 +13,82 @@ interface MobileInfrastructureMapProps {
 // Visakhapatnam coordinates — The SOLE origin for the entire service network (matches desktop INDIA_COORD)
 export const VIZAG_COORD: [number, number] = INDIA_COORD; // [83.2185, 17.6868]
 
-// 12 Distinct, non-overlapping service node positions surrounding enlarged India.
-// Derived from desktop geometry and spaced out with generous clearance so zero nodes stack or overlap.
+// 12 Distinct, non-overlapping service node positions surrounding India (all placed strictly OUTSIDE India).
+// Arranged in a complete 360-degree radial ring radiating from Visakhapatnam.
 export const mobileNodes: { id: string; coordinates: [number, number] }[] = [
-  { id: 'SERVERS',    coordinates: [75.5, 30.5] }, // North (Upper center)
-  { id: 'SECURITY',   coordinates: [93.5, 30.5] }, // North-East (Upper right)
-  { id: 'CCTV',       coordinates: [61.5, 25.5] }, // North-West (Upper left)
-  { id: 'ACCESS',     coordinates: [95.5, 20.5] }, // East (Middle right)
-  { id: 'TURNKEY',    coordinates: [54.5, 18.5] }, // West (Middle left)
-  { id: 'NETWORK',    coordinates: [96.5, 12.5] }, // East-Southeast (Lower right)
-  { id: 'INTRUSION',  coordinates: [56.5, 10.5] }, // West-Southwest (Lower left)
-  { id: 'WIRELESS',   coordinates: [91.5, 4.5]  }, // Southeast (Bottom right)
-  { id: 'DATACENTER', coordinates: [83.5, 2.5]  }, // South (Bottom center-right)
-  { id: 'LOGISTICS',  coordinates: [75.5, 3.5]  }, // South (Bottom center-left)
-  { id: 'ELECTRICAL', coordinates: [66.5, 4.5]  }, // Southwest (Bottom left)
-  { id: 'SAFETY',     coordinates: [58.5, 2.5]  }, // South-Southwest (Bottom far-left)
+  { id: 'SERVERS',    coordinates: [77.0, 38.5] }, // North (Central Asia / Above Ladakh)
+  { id: 'SECURITY',   coordinates: [98.0, 33.0] }, // North-East (China / East Asia)
+  { id: 'ACCESS',     coordinates: [99.0, 21.0] }, // East (Myanmar / SE Asia)
+  { id: 'NETWORK',    coordinates: [98.0, 13.0] }, // East-Southeast (Andaman Sea / Thailand)
+  { id: 'WIRELESS',   coordinates: [94.0, 4.0]  }, // Southeast (Indian Ocean SE)
+  { id: 'DATACENTER', coordinates: [86.0, -1.0] }, // South (Indian Ocean South)
+  { id: 'LOGISTICS',  coordinates: [77.0, -1.0] }, // South-Southwest (Indian Ocean South)
+  { id: 'ELECTRICAL', coordinates: [67.0, 3.0]  }, // Southwest (Indian Ocean SW)
+  { id: 'SAFETY',     coordinates: [58.0, 2.0]  }, // South-West (Arabian Sea / West Indian Ocean)
+  { id: 'INTRUSION',  coordinates: [54.0, 11.5] }, // West-Southwest (Arabian Sea)
+  { id: 'TURNKEY',    coordinates: [52.0, 19.5] }, // West (Arabian Sea / Oman)
+  { id: 'CCTV',       coordinates: [60.0, 28.5] }, // North-West (Iran / Pakistan Border)
 ];
+
+// Smooth curved Bézier dotted lines radiating from Visakhapatnam to all outer service nodes
+function CurvedNetworkLines({ nodes, activeNodeId }: { nodes: { id: string; coordinates: [number, number] }[]; activeNodeId: string | null }) {
+  const { projection } = useMapContext();
+  if (!projection) return null;
+
+  const origin = projection(VIZAG_COORD);
+  if (!origin) return null;
+  const [x1, y1] = origin;
+
+  return (
+    <g className="mh-curved-lines-group">
+      {nodes.map((node) => {
+        const dest = projection(node.coordinates);
+        if (!dest) return null;
+        const [x2, y2] = dest;
+
+        const dx = x2 - x1;
+        const dy = y2 - y1;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist === 0) return null;
+
+        // Midpoint
+        const mx = (x1 + x2) / 2;
+        const my = (y1 + y2) / 2;
+
+        // Perpendicular normal vector (-dy, dx)
+        const px = -dy / dist;
+        const py = dx / dist;
+
+        // Outward curved arc offset
+        const isRight = dx >= 0;
+        const curveDir = isRight ? 1 : -1;
+        const curveOffset = dist * 0.16;
+
+        const cx = mx + px * curveOffset * curveDir;
+        const cy = my + py * curveOffset * curveDir;
+
+        const pathData = `M ${x1.toFixed(1)} ${y1.toFixed(1)} Q ${cx.toFixed(1)} ${cy.toFixed(1)} ${x2.toFixed(1)} ${y2.toFixed(1)}`;
+        const isActive = activeNodeId === node.id;
+
+        return (
+          <path
+            key={`curved-line-${node.id}`}
+            d={pathData}
+            fill="none"
+            stroke={isActive ? "#F4511E" : "#64748b"}
+            strokeWidth={isActive ? 1.8 : 1.2}
+            strokeLinecap="round"
+            strokeDasharray="4 5"
+            style={{
+              opacity: isActive ? 0.95 : 0.55,
+              transition: 'stroke 0.3s ease, opacity 0.3s ease, stroke-width 0.3s ease'
+            }}
+          />
+        );
+      })}
+    </g>
+  );
+}
 
 export default function MobileInfrastructureMap({ onNodeTap, activeNodeId }: MobileInfrastructureMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -70,7 +130,7 @@ export default function MobileInfrastructureMap({ onNodeTap, activeNodeId }: Mob
                       default: { outline: "none", pointerEvents: "none" },
                       hover: { outline: "none", pointerEvents: "none" },
                       pressed: { outline: "none", pointerEvents: "none" }
-                    }}
+                    } as any}
                   />
                 );
               })
@@ -91,30 +151,14 @@ export default function MobileInfrastructureMap({ onNodeTap, activeNodeId }: Mob
                     default: { outline: "none", filter: "drop-shadow(0 0 10px rgba(244, 81, 30, 0.4))", pointerEvents: "none" },
                     hover: { outline: "none", filter: "drop-shadow(0 0 10px rgba(244, 81, 30, 0.4))", pointerEvents: "none" },
                     pressed: { outline: "none", filter: "drop-shadow(0 0 10px rgba(244, 81, 30, 0.4))", pointerEvents: "none" }
-                  }}
+                  } as any}
                 />
               ))
             }
           </Geographies>
 
-          {/* Connection Lines — ALL 12 lines originate strictly from Visakhapatnam Dot and terminate at Node Centers */}
-          {mobileNodes.map((node) => {
-            const isActive = activeNodeId === node.id;
-            return (
-              <g key={`line-group-${node.id}`}>
-                <Line
-                  from={VIZAG_COORD}
-                  to={node.coordinates}
-                  stroke="#64748b"
-                  strokeWidth={1.2}
-                  strokeLinecap="round"
-                  strokeDasharray="4 5"
-                  className="mh-anim-network-line"
-                  style={{ opacity: isActive ? 0.95 : 0.55 }}
-                />
-              </g>
-            );
-          })}
+          {/* Curved Connection Lines — ALL 12 lines originate strictly from Visakhapatnam Dot and terminate at Node Centers in smooth outward arcs */}
+          <CurvedNetworkLines nodes={mobileNodes} activeNodeId={activeNodeId} />
 
           {/* Visakhapatnam Marker Dot on Eastern Coast — The Network Origin */}
           <Marker coordinates={VIZAG_COORD}>

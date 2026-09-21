@@ -511,8 +511,7 @@ export default function Services() {
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('All Services');
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const [sstVisibleCount, setSstVisibleCount] = useState<number>(6);
-  const [shmVisibleCount, setShmVisibleCount] = useState<number>(6);
+  const [visibleCount, setVisibleCount] = useState<number>(6);
 
   const servicesGridRef = useRef<HTMLDivElement>(null);
   const ecosystemRef = useRef<HTMLDivElement>(null);
@@ -557,7 +556,7 @@ export default function Services() {
       ScrollTrigger.refresh();
     }, 150);
     return () => clearTimeout(timer);
-  }, [sstVisibleCount, shmVisibleCount, selectedCategory, searchQuery]);
+  }, [visibleCount, selectedCategory, searchQuery]);
 
   const deferredSearchQuery = useDeferredValue(searchQuery);
 
@@ -654,106 +653,50 @@ export default function Services() {
               </div>
             </div>
 
-            {/* Service Cards Grid - Split into SST and SHM */}
+            {/* Service Cards Grid */}
             {filteredServices.length > 0 ? (
               <div className="services-sections-container">
-                {(() => {
-                  const sstServices = filteredServices.filter(s => s.company === 'SST' || s.company === 'COMMON');
-                  const shmServices = filteredServices.filter(s => s.company === 'SHM');
-
-                  return (
-                    <>
-                      {sstServices.length > 0 && (
-                        <div className="services-company-section sst-section-bg" style={{ position: 'relative', overflow: 'hidden' }}>
-                          {renderHexagons('sst')}
-                          <div className="company-section-header" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
-                            <Link to="/" style={{ textDecoration: 'none' }}>
-                              <h3 className="company-section-title" style={{ transition: 'color 0.3s ease', color: '#0F172A' }} onMouseOver={(e) => e.currentTarget.style.color = '#F4511E'} onMouseOut={(e) => e.currentTarget.style.color = '#0F172A'}>
-                                <span style={{ color: '#F4511E' }}>SST</span> — ENGINEERED FOR CONNECTED OPERATIONS.
-                              </h3>
-                            </Link>
-                            <div className="company-section-line" style={{ background: 'linear-gradient(90deg, rgba(244,81,30,0.5) 0%, rgba(244,81,30,0) 100%)' }}></div>
-                          </div>
-                          <div className="services-cards-grid rich-cards" style={{ position: 'relative', zIndex: 1 }}>
-                            {sstServices.slice(0, sstVisibleCount).map((s, i) => <MemoizedServiceCard key={s.slug} service={s} index={i} onSelect={setSelectedService} />)}
-                          </div>
-                          {sstServices.length > 6 && (
-                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem', position: 'relative', zIndex: 1 }}>
-                              {sstVisibleCount < sstServices.length ? (
-                                <button 
-                                  onClick={() => setSstVisibleCount(sstServices.length)}
-                                  className="load-more-btn"
-                                  style={{ borderColor: 'rgba(244, 81, 30, 0.5)', color: '#F4511E' }}
-                                >
-                                  LOAD MORE SERVICES
-                                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '8px' }}>
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                  </svg>
-                                </button>
-                              ) : (
-                                <button 
-                                  onClick={() => setSstVisibleCount(6)}
-                                  className="load-more-btn"
-                                  style={{ borderColor: 'rgba(244, 81, 30, 0.5)', color: '#F4511E' }}
-                                >
-                                  SHOW LESS
-                                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '8px', transform: 'rotate(180deg)' }}>
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                  </svg>
-                                </button>
-                              )}
-                            </div>
-                          )}
-                        </div>
+                <div className="services-company-section sst-section-bg" style={{ position: 'relative', overflow: 'hidden' }}>
+                  {renderHexagons('sst')}
+                  <div className="company-section-header" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
+                    <Link to="/" style={{ textDecoration: 'none' }}>
+                      <h3 className="company-section-title" style={{ transition: 'color 0.3s ease', color: '#0F172A' }} onMouseOver={(e) => e.currentTarget.style.color = '#F4511E'} onMouseOut={(e) => e.currentTarget.style.color = '#0F172A'}>
+                        <span style={{ color: '#F4511E' }}>SST</span> — ENGINEERED FOR CONNECTED OPERATIONS.
+                      </h3>
+                    </Link>
+                    <div className="company-section-line" style={{ background: 'linear-gradient(90deg, rgba(244,81,30,0.5) 0%, rgba(244,81,30,0) 100%)' }}></div>
+                  </div>
+                  <div className="services-cards-grid rich-cards" style={{ position: 'relative', zIndex: 1 }}>
+                    {filteredServices.slice(0, visibleCount).map((s, i) => <MemoizedServiceCard key={s.slug} service={s} index={i} onSelect={setSelectedService} />)}
+                  </div>
+                  {filteredServices.length > 6 && (
+                    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem', position: 'relative', zIndex: 1 }}>
+                      {visibleCount < filteredServices.length ? (
+                        <button 
+                          onClick={() => setVisibleCount(prev => prev + 6)}
+                          className="load-more-btn"
+                          style={{ borderColor: 'rgba(244, 81, 30, 0.5)', color: '#F4511E' }}
+                        >
+                          LOAD MORE SERVICES
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '8px' }}>
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                          </svg>
+                        </button>
+                      ) : (
+                        <button 
+                          onClick={() => setVisibleCount(6)}
+                          className="load-more-btn"
+                          style={{ borderColor: 'rgba(244, 81, 30, 0.5)', color: '#F4511E' }}
+                        >
+                          SHOW LESS
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '8px', transform: 'rotate(180deg)' }}>
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                          </svg>
+                        </button>
                       )}
-
-                      {shmServices.length > 0 && (
-                        <div className="services-company-section shm-section-bg" style={{ marginTop: '5rem', position: 'relative', overflow: 'hidden' }}>
-                          {renderHexagons('shm')}
-                          <div className="company-section-header" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', position: 'relative', zIndex: 1 }}>
-                            <a href="https://shmtechnologies.com/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                              <h3 className="company-section-title" style={{ transition: 'color 0.3s ease', color: '#0F172A' }} onMouseOver={(e) => e.currentTarget.style.color = '#3B82F6'} onMouseOut={(e) => e.currentTarget.style.color = '#0F172A'}>
-                                <span style={{ color: '#3B82F6' }}>SHM</span> — BUILT FOR SMARTER MOVEMENT.
-                              </h3>
-                            </a>
-                            <div className="company-section-line" style={{ background: 'linear-gradient(90deg, rgba(59,130,246,0.5) 0%, rgba(59,130,246,0) 100%)' }}></div>
-                          </div>
-                          <div className="services-cards-grid rich-cards" style={{ position: 'relative', zIndex: 1 }}>
-                            {shmServices.slice(0, shmVisibleCount).map((s, i) => <MemoizedServiceCard key={s.slug} service={s} index={i} isSHM={true} onSelect={setSelectedService} />)}
-                          </div>
-                          {shmServices.length > 6 && (
-                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '3rem', position: 'relative', zIndex: 1 }}>
-                              {shmVisibleCount < shmServices.length ? (
-                                <button 
-                                  onClick={() => setShmVisibleCount(shmServices.length)}
-                                  className="load-more-btn shm-load-more"
-                                  style={{ borderColor: 'rgba(59, 130, 246, 0.5)', color: '#3B82F6' }}
-                                >
-                                  LOAD MORE SERVICES
-                                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '8px' }}>
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                  </svg>
-                                </button>
-                              ) : (
-                                <button 
-                                  onClick={() => setShmVisibleCount(6)}
-                                  className="load-more-btn shm-load-more"
-                                  style={{ borderColor: 'rgba(59, 130, 246, 0.5)', color: '#3B82F6' }}
-                                >
-                                  SHOW LESS
-                                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ marginLeft: '8px', transform: 'rotate(180deg)' }}>
-                                    <polyline points="6 9 12 15 18 9"></polyline>
-                                  </svg>
-                                </button>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                    </>
-                  );
-                })()}
+                    </div>
+                  )}
+                </div>
               </div>
             ) : (
               <motion.div 
