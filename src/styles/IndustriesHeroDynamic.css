@@ -300,6 +300,11 @@
   background-color: rgba(15, 23, 42, 0.15);
 }
 
+/* Mobile Showcase default hidden on desktop */
+.mobile-industries-showcase {
+  display: none;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .industries-arc-container {
@@ -310,34 +315,27 @@
 
 @media (max-width: 768px) {
   .industries-dynamic-hero {
+    min-height: auto;
     flex-direction: column;
-    justify-content: center;
-    padding-top: 100px;
-  }
-  
-  .industries-arc-container {
-    position: relative;
-    width: 100%;
-    right: auto;
-    height: 400px;
-    margin-top: 2rem;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 100px 16px 40px;
+    background: #FFFFFF;
     overflow: hidden;
   }
-
-  .arc-svg-line {
-    transform: rotate(90deg);
+  
+  .desktop-industries-arc {
+    display: none !important;
   }
   
-  .industry-arc-node {
-    /* Need to recalculate positions for horizontal stack or keep them vertical */
-    /* For now, just keep the arc as is on mobile but smaller */
-    transform: scale(0.8) translateY(-50%);
+  .hero-hud-ticker {
+    display: none;
   }
-
   
   .industries-dynamic-content {
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -346,10 +344,118 @@
   
   .industries-eyebrow {
     justify-content: center;
+    margin-bottom: 1.25rem;
   }
   
   .industries-headline {
+    font-size: clamp(2.2rem, 7.5vw, 3.2rem);
+    line-height: 1.08;
     align-items: center;
+    text-align: center;
+    margin-bottom: 1.25rem;
+  }
+  
+  .industries-description {
+    font-size: 0.95rem;
+    line-height: 1.55;
+    margin-bottom: 1.75rem;
+    min-height: 85px;
+    max-width: 95%;
+    text-align: center;
+  }
+  
+  .industries-stats-row {
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 0.25rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .industries-stat-value {
+    font-size: 2rem;
+  }
+
+  /* Mobile Showcase */
+  .mobile-industries-showcase {
+    display: block;
+    width: 100%;
+    max-width: 440px;
+    margin: 10px auto 0;
+    position: relative;
+    z-index: 5;
+  }
+
+  .mobile-industries-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    width: 100%;
+  }
+
+  .mobile-industry-chip {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1.5px solid rgba(15, 23, 42, 0.1);
+    border-radius: 14px;
+    padding: 10px 12px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.03);
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    -webkit-tap-highlight-color: transparent;
+    width: 100%;
+    position: relative;
+  }
+
+  .mobile-industry-chip:hover,
+  .mobile-industry-chip.is-active {
+    border-color: #F4511E;
+    background: #FFFFFF;
+    box-shadow: 0 6px 18px rgba(244, 81, 30, 0.14), 0 0 0 1px #F4511E;
+    transform: translateY(-2px);
+  }
+
+  .mobile-chip-icon-wrap {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    background: rgba(15, 23, 42, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #10182D;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+  }
+
+  .mobile-industry-chip.is-active .mobile-chip-icon-wrap {
+    background: rgba(244, 81, 30, 0.12);
+    color: #F4511E;
+  }
+
+  .mobile-chip-name {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #10182D;
+    line-height: 1.25;
+    transition: color 0.25s ease;
+  }
+
+  .mobile-industry-chip.is-active .mobile-chip-name {
+    color: #F4511E;
+  }
+
+  .mobile-chip-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #F4511E;
+    margin-left: auto;
+    flex-shrink: 0;
+    box-shadow: 0 0 8px rgba(244, 81, 30, 0.8);
   }
 }
 

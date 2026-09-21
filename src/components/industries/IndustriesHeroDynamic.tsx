@@ -188,49 +188,6 @@ export default function IndustriesHeroDynamic({
       {/* Micro-Data HUD Ticker */}
       <HUDTicker />
 
-      {/* Dynamic Arc Background */}
-      <motion.div 
-        className="industries-arc-container"
-        ref={containerRef}
-      >
-        <svg className="arc-svg-line" viewBox="0 0 100 100" preserveAspectRatio="none">
-          <defs>
-            <mask id="arc-mask">
-              <motion.rect 
-                x="0" y="0" width="100" height="100" fill="white"
-                initial={{ height: 0 }}
-                animate={{ height: 100 }}
-                transition={{ duration: 1.5, ease: "easeInOut", delay: 0.2 }}
-              />
-            </mask>
-          </defs>
-          <path 
-            ref={pathRef} 
-            d="M0,0 Q100,50 0,100" 
-            fill="none" 
-            stroke="rgba(244, 81, 30, 0.5)" 
-            strokeWidth="0.4" 
-            vectorEffect="non-scaling-stroke" 
-            mask="url(#arc-mask)"
-          />
-        </svg>
-
-        {pathPoints.length > 0 && INDUSTRY_DOMAINS.map((domain, index) => {
-          const point = pathPoints[index];
-          return (
-            <MagneticNode 
-              key={domain.id}
-              domain={domain}
-              index={index}
-              activeDomainId={activeDomainId}
-              setHoveredDomain={setHoveredDomain}
-              setIsAutoPlaying={setIsAutoPlaying}
-              point={point}
-            />
-          );
-        })}
-      </motion.div>
-
       {/* Editorial Text Content */}
       <motion.div 
         className="industries-dynamic-content"
@@ -285,6 +242,77 @@ export default function IndustriesHeroDynamic({
             <span className="industries-stat-label">INTEGRATED SERVICES</span>
           </div>
         </motion.div>
+
+        {/* Mobile Interactive Industry Showcase (<= 768px) */}
+        <div className="mobile-industries-showcase">
+          <div className="mobile-industries-grid">
+            {INDUSTRY_DOMAINS.map((domain) => {
+              const isActive = domain.id === activeDomainId;
+              const Icon = domain.icon;
+              return (
+                <button
+                  key={`mobile-${domain.id}`}
+                  type="button"
+                  className={`mobile-industry-chip ${isActive ? 'is-active' : ''}`}
+                  onClick={() => {
+                    setHoveredDomain(domain.id);
+                    setIsAutoPlaying(false);
+                    setTimeout(() => setIsAutoPlaying(true), 5000);
+                  }}
+                >
+                  <div className="mobile-chip-icon-wrap">
+                    <Icon size={18} strokeWidth={isActive ? 2.2 : 1.8} />
+                  </div>
+                  <span className="mobile-chip-name">{domain.name}</span>
+                  {isActive && <div className="mobile-chip-dot" />}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Dynamic Arc Background (Desktop) */}
+      <motion.div 
+        className="industries-arc-container desktop-industries-arc"
+        ref={containerRef}
+      >
+        <svg className="arc-svg-line" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <defs>
+            <mask id="arc-mask">
+              <motion.rect 
+                x="0" y="0" width="100" height="100" fill="white"
+                initial={{ height: 0 }}
+                animate={{ height: 100 }}
+                transition={{ duration: 1.5, ease: "easeInOut", delay: 0.2 }}
+              />
+            </mask>
+          </defs>
+          <path 
+            ref={pathRef} 
+            d="M0,0 Q100,50 0,100" 
+            fill="none" 
+            stroke="rgba(244, 81, 30, 0.5)" 
+            strokeWidth="0.4" 
+            vectorEffect="non-scaling-stroke" 
+            mask="url(#arc-mask)"
+          />
+        </svg>
+
+        {pathPoints.length > 0 && INDUSTRY_DOMAINS.map((domain, index) => {
+          const point = pathPoints[index];
+          return (
+            <MagneticNode 
+              key={domain.id}
+              domain={domain}
+              index={index}
+              activeDomainId={activeDomainId}
+              setHoveredDomain={setHoveredDomain}
+              setIsAutoPlaying={setIsAutoPlaying}
+              point={point}
+            />
+          );
+        })}
       </motion.div>
     </section>
   );
