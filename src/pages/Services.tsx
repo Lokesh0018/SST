@@ -79,70 +79,164 @@ const PROCESS_STEPS = [
 
 const ProcessSection = React.memo(() => {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const mobileTimelineRef = useRef<HTMLDivElement>(null);
+  const nodeRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [mobilePathD, setMobilePathD] = useState<string>('');
+
+  const updateMobilePath = React.useCallback(() => {
+    if (!mobileTimelineRef.current) return;
+    const containerRect = mobileTimelineRef.current.getBoundingClientRect();
+    const points: { x: number; y: number }[] = [];
+
+    nodeRefs.current.forEach((nodeEl) => {
+      if (!nodeEl) return;
+      const rect = nodeEl.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2 - containerRect.left;
+      const cy = rect.top + rect.height / 2 - containerRect.top;
+      points.push({ x: cx, y: cy });
+    });
+
+    if (points.length < 2) return;
+
+    let d = `M ${points[0].x.toFixed(1)},${points[0].y.toFixed(1)}`;
+    for (let i = 0; i < points.length - 1; i++) {
+      const p1 = points[i];
+      const p2 = points[i + 1];
+      const midY = (p1.y + p2.y) / 2;
+      d += ` C ${p1.x.toFixed(1)},${midY.toFixed(1)} ${p2.x.toFixed(1)},${midY.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)}`;
+    }
+
+    setMobilePathD(d);
+  }, []);
+
+  useEffect(() => {
+    updateMobilePath();
+    const timer = setTimeout(updateMobilePath, 150);
+    window.addEventListener('resize', updateMobilePath);
+    const observer = new ResizeObserver(() => {
+      updateMobilePath();
+    });
+    if (mobileTimelineRef.current) {
+      observer.observe(mobileTimelineRef.current);
+    }
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', updateMobilePath);
+      observer.disconnect();
+    };
+  }, [updateMobilePath]);
   
   useGSAP(() => {
-    // 1. Initial Reveal (independent triggers, safe because they trigger before the pin)
+    const mm = gsap.matchMedia();
+
+    // 1. Initial Reveal (common)
     gsap.fromTo('.process-eyebrow, .process-title, .process-subtitle', 
       { y: 30, opacity: 0 }, 
       { y: 0, opacity: 1, duration: 0.8, stagger: 0.15, ease: 'power3.out', scrollTrigger: { trigger: sectionRef.current, start: 'top 75%' } }
     );
-    
-    gsap.fromTo('.process-step-item', 
-      { y: 40, opacity: 0 }, 
-      { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: 'back.out(1.2)', scrollTrigger: { trigger: sectionRef.current, start: 'top 65%' } }
-    );
 
-    // 2. ONE MASTER SCROLL-SCRUBBING PIPELINE
-    const scrubTl = gsap.timeline({
-      scrollTrigger: {
-        trigger: sectionRef.current,
-        start: 'top top',
-        end: '+=2500', // Slower, more deliberate scroll range
-        scrub: true,
-        pin: true,
-      }
+    // =========================================================================
+    // DESKTOP: EXACT ORIGINAL PINNED SCRUB TIMELINE (> 768px)
+    // =========================================================================
+    mm.add('(min-width: 769px)', () => {
+      gsap.fromTo('.process-step-item', 
+        { y: 40, opacity: 0 }, 
+        { y: 0, opacity: 1, duration: 0.6, stagger: 0.1, ease: 'back.out(1.2)', scrollTrigger: { trigger: sectionRef.current, start: 'top 65%' } }
+      );
+
+      // ONE MASTER SCROLL-SCRUBBING PIPELINE
+      const scrubTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '+=2500', // Slower, more deliberate scroll range
+          scrub: true,
+          pin: true,
+        }
+      });
+
+      // Desktop line draws from 0 to 1000 using a clip-path rectangle
+      scrubTl.fromTo('.timeline-clip-rect', 
+        { attr: { width: 0 } }, 
+        { attr: { width: 1000 }, ease: 'none', duration: 1 },
+        0
+      );
+
+      // Node activations based on master scrub progress
+      const items = gsap.utils.toArray('.process-step-item');
+      const timePerNode = 1 / (items.length - 1); // 0, 0.2, 0.4, 0.6, 0.8, 1.0
+
+      items.forEach((item: any, i) => {
+        const hitTime = i * timePerNode;
+        const node = item.querySelector('.process-step-node');
+        const icon = item.querySelector('.process-step-icon');
+        const bgNum = item.querySelector('.process-bg-num');
+        
+        scrubTl.to(node, {
+          scale: 1.1,
+          boxShadow: '0 0 25px rgba(244, 81, 30, 0.7)',
+          borderColor: 'rgba(244, 81, 30, 0.8)',
+          duration: 0.05
+        }, hitTime);
+        
+        scrubTl.to(icon, {
+          opacity: 1,
+          color: '#F4511E',
+          duration: 0.05
+        }, hitTime);
+
+        scrubTl.to(bgNum, {
+          color: 'rgba(244, 81, 30, 0.1)',
+          duration: 0.05
+        }, hitTime);
+      });
     });
 
-    // 3. The line draws from 0 to 1000 (viewBox width) using a clip-path rectangle
-    scrubTl.fromTo('.timeline-clip-rect', 
-      { attr: { width: 0 } }, 
-      { attr: { width: 1000 }, ease: 'none', duration: 1 },
-      0
-    );
-
-    // Node activations based on master scrub progress
-    const items = gsap.utils.toArray('.process-step-item');
-    const timePerNode = 1 / (items.length - 1); // 0, 0.2, 0.4, 0.6, 0.8, 1.0
-
-    items.forEach((item: any, i) => {
-      const hitTime = i * timePerNode;
-      const node = item.querySelector('.process-step-node');
-      const icon = item.querySelector('.process-step-icon');
-      const bgNum = item.querySelector('.process-bg-num');
-      const glow = item.querySelector('.process-step-glow');
+    // =========================================================================
+    // MOBILE: NATURAL FLOWING SCROLL (<= 768px)
+    // =========================================================================
+    mm.add('(max-width: 768px)', () => {
+      const mobileRows = gsap.utils.toArray<HTMLElement>('.mobile-step-row');
       
-      scrubTl.to(node, {
-        scale: 1.1,
-        duration: 0.05
-      }, hitTime);
+      mobileRows.forEach((row) => {
+        gsap.fromTo(row,
+          { opacity: 0, y: 30 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: 'power2.out',
+            scrollTrigger: {
+              trigger: row,
+              start: 'top 85%',
+              toggleActions: 'play none none none'
+            }
+          }
+        );
 
-      scrubTl.to(glow, {
-        opacity: 1,
-        duration: 0.05
-      }, hitTime);
-      
-      scrubTl.to(icon, {
-        opacity: 1,
-        color: '#F4511E',
-        duration: 0.05
-      }, hitTime);
+        const node = row.querySelector('.mobile-step-node');
+        const icon = row.querySelector('.process-step-icon');
+        const glow = row.querySelector('.process-step-glow');
 
-      scrubTl.to(bgNum, {
-        color: 'rgba(244, 81, 30, 0.1)',
-        duration: 0.05
-      }, hitTime);
+        if (node && glow && icon) {
+          gsap.to([node, glow, icon], {
+            scrollTrigger: {
+              trigger: row,
+              start: 'top 70%',
+              toggleActions: 'play reverse play reverse',
+            },
+            borderColor: '#F4511E',
+            opacity: 1,
+            color: '#F4511E',
+            duration: 0.3,
+          });
+        }
+      });
     });
 
+    return () => {
+      mm.revert();
+    };
   }, { scope: sectionRef, dependencies: [] });
 
   return (
@@ -150,8 +244,6 @@ const ProcessSection = React.memo(() => {
       <div className="process-bg-overlay" />
       <div className="process-grid-overlay" />
       <div className="process-radial-glow" />
-      
-      {/* Parallax Elements */}
       
       <div className="container" style={{ position: 'relative', zIndex: 2 }}>
         <div className="process-header">
@@ -162,8 +254,9 @@ const ProcessSection = React.memo(() => {
           </p>
         </div>
 
-        <div className="process-timeline-container">
-          <svg className="curved-timeline-svg" viewBox="0 0 1000 200" preserveAspectRatio="none">
+        {/* Desktop Process Timeline (> 768px) */}
+        <div className="process-timeline-container desktop-process-timeline">
+          <svg className="curved-timeline-svg desktop-timeline-svg" viewBox="0 0 1000 200" preserveAspectRatio="none">
              <defs>
                <clipPath id="timeline-clip">
                  <rect className="timeline-clip-rect" x="0" y="0" width="0" height="200" />
@@ -206,6 +299,59 @@ const ProcessSection = React.memo(() => {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Mobile Process Timeline (<= 768px) */}
+        <div className="mobile-process-timeline" ref={mobileTimelineRef}>
+          <svg className="mobile-timeline-svg" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1 }}>
+            {mobilePathD && (
+              <>
+                <path 
+                  d={mobilePathD}
+                  fill="none"
+                  stroke="rgba(255, 255, 255, 0.15)"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+                <path 
+                  className="mobile-timeline-animated-path"
+                  d={mobilePathD}
+                  fill="none"
+                  stroke="#F4511E"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                  style={{
+                    filter: 'drop-shadow(0 0 8px rgba(244, 81, 30, 0.8))'
+                  }}
+                />
+              </>
+            )}
+          </svg>
+
+          {PROCESS_STEPS.map((step, index) => {
+            const isLeft = index % 2 === 0;
+            return (
+              <div 
+                key={`mobile-${step.num}`} 
+                className={`mobile-step-row ${isLeft ? 'step-left' : 'step-right'}`}
+              >
+                <div className="mobile-step-bg-num">{step.num}</div>
+
+                <div 
+                  className="mobile-step-node" 
+                  ref={el => { nodeRefs.current[index] = el; }}
+                >
+                  <div className="process-step-glow" />
+                  <div className="process-step-icon">{step.icon}</div>
+                </div>
+
+                <div className="mobile-step-text">
+                  <h4 className="mobile-step-title">{step.title}</h4>
+                  <p className="mobile-step-sub">{step.sub}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
