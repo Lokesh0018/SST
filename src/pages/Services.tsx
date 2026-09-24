@@ -609,6 +609,10 @@ export default function Services() {
           onExploreClick={scrollToServices}
           onIntegrateClick={scrollToEcosystem}
           onSelectDomain={handleCategoryClick}
+          onSelectService={(serviceId) => {
+            const targetService = services.find(s => s.slug === serviceId);
+            if (targetService) setSelectedService(targetService);
+          }}
         />
 
 

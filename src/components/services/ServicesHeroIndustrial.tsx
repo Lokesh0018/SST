@@ -6,40 +6,41 @@ interface ServicesHeroIndustrialProps {
   onExploreClick: () => void;
   onIntegrateClick?: () => void;
   onSelectDomain?: (categoryName: string) => void;
+  onSelectService?: (serviceId: string) => void;
 }
 
 import { 
-  Video, Key, Flame, Network, Server, Wifi, Zap, Package, 
-  CreditCard, ShieldAlert, Activity, Briefcase, Building, Cpu, 
-  Scan, ShieldCheck, Cloud, Map, Speaker, Thermometer, 
-  Car, Monitor, LineChart, Mic 
+  Video, Key, Flame, Network, Server, Wifi, Zap,
+  ShieldAlert, Activity, Briefcase, Building, Cpu, 
+  ShieldCheck, Cloud, Shield, Layers, Globe, Smartphone,
+  GitMerge, Share2, Database, Layout, Home, Truck
 } from 'lucide-react';
 
 const SST_SERVICES = [
-  { id: 'cctv', name: 'CCTV & Surveillance', icon: Video, description: 'High-definition video monitoring and intelligent surveillance solutions.' },
-  { id: 'access', name: 'Access Control', icon: Key, description: 'Secure entry systems, biometric readers, and restricted zone management.' },
-  { id: 'fire', name: 'Fire Safety', icon: Flame, description: 'Advanced fire detection, alarm systems, and emergency suppression integration.' },
-  { id: 'network', name: 'Network Infrastructure', icon: Network, description: 'Robust, enterprise-grade wired and wireless networking solutions.' },
-  { id: 'server', name: 'Data Centers', icon: Server, description: 'Secure, climate-controlled environments for mission-critical IT infrastructure.' },
-  { id: 'wireless', name: 'Wireless Systems', icon: Wifi, description: 'Campus-wide WiFi, point-to-point wireless, and mobile network extensions.' },
-  { id: 'electrical', name: 'Electrical Engineering', icon: Zap, description: 'Industrial power distribution, backup generators, and UPS systems.' },
-  { id: 'logistics', name: 'Logistics Tech', icon: Package, description: 'Automated tracking, warehousing, and supply chain technology solutions.' },
-  { id: 'atm', name: 'ATM & Banking', icon: CreditCard, description: 'Secure transaction kiosks, ATM deployment, and banking infrastructure.' },
-  { id: 'intrusion', name: 'Intrusion Detection', icon: ShieldAlert, description: 'Advanced alarm systems designed to instantly detect unauthorized entry.' },
-  { id: 'safety', name: 'Workplace Safety', icon: Activity, description: 'Occupational health, environmental monitoring, and safety compliance systems.' },
-  { id: 'turnkey', name: 'Turnkey Solutions', icon: Briefcase, description: 'End-to-end project management from initial design to final deployment.' },
-  { id: 'bms', name: 'Building Management', icon: Building, description: 'Centralized control for facility lighting, HVAC, and power systems.' },
-  { id: 'fiber', name: 'Fiber Optics', icon: Cpu, description: 'High-speed, long-distance fiber optic cabling and splicing services.' },
-  { id: 'biometrics', name: 'Biometrics', icon: Scan, description: 'Fingerprint, iris, and facial recognition for high-security environments.' },
-  { id: 'perimeter', name: 'Perimeter Security', icon: ShieldCheck, description: 'Physical barriers, fence sensors, and long-range threat detection.' },
-  { id: 'cloud', name: 'Cloud Integration', icon: Cloud, description: 'Secure migration and management for hybrid and multi-cloud environments.' },
-  { id: 'fleet', name: 'Fleet Management', icon: Map, description: 'GPS tracking, vehicle diagnostics, and logistical route optimization.' },
-  { id: 'audio', name: 'PA Systems', icon: Speaker, description: 'Public address and mass notification audio systems for large facilities.' },
-  { id: 'hvac', name: 'HVAC Control', icon: Thermometer, description: 'Climate control automation for optimal temperature and air quality.' },
-  { id: 'parking', name: 'Smart Parking', icon: Car, description: 'Automated entry, space availability tracking, and parking management.' },
-  { id: 'control', name: 'Control Rooms', icon: Monitor, description: 'State-of-the-art command centers for 24/7 monitoring and response.' },
-  { id: 'analytics', name: 'Video Analytics', icon: LineChart, description: 'AI-driven object detection, facial recognition, and behavioral analysis.' },
-  { id: 'intercom', name: 'Intercom Systems', icon: Mic, description: 'Two-way audio and video communication for secure checkpoints.' }
+  { id: 'intrusion-detection', name: 'Intrusion Detection', icon: ShieldAlert, description: 'Advanced Perimeter and Internal Protection.' },
+  { id: 'access-control', name: 'Access Control', icon: Key, description: 'Controlling Access. Protecting Assets.' },
+  { id: 'video-surveillance', name: 'Video Surveillance', icon: Video, description: 'Comprehensive Visual Intelligence.' },
+  { id: 'fire-fighting', name: 'Fire Fighting', icon: Flame, description: 'Protecting Lives. Safeguarding Assets.' },
+  { id: 'perimeter-security', name: 'Perimeter Security', icon: ShieldCheck, description: 'Defending Critical Physical Boundaries.' },
+  { id: 'switches-storage', name: 'Switches & Storage', icon: Server, description: 'Robust IT Backbone and Data Management.' },
+  { id: 'wireless-network', name: 'Wireless Technology', icon: Wifi, description: 'Seamless High-Density Connectivity Everywhere.' },
+  { id: 'network-infrastructure', name: 'Network Infrastructure', icon: Network, description: 'The Foundation of Integrated Systems.' },
+  { id: 'cyber-security', name: 'Cyber Security', icon: Shield, description: 'Next-Gen Perimeter Defense & Threat Hunting.' },
+  { id: 'cloud-infrastructure', name: 'Cloud Infrastructure', icon: Cloud, description: 'Hybrid and Multi-Cloud Architectures.' },
+  { id: 'enterprise-software', name: 'Enterprise Software', icon: Layers, description: 'Tailored Architectures for Complex Workflows.' },
+  { id: 'web-applications', name: 'Web Applications', icon: Globe, description: 'Modern, Fast, and Interactive Web Portals.' },
+  { id: 'mobile-applications', name: 'Mobile Applications', icon: Smartphone, description: 'Native iOS & Android Experiences.' },
+  { id: 'ai-solutions', name: 'AI Solutions', icon: Cpu, description: 'Intelligent Automation and Predictive AI.' },
+  { id: 'erp-crm-integration', name: 'ERP & CRM Systems', icon: GitMerge, description: 'Synchronize Enterprise Data Flows.' },
+  { id: 'api-cloud-services', name: 'API & Cloud Services', icon: Share2, description: 'High-Throughput Distributed Interfaces.' },
+  { id: 'iot-automation', name: 'IoT & Automation', icon: Activity, description: 'Bridging Physical Devices and Cloud Logic.' },
+  { id: 'data-engineering', name: 'Data Engineering', icon: Database, description: 'Turning Raw Streams into Actionable Power.' },
+  { id: 'digital-product-design', name: 'Product Design', icon: Layout, description: 'World-Class User Experiences.' },
+  { id: 'turnkey-projects', name: 'Turnkey Projects', icon: Briefcase, description: 'End-to-End Infrastructure Execution.' },
+  { id: 'electrical-electronics', name: 'Electrical & Electronics', icon: Zap, description: 'Powering Infrastructure with Precision.' },
+  { id: 'data-center-buildouts', name: 'Data Center Buildouts', icon: Building, description: 'Tier-Rated Precision Facilities.' },
+  { id: 'smart-building-automation', name: 'Building Automation', icon: Home, description: 'Intelligent, Energy-Efficient Facilities.' },
+  { id: 'logistics', name: 'Logistics & Supply Chain', icon: Truck, description: 'Streamlining Operations. Delivering Efficiency.' }
 ];
 
 // Magnetic Button Wrapper
@@ -85,7 +86,8 @@ const honeycombRows = rowCounts.map(count => {
 
 export default function ServicesHeroIndustrial({
   onExploreClick,
-  onIntegrateClick
+  onIntegrateClick,
+  onSelectService
 }: ServicesHeroIndustrialProps) {
   
   const [hoveredService, setHoveredService] = React.useState<string | null>(null);
@@ -174,6 +176,8 @@ export default function ServicesHeroIndustrial({
                     setHoveredService(null);
                     setIsAutoPlaying(true);
                   }}
+                  onClick={() => onSelectService?.(service.id)}
+                  style={{ cursor: onSelectService ? 'pointer' : 'default' }}
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ 
