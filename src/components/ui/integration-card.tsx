@@ -137,7 +137,7 @@ const AnimatedPath = ({ d, id }: { d: string; id: string }) => {
   );
 };
 
-export function Integration() {
+function Integration() {
   const containerId = useId();
   const containerRef = useRef<HTMLDivElement>(null);
   const [svgRadius, setSvgRadius] = useState(24);
@@ -228,7 +228,7 @@ export function Integration() {
   );
 }
 
-export function VisualContainer({ children }: { children: React.ReactNode }) {
+function VisualContainer({ children }: { children: React.ReactNode }) {
   return (
     <div className="integration-visual-wrapper">
       <div className="integration-visual-content">

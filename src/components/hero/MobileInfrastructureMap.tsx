@@ -11,11 +11,11 @@ interface MobileInfrastructureMapProps {
 }
 
 // Visakhapatnam coordinates — The SOLE origin for the entire service network (matches desktop INDIA_COORD)
-export const VIZAG_COORD: [number, number] = INDIA_COORD; // [83.2185, 17.6868]
+const VIZAG_COORD: [number, number] = INDIA_COORD; // [83.2185, 17.6868]
 
 // 12 Distinct, non-overlapping service node positions surrounding India (all placed strictly OUTSIDE India).
 // Arranged in a complete 360-degree radial ring radiating from Visakhapatnam.
-export const mobileNodes: { id: string; coordinates: [number, number] }[] = [
+const mobileNodes: { id: string; coordinates: [number, number] }[] = [
   { id: 'SERVERS',    coordinates: [77.0, 38.5] }, // North (Central Asia / Above Ladakh)
   { id: 'SECURITY',   coordinates: [98.0, 33.0] }, // North-East (China / East Asia)
   { id: 'ACCESS',     coordinates: [99.0, 21.0] }, // East (Myanmar / SE Asia)
