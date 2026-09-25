@@ -108,12 +108,55 @@
   width: 2.5rem;
   height: 2.5rem;
   color: #555;
+  transition: all 0.3s ease;
+  animation: border-pulse 4s infinite ease-in-out;
+  animation-delay: var(--pulse-delay, 0s);
+}
+
+/* Central Hub Hover - Force all icons to glow continuously in sync */
+.integration-center-logo:hover ~ .integration-icon-wrapper {
+  animation: none;
+  border-color: rgba(255, 85, 0, 1);
+  box-shadow: 0 0 12px rgba(255, 85, 0, 0.5);
+}
+
+@keyframes border-pulse {
+  0% {
+    border-color: rgba(255, 85, 0, 0.2);
+    box-shadow: 0 0 0 rgba(255, 85, 0, 0);
+  }
+  15% {
+    border-color: rgba(255, 85, 0, 1);
+    box-shadow: 0 0 12px rgba(255, 85, 0, 0.5);
+  }
+  30%, 100% {
+    border-color: rgba(255, 85, 0, 0.2);
+    box-shadow: 0 0 0 rgba(255, 85, 0, 0);
+  }
 }
 
 .integration-icon {
   width: 1.25rem;
   height: 1.25rem;
   color: currentColor;
+  transition: color 0.3s ease;
+  animation: icon-pulse 4s infinite ease-in-out;
+  animation-delay: var(--pulse-delay, 0s);
+}
+
+/* Central Hub Hover - Force all inner icons to turn orange */
+.integration-center-logo:hover ~ .integration-icon-wrapper .integration-icon {
+  animation: none;
+  color: var(--integration-primary);
+}
+
+@keyframes icon-pulse {
+  0%, 30%, 100% {
+    color: #555;
+  }
+  15% {
+    color: var(--integration-primary);
+  }
 }
 
 .integration-card-content {

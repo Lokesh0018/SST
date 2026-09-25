@@ -217,7 +217,8 @@ function Integration() {
             style={{
               left: `${(integration.x / 564) * 100}%`,
               top: `${(integration.y / 410) * 100}%`,
-            }}
+              "--pulse-delay": `${(integration.delay * 3.5) % 4}s`,
+            } as React.CSSProperties}
             className="integration-icon-wrapper"
           >
             <Icon className="integration-icon" />
