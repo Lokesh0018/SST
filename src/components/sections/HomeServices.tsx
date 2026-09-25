@@ -4,7 +4,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion } from 'framer-motion';
 import SectionHeading from '../common/SectionHeading';
-import { services } from '../../data/services';
+import { services as allServices } from '../../data/services';
 import { useServiceContext } from '../../context/ServiceContext';
 import '../../styles/HomeServices.css';
 
@@ -27,6 +27,7 @@ const serviceIcons: Record<string, React.JSX.Element> = {
   truck: <Truck size={32} strokeWidth={1} />,
   wifi: <Wifi size={32} strokeWidth={1} />,
   tool: <Wrench size={32} strokeWidth={1} />,
+  wrench: <Wrench size={32} strokeWidth={1} />,
   briefcase: <Briefcase size={32} strokeWidth={1} />,
   shield: <Shield size={32} strokeWidth={1} />,
   server: <Server size={32} strokeWidth={1} />,
@@ -53,15 +54,19 @@ const slugToId: Record<string, string> = {
   'turnkey-projects': 'TURNKEY',
   'video-surveillance': 'CCTV',
   'access-control': 'ACCESS',
-  'switches-storage': 'INFRASTRUCTURE',
-  'logistics': 'LOGISTICS',
+  'servers-storage': 'INFRASTRUCTURE', // Mapped to INFRASTRUCTURE since switches-storage was here before
+  'switches-routing': 'INFRASTRUCTURE', // Added switches-routing as well to map to the same id
+  'logistics-gps-solutions': 'LOGISTICS',
   'fire-fighting': 'SAFETY',
   'electrical-electronics': 'ELECTRICAL',
   'intrusion-detection': 'INTRUSION',
   'hardware-tools': 'HARDWARE',
-  'wireless-network': 'WIRELESS',
+  'wireless-technology': 'WIRELESS',
   'network-infrastructure': 'NETWORK',
 };
+
+// Filter services to only include the 11 main services for the home page
+const services = allServices.filter(s => slugToId[s.slug]);
 
 // Helper to split titles into 2 lines where appropriate
 const formatTitle = (title: string) => {

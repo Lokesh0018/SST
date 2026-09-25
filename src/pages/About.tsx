@@ -5,6 +5,7 @@ import { useGSAP } from '@gsap/react';
 import PageTransition from '../components/common/PageTransition';
 import Button from '../components/common/Button';
 import { testimonials } from '../data/testimonials';
+import IntegrationCardDemo from '../components/ui/integration-card';
 const EcosystemNetwork = lazy(() => import('../components/EcosystemNetwork'));
 import '../styles/About.css';
 
@@ -496,6 +497,7 @@ export default function About() {
                   
                   {/* Right Column: Custom UI Dashboard */}
                   <div className="hero-split-right" style={{ position: 'relative', zIndex: 2 }}>
+                    <IntegrationCardDemo />
                   </div>
                 </div>
               </div>

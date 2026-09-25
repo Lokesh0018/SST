@@ -1,0 +1,219 @@
+.integration-card-demo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 1.5rem;
+}
+
+.integration-visual-wrapper {
+  position: relative;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background-color: transparent;
+  padding: 2rem;
+  aspect-ratio: 564 / 410;
+}
+
+.integration-visual-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.integration-visual-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.integration-svg-lines {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.integration-path-bg {
+  color: rgba(0, 0, 0, 0.1);
+}
+
+:root {
+  --integration-primary: #ff5500;
+}
+
+.integration-center-logo {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 20;
+  display: flex;
+  transform: translate(-50%, -50%);
+  align-items: center;
+  justify-content: center;
+  border-radius: 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  padding: 0.5rem;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+}
+
+.integration-center-logo-inner {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background-color: #fafafa;
+}
+
+.integration-center-circle {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  background-color: var(--integration-primary);
+  box-shadow: 0 0 15px rgba(255, 85, 0, 0.5);
+}
+
+.integration-center-pulse {
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  border: 2px solid rgba(255, 85, 0, 0.2);
+}
+
+.integration-icon-wrapper {
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  transform: translate(-50%, -50%);
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #555;
+}
+
+.integration-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: currentColor;
+}
+
+.integration-card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.integration-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.integration-card-text h3 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin: 0;
+  color: #fff;
+}
+
+.integration-card-text p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #999;
+  margin: 0;
+}
+
+.integration-card-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+  padding: 0 1.25rem;
+  border-radius: 9999px;
+  background-color: var(--integration-primary);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background-color 0.2s;
+  width: fit-content;
+  border: none;
+  cursor: pointer;
+}
+
+.integration-card-button:hover {
+  background-color: #e64d00;
+}
+
+@media (max-width: 768px) {
+  .integration-visual-wrapper {
+    padding: 1rem;
+  }
+  .integration-icon-wrapper {
+    width: 2rem;
+    height: 2rem;
+  }
+  .integration-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+  .integration-center-logo {
+    padding: 0.35rem;
+  }
+  .integration-center-logo-inner {
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+  .integration-center-circle {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .integration-visual-wrapper {
+    padding: 0.5rem;
+  }
+  .integration-icon-wrapper {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 0.35rem;
+  }
+  .integration-icon {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+  .integration-center-logo {
+    padding: 0.25rem;
+    border-radius: 0.75rem;
+  }
+  .integration-center-logo-inner {
+    width: 1.75rem;
+    height: 1.75rem;
+    border-radius: 0.5rem;
+  }
+  .integration-center-circle {
+    width: 1rem;
+    height: 1rem;
+  }
+}
