@@ -157,6 +157,7 @@ export const services: Service[] = [
     applications: ['Corporate headquarters', 'University campuses', 'Multi-tenant cloud environments'],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/switches & Routing.mp4',
   },
   {
     id: 7,
@@ -360,6 +361,7 @@ export const services: Service[] = [
     applications: ['Invoice processing pipelines', 'Automated employee onboarding', 'Inventory auto-replenishment'],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/Business Automation.mp4',
   },
   {
     id: 16,
@@ -381,6 +383,7 @@ export const services: Service[] = [
     applications: ['Healthcare records modernization', 'Government administration portals', 'Global supply chain digitization'],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/Digital Transformation.mp4',
   },
   {
     id: 17,
@@ -402,6 +405,7 @@ export const services: Service[] = [
     applications: ['Pre-M&A technical due diligence', 'Startup scaling architecture', 'Enterprise cloud migration planning'],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/It Consulting.mp4',
   },
   {
     id: 18,
@@ -423,6 +427,7 @@ export const services: Service[] = [
     applications: ['Direct-to-consumer (D2C) brands', 'B2B wholesale portals', 'Multi-vendor marketplaces'],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/E-Commerce Solutions.mp4',
   },
   {
     id: 19,
@@ -466,6 +471,7 @@ export const services: Service[] = [
     applications: ['High-traffic content publishers', 'E-commerce product catalogs', 'B2B lead generation funnels'],
     gallery: [],
     heroImage: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?auto=format&fit=crop&w=1200&q=80',
+    video: '/videos/services/Technical SEO & Web Analytics.mp4',
   },
 
   // -------------------------------------------------------------
