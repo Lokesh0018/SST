@@ -496,7 +496,7 @@ export const services: Service[] = [
     benefits: ['Zero finger-pointing between multiple contractors', 'Guaranteed delivery timelines and budgets', 'Harmonized integration of all sub-systems'],
     applications: ['Greenfield industrial factories', 'Tier III/IV data center construction', 'Smart city municipal hubs'],
     gallery: [],
-    heroImage: 'https://images.unsplash.com/photo-1541888086425-d81bb19240f5?auto=format&fit=crop&w=1200&q=80',
+    heroImage: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&q=80',
     video: '/videos/services/turnkey.mp4',
     featured: true,
   },
